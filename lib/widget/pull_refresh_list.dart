@@ -1,21 +1,29 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:open_git/base/base_presenter.dart';
+import 'package:open_git/base/base_state.dart';
+import 'package:open_git/base/i_base_pull_list_view.dart';
+import 'package:open_git/common/config.dart';
 
-class DynamicPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _DynamicPageState();
-  }
-}
+abstract class PullRefreshListState<T, P extends BasePresenter<V>,
+        V extends IBasePullListView> extends BaseState<P, V>
+    implements IBasePullListView<T> {
+  List<T> _list = [];
 
-class _DynamicPageState extends State<DynamicPage>
-    with AutomaticKeepAliveClientMixin {
-  List<String> _list = [];
   final ScrollController _scrollController = new ScrollController();
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
+
+  bool isLoading = false;
+  bool isNoMore = false;
+
+  Future<Null> onRefresh();
+
+  getMoreData();
+
+  Widget getItemRow(T item);
 
   @override
   void initState() {
@@ -24,7 +32,7 @@ class _DynamicPageState extends State<DynamicPage>
     _scrollController.addListener(() {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；
-      if (position.maxScrollExtent - position.pixels < 50) {
+      if (position.maxScrollExtent - position.pixels < 50 && !isNoMore) {
         _loadMore();
       }
     });
@@ -33,7 +41,7 @@ class _DynamicPageState extends State<DynamicPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return RefreshIndicator(
         key: _refreshIndicatorKey,
         color: Colors.black,
@@ -47,7 +55,7 @@ class _DynamicPageState extends State<DynamicPage>
             return _getRow(context, index);
           },
         ),
-        onRefresh: _onRefresh);
+        onRefresh: onRefresh);
   }
 
   @override
@@ -57,12 +65,25 @@ class _DynamicPageState extends State<DynamicPage>
     super.dispose();
   }
 
-  Future<Null> _onRefresh() async {
-    print("RefreshListPage _onRefresh()");
-    await Future.delayed(Duration(seconds: 2), () {
-      _list = List.generate(15, (i) => "我是刷新出的数据${i}");
-      setState(() {});
-    });
+  @override
+  void setList(List<T> list, bool isFromMore) {
+    int size = 0;
+    if (list != null && list.length > 0) {
+      size = list.length;
+      if (size < Config.PAGE_SIZE) {
+        isNoMore = true;
+      } else {
+        isNoMore = false;
+      }
+
+      if (!isFromMore) {
+        _list.clear();
+      } else {
+        isLoading = false;
+      }
+      _list.addAll(list);
+    }
+    setState(() {});
   }
 
   void _showRefreshLoading() async {
@@ -72,28 +93,19 @@ class _DynamicPageState extends State<DynamicPage>
     });
   }
 
-  bool isLoading = false;
-
   void _loadMore() async {
     print("RefreshListPage _loadMore()");
     if (!isLoading) {
       isLoading = true;
       setState(() {});
-      Future.delayed(Duration(seconds: 3), () {
-        print("RefreshListPage isLoading = ${isLoading}");
-        isLoading = false;
-        _list = List.from(_list);
-        _list.addAll(List.generate(5, (index) => "上拉加载个数${index}"));
-        setState(() {});
-      });
+
+      getMoreData();
     }
   }
 
   Widget _getRow(BuildContext context, int index) {
     if (index < _list.length) {
-      return ListTile(
-        title: Text(_list[index]),
-      );
+      return getItemRow(_list[index]);
     }
     return _getMoreWidget();
   }
@@ -106,18 +118,20 @@ class _DynamicPageState extends State<DynamicPage>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              width: 20.0,
-              height: 20.0,
-              child: CircularProgressIndicator(
-                  strokeWidth: 4.0,
+            isNoMore
+                ? Text("")
+                : SizedBox(
+                    width: 20.0,
+                    height: 20.0,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 4.0,
 //                  backgroundColor: Colors.black,
-                  valueColor: AlwaysStoppedAnimation(Colors.black)),
-            ),
+                        valueColor: AlwaysStoppedAnimation(Colors.black)),
+                  ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
               child: Text(
-                '加载中...',
+                isNoMore ? "没有更多数据" : "加载中...",
                 style: TextStyle(fontSize: 16.0),
               ),
             ),
@@ -126,7 +140,4 @@ class _DynamicPageState extends State<DynamicPage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/util/navigator_util.dart';
 
 class DrawerPage extends StatelessWidget {
   final String name, email, headUrl;
@@ -17,18 +18,49 @@ class DrawerPage extends StatelessWidget {
               backgroundImage: new NetworkImage(this.headUrl),
             ),
           ),
-//          new ListTile(
-//            title: new Text("用户余额"),
-//            leading: new Icon(Icons.attach_money, color: Colors.grey),
-//            onTap: () {
-//              Navigator.of(context).pop();
-//              if (LoginManager.instance.isLogin()) {
-//                routePagerNavigator(context, new PayPage());
-//              } else {
-//                routePagerNavigator(context, new LoginPage());
-//              }
-//            },
-//          ),
+          new ListTile(
+            title: new Text("趋势"),
+            leading: new Icon(Icons.trending_up, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goTrend(context);
+            },
+          ),
+          new ListTile(
+            title: new Text("书签"),
+            leading: new Icon(Icons.bookmark, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goBookMark(context);
+            },
+          ),
+          new ListTile(
+            title: new Text("设置"),
+            leading: new Icon(Icons.settings, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goSetting(context);
+            },
+          ),
+          new ListTile(
+            title: new Text("关于"),
+            leading: new Icon(Icons.info, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goAppInfo(context);
+            },
+          ),
+          new ListTile(
+            title: new Text("分享"),
+            leading: new Icon(Icons.share, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goShare(context);
+            },
+          ),
+          new ListTile(
+            title: new Text("注销"),
+            leading: new Icon(Icons.power_settings_new, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goLogout(context);
+            },
+          ),
+          //主页、通知、动态、问题 | 我的版本库、星标版本库、书签 | 足迹、趋势版本库、版本库集合、精选主题、全球动态|设置、关于
         ],
       ),
     );

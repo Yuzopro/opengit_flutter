@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/base/base_presenter.dart';
 import 'package:open_git/base/i_base_view.dart';
+import 'package:open_git/util/common_util.dart';
 
 abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
     extends State<StatefulWidget> implements IBaseView {
@@ -68,7 +69,7 @@ abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
   void showLoading() {
     if (!_isLoading) {
       _isLoading = true;
-//      routePagerNavigator(context, new LoadingView());
+      CommonUtil.showLoadingDialog(context);
     }
   }
 

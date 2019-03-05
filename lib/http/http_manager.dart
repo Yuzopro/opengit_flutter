@@ -19,7 +19,7 @@ class HttpManager {
         new Options(method: _POST));
   }
 
-  static void _doRequest(url, params, Function successCallback,
+  static _doRequest(url, params, Function successCallback,
       Function errorCallback, Options options) async {
     print("[HttpRequest] url is " + url);
     //检查网络

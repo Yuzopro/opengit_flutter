@@ -7,7 +7,11 @@ class IssuePage extends StatefulWidget {
   }
 }
 
-class _IssuePageState extends State<IssuePage> {
+class _IssuePageState extends State<IssuePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     return new Center(

@@ -1,6 +1,9 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
-    <CLASSES />
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/connectivity-0.3.2" />
+      <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/shared_preferences-0.4.3" />
+    </CLASSES>
     <JAVADOC />
     <SOURCES />
   </library>

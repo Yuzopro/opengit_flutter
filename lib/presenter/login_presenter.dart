@@ -10,7 +10,13 @@ import 'package:open_git/util/shared_prf_util.dart';
 class LoginPresenter extends ILoginPresenter {
   @override
   void login(String name, String password) {
+    if (view != null) {
+      view.showLoading();
+    }
     LoginManager.instance.login(name, password, (data) {
+      if (view != null) {
+        view.hideLoading();
+      }
       if (data != null) {
         LoginBean loginBean = LoginBean.fromJson(data);
         if (loginBean != null) {
@@ -24,6 +30,7 @@ class LoginPresenter extends ILoginPresenter {
       }
     }, (code, msg) {
       if (view != null) {
+        view.hideLoading();
         view.showToast("code is $code @msg is $msg");
       }
     });
@@ -31,10 +38,17 @@ class LoginPresenter extends ILoginPresenter {
 
   @override
   void getMyUserInfo() {
+    if (view != null) {
+      view.showLoading();
+    }
     LoginManager.instance.getMyUserInfo((data) {
+      if (view != null) {
+        view.hideLoading();
+      }
       if (data != null) {
         //缓存用户信息
-        SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_USER_INFO, jsonEncode(data));
+        SharedPrfUtils.saveString(
+            SharedPrfKey.SP_KEY_USER_INFO, jsonEncode(data));
         LoginManager.instance.setUserBean(data);
 
         UserBean userBean = UserBean.fromJson(data);
@@ -44,6 +58,7 @@ class LoginPresenter extends ILoginPresenter {
       }
     }, (code, msg) {
       if (view != null) {
+        view.hideLoading();
         view.showToast("code is $code @msg is $msg");
       }
     });

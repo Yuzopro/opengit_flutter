@@ -7,7 +7,7 @@ import 'package:open_git/page/drawer_page.dart';
 import 'package:open_git/page/dynamic_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
-import 'package:open_git/page/project_page.dart';
+import 'package:open_git/page/repository_page.dart';
 import 'package:open_git/page/search_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -87,7 +87,7 @@ class _MainPageState extends State<MainPage> {
             body: new TabBarView(
               children: <Widget>[
                 HomePage(),
-                ProjectPage(),
+                RepositoryPage(),
                 DynamicPage(),
                 IssuePage(),
               ],
