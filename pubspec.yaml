@@ -22,7 +22,8 @@ dependencies:
   shared_preferences: ^0.4.3
 #  flutter_spinkit: ^3.1.0
   markdown: ^2.0.2
-#  flutter_markdown: ^0.2.0
+  flutter_markdown: ^0.2.0
+#  flutter_svg: ^0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -74,3 +75,4 @@ flutter:
   # see https://flutter.io/custom-fonts/#from-packages
   assets:
   - image/ic_welcome.png
+  - image/ic_branch.png

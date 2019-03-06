@@ -170,6 +170,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_markdown">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/flutter_markdown-0.2.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_test">
           <value>
             <list>
@@ -553,6 +560,7 @@
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/dart_style-1.1.3/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/dio-1.0.17/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/fixnum-0.10.7/lib" />
+      <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/flutter_markdown-0.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/front_end-0.1.0-alpha.12/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/glob-1.1.5/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_0.5.6/.pub-cache/hosted/dart-pub.mirrors.sjtug.sjtu.edu.cn%47/graphs-0.1.2+1/lib" />

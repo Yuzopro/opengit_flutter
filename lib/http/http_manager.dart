@@ -8,19 +8,32 @@ import 'package:open_git/manager/login_manager.dart';
 class HttpManager {
   static const _GET = "GET";
   static const _POST = "POST";
+  static const _PUT = "PUT";
+  static const _DELETE = "DELETE";
 
-  static doGet(url, Function successCallback, Function errorCallback) {
-    return _doRequest(url, null, successCallback, errorCallback,
+  static doGet(url, Map<String, String> header, Function successCallback,
+      Function errorCallback) {
+    return _doRequest(url, null, header, successCallback, errorCallback,
         new Options(method: _GET));
   }
 
+  static doPut(url, Function successCallback, Function errorCallback) {
+    return _doRequest(url, null, null, successCallback, errorCallback,
+        new Options(method: _PUT));
+  }
+
+  static doDelete(url, Function successCallback, Function errorCallback) {
+    return _doRequest(url, null, null, successCallback, errorCallback,
+        new Options(method: _DELETE));
+  }
+
   static doPost(url, params, Function successCallback, Function errorCallback) {
-    return _doRequest(url, params, successCallback, errorCallback,
+    return _doRequest(url, params, null, successCallback, errorCallback,
         new Options(method: _POST));
   }
 
-  static _doRequest(url, params, Function successCallback,
-      Function errorCallback, Options options) async {
+  static _doRequest(url, params, Map<String, String> header,
+      Function successCallback, Function errorCallback, Options options) async {
     print("[HttpRequest] url is " + url);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
@@ -31,7 +44,7 @@ class HttpManager {
       return;
     }
     //封装网络请求头
-    Map<String, String> headers = _getHeaders();
+    Map<String, String> headers = _getHeaders(header);
     if (options != null) {
       options.headers = headers;
     } else {
@@ -71,8 +84,8 @@ class HttpManager {
           response.toString() +
           "@statusCode is " +
           response.statusCode.toString());
-      if (response.statusCode == HttpStatus.ok ||
-          response.statusCode == HttpStatus.created) {
+      if (response.statusCode >= HttpStatus.ok &&
+          response.statusCode < HttpStatus.multipleChoices) {
         if (successCallback != null) {
           successCallback(response.data);
         }
@@ -84,8 +97,11 @@ class HttpManager {
     }
   }
 
-  static _getHeaders() {
+  static _getHeaders(Map<String, String> header) {
     Map<String, String> headers = new HashMap();
+    if (header != null) {
+      headers.addAll(header);
+    }
     headers["Authorization"] = LoginManager.instance.getToken();
     return headers;
   }

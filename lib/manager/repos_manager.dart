@@ -16,10 +16,67 @@ class ReposManager {
     return _instance;
   }
 
-  getUserRepos(String userName, int page, String sort,
-      Function successCallback,
+  getUserRepos(String userName, int page, String sort, Function successCallback,
       Function errorCallback) {
     String url = Api.userRepos(userName, sort) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, successCallback, errorCallback);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  getReposDetail(
+      reposOwner, reposName, Function successCallback, Function errorCallback) {
+    String url = Api.getReposDetail(reposOwner, reposName);
+    HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  void getReadme(
+      reposFullName, branch, Function successCallback, Function errorCallback) {
+    String url = Api.readmeFile(reposFullName, branch);
+    HttpManager.doGet(url, {"Accept": 'application/vnd.github.VERSION.raw'},
+        successCallback, errorCallback);
+  }
+
+  void getReposStar(
+      reposOwner, reposName, Function successCallback, Function errorCallback) {
+    String url = Api.getReposStar(reposOwner, reposName);
+    HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  void getReposWatcher(
+      reposOwner, reposName, Function successCallback, Function errorCallback) {
+    String url = Api.getReposWatcher(reposOwner, reposName);
+    HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  void doReposStarAction(reposOwner, reposName, bool isEnable,
+      Function successCallback, Function errorCallback) {
+    String url = Api.getReposStar(reposOwner, reposName);
+    if (isEnable) {
+      HttpManager.doDelete(url, successCallback, errorCallback);
+    } else {
+      HttpManager.doPut(url, successCallback, errorCallback);
+    }
+  }
+
+  void doRepossWatcherAction(reposOwner, reposName, bool isEnable,
+      Function successCallback, Function errorCallback) {
+    String url = Api.getReposWatcher(reposOwner, reposName);
+    if (isEnable) {
+      HttpManager.doDelete(url, successCallback, errorCallback);
+    } else {
+      HttpManager.doPut(url, successCallback, errorCallback);
+    }
+  }
+
+  void getReposEvent(reposOwner, reposName, page, Function successCallback,
+      Function errorCallback) {
+    String url =
+        Api.getReposEvent(reposOwner, reposName) + Api.getPageParams("&", page);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  void getBranches(
+      reposOwner, reposName, Function successCallback, Function errorCallback) {
+    String url = Api.getBranches(reposOwner, reposName);
+    HttpManager.doGet(url, null, successCallback, errorCallback);
   }
 }

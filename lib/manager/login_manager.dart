@@ -82,6 +82,6 @@ class LoginManager {
   }
 
   getMyUserInfo(Function successCallback, Function errorCallback) {
-    HttpManager.doGet(Api.getMyUserInfo(), successCallback, errorCallback);
+    HttpManager.doGet(Api.getMyUserInfo(), null, successCallback, errorCallback);
   }
 }
