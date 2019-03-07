@@ -5,7 +5,7 @@ import 'package:open_git/bean/repos_bean.dart';
 
 abstract class IRepositoryDetailPresenter<V extends IRepositoryDetailView>
     extends BasePresenter<V> {
-  void getReposDetail(reposOwner, reposName);
+  getReposDetail(reposOwner, reposName, bool isRefresh);
 
   void getReposStar(reposOwner, reposName);
 
@@ -21,7 +21,7 @@ abstract class IRepositoryDetailPresenter<V extends IRepositoryDetailView>
 }
 
 abstract class IRepositoryDetailView extends IBaseView {
-  void getReposDetailSuccess(Repository repository);
+  void getReposDetailSuccess(Repository repository, bool isRefresh);
 
   void setStarState(int state, bool isAction);
 

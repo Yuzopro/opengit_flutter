@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/contract/repository_contract.dart';
 import 'package:open_git/presenter/repository_presenter.dart';
+import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/markdown_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
@@ -56,7 +58,6 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
 
   @override
   Widget getItemRow(Repository item) {
-//    print(item);
     String ownerHead = "";
     String ownerName = "";
     String description = "暂无描述";
@@ -162,14 +163,7 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
     return Row(
       children: <Widget>[
         ClipOval(
-          child: new FadeInImage.assetNetwork(
-            placeholder: "image/ic_welcome.png",
-            //预览图
-            fit: BoxFit.fitWidth,
-            image: ownerHead,
-            width: 18.0,
-            height: 18.0,
-          ),
+          child: ImageUtil.getImageWidget(ownerHead, 18.0),
         ),
         Padding(
           padding: new EdgeInsets.only(left: 4.0),

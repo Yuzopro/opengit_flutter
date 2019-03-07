@@ -25,7 +25,7 @@ class ReposManager {
   getReposDetail(
       reposOwner, reposName, Function successCallback, Function errorCallback) {
     String url = Api.getReposDetail(reposOwner, reposName);
-    HttpManager.doGet(url, null, successCallback, errorCallback);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
   }
 
   void getReadme(
@@ -67,10 +67,10 @@ class ReposManager {
     }
   }
 
-  void getReposEvent(reposOwner, reposName, page, Function successCallback,
+  void getReposEvents(reposOwner, reposName, page, Function successCallback,
       Function errorCallback) {
-    String url =
-        Api.getReposEvent(reposOwner, reposName) + Api.getPageParams("&", page);
+    String url = Api.getReposEvents(reposOwner, reposName) +
+        Api.getPageParams("&", page);
     return HttpManager.doGet(url, null, successCallback, errorCallback);
   }
 

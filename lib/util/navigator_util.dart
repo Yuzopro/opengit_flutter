@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/page/app_info_page.dart';
 import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
 import 'package:open_git/page/main_page.dart';
+import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
+import 'package:open_git/page/repository_event_page.dart';
+import 'package:open_git/page/repository_language_page.dart';
 import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
@@ -60,10 +62,28 @@ class NavigatorUtil {
 
   ///仓库详情
   static goReposDetail(BuildContext context, reposOwner, reposName) {
-    return Navigator.push(
+    Navigator.push(
         context,
         new CupertinoPageRoute(
             builder: (context) =>
                 new RepositoryDetailPage(reposOwner, reposName)));
+  }
+
+  //仓库语言
+  static goReposLanguage(BuildContext context) {
+    Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new RepositoryLanguagePage()));
+  }
+
+  //仓库动态
+  static goReposDynamic(BuildContext context, reposOwner, reposName) {
+    Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new RepositoryEventPage(reposOwner, reposName)));
+  }
+
+  //仓库贡献者
+  static goReposContributor(BuildContext context) {
+    Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new RepositoryContributorPage()));
   }
 }

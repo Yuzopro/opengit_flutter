@@ -48,6 +48,7 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
         backgroundColor: Colors.white,
         child: ListView.builder(
           controller: _scrollController,
+          physics: AlwaysScrollableScrollPhysics(),
           itemCount: _list.length == 0
               ? 0
               : isLoading ? _list.length + 1 : _list.length,

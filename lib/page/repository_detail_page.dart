@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/branch_bean.dart';
@@ -7,6 +9,7 @@ import 'package:open_git/presenter/repository_detail_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/file_size_util.dart';
 import 'package:open_git/util/markdown_util.dart';
+import 'package:open_git/util/navigator_util.dart';
 
 class RepositoryDetailPage extends StatefulWidget {
   final String reposOwner;
@@ -26,6 +29,9 @@ class _RepositoryDetailPageState
   final String reposOwner;
   final String reposName;
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   Repository repository;
 
   int _starState = RepositoryDetailPresenter.DEFAULT_STATE;
@@ -42,9 +48,7 @@ class _RepositoryDetailPageState
   @override
   void initData() {
     super.initData();
-    if (presenter != null) {
-      presenter.getReposDetail(reposOwner, reposName);
-    }
+    _showRefreshLoading();
   }
 
   @override
@@ -58,9 +62,10 @@ class _RepositoryDetailPageState
   }
 
   @override
-  void getReposDetailSuccess(Repository repository) {
-    //只有第一次才进行查询操作
-    if (presenter != null && this.repository == null) {
+  void getReposDetailSuccess(Repository repository, isRefresh) {
+    if (presenter != null && isRefresh) {
+      _starState = RepositoryDetailPresenter.DEFAULT_STATE;
+      _watchState = RepositoryDetailPresenter.DEFAULT_STATE;
       presenter.getReposStar(reposOwner, reposName);
       presenter.getReposWatcher(reposOwner, reposName);
     }
@@ -73,7 +78,7 @@ class _RepositoryDetailPageState
     _starState = state;
     //设置成功后需要刷新数据
     if (presenter != null && isAction) {
-      presenter.getReposDetail(reposOwner, reposName);
+      presenter.getReposDetail(reposOwner, reposName, false);
     }
     setState(() {});
   }
@@ -83,7 +88,7 @@ class _RepositoryDetailPageState
     _watchState = state;
     //设置成功后需要刷新数据
     if (presenter != null && isAction) {
-      presenter.getReposDetail(reposOwner, reposName);
+      presenter.getReposDetail(reposOwner, reposName, false);
     }
     setState(() {});
   }
@@ -103,23 +108,32 @@ class _RepositoryDetailPageState
 
   @override
   Widget buildBody(BuildContext context) {
-    if (repository == null) {
-      return Text("");
-    }
-
-    return new ListView(
-      children: <Widget>[
-        _getHeaderWidget(),
-        _getClassifyTips("互动"),
-        _getInteractWidget(),
-        _getClassifyTips("详情"),
-        _getDetailWidget(),
-        _getClassifyTips("分支"),
-        _getBranchWidget(),
-        _getClassifyTips("文档"),
-        getDocumentWidget(),
-      ],
-    );
+    return RefreshIndicator(
+        key: _refreshIndicatorKey,
+        color: Colors.black,
+        backgroundColor: Colors.white,
+        child: repository == null
+            ? ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: 0,
+                itemBuilder: (context, index) {
+                  return Text("aaaa");
+                },
+              )
+            : new ListView(
+                children: <Widget>[
+                  _getHeaderWidget(),
+                  _getClassifyTips("互动"),
+                  _getInteractWidget(),
+                  _getClassifyTips("详情"),
+                  _getDetailWidget(),
+                  _getClassifyTips("分支"),
+                  _getBranchWidget(),
+                  _getClassifyTips("文档"),
+                  getDocumentWidget(),
+                ],
+              ),
+        onRefresh: _onRefresh);
   }
 
   Widget _getHeaderWidget() {
@@ -279,65 +293,75 @@ class _RepositoryDetailPageState
   Widget _getDetailWidget() {
     return new Column(
       children: <Widget>[
-        _getDetailItem(Icons.language, "语言", repository.language, true),
+        _getDetailItem(Icons.language, "语言", repository.language, true, () {
+          _handleLanguage();
+        }),
         Divider(
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.alarm, "动态", "", true),
+        _getDetailItem(Icons.alarm, "动态", "", true, () {
+          _handleDynamic();
+        }),
         Divider(
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.people, "贡献者", "", true),
+        _getDetailItem(Icons.people, "贡献者", "", true, () {
+          _handleContributor();
+        }),
         Divider(
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.perm_identity, "许可",
-            repository.license != null ? repository.license.name : "", false),
+        _getDetailItem(
+            Icons.perm_identity,
+            "许可",
+            repository.license != null ? repository.license.name : "",
+            false,
+            null),
       ],
     );
   }
 
-  Widget _getDetailItem(
-      IconData iconData, String text, String trailText, bool isShowTralIcon) {
-    return new Padding(
-      padding: EdgeInsets.all(12.0),
-      child: new Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
+  Widget _getDetailItem(IconData iconData, String text, String trailText,
+      bool isShowTralIcon, onPressed) {
+    return new FlatButton(
+        onPressed: onPressed,
+        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    iconData,
+                    color: Colors.grey,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 4.0),
+                    child: new Text(text),
+                  )
+                ],
+              ),
+              flex: 1,
+            ),
+            Row(
               children: <Widget>[
-                Icon(
-                  iconData,
-                  color: Colors.grey,
+                Text(
+                  trailText ?? "",
+                  style: TextStyle(color: Colors.grey),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 4.0),
-                  child: new Text(text),
+                  child: isShowTralIcon
+                      ? Icon(Icons.keyboard_arrow_right, color: Colors.grey)
+                      : Text(""),
                 )
               ],
-            ),
-            flex: 1,
-          ),
-          Row(
-            children: <Widget>[
-              Text(
-                trailText ?? "",
-                style: TextStyle(color: Colors.grey),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 4.0),
-                child: isShowTralIcon
-                    ? Icon(Icons.keyboard_arrow_right, color: Colors.grey)
-                    : Text(""),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ));
   }
 
   Widget _getBranchWidget() {
@@ -409,19 +433,6 @@ class _RepositoryDetailPageState
   }
 
   Widget getDocumentWidget() {
-//    return new Column(
-//      children: <Widget>[
-//        _getDetailItem(Icons.chrome_reader_mode, "README.md", "", false),
-//        Divider(
-//          color: Colors.grey,
-//          height: 0.3,
-//        ),
-//        Padding(
-//          padding: EdgeInsets.all(12.0),
-//          child: MarkdownUtil.markdownBody(_markdownData),
-//        ),
-//      ],
-//    );
     return new ExpansionTile(
       title: Row(
         children: <Widget>[
@@ -467,6 +478,19 @@ class _RepositoryDetailPageState
     );
   }
 
+  void _showRefreshLoading() async {
+    await Future.delayed(const Duration(seconds: 0), () {
+      _refreshIndicatorKey.currentState.show().then((e) {});
+      return true;
+    });
+  }
+
+  Future<Null> _onRefresh() async {
+    if (presenter != null) {
+      await presenter.getReposDetail(reposOwner, reposName, true);
+    }
+  }
+
   void _handleStarItemClick() {
     if (_starState == RepositoryDetailPresenter.DEFAULT_STATE) {
       return;
@@ -505,5 +529,17 @@ class _RepositoryDetailPageState
 
   bool _isEmptyBranches() {
     return _branchList == null || _branchList.length == 0;
+  }
+
+  void _handleLanguage() {
+    NavigatorUtil.goReposLanguage(context);
+  }
+
+  void _handleDynamic() {
+    NavigatorUtil.goReposDynamic(context, reposOwner, reposName);
+  }
+
+  void _handleContributor() {
+    NavigatorUtil.goReposContributor(context);
   }
 }

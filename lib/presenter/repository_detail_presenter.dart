@@ -9,10 +9,10 @@ class RepositoryDetailPresenter extends IRepositoryDetailPresenter {
   static const int DISABLE_STATE = 2;
 
   @override
-  void getReposDetail(reposOwner, reposName) {
-    ReposManager.instance.getReposDetail(reposOwner, reposName, (data) {
+  getReposDetail(reposOwner, reposName, bool isRefresh) {
+    return ReposManager.instance.getReposDetail(reposOwner, reposName, (data) {
       if (data != null && view != null) {
-        view.getReposDetailSuccess(Repository.fromJson(data));
+        view.getReposDetailSuccess(Repository.fromJson(data), isRefresh);
       }
     }, (code, msg) {
       print("code is $code @msg is $msg");

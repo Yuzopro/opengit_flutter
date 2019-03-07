@@ -9,6 +9,7 @@ import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
 import 'package:open_git/page/search_page.dart';
+import 'package:open_git/util/image_util.dart';
 
 class MainPage extends StatefulWidget {
   static const String sName = "main_page";
@@ -47,14 +48,8 @@ class _MainPageState extends State<MainPage> {
                 return new IconButton(
                   tooltip: 'Open Drawer',
                   icon: new ClipOval(
-                    child: new FadeInImage.assetNetwork(
-                      placeholder: "image/ic_welcome.png",
-                      //预览图
-                      fit: BoxFit.fitWidth,
-                      image: _userBean.avatarUrl ?? "",
-                      width: 24.0,
-                      height: 24.0,
-                    ),
+                    child: ImageUtil.getImageWidget(
+                        _userBean.avatarUrl ?? "", 24.0),
                   ),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();

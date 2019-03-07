@@ -43,8 +43,8 @@ class Api {
   }
 
   //仓库动态 get
-  static getReposEvent(reposOwner, reposName) {
-    return "${_BASE_URL}networks/$reposOwner/$reposName/events";
+  static getReposEvents(reposOwner, reposName) {
+    return "${_BASE_URL}networks/$reposOwner/$reposName/events?";
   }
 
   //仓库分支
