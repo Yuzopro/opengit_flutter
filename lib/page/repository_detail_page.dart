@@ -294,7 +294,7 @@ class _RepositoryDetailPageState
     return new Column(
       children: <Widget>[
         _getDetailItem(Icons.language, "语言", repository.language, true, () {
-          _handleLanguage();
+          _handleLanguage(repository.language);
         }),
         Divider(
           color: Colors.grey,
@@ -531,8 +531,8 @@ class _RepositoryDetailPageState
     return _branchList == null || _branchList.length == 0;
   }
 
-  void _handleLanguage() {
-    NavigatorUtil.goReposLanguage(context);
+  void _handleLanguage(language) {
+    NavigatorUtil.goReposLanguage(context, language);
   }
 
   void _handleDynamic() {

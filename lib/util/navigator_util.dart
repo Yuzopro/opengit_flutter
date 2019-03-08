@@ -8,7 +8,7 @@ import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
 import 'package:open_git/page/repository_event_page.dart';
-import 'package:open_git/page/repository_language_page.dart';
+import 'package:open_git/page/repository_trending_page.dart';
 import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
@@ -70,9 +70,9 @@ class NavigatorUtil {
   }
 
   //仓库语言
-  static goReposLanguage(BuildContext context) {
+  static goReposLanguage(BuildContext context, language) {
     Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositoryLanguagePage()));
+        new CupertinoPageRoute(builder: (context) => new RepositoryTrendingPage(language)));
   }
 
   //仓库动态

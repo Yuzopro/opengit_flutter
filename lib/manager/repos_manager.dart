@@ -79,4 +79,10 @@ class ReposManager {
     String url = Api.getBranches(reposOwner, reposName);
     HttpManager.doGet(url, null, successCallback, errorCallback);
   }
+
+  getTrending(
+      since, languageType, Function successCallback, Function errorCallback) {
+    String url = Api.getTrending(since, languageType);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
 }

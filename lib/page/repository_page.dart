@@ -35,6 +35,7 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
+    super.build(context);
     return new Scaffold(
       body: buildBody(context),
     );

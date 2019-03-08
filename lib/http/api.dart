@@ -52,6 +52,14 @@ class Api {
     return "${_BASE_URL}repos/$reposOwner/$reposName/branches";
   }
 
+  ///趋势 get
+  static getTrending(since, languageType) {
+    if (languageType != null) {
+      return "https://github.com/trending/$languageType?since=$since";
+    }
+    return "https://github.com/trending?since=$since";
+  }
+
   ///处理分页参数
   static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
     if (page != null) {
