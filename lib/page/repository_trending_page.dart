@@ -5,6 +5,8 @@ import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/trending_bean.dart';
 import 'package:open_git/contract/repository_trending_contract.dart';
 import 'package:open_git/presenter/repository_trending_presenter.dart';
+import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/navigator_util.dart';
 
 class RepositoryTrendingPage extends StatelessWidget {
   final String trending;
@@ -57,17 +59,18 @@ class _Page extends StatefulWidget {
 }
 
 class _PageState
-    extends BaseState<RepositoryTrendingPresenter, IRepositoryTrendingView> with AutomaticKeepAliveClientMixin
+    extends BaseState<RepositoryTrendingPresenter, IRepositoryTrendingView>
+    with AutomaticKeepAliveClientMixin
     implements IRepositoryTrendingView {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
   final String since;
-  final String Trending;
+  final String trending;
 
   List<TrendingBean> _trendingList = new List();
 
-  _PageState(this.since, this.Trending);
+  _PageState(this.since, this.trending);
 
   @override
   bool get wantKeepAlive => true;
@@ -84,19 +87,15 @@ class _PageState
         key: _refreshIndicatorKey,
         color: Colors.black,
         backgroundColor: Colors.white,
-        child: new Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: ListView.builder(
-            itemExtent: _TrendingBeanItem.height,
+        child: new ListView.builder(
             physics: AlwaysScrollableScrollPhysics(),
             itemCount: _trendingList.length,
             itemBuilder: (context, index) {
               return new _TrendingBeanItem(
+                trending,
                 data: _trendingList[index],
               );
-            },
-          ),
-        ),
+            }),
         onRefresh: _onRefresh);
   }
 
@@ -127,37 +126,124 @@ class _PageState
 
   Future<Null> _onRefresh() async {
     if (presenter != null) {
-      await presenter.getReposTrending(since, Trending);
+      await presenter.getReposTrending(since, trending);
     }
   }
 }
 
 class _TrendingBeanItem extends StatelessWidget {
-  const _TrendingBeanItem({this.data});
+  const _TrendingBeanItem(this.trending, {this.data});
 
-  static const double height = 272.0;
   final TrendingBean data;
+  final String trending;
 
   @override
   Widget build(BuildContext context) {
-//    print(data);
-
-    return new Card(
-      child: new Padding(
-        padding: const EdgeInsets.all(16.0),
+    return new FlatButton(
+        onPressed: () {
+          NavigatorUtil.goReposDetail(context, data.name, data.reposName, trending.toLowerCase().compareTo("all") == 0);
+        },
         child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            new Center(
-              child: new Text(
-                data.fullName,
-                style: Theme.of(context).textTheme.title,
+            new Container(
+              padding: EdgeInsets.only(top: 12.0, bottom: 8.0),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(data.fullName,
+                      style: new TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  Text(data.description,
+                      style: new TextStyle(color: Colors.grey)),
+                  Row(
+                    children: <Widget>[
+                      _getItemLanguage(data.language),
+                      _getItemBottom(
+                          Icon(
+                            Icons.star_border,
+                            color: Colors.black,
+                            size: 12.0,
+                          ),
+                          data.starCount),
+                      _getItemBottom(
+                          Image.asset(
+                            "image/ic_branch.png",
+                            width: 10.0,
+                            height: 10.0,
+                          ),
+                          data.forkCount),
+                      _getBuiltByWidget(),
+                    ],
+                  ),
+                ],
               ),
             ),
+            Divider(
+              color: Colors.grey,
+              height: 0.3,
+            )
           ],
+        ));
+  }
+
+  Widget _getItemLanguage(String language) {
+    return new Row(
+      children: <Widget>[
+        ClipOval(
+          child: Container(
+            color: Colors.black87,
+            width: 8.0,
+            height: 8.0,
+          ),
         ),
+        Padding(
+          padding: new EdgeInsets.only(left: 4.0),
+          child: Text(
+            language,
+            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getItemBottom(Widget icon, String count) {
+    return new Padding(
+      padding: new EdgeInsets.only(left: 12.0),
+      child: Row(
+        children: <Widget>[
+          icon,
+          Text(
+            count,
+            style: new TextStyle(color: Colors.black, fontSize: 12.0),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _getBuiltByWidget() {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Text("Built by", style: new TextStyle(color: Colors.grey)),
+          Row(
+            children: data.contributors
+                .map(
+                  (String url) => new Padding(
+                        padding: EdgeInsets.only(left: 2.0),
+                        child: new ClipOval(
+                          child: ImageUtil.getImageWidget(url ?? "", 18.0),
+                        ),
+                      ),
+                )
+                .toList(),
+          )
+        ],
+      ),
+      flex: 1,
     );
   }
 }

@@ -58,12 +58,12 @@ class HttpManager {
 
     Dio dio = new Dio();
     //证书认证
-    dio.onHttpClientCreate = (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) {
-        return true;
-      };
-    };
+//    dio.onHttpClientCreate = (HttpClient client) {
+//      client.badCertificateCallback =
+//          (X509Certificate cert, String host, int port) {
+//        return true;
+//      };
+//    };
 
     //开始请求
     Response response;

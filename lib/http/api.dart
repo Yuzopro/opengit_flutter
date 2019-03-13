@@ -52,7 +52,7 @@ class Api {
     return "${_BASE_URL}repos/$reposOwner/$reposName/branches";
   }
 
-  ///趋势 get
+  //趋势 get
   static getTrending(since, languageType) {
     if (languageType != null) {
       return "https://github.com/trending/$languageType?since=$since";
@@ -60,7 +60,21 @@ class Api {
     return "https://github.com/trending?since=$since";
   }
 
-  ///处理分页参数
+  //用户收到的事件信息 get
+  static getEventReceived(userName) {
+    return "${_BASE_URL}users/$userName/received_events?";
+  }
+
+  //用户相关的事件信息 get
+  static getEvent(userName) {
+    return "${_BASE_URL}users/$userName/events?";
+  }
+
+  static getIssue(q, state, sort, order, userName) {
+    return "${_BASE_URL}search/issues?q=$q:$userName+state:$state&sort=$sort&order=$order";
+  }
+
+  //处理分页参数
   static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
     if (page != null) {
       if (pageSize != null) {

@@ -90,18 +90,16 @@ class TrendingUtil {
   }
 
   static parseRepoContributors(repo, htmlContributors) {
-    htmlContributors = parseContentWithNote(htmlContributors, 'class="d-inline-block mr-3"', '<\/span>');
-    var splitWitSemicolon = htmlContributors.split('\/a>"');
+    htmlContributors = parseContentWithNote(htmlContributors, 'Built by', '<\/span>');
+    var splitWitSemicolon = htmlContributors.split('\"');
     repo.contributorsUrl = splitWitSemicolon[1];
     var contributors = new List<String>();
     for (var i = 0; i < splitWitSemicolon.length; i++) {
       String url = splitWitSemicolon[i];
-      print("url is " + url);
       if (url.indexOf('http') != -1) {
         contributors.add(url);
       }
     }
-    print("contributors size is " + contributors.length.toString());
     repo.contributors = contributors;
   }
 

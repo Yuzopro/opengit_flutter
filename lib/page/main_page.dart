@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/page/drawer_page.dart';
-import 'package:open_git/page/dynamic_page.dart';
+import 'package:open_git/page/event_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> {
               children: <Widget>[
                 HomePage(),
                 RepositoryPage(),
-                DynamicPage(),
+                EventPage(),
                 IssuePage(),
               ],
             ),

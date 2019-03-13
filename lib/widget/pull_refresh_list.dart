@@ -25,6 +25,10 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
 
   Widget getItemRow(T item);
 
+  Widget getHeader() {
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +41,7 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
       }
     });
 
-    _showRefreshLoading();
+    showRefreshLoading();
   }
 
   @override
@@ -49,9 +53,7 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
         child: ListView.builder(
           controller: _scrollController,
           physics: AlwaysScrollableScrollPhysics(),
-          itemCount: _list.length == 0
-              ? 0
-              : isLoading ? _list.length + 1 : _list.length,
+          itemCount: _getListItemCount(),
           itemBuilder: (context, index) {
             return _getRow(context, index);
           },
@@ -61,7 +63,6 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
 
   @override
   void dispose() {
-    print("RefreshListPage _dispose()");
     _scrollController?.dispose();
     super.dispose();
   }
@@ -87,7 +88,7 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     setState(() {});
   }
 
-  void _showRefreshLoading() async {
+  void showRefreshLoading() async {
     await Future.delayed(const Duration(seconds: 0), () {
       _refreshIndicatorKey.currentState.show().then((e) {});
       return true;
@@ -95,7 +96,6 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   }
 
   void _loadMore() async {
-    print("RefreshListPage _loadMore()");
     if (!isLoading) {
       isLoading = true;
       setState(() {});
@@ -105,10 +105,29 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   }
 
   Widget _getRow(BuildContext context, int index) {
-    if (index < _list.length) {
+    if (getHeader() != null && index == 0) {
+      return getHeader();
+    }
+    if (_list.length == 0) {
+      return _getEmptyWidget();
+    }
+    if (index < (getHeader() != null ? _list.length + 1 : _list.length)) {
+      if (getHeader() != null) {
+        index -= 1;
+      }
       return getItemRow(_list[index]);
     }
     return _getMoreWidget();
+  }
+
+  Widget _getEmptyWidget() {
+    return new Center(
+      child: FlatButton(
+          onPressed: () {
+            showRefreshLoading();
+          },
+          child: Text("数据暂时为空")),
+    );
   }
 
   Widget _getMoreWidget() {
@@ -140,5 +159,19 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
         ),
       ),
     );
+  }
+
+  int _getListItemCount() {
+    int count = _list.length;
+    if (count == 0) {
+      count += 1;
+    }
+    if (getHeader() != null) {
+      count += 1;
+    }
+    if (isLoading) {
+      count += 1;
+    }
+    return count;
   }
 }

@@ -61,12 +61,12 @@ class NavigatorUtil {
   }
 
   ///仓库详情
-  static goReposDetail(BuildContext context, reposOwner, reposName) {
+  static goReposDetail(BuildContext context, reposOwner, reposName, isJumpTrending) {
     Navigator.push(
         context,
         new CupertinoPageRoute(
             builder: (context) =>
-                new RepositoryDetailPage(reposOwner, reposName)));
+                new RepositoryDetailPage(reposOwner, reposName, isJumpTrending)));
   }
 
   //仓库语言

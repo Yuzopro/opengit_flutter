@@ -14,12 +14,13 @@ import 'package:open_git/util/navigator_util.dart';
 class RepositoryDetailPage extends StatefulWidget {
   final String reposOwner;
   final String reposName;
+  final bool isJumpTrending;
 
-  RepositoryDetailPage(this.reposOwner, this.reposName);
+  RepositoryDetailPage(this.reposOwner, this.reposName, this.isJumpTrending);
 
   @override
   State<StatefulWidget> createState() {
-    return _RepositoryDetailPageState(reposOwner, reposName);
+    return _RepositoryDetailPageState(reposOwner, reposName, isJumpTrending);
   }
 }
 
@@ -28,6 +29,7 @@ class _RepositoryDetailPageState
     implements IRepositoryDetailView {
   final String reposOwner;
   final String reposName;
+  final bool isJumpTrending;
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
@@ -43,7 +45,8 @@ class _RepositoryDetailPageState
 
   List<BranchBean> _branchList;
 
-  _RepositoryDetailPageState(this.reposOwner, this.reposName);
+  _RepositoryDetailPageState(
+      this.reposOwner, this.reposName, this.isJumpTrending);
 
   @override
   void initData() {
@@ -117,7 +120,7 @@ class _RepositoryDetailPageState
                 physics: AlwaysScrollableScrollPhysics(),
                 itemCount: 0,
                 itemBuilder: (context, index) {
-                  return Text("aaaa");
+                  return Text("");
                 },
               )
             : new ListView(
@@ -293,9 +296,16 @@ class _RepositoryDetailPageState
   Widget _getDetailWidget() {
     return new Column(
       children: <Widget>[
-        _getDetailItem(Icons.language, "语言", repository.language, true, () {
-          _handleLanguage(repository.language);
-        }),
+        _getDetailItem(
+            Icons.language,
+            "语言",
+            repository.language,
+            true,
+            isJumpTrending
+                ? () {
+                    _handleLanguage(repository.language);
+                  }
+                : null),
         Divider(
           color: Colors.grey,
           height: 0.3,
@@ -307,13 +317,13 @@ class _RepositoryDetailPageState
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.people, "贡献者", "", true, () {
-          _handleContributor();
-        }),
-        Divider(
-          color: Colors.grey,
-          height: 0.3,
-        ),
+//        _getDetailItem(Icons.people, "贡献者", "", true, () {
+//          _handleContributor();
+//        }),
+//        Divider(
+//          color: Colors.grey,
+//          height: 0.3,
+//        ),
         _getDetailItem(
             Icons.perm_identity,
             "许可",
