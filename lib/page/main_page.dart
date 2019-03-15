@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
             body: new TabBarView(
               children: <Widget>[
                 HomePage(),
-                RepositoryPage(),
+                RepositoryPage(false),
                 EventPage(),
                 IssuePage(),
               ],

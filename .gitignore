@@ -8,3 +8,6 @@ build/
 
 .flutter-plugins
 .idea/
+
+*.iml
+.gradle

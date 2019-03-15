@@ -70,8 +70,21 @@ class Api {
     return "${_BASE_URL}users/$userName/events?";
   }
 
+  //获取用户问题列表
   static getIssue(q, state, sort, order, userName) {
     return "${_BASE_URL}search/issues?q=$q:$userName+state:$state&sort=$sort&order=$order";
+  }
+  
+  //获取语言类型star列表
+  static getLanguages(language) {
+    return "${_BASE_URL}search/repositories?q=language:$language&sort=stars";
+  }
+
+  ///用户的star get
+  static userStar(userName, sort) {
+    sort ??= 'updated';
+
+    return "${_BASE_URL}users/$userName/starred?sort=$sort";
   }
 
   //处理分页参数

@@ -8,10 +8,12 @@ import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
 import 'package:open_git/page/repository_event_page.dart';
+import 'package:open_git/page/repository_language_page.dart';
 import 'package:open_git/page/repository_trending_page.dart';
 import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
+import 'package:open_git/page/user_profile_page.dart';
 
 class NavigatorUtil {
   //主页
@@ -61,29 +63,51 @@ class NavigatorUtil {
   }
 
   ///仓库详情
-  static goReposDetail(BuildContext context, reposOwner, reposName, isJumpTrending) {
+  static goReposDetail(
+      BuildContext context, reposOwner, reposName, isJumpTrending) {
     Navigator.push(
         context,
         new CupertinoPageRoute(
-            builder: (context) =>
-                new RepositoryDetailPage(reposOwner, reposName, isJumpTrending)));
+            builder: (context) => new RepositoryDetailPage(
+                reposOwner, reposName, isJumpTrending)));
   }
 
-  //仓库语言
+  //趋势
+  static goReposTrending(BuildContext context, language) {
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new RepositoryTrendingPage(language)));
+  }
+
+  //仓库语言按star排名
   static goReposLanguage(BuildContext context, language) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositoryTrendingPage(language)));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new RepositoryLanguagePage(language)));
   }
 
   //仓库动态
   static goReposDynamic(BuildContext context, reposOwner, reposName) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositoryEventPage(reposOwner, reposName)));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) =>
+                new RepositoryEventPage(reposOwner, reposName)));
   }
 
   //仓库贡献者
   static goReposContributor(BuildContext context) {
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new RepositoryContributorPage()));
+  }
+
+  //用户资料
+  static goUserProfile(BuildContext context) {
     Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositoryContributorPage()));
+        new CupertinoPageRoute(builder: (context) => new UserProfilePage()));
   }
 }

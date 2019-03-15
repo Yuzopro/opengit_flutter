@@ -16,12 +16,6 @@ class ReposManager {
     return _instance;
   }
 
-  getUserRepos(String userName, int page, String sort, Function successCallback,
-      Function errorCallback) {
-    String url = Api.userRepos(userName, sort) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
-  }
-
   getReposDetail(
       reposOwner, reposName, Function successCallback, Function errorCallback) {
     String url = Api.getReposDetail(reposOwner, reposName);
@@ -83,6 +77,12 @@ class ReposManager {
   getTrending(
       since, languageType, Function successCallback, Function errorCallback) {
     String url = Api.getTrending(since, languageType);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  getLanguages(
+      language, page, Function successCallback, Function errorCallback) {
+    String url = Api.getLanguages(language + Api.getPageParams("&", page));
     return HttpManager.doGet(url, null, successCallback, errorCallback);
   }
 }

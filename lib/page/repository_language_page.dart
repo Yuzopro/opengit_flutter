@@ -2,71 +2,37 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/contract/repository_contract.dart';
-import 'package:open_git/presenter/repository_presenter.dart';
+import 'package:open_git/contract/repository_language_contract.dart';
+import 'package:open_git/presenter/repository_language_presenter.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/markdown_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
-//import 'package:markdown/markdown.dart' as md;
 
-class RepositoryPage extends StatefulWidget {
-  bool isStar;
+class RepositoryLanguagePage extends StatefulWidget {
+  final String language;
 
-  RepositoryPage(this.isStar);
+  RepositoryLanguagePage(this.language);
 
   @override
   State<StatefulWidget> createState() {
-    return _RepositoryPageState(isStar);
+    return _RepositoryLanguagePageState(language);
   }
 }
 
-class _RepositoryPageState extends PullRefreshListState<Repository,
-        RepositoryPresenter, IRepositoryView>
-    with AutomaticKeepAliveClientMixin
-    implements IRepositoryView {
-  bool isStar;
+class _RepositoryLanguagePageState extends PullRefreshListState<
+    Repository,
+    RepositoryLanguagePresenter,
+    IRepositoryLanguageView> implements IRepositoryLanguageView {
+  final String language;
 
   int _page = 1;
 
-  @override
-  bool get wantKeepAlive => true;
-
-  _RepositoryPageState(this.isStar);
+  _RepositoryLanguagePageState(this.language);
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  RepositoryPresenter initPresenter() {
-    return new RepositoryPresenter();
-  }
-
-  @override
-  @mustCallSuper
-  Widget build(BuildContext context) {
-    super.build(context);
-    return new Scaffold(
-      body: buildBody(context),
-    );
-  }
-
-  @override
-  Future<Null> onRefresh() async {
-    if (presenter != null) {
-      _page = 1;
-      await presenter.getUserRepos(_page, isStar, false);
-    }
-  }
-
-  @override
-  getMoreData() {
-    if (presenter != null) {
-      _page++;
-      presenter.getUserRepos(_page, isStar, true);
-    }
+  String getTitle() {
+    return language;
   }
 
   @override
@@ -142,6 +108,27 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
         NavigatorUtil.goReposDetail(context, item.owner.login, item.name, true);
       },
     );
+  }
+
+  @override
+  getMoreData() {
+    if (presenter != null) {
+      _page++;
+      presenter.getLanguages(language, _page, true);
+    }
+  }
+
+  @override
+  RepositoryLanguagePresenter initPresenter() {
+    return new RepositoryLanguagePresenter();
+  }
+
+  @override
+  Future<Null> onRefresh() async {
+    if (presenter != null) {
+      _page = 1;
+      await presenter.getLanguages(language, _page, false);
+    }
   }
 
   Widget _getItemOwner(String ownerHead, String ownerName) {

@@ -196,7 +196,8 @@ class _IssuePageState
           ),
         ],
       ),
-      onPressed: () {},
+      onPressed: () {
+      },
     );
   }
 

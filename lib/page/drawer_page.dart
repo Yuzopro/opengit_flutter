@@ -17,12 +17,16 @@ class DrawerPage extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundImage: new NetworkImage(this.headUrl),
             ),
+            onDetailsPressed: () {
+              NavigatorUtil.goUserProfile(context);
+            },
           ),
           new ListTile(
             title: new Text("趋势"),
             leading: new Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
-              NavigatorUtil.goTrend(context);
+              NavigatorUtil.goReposTrending(context, "all");
+//              NavigatorUtil.goTrend(context);
             },
           ),
           new ListTile(

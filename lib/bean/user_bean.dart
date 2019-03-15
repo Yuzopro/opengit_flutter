@@ -137,6 +137,11 @@ class UserBean extends Object with _$UserBeanSerializerMixin {
 
   factory UserBean.fromJson(Map<String, dynamic> srcJson) =>
       _$UserBeanFromJson(srcJson);
+
+  @override
+  String toString() {
+    return 'UserBean{blog: $blog, publicRepos: $publicRepos, followers: $followers, following: $following, totalPrivateRepos: $totalPrivateRepos}';
+  }
 }
 
 @JsonSerializable()

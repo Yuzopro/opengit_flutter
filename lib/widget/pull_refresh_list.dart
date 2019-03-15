@@ -172,6 +172,9 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     if (isLoading) {
       count += 1;
     }
+    if (isNoMore) {
+      count += 1;
+    }
     return count;
   }
 }
