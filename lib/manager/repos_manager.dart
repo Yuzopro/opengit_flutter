@@ -25,8 +25,7 @@ class ReposManager {
   void getReadme(
       reposFullName, branch, Function successCallback, Function errorCallback) {
     String url = Api.readmeFile(reposFullName, branch);
-    HttpManager.doGet(url, {"Accept": 'application/vnd.github.VERSION.raw'},
-        successCallback, errorCallback);
+    getFileAsStream(url, successCallback, errorCallback);
   }
 
   void getReposStar(
@@ -84,5 +83,17 @@ class ReposManager {
       language, page, Function successCallback, Function errorCallback) {
     String url = Api.getLanguages(language + Api.getPageParams("&", page));
     return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  getReposFileDir(
+      userName, reposName, Function successCallback, Function errorCallback,
+      {path = '', branch}) {
+    String url = Api.reposDataDir(userName, reposName, path, branch);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  getFileAsStream(url, Function successCallback, Function errorCallback) {
+    HttpManager.doGet(url, {"Accept": 'application/vnd.github.VERSION.raw'},
+        successCallback, errorCallback);
   }
 }

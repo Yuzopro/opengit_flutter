@@ -141,7 +141,7 @@ class _TrendingBeanItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new FlatButton(
         onPressed: () {
-          NavigatorUtil.goReposDetail(context, data.name, data.reposName, trending.toLowerCase().compareTo("all") == 0);
+          NavigatorUtil.goReposDetail(context, data.name, data.reposName, trending.toLowerCase() == "all");
         },
         child: new Column(
           children: <Widget>[

@@ -22,7 +22,6 @@ class _EventPageState
     extends PullRefreshListState<EventBean, EventPresenter, IEventView>
     with AutomaticKeepAliveClientMixin
     implements IEventView {
-  int _page = 1;
   String _userName = "";
 
   @override
@@ -109,8 +108,8 @@ class _EventPageState
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
-      presenter.getEventReceived(_userName, _page, true);
+      page++;
+      presenter.getEventReceived(_userName, page, true);
     }
   }
 
@@ -122,8 +121,8 @@ class _EventPageState
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
-      await presenter.getEventReceived(_userName, _page, false);
+      page = 1;
+      await presenter.getEventReceived(_userName, page, false);
     }
   }
 

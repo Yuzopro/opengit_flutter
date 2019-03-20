@@ -26,8 +26,6 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
     IRepositoryLanguageView> implements IRepositoryLanguageView {
   final String language;
 
-  int _page = 1;
-
   _RepositoryLanguagePageState(this.language);
 
   @override
@@ -113,8 +111,8 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
-      presenter.getLanguages(language, _page, true);
+      page++;
+      presenter.getLanguages(language, page, true);
     }
   }
 
@@ -126,8 +124,8 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
-      await presenter.getLanguages(language, _page, false);
+      page = 1;
+      await presenter.getLanguages(language, page, false);
     }
   }
 

@@ -99,6 +99,14 @@ class UserBean extends Object with _$UserBeanSerializerMixin {
 
   @JsonKey(name: 'plan')
   Plan plan;
+//  @JsonKey(name: 'company')
+//  String company;
+//  @JsonKey(name: 'location')
+//  String location;
+//  @JsonKey(name: 'email')
+//  String email;
+//  @JsonKey(name: 'bio')
+//  String bio;
 
   UserBean(
     this.login,
@@ -133,15 +141,14 @@ class UserBean extends Object with _$UserBeanSerializerMixin {
     this.collaborators,
     this.twoFactorAuthentication,
     this.plan,
+//    this.company,
+//    this.location,
+//    this.email,
+//    this.bio,
   );
 
   factory UserBean.fromJson(Map<String, dynamic> srcJson) =>
       _$UserBeanFromJson(srcJson);
-
-  @override
-  String toString() {
-    return 'UserBean{blog: $blog, publicRepos: $publicRepos, followers: $followers, following: $following, totalPrivateRepos: $totalPrivateRepos}';
-  }
 }
 
 @JsonSerializable()

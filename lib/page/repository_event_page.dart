@@ -28,8 +28,6 @@ class _RepositoryEventPageState extends PullRefreshListState<
   final String reposOwner;
   final String reposName;
 
-  int _page = 1;
-
   _RepositoryEventPageState(this.reposOwner, this.reposName);
 
   @override
@@ -103,8 +101,8 @@ class _RepositoryEventPageState extends PullRefreshListState<
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
-      presenter.getReposEvent(reposOwner, reposName, _page, true);
+      page++;
+      presenter.getReposEvent(reposOwner, reposName, page, true);
     }
   }
 
@@ -116,8 +114,8 @@ class _RepositoryEventPageState extends PullRefreshListState<
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
-      await presenter.getReposEvent(reposOwner, reposName, _page, false);
+      page = 1;
+      await presenter.getReposEvent(reposOwner, reposName, page, false);
     }
   }
 }

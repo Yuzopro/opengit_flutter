@@ -26,6 +26,9 @@ dependencies:
   markdown: any
   flutter_markdown: any
   cached_network_image: any
+  flutter_webview_plugin: any
+  photo_view: any
+  flutter_spinkit: any
 
 dev_dependencies:
   flutter_test:

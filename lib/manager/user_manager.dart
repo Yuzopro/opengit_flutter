@@ -27,4 +27,16 @@ class UserManager {
     url += Api.getPageParams("&", page);
     return HttpManager.doGet(url, null, successCallback, errorCallback);
   }
+
+  getUserFollower(String userName, int page, Function successCallback,
+      Function errorCallback) {
+    String url = Api.getUserFollower(userName) + Api.getPageParams("&", page);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
+
+  getUserFollowing(String userName, int page, Function successCallback,
+      Function errorCallback) {
+    String url = Api.getUserFollowing(userName) + Api.getPageParams("&", page);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
 }

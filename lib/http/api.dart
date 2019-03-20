@@ -80,11 +80,26 @@ class Api {
     return "${_BASE_URL}search/repositories?q=language:$language&sort=stars";
   }
 
-  ///用户的star get
+  //用户的star get
   static userStar(userName, sort) {
     sort ??= 'updated';
 
     return "${_BASE_URL}users/$userName/starred?sort=$sort";
+  }
+
+  //我的关注者 get
+  static getUserFollowing(userName) {
+    return "${_BASE_URL}users/$userName/following?";
+  }
+
+  //关注我的 get
+  static getUserFollower(userName) {
+    return "${_BASE_URL}users/$userName/followers?";
+  }
+
+  ///仓库路径下的内容 get
+  static reposDataDir(reposOwner, repos, path, [branch = 'master']) {
+    return "${_BASE_URL}repos/$reposOwner/$repos/contents$path" + ((branch == null) ? "" : ("?ref=" + branch));
   }
 
   //处理分页参数

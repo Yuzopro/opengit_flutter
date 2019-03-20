@@ -25,7 +25,6 @@ class _IssuePageState
   static List<String> _direction = ["asc", "desc"];
 
   String _userName = "";
-  int _page = 1;
 
   String _pValue = "involves",
       _stateValue = "open",
@@ -50,7 +49,7 @@ class _IssuePageState
         .map(
           (String text) => PopupMenuItem<String>(
                 value: text,
-                enabled: value.compareTo(text) != 0,
+                enabled: value != text,
                 child: Text(
                   text,
                   style: TextStyle(color: _getMenuSelectColor(text)),
@@ -126,10 +125,10 @@ class _IssuePageState
   }
 
   Color _getMenuSelectColor(String value) {
-    if (_pValue.compareTo(value) == 0 ||
-        _stateValue.compareTo(value) == 0 ||
-        _sortValue.compareTo(value) == 0 ||
-        _direationValue.compareTo(value) == 0) {
+    if (_pValue == value ||
+        _stateValue == value ||
+        _sortValue == value ||
+        _direationValue == value) {
       return Colors.blue;
     }
     return Colors.grey;
@@ -196,17 +195,16 @@ class _IssuePageState
           ),
         ],
       ),
-      onPressed: () {
-      },
+      onPressed: () {},
     );
   }
 
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
+      page++;
       presenter.getIssue(_pValue, _stateValue, _sortValue, _direationValue,
-          _userName, _page, true);
+          _userName, page, true);
     }
   }
 
@@ -218,9 +216,9 @@ class _IssuePageState
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
+      page = 1;
       await presenter.getIssue(_pValue, _stateValue, _sortValue,
-          _direationValue, _userName, _page, false);
+          _direationValue, _userName, page, false);
     }
   }
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:open_git/widget/progress/wave.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CommonUtil {
   static Future<Null> showLoadingDialog(BuildContext context) {

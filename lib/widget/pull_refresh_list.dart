@@ -11,6 +11,8 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     implements IBasePullListView<T> {
   List<T> _list = [];
 
+  int page = 1;
+
   final ScrollController _scrollController = new ScrollController();
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -21,11 +23,17 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
 
   Future<Null> onRefresh();
 
-  getMoreData();
-
   Widget getItemRow(T item);
 
   Widget getHeader() {
+    return null;
+  }
+
+  bool isSupportLoadMore() {
+    return true;
+  }
+
+  getMoreData() {
     return null;
   }
 
@@ -36,7 +44,9 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     _scrollController.addListener(() {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；
-      if (position.maxScrollExtent - position.pixels < 50 && !isNoMore) {
+      if (position.maxScrollExtent - position.pixels < 50 &&
+          !isNoMore &&
+          isSupportLoadMore()) {
         _loadMore();
       }
     });

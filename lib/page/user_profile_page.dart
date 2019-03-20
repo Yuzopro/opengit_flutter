@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/page/repository_page.dart';
+import 'package:open_git/page/user_follow_page.dart';
 
 class UserProfilePage extends StatefulWidget {
   @override
@@ -39,8 +40,6 @@ class _UserProfileState extends State<UserProfilePage> {
       )),
     );
   }
-
-  Future<Null> onRefresh() {}
 
   List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
     return <Widget>[
@@ -93,7 +92,7 @@ class Choice {
 List<Choice> choices = <Choice>[
   Choice(title: '项目', widget: RepositoryPage(false)),
   Choice(title: 'Star过的项目', widget: RepositoryPage(true)),
-  Choice(title: '关注我的', widget: RepositoryPage(false)),
-  Choice(title: '我关注的', widget: RepositoryPage(false)),
+  Choice(title: '关注我的', widget: UserFollowPage(false)),
+  Choice(title: '我关注的', widget: UserFollowPage(true)),
   Choice(title: '所在组织', widget: RepositoryPage(false)),
 ];

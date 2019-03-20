@@ -436,7 +436,11 @@ class _RepositoryDetailPageState
         Container(
           alignment: Alignment.center,
           height: 56.0,
-          child: Text("查看源码"),
+          child: FlatButton(
+              onPressed: () {
+                NavigatorUtil.goReposSourceFile(context, reposOwner, reposName);
+              },
+              child: Text("查看源码")),
         ),
       ],
     );

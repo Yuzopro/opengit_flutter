@@ -27,8 +27,6 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
     implements IRepositoryView {
   bool isStar;
 
-  int _page = 1;
-
   @override
   bool get wantKeepAlive => true;
 
@@ -56,16 +54,16 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
-      await presenter.getUserRepos(_page, isStar, false);
+      page = 1;
+      await presenter.getUserRepos(page, isStar, false);
     }
   }
 
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
-      presenter.getUserRepos(_page, isStar, true);
+      page++;
+      presenter.getUserRepos(page, isStar, true);
     }
   }
 
