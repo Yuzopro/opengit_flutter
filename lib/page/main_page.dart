@@ -8,8 +8,9 @@ import 'package:open_git/page/event_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
-import 'package:open_git/page/search_page.dart';
+import 'package:open_git/page/search_page_system.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/navigator_util.dart';
 
 class MainPage extends StatefulWidget {
   static const String sName = "main_page";
@@ -21,8 +22,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GitSearchDelegate _delegate = new GitSearchDelegate();
-
+//  final GitSearchDelegate _delegate = new GitSearchDelegate();
   UserBean _userBean;
 
   @override
@@ -70,12 +70,15 @@ class _MainPageState extends State<MainPage> {
                 new IconButton(
                   tooltip: 'Search',
                   icon: const Icon(Icons.search),
-                  onPressed: () async {
-                    await showSearch<int>(
-                      context: context,
-                      delegate: _delegate,
-                    );
-                  },
+//                  onPressed: () async {
+//                    await showSearch<int>(
+//                      context: context,
+//                      delegate: _delegate,
+//                    );
+//                  },
+                onPressed: (){
+                  NavigatorUtil.goSearch(context);
+                },
                 ),
               ],
             ),

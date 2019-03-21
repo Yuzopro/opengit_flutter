@@ -68,41 +68,31 @@ class _EventPageState
       centerWidgets.add(Text(desc, style: TextStyle(color: Colors.black87)));
     }
 
-    return new Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(12.0),
-          child: Row(
-            children: <Widget>[
-              //头像
-              ClipOval(
-                child:
-                ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: centerWidgets,
-                  ),
+    return new Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Row(
+          children: <Widget>[
+            //头像
+            ClipOval(
+              child: ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: centerWidgets,
                 ),
-                flex: 1,
               ),
-              Text(
-                DateUtil.getNewsTimeStr(item.createdAt),
-                style: TextStyle(color: Colors.grey, fontSize: 12.0),
-              ),
-            ],
-          ),
-        ),
-        Divider(
-          color: Colors.grey,
-          height: 0.3,
-        ),
-      ],
-    );
+              flex: 1,
+            ),
+            Text(
+              DateUtil.getNewsTimeStr(item.createdAt),
+              style: TextStyle(color: Colors.grey, fontSize: 12.0),
+            ),
+          ],
+        ));
   }
 
   @override

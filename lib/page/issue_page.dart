@@ -136,66 +136,53 @@ class _IssuePageState
 
   @override
   Widget getItemRow(IssueBean item) {
-    return new FlatButton(
-      child: new Column(
+    return InkWell(
+      child: Padding(padding: EdgeInsets.all(12.0), child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 12.0, bottom: 8.0),
-            width: MediaQuery.of(context).size.width,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    _getItemOwner(item.user.avatarUrl, item.user.login),
-                    Text(
-                      DateUtil.getNewsTimeStr(item.createdAt),
-                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
-                    ),
-                  ],
-                ),
-                //描述
-                Text(
-                  item.title,
-                  style: new TextStyle(color: Colors.black54, fontSize: 12.0),
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        presenter.getReposFullName(item.repoUrl) +
-                            "#" +
-                            item.number.toString(),
-                        style: new TextStyle(
-                            color: Colors.black54, fontSize: 12.0),
-                      ),
-                      flex: 1,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.comment,
-                          color: Colors.grey,
-                          size: 12.0,
-                        ),
-                        Text(
-                          item.commentNum.toString(),
-                          style: TextStyle(color: Colors.grey, fontSize: 12.0),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              _getItemOwner(item.user.avatarUrl, item.user.login),
+              Text(
+                DateUtil.getNewsTimeStr(item.createdAt),
+                style: TextStyle(color: Colors.grey, fontSize: 12.0),
+              ),
+            ],
           ),
-          Divider(
-            color: Colors.grey,
-            height: 0.3,
+          //描述
+          Text(
+            item.title,
+            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  presenter.getReposFullName(item.repoUrl) +
+                      "#" +
+                      item.number.toString(),
+                  style: new TextStyle(
+                      color: Colors.black54, fontSize: 12.0),
+                ),
+                flex: 1,
+              ),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.comment,
+                    color: Colors.grey,
+                    size: 12.0,
+                  ),
+                  Text(
+                    item.commentNum.toString(),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
-      ),
-      onPressed: () {},
+      ),),
     );
   }
 

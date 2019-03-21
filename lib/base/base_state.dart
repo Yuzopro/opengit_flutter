@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/base/base_presenter.dart';
 import 'package:open_git/base/i_base_view.dart';
 import 'package:open_git/util/common_util.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
     extends State<StatefulWidget> implements IBaseView {

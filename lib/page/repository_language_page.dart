@@ -35,75 +35,67 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
 
   @override
   Widget getItemRow(Repository item) {
-    return new FlatButton(
-      child: new Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 12.0, bottom: 8.0),
-            width: MediaQuery.of(context).size.width,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return new InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    _getItemOwner(item.owner.avatarUrl, item.owner.login),
-                    _getItemLanguage(item.language ?? ""),
-                  ],
-                ),
-                //全称
-                Padding(
-                  padding: new EdgeInsets.only(top: 6.0, bottom: 6.0),
-                  child: Text(
-                    item.fullName ?? "",
-                    style: new TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                //描述
-                Text(
-                  MarkdownUtil.getGitHubEmojHtml(item.description ?? "暂无描述"),
-                  style: new TextStyle(color: Colors.black54, fontSize: 12.0),
-                ),
-                //底部数据
-                Row(
-                  children: <Widget>[
-                    _getItemBottom(
-                        Icon(
-                          Icons.star_border,
-                          color: Colors.black,
-                          size: 12.0,
-                        ),
-                        item.stargazersCount.toString()),
-                    _getItemBottom(
-                        Icon(
-                          Icons.info_outline,
-                          color: Colors.black,
-                          size: 12.0,
-                        ),
-                        item.openIssuesCount.toString()),
-                    _getItemBottom(
-                        Image.asset(
-                          "image/ic_branch.png",
-                          width: 10.0,
-                          height: 10.0,
-                        ),
-                        item.forksCount.toString()),
-                    Text(
-                      item.fork ? "Forked" : "",
-                      style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                _getItemOwner(item.owner.avatarUrl, item.owner.login),
+                _getItemLanguage(item.language ?? ""),
+              ],
+            ),
+            //全称
+            Padding(
+              padding: new EdgeInsets.only(top: 6.0, bottom: 6.0),
+              child: Text(
+                item.fullName ?? "",
+                style: new TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            //描述
+            Text(
+              MarkdownUtil.getGitHubEmojHtml(item.description ?? "暂无描述"),
+              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+            ),
+            //底部数据
+            Row(
+              children: <Widget>[
+                _getItemBottom(
+                    Icon(
+                      Icons.star_border,
+                      color: Colors.black,
+                      size: 12.0,
                     ),
-                  ],
+                    item.stargazersCount.toString()),
+                _getItemBottom(
+                    Icon(
+                      Icons.info_outline,
+                      color: Colors.black,
+                      size: 12.0,
+                    ),
+                    item.openIssuesCount.toString()),
+                _getItemBottom(
+                    Image.asset(
+                      "image/ic_branch.png",
+                      width: 10.0,
+                      height: 10.0,
+                    ),
+                    item.forksCount.toString()),
+                Text(
+                  item.fork ? "Forked" : "",
+                  style: new TextStyle(color: Colors.grey, fontSize: 12.0),
                 ),
               ],
             ),
-          ),
-          Divider(
-            color: Colors.grey,
-            height: 0.3,
-          ),
-        ],
+          ],
+        ),
       ),
-      onPressed: () {
-        NavigatorUtil.goReposDetail(context, item.owner.login, item.name, true);
+      onTap: () {
+        NavigatorUtil.goReposDetail(
+            context, item.owner.login, item.name, true);
       },
     );
   }

@@ -33,6 +33,10 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     return true;
   }
 
+  bool isFirstLoading() {
+    return true;
+  }
+
   getMoreData() {
     return null;
   }
@@ -51,7 +55,9 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
       }
     });
 
-    showRefreshLoading();
+    if (isFirstLoading()) {
+      showRefreshLoading();
+    }
   }
 
   @override
@@ -75,6 +81,10 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   void dispose() {
     _scrollController?.dispose();
     super.dispose();
+  }
+
+  clearList() {
+    _list.clear();
   }
 
   @override
@@ -131,12 +141,16 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   }
 
   Widget _getEmptyWidget() {
-    return new Center(
-      child: FlatButton(
-          onPressed: () {
-            showRefreshLoading();
-          },
-          child: Text("数据暂时为空")),
+    return new Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height - 100,
+      child: new Center(
+        child: FlatButton(
+            onPressed: () {
+              showRefreshLoading();
+            },
+            child: Text("数据暂时为空")),
+      ),
     );
   }
 

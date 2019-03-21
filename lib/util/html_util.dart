@@ -191,25 +191,13 @@ class HtmlUtil {
         }
 
         String subUrl = oriUrl.startsWith("/") ? oriUrl : "/" + oriUrl;
-        String fixedUrl;
-        if (/*!GitHubHelper.isImage(oriUrl)*/ false) {
-          fixedUrl = "https://github.com/" +
-              owner +
-              "/" +
-              repo +
-              "/blob/" +
-              branch +
-              subUrl;
-        } else {
-          //if link url is a image
-          fixedUrl = "https://raw.githubusercontent.com/" +
-              owner +
-              "/" +
-              repo +
-              "/" +
-              branch +
-              subUrl;
-        }
+        String fixedUrl = "https://raw.githubusercontent.com/" +
+            owner +
+            "/" +
+            repo +
+            "/" +
+            branch +
+            subUrl;
         source = source.replaceAll(
             "href=\"" + oriUrl + "\"", "href=\"" + fixedUrl + "\"");
       }

@@ -12,6 +12,7 @@ import 'package:open_git/page/repository_language_page.dart';
 import 'package:open_git/page/repository_source_code_page.dart';
 import 'package:open_git/page/repository_source_file_page.dart';
 import 'package:open_git/page/repository_trending_page.dart';
+import 'package:open_git/page/search_page.dart';
 import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
@@ -115,13 +116,24 @@ class NavigatorUtil {
 
   //查看源码文件目录
   static goReposSourceFile(BuildContext context, reposOwner, reposName) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositorySourceFilePage(reposOwner, reposName)));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) =>
+                new RepositorySourceFilePage(reposOwner, reposName)));
   }
 
   //查看源码
   static goReposSourceCode(BuildContext context, title, url) {
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new RepositorySourceCodePage(title, url)));
+  }
+
+  //搜索
+  static goSearch(BuildContext context) {
     Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new RepositorySourceCodePage(title, url)));
+        new CupertinoPageRoute(builder: (context) => new SearchPage()));
   }
 }

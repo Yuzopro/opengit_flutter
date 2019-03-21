@@ -44,17 +44,15 @@ class RepositoryTrendingPage extends StatelessWidget {
 }
 
 class _Page extends StatefulWidget {
-  _Page(this.since, this.Trending, {this.label});
+  _Page(this.since, this.trending, {this.label});
 
   final String label;
   final String since;
-  final String Trending;
-
-  String get id => label[0];
+  final String trending;
 
   @override
   State<StatefulWidget> createState() {
-    return _PageState(since, Trending);
+    return _PageState(since, trending);
   }
 }
 
@@ -139,84 +137,93 @@ class _TrendingBeanItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new FlatButton(
-        onPressed: () {
-          NavigatorUtil.goReposDetail(context, data.name, data.reposName, trending.toLowerCase() == "all");
-        },
-        child: new Column(
-          children: <Widget>[
-            new Container(
-              padding: EdgeInsets.only(top: 12.0, bottom: 8.0),
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(data.fullName,
-                      style: new TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
-                  Text(data.description,
-                      style: new TextStyle(color: Colors.grey)),
-                  Row(
-                    children: <Widget>[
-                      _getItemLanguage(data.language),
-                      _getItemBottom(
-                          Icon(
-                            Icons.star_border,
-                            color: Colors.black,
-                            size: 12.0,
-                          ),
-                          data.starCount),
-                      _getItemBottom(
-                          Image.asset(
-                            "image/ic_branch.png",
-                            width: 10.0,
-                            height: 10.0,
-                          ),
-                          data.forkCount),
-                      _getBuiltByWidget(),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              color: Colors.grey,
-              height: 0.3,
-            )
-          ],
-        ));
-  }
+    List<Widget> _bottomViews = new List();
+    if (data.language != null && data.language.isNotEmpty) {
+      _bottomViews.add(_getItemLanguage(data.language));
+    }
 
-  Widget _getItemLanguage(String language) {
-    return new Row(
+    Widget _starView = new Padding(
+      padding: new EdgeInsets.only(right: 12.0),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            Icons.star_border,
+            color: Colors.black,
+            size: 12.0,
+          ),
+          Text(
+            data.starCount,
+            style: new TextStyle(color: Colors.black, fontSize: 10.0),
+          ),
+        ],
+      ),
+    );
+    _bottomViews.add(_starView);
+
+    Widget _forkView = new Row(
       children: <Widget>[
-        ClipOval(
-          child: Container(
-            color: Colors.black87,
-            width: 8.0,
-            height: 8.0,
-          ),
+        Image.asset(
+          "image/ic_branch.png",
+          width: 10.0,
+          height: 10.0,
         ),
-        Padding(
-          padding: new EdgeInsets.only(left: 4.0),
-          child: Text(
-            language,
-            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
-          ),
+        Text(
+          data.forkCount,
+          style: new TextStyle(color: Colors.black, fontSize: 10.0),
         ),
       ],
     );
+    _bottomViews.add(_forkView);
+
+    Widget _builtByView = _getBuiltByWidget();
+    _bottomViews.add(_builtByView);
+
+    return new InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(data.fullName,
+                style: new TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.bold)),
+            Padding(
+                padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                child: Text(data.description,
+                    style: new TextStyle(color: Colors.grey))),
+            Row(
+              children: _bottomViews,
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        NavigatorUtil.goReposDetail(context, data.name, data.reposName,
+            trending.toLowerCase() == "all");
+      },
+    );
   }
 
-  Widget _getItemBottom(Widget icon, String count) {
+  Widget _getItemLanguage(String language) {
     return new Padding(
-      padding: new EdgeInsets.only(left: 12.0),
-      child: Row(
+      padding: EdgeInsets.only(right: 12.0),
+      child: new Row(
         children: <Widget>[
-          icon,
-          Text(
-            count,
-            style: new TextStyle(color: Colors.black, fontSize: 12.0),
+          ClipOval(
+            child: Container(
+              color: Colors.black87,
+              width: 8.0,
+              height: 8.0,
+            ),
+          ),
+          Padding(
+            padding: new EdgeInsets.only(left: 4.0),
+            child: Text(
+              language,
+              style: new TextStyle(color: Colors.black54, fontSize: 10.0),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -228,14 +235,15 @@ class _TrendingBeanItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Text("Built by", style: new TextStyle(color: Colors.grey)),
+          Text("Built by",
+              style: new TextStyle(color: Colors.grey, fontSize: 10.0)),
           Row(
             children: data.contributors
                 .map(
                   (String url) => new Padding(
                         padding: EdgeInsets.only(left: 2.0),
                         child: new ClipOval(
-                          child: ImageUtil.getImageWidget(url ?? "", 18.0),
+                          child: ImageUtil.getImageWidget(url ?? "", 12.0),
                         ),
                       ),
                 )

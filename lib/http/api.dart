@@ -97,9 +97,14 @@ class Api {
     return "${_BASE_URL}users/$userName/followers?";
   }
 
-  ///仓库路径下的内容 get
+  //仓库路径下的内容 get
   static reposDataDir(reposOwner, repos, path, [branch = 'master']) {
     return "${_BASE_URL}repos/$reposOwner/$repos/contents$path" + ((branch == null) ? "" : ("?ref=" + branch));
+  }
+
+  //搜索
+  static search(type, query) {
+    return "${_BASE_URL}search/$type?q=$query";
   }
 
   //处理分页参数

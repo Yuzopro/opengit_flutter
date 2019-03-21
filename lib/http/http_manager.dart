@@ -95,6 +95,7 @@ class HttpManager {
         }
       }
     }
+    return;
   }
 
   static _getHeaders(Map<String, String> header) {

@@ -151,14 +151,15 @@ class _RepositoryDetailPageState
                   child: Row(
                     children: <Widget>[
                       Icon(Icons.book, color: Colors.grey),
-                      Padding(
+                      Expanded(
+                          child: Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           repository.fullName,
                           style: new TextStyle(fontWeight: FontWeight.bold),
-                          maxLines: 1,
+                          maxLines: 2,
                         ),
-                      ),
+                      )),
                     ],
                   )),
               Text(FileSizeUtil.formetFileSize(repository.size * 1024)),
