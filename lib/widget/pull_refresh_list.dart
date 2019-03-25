@@ -45,6 +45,8 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   void initState() {
     super.initState();
 
+    print(title);
+
     _scrollController.addListener(() {
       var position = _scrollController.position;
       // 小于50px时，触发上拉加载；

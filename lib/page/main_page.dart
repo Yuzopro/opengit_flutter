@@ -8,7 +8,6 @@ import 'package:open_git/page/event_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
-import 'package:open_git/page/search_page_system.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 
@@ -21,14 +20,24 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class _MainPageState extends State<MainPage> {
-//  final GitSearchDelegate _delegate = new GitSearchDelegate();
+class _MainPageState
+    extends State<MainPage> with SingleTickerProviderStateMixin {
   UserBean _userBean;
+
+  TabController _tabController;
+  final PageController _pageController = new PageController();
 
   @override
   void initState() {
     super.initState();
+    _tabController = new TabController(vsync: this, length: choices.length);
     _userBean = LoginManager.instance.getUserBean();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,6 +67,7 @@ class _MainPageState extends State<MainPage> {
               }),
               centerTitle: true,
               title: new TabBar(
+                controller: _tabController,
                 isScrollable: true,
                 indicatorColor: Colors.white,
                 tabs: choices.map((Choice choice) {
@@ -65,29 +75,27 @@ class _MainPageState extends State<MainPage> {
                     text: choice.title,
                   );
                 }).toList(),
+                onTap: (index) {
+                  _pageController.jumpToPage(index);
+                },
               ),
               actions: <Widget>[
                 new IconButton(
                   tooltip: 'Search',
                   icon: const Icon(Icons.search),
-//                  onPressed: () async {
-//                    await showSearch<int>(
-//                      context: context,
-//                      delegate: _delegate,
-//                    );
-//                  },
-                onPressed: (){
-                  NavigatorUtil.goSearch(context);
-                },
+                  onPressed: () {
+                    NavigatorUtil.goSearch(context);
+                  },
                 ),
               ],
             ),
-            body: new TabBarView(
+            body: new PageView(
+              controller: _pageController,
               children: <Widget>[
                 HomePage(),
-                RepositoryPage(false),
-                EventPage(),
-                IssuePage(),
+                RepositoryPage(LoginManager.instance.getUserBean(), false),
+                EventPage(LoginManager.instance.getUserBean().login),
+                IssuePage(LoginManager.instance.getUserBean().login),
               ],
             ),
           ),

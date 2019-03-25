@@ -6,12 +6,17 @@ import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/presenter/issue_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class IssuePage extends StatefulWidget {
+  final String userName;
+
+  IssuePage(this.userName);
+
   @override
   State<StatefulWidget> createState() {
-    return _IssuePageState();
+    return _IssuePageState(userName);
   }
 }
 
@@ -24,24 +29,17 @@ class _IssuePageState
   static List<String> _sort = ["created", "updated", "comments"];
   static List<String> _direction = ["asc", "desc"];
 
-  String _userName = "";
-
   String _pValue = "involves",
       _stateValue = "open",
       _sortValue = "created",
       _direationValue = "asc";
 
-  @override
-  bool get wantKeepAlive => true;
+  final String userName;
+
+  _IssuePageState(this.userName);
 
   @override
-  void initState() {
-    super.initState();
-    UserBean userBean = LoginManager.instance.getUserBean();
-    if (userBean != null) {
-      _userName = userBean.login ?? "";
-    }
-  }
+  bool get wantKeepAlive => true;
 
   List<PopupMenuItem<String>> _getPopupMenuItemList(
       List<String> list, String value) {
@@ -137,52 +135,57 @@ class _IssuePageState
   @override
   Widget getItemRow(IssueBean item) {
     return InkWell(
-      child: Padding(padding: EdgeInsets.all(12.0), child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              _getItemOwner(item.user.avatarUrl, item.user.login),
-              Text(
-                DateUtil.getNewsTimeStr(item.createdAt),
-                style: TextStyle(color: Colors.grey, fontSize: 12.0),
-              ),
-            ],
-          ),
-          //描述
-          Text(
-            item.title,
-            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  presenter.getReposFullName(item.repoUrl) +
-                      "#" +
-                      item.number.toString(),
-                  style: new TextStyle(
-                      color: Colors.black54, fontSize: 12.0),
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                _getItemOwner(item.user.avatarUrl, item.user.login),
+                Text(
+                  DateUtil.getNewsTimeStr(item.createdAt),
+                  style: TextStyle(color: Colors.grey, fontSize: 12.0),
                 ),
-                flex: 1,
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.comment,
-                    color: Colors.grey,
-                    size: 12.0,
+              ],
+            ),
+            //描述
+            Text(
+              item.title,
+              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    presenter.getReposFullName(item.repoUrl) +
+                        "#" +
+                        item.number.toString(),
+                    style: new TextStyle(color: Colors.black54, fontSize: 12.0),
                   ),
-                  Text(
-                    item.commentNum.toString(),
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),),
+                  flex: 1,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.comment,
+                      color: Colors.grey,
+                      size: 12.0,
+                    ),
+                    Text(
+                      item.commentNum.toString(),
+                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        NavigatorUtil.goIssueDetail(context, item);
+      },
     );
   }
 
@@ -191,7 +194,7 @@ class _IssuePageState
     if (presenter != null) {
       page++;
       presenter.getIssue(_pValue, _stateValue, _sortValue, _direationValue,
-          _userName, page, true);
+          userName, page, true);
     }
   }
 
@@ -205,7 +208,7 @@ class _IssuePageState
     if (presenter != null) {
       page = 1;
       await presenter.getIssue(_pValue, _stateValue, _sortValue,
-          _direationValue, _userName, page, false);
+          _direationValue, userName, page, false);
     }
   }
 

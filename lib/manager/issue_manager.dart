@@ -20,4 +20,9 @@ class IssueManager {
     String url = Api.getIssue(q, state, sort, order, userName) + Api.getPageParams("&", page);
     return HttpManager.doGet(url, null, successCallback, errorCallback);
   }
+
+  getIssueComment(repoUrl, issueNumber, page, Function successCallback, Function errorCallback ) {
+    String url = Api.getIssueComment(repoUrl, issueNumber) + Api.getPageParams("&", page);
+    return HttpManager.doGet(url, null, successCallback, errorCallback);
+  }
 }

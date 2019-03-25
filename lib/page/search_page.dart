@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_presenter.dart';
-import 'package:open_git/base/base_state.dart';
 import 'package:open_git/base/i_base_pull_list_view.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/contract/search_contract.dart';
 import 'package:open_git/presenter/search_issue_presenter.dart';
 import 'package:open_git/presenter/search_presenter.dart';
 import 'package:open_git/presenter/search_repository_presenter.dart';
@@ -22,13 +19,16 @@ class SearchPage extends StatefulWidget {
   }
 }
 
-class _SearchPage extends State<SearchPage> {
+class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin {
   final TextEditingController _controller = new TextEditingController();
 
+  TabController _tabController;
+  final PageController _pageController = new PageController();
+
   final List<_Page> _allPages = [
-    new _Page("repositories", new _RepositoriesState("repositories"), label: "项目"),
-    new _Page("users", new _UsersState("users"), label: "用户"),
-    new _Page("issues", new _IssuesState("issues"), label: "问题")
+    new _Page("repositories", label: "项目"),
+    new _Page("users", label: "用户"),
+    new _Page("issues", label: "问题")
   ];
 
   int _index = 0;
@@ -38,16 +38,25 @@ class _SearchPage extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+
+    _tabController = new TabController(vsync: this, length: _allPages.length);
+
     _controller.addListener(() {
       String text = _controller.text;
-      int length = _allPages.length;
-      for (int i = 0; i < length; i++) {
-        _allPages[i].state.setQueryText(text, false);
-      }
+//      int length = _allPages.length;
+//      for (int i = 0; i < length; i++) {
+//        _allPages[i].state.setQueryText(text, false);
+//      }
       setState(() {
         _query = text;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,7 +76,7 @@ class _SearchPage extends State<SearchPage> {
       tooltip: 'Search',
       icon: const Icon(Icons.search),
       onPressed: () {
-        _allPages[_index].state.setQueryText(_query, true);
+        _allPages[_index]._state.setQueryText(_query, true);
       },
     );
     _actionViews.add(searchWidget);
@@ -80,7 +89,7 @@ class _SearchPage extends State<SearchPage> {
               controller: _controller,
               textInputAction: TextInputAction.search,
               onSubmitted: (text) {
-                _allPages[_index].state.setQueryText(_query, true);
+                _allPages[_index]._state.setQueryText(_query, true);
               },
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -91,19 +100,22 @@ class _SearchPage extends State<SearchPage> {
             ),
             actions: _query.isNotEmpty ? _actionViews : null,
             bottom: new TabBar(
+              controller: _tabController,
               tabs: _allPages
                   .map(
                     (_Page page) => new Tab(text: page.label),
                   )
                   .toList(),
               onTap: (index) {
+                _pageController.jumpToPage(index);
                 setState(() {
                   _index = index;
                 });
               },
             ),
           ),
-          body: new TabBarView(
+          body: new PageView(
+            controller: _pageController,
             children: _allPages.map((_Page page) {
               return page;
             }).toList(),
@@ -114,15 +126,28 @@ class _SearchPage extends State<SearchPage> {
 }
 
 class _Page extends StatefulWidget {
-  _Page(this.since, this.state,{this.label});
+  _Page(this.since, {this.label});
 
   final String label;
   final String since;
-  final _PageState state;
+  _PageState _state;
 
   @override
   State<StatefulWidget> createState() {
-    return state;
+    _state = createPageState();
+    return _state;
+  }
+
+  _PageState createPageState() {
+    _PageState _pageState;
+    if ("repositories" == since) {
+      _pageState = new _RepositoriesState(since);
+    } else if ("users" == since) {
+      _pageState = new _UsersState(since);
+    } else if ("issues" == since) {
+      _pageState = new _IssuesState(since);
+    }
+    return _pageState;
   }
 }
 
@@ -264,7 +289,28 @@ class _UsersState extends _PageState<UserBean, SearchUserPresenter> {
 
   @override
   Widget getItemRow(UserBean item) {
-    return null;
+    return new InkWell(
+      child: Container(
+        padding: EdgeInsets.only(left: 12.0, right: 12.0),
+        height: 56.0,
+        child: Row(
+          children: <Widget>[
+            ClipOval(
+              child: ImageUtil.getImageWidget(item.avatarUrl, 36.0),
+            ),
+            Padding(
+              padding: new EdgeInsets.only(left: 4.0),
+              child: Text(
+                item.login,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        NavigatorUtil.goUserProfile(context, item);
+      },
+    );
   }
 
   @override
@@ -327,6 +373,9 @@ class _IssuesState extends _PageState<IssueBean, SearchIssuePresenter> {
           ],
         ),
       ),
+      onTap: () {
+        NavigatorUtil.goIssueDetail(context, item);
+      },
     );
   }
 
@@ -343,7 +392,7 @@ class _IssuesState extends _PageState<IssueBean, SearchIssuePresenter> {
             child: ImageUtil.getImageWidget(ownerHead, 18.0),
           ),
           Padding(
-            padding: new EdgeInsets.only(left: 4.0),
+            padding: new EdgeInsets.only(left: 8.0),
             child: Text(
               ownerName,
               style: new TextStyle(
@@ -366,12 +415,11 @@ abstract class _PageState<T, P extends SearchPresenter>
 
   String _queryText = "";
 
-  int _page = 1;
-
   _PageState(this.since);
 
   void setQueryText(text, bool isRefresh) {
     _queryText = text;
+
     if (isRefresh) {
       showRefreshLoading();
     }
@@ -379,10 +427,9 @@ abstract class _PageState<T, P extends SearchPresenter>
 
   @override
   bool isFirstLoading() {
-    print("_queryText is $_queryText");
     return _queryText.isNotEmpty;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return buildBody(context);
@@ -391,16 +438,16 @@ abstract class _PageState<T, P extends SearchPresenter>
   @override
   getMoreData() {
     if (presenter != null) {
-      _page++;
-      presenter.search(since, _queryText, _page, true);
+      page++;
+      presenter.search(since, _queryText, page, true);
     }
   }
 
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      _page = 1;
-      await presenter.search(since, _queryText, _page, false);
+      page = 1;
+      await presenter.search(since, _queryText, page, false);
     }
   }
 

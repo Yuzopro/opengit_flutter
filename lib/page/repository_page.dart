@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/repos_bean.dart';
+import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/repository_contract.dart';
 import 'package:open_git/presenter/repository_presenter.dart';
 import 'package:open_git/util/image_util.dart';
@@ -10,13 +11,14 @@ import 'package:open_git/widget/pull_refresh_list.dart';
 //import 'package:markdown/markdown.dart' as md;
 
 class RepositoryPage extends StatefulWidget {
-  bool isStar;
+  final bool isStar;
+  final UserBean userBean;
 
-  RepositoryPage(this.isStar);
+  RepositoryPage(this.userBean, this.isStar);
 
   @override
   State<StatefulWidget> createState() {
-    return _RepositoryPageState(isStar);
+    return _RepositoryPageState(userBean, isStar);
   }
 }
 
@@ -25,11 +27,12 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
     with AutomaticKeepAliveClientMixin
     implements IRepositoryView {
   bool isStar;
+  final UserBean userBean;
 
   @override
   bool get wantKeepAlive => true;
 
-  _RepositoryPageState(this.isStar);
+  _RepositoryPageState(this.userBean, this.isStar);
 
   @override
   RepositoryPresenter initPresenter() {
@@ -46,20 +49,20 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
   }
 
   @override
+  getMoreData() {
+    if (presenter != null) {
+      page++;
+      presenter.getUserRepos(userBean, page, isStar, true);
+    }
+  }
+
+  @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
       clearList();
       setState(() {});
       page = 1;
-      await presenter.getUserRepos(page, isStar, false);
-    }
-  }
-
-  @override
-  getMoreData() {
-    if (presenter != null) {
-      page++;
-      presenter.getUserRepos(page, isStar, true);
+      await presenter.getUserRepos(userBean, page, isStar, false);
     }
   }
 

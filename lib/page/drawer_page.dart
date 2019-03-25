@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/util/navigator_util.dart';
 
 class DrawerPage extends StatelessWidget {
@@ -18,7 +20,8 @@ class DrawerPage extends StatelessWidget {
               backgroundImage: new NetworkImage(this.headUrl),
             ),
             onDetailsPressed: () {
-              NavigatorUtil.goUserProfile(context);
+              UserBean userBean = LoginManager.instance.getUserBean();
+              NavigatorUtil.goUserProfile(context, userBean);
             },
           ),
           new ListTile(

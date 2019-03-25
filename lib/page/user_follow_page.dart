@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/user_follow_contract.dart';
-import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/presenter/user_follow_presenter.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class UserFollowPage extends StatefulWidget {
   bool isFollower;
+  final UserBean userBean;
 
-  UserFollowPage(this.isFollower);
+  UserFollowPage(this.userBean, this.isFollower);
 
   @override
   State<StatefulWidget> createState() {
-    return _UserFollowState(isFollower);
+    return _UserFollowState(userBean, isFollower);
   }
 }
 
@@ -22,15 +22,15 @@ class _UserFollowState
     with AutomaticKeepAliveClientMixin
     implements IUserFollowView {
   bool isFollower;
+  final UserBean userBean;
 
   String _userName;
 
-  _UserFollowState(this.isFollower);
+  _UserFollowState(this.userBean, this.isFollower);
 
   @override
   void initState() {
     super.initState();
-    UserBean userBean = LoginManager.instance.getUserBean();
     if (userBean != null) {
       print(userBean.toString());
       _userName = userBean.login ?? "";

@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/event_bean.dart';
-import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/event_contract.dart';
-import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/presenter/event_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
@@ -12,9 +10,13 @@ import 'package:open_git/util/image_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class EventPage extends StatefulWidget {
+  final String userName;
+
+  EventPage(this.userName);
+
   @override
   State<StatefulWidget> createState() {
-    return _EventPageState();
+    return _EventPageState(userName);
   }
 }
 
@@ -22,15 +24,17 @@ class _EventPageState
     extends PullRefreshListState<EventBean, EventPresenter, IEventView>
     with AutomaticKeepAliveClientMixin
     implements IEventView {
-  String _userName = "";
+
+  final String userName;
+
+  _EventPageState(this.userName);
 
   @override
-  void initState() {
-    super.initState();
-    UserBean userBean = LoginManager.instance.getUserBean();
-    if (userBean != null) {
-      _userName = userBean.login ?? "";
-    }
+  bool get wantKeepAlive => true;
+
+  @override
+  EventPresenter initPresenter() {
+    return new EventPresenter();
   }
 
   @override
@@ -40,6 +44,22 @@ class _EventPageState
     return new Scaffold(
       body: buildBody(context),
     );
+  }
+
+  @override
+  getMoreData() {
+    if (presenter != null) {
+      page++;
+      presenter.getEventReceived(userName, page, true);
+    }
+  }
+
+  @override
+  Future<Null> onRefresh() async {
+    if (presenter != null) {
+      page = 1;
+      await presenter.getEventReceived(userName, page, false);
+    }
   }
 
   @override
@@ -95,27 +115,4 @@ class _EventPageState
         ));
   }
 
-  @override
-  getMoreData() {
-    if (presenter != null) {
-      page++;
-      presenter.getEventReceived(_userName, page, true);
-    }
-  }
-
-  @override
-  EventPresenter initPresenter() {
-    return new EventPresenter();
-  }
-
-  @override
-  Future<Null> onRefresh() async {
-    if (presenter != null) {
-      page = 1;
-      await presenter.getEventReceived(_userName, page, false);
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

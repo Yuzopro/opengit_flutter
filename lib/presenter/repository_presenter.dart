@@ -7,8 +7,7 @@ import 'package:open_git/util/markdown_util.dart';
 
 class RepositoryPresenter extends IRepositoryPresenter {
   @override
-  getUserRepos(int page, bool isStar, bool isFromMore) {
-    UserBean userBean = LoginManager.instance.getUserBean();
+  getUserRepos(userBean, int page, bool isStar, bool isFromMore) {
     if (userBean != null) {
       return UserManager.instance
           .getUserRepos(userBean.login, page, null, isStar, (data) {

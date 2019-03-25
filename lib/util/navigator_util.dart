@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/page/app_info_page.dart';
 import 'package:open_git/page/book_mark_page.dart';
+import 'package:open_git/page/issue_detail_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
 import 'package:open_git/page/main_page.dart';
@@ -109,9 +110,9 @@ class NavigatorUtil {
   }
 
   //用户资料
-  static goUserProfile(BuildContext context) {
+  static goUserProfile(BuildContext context, userBean) {
     Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new UserProfilePage()));
+        new CupertinoPageRoute(builder: (context) => new UserProfilePage(userBean)));
   }
 
   //查看源码文件目录
@@ -135,5 +136,11 @@ class NavigatorUtil {
   static goSearch(BuildContext context) {
     Navigator.push(context,
         new CupertinoPageRoute(builder: (context) => new SearchPage()));
+  }
+
+  //问题详情
+  static goIssueDetail(BuildContext context, issueBean) {
+    Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new IssueDetailPage(issueBean)));
   }
 }

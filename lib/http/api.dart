@@ -107,6 +107,11 @@ class Api {
     return "${_BASE_URL}search/$type?q=$query";
   }
 
+  //问题评论
+  static getIssueComment(repoUrl, issueNumber) {
+    return "${repoUrl}/issues/$issueNumber/comments?";
+  }
+
   //处理分页参数
   static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
     if (page != null) {

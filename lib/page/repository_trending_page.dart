@@ -8,33 +8,63 @@ import 'package:open_git/presenter/repository_trending_presenter.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 
-class RepositoryTrendingPage extends StatelessWidget {
+class RepositoryTrendingPage extends StatefulWidget {
   final String trending;
 
   RepositoryTrendingPage(this.trending);
 
   @override
-  Widget build(BuildContext context) {
-    final List<_Page> _allPages = [
-      new _Page("daily", trending, label: "每日"),
-      new _Page("weekly", trending, label: "每周"),
-      new _Page("monthly", trending, label: "每月")
+  State<StatefulWidget> createState() {
+    return _RepositoryTrendingState();
+  }
+}
+
+class _RepositoryTrendingState extends State<RepositoryTrendingPage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  List<_Page> _allPages;
+  final PageController _pageController = new PageController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _allPages = [
+      new _Page("daily", widget.trending, label: "每日"),
+      new _Page("weekly", widget.trending, label: "每周"),
+      new _Page("monthly", widget.trending, label: "每月")
     ];
 
+    _tabController = new TabController(vsync: this, length: _allPages.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new DefaultTabController(
         length: _allPages.length,
         child: new Scaffold(
           appBar: new AppBar(
-            title: Text(trending),
+            title: Text(widget.trending),
             bottom: new TabBar(
+              controller: _tabController,
               tabs: _allPages
                   .map(
                     (_Page page) => new Tab(text: page.label),
                   )
                   .toList(),
+              onTap: (index) {
+                _pageController.jumpToPage(index);
+              },
             ),
           ),
-          body: new TabBarView(
+          body: new PageView(
+            controller: _pageController,
             children: _allPages.map((_Page page) {
               return page;
             }).toList(),

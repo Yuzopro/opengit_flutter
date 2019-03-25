@@ -55,6 +55,7 @@ class IssueBean {
 
   @override
   String toString() {
-    return 'IssueBean{number: $number, title: $title, state: $state, locked: $locked, commentNum: $commentNum, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, body: $body, bodyHtml: $bodyHtml, user: $user, closeBy: $closeBy}';
+    return 'IssueBean{number: $number, title: $title, commentNum: $commentNum, user: $user}';
   }
+
 }
