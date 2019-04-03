@@ -97,7 +97,7 @@ class _RepositoryDetailPageState
   }
 
   @override
-  void setReadmeContent(String markdown) {
+  void setReadmeContent(markdown) {
     _markdownData = markdown;
     setState(() {});
   }

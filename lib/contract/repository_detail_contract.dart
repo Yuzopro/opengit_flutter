@@ -27,7 +27,7 @@ abstract class IRepositoryDetailView extends IBaseView {
 
   void setWatchState(int state, bool isAction);
 
-  void setReadmeContent(String markdown);
+  void setReadmeContent(markdown);
 
   void setBranches(List<BranchBean> list);
 }

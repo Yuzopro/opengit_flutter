@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/page/app_info_page.dart';
 import 'package:open_git/page/book_mark_page.dart';
+import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
 import 'package:open_git/page/main_page.dart';
+import 'package:open_git/page/markdown_editor_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
 import 'package:open_git/page/repository_event_page.dart';
@@ -142,5 +144,17 @@ class NavigatorUtil {
   static goIssueDetail(BuildContext context, issueBean) {
     Navigator.push(context,
         new CupertinoPageRoute(builder: (context) => new IssueDetailPage(issueBean)));
+  }
+
+  //评论编辑页
+  static goMarkdownEditor(BuildContext context, issueBean, repoUrl) async {
+    return Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new MarkdownEditorPage(issueBean, repoUrl)));
+  }
+
+  //评论编辑页
+  static goDeleteReaction(BuildContext context, issueBean, repoUrl, content, isIssue) async {
+    return Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new DeleteReactionPage(issueBean, repoUrl, content, isIssue)));
   }
 }

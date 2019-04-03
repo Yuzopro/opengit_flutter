@@ -78,7 +78,7 @@ class LoginManager {
       "client_secret": "d8cb03c0f6dc85ebf610077148b0471aa66f1b42"
     };
     HttpManager.doPost(
-        Api.authorizations(), requestParams, successCallback, errorCallback);
+        Api.authorizations(), requestParams, null, successCallback, errorCallback);
   }
 
   getMyUserInfo(Function successCallback, Function errorCallback) {

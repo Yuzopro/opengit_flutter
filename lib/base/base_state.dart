@@ -53,11 +53,16 @@ abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
       appBar: title.isEmpty
           ? null
           : new AppBar(
+              actions: getActions(),
               centerTitle: true,
               title: new Text(title),
             ),
       body: buildBody(context),
     );
+  }
+
+  List<Widget> getActions() {
+    return null;
   }
 
   @override

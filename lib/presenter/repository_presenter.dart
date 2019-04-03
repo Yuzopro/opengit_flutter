@@ -1,7 +1,5 @@
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/repository_contract.dart';
-import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/user_manager.dart';
 import 'package:open_git/util/markdown_util.dart';
 

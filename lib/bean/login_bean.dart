@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'login_bean.g.dart';
 
 @JsonSerializable()
-class LoginBean extends Object with _$LoginBeanSerializerMixin {
+class LoginBean {
   @JsonKey(name: 'id')
   int id;
 
@@ -52,7 +52,7 @@ class LoginBean extends Object with _$LoginBeanSerializerMixin {
 }
 
 @JsonSerializable()
-class App extends Object with _$AppSerializerMixin {
+class App {
   @JsonKey(name: 'name')
   String name;
 

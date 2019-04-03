@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:open_git/manager/login_manager.dart';
 
 class HttpManager {
@@ -10,6 +11,7 @@ class HttpManager {
   static const _POST = "POST";
   static const _PUT = "PUT";
   static const _DELETE = "DELETE";
+  static const _PATCH = "patch";
 
   static doGet(url, Map<String, String> header, Function successCallback,
       Function errorCallback) {
@@ -22,26 +24,31 @@ class HttpManager {
         new Options(method: _PUT));
   }
 
-  static doDelete(url, Function successCallback, Function errorCallback) {
-    return _doRequest(url, null, null, successCallback, errorCallback,
+  static doDelete(url, params, Map<String, String> header,  Function successCallback, Function errorCallback) {
+    return _doRequest(url, params, header, successCallback, errorCallback,
         new Options(method: _DELETE));
   }
 
-  static doPost(url, params, Function successCallback, Function errorCallback) {
-    return _doRequest(url, params, null, successCallback, errorCallback,
+  static doPatch(url, params, Map<String, String> header, Function successCallback, Function errorCallback) {
+    return _doRequest(url, params, header, successCallback, errorCallback,
+        new Options(method: _PATCH));
+  }
+
+  static doPost(url, params, Map<String, String> header, Function successCallback, Function errorCallback) {
+    return _doRequest(url, params, header, successCallback, errorCallback,
         new Options(method: _POST));
   }
 
   static _doRequest(url, params, Map<String, String> header,
       Function successCallback, Function errorCallback, Options options) async {
-    print("[HttpRequest] url is " + url);
+    debugPrint("[HttpRequest] url is " + url);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       if (errorCallback != null) {
         errorCallback(HttpStatus.badGateway, "无网络");
       }
-      return;
+      return null;
     }
     //封装网络请求头
     Map<String, String> headers = _getHeaders(header);
@@ -74,13 +81,13 @@ class HttpManager {
       if (e.response != null) {
         response = e.response;
       } else {
-        print(e.message);
+        debugPrint(e.message);
       }
     }
 
     //处理返回结果
     if (response != null) {
-      print("[HttpRequest] response is " +
+      debugPrint("[HttpRequest] response is " +
           response.toString() +
           "@statusCode is " +
           response.statusCode.toString());
@@ -94,8 +101,9 @@ class HttpManager {
           errorCallback(response.statusCode, response.data["message"]);
         }
       }
+      return response.data;
     }
-    return;
+    return null;
   }
 
   static _getHeaders(Map<String, String> header) {

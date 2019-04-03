@@ -44,7 +44,7 @@ class ReposManager {
       Function successCallback, Function errorCallback) {
     String url = Api.getReposStar(reposOwner, reposName);
     if (isEnable) {
-      HttpManager.doDelete(url, successCallback, errorCallback);
+      HttpManager.doDelete(url, null, null, successCallback, errorCallback);
     } else {
       HttpManager.doPut(url, successCallback, errorCallback);
     }
@@ -54,7 +54,7 @@ class ReposManager {
       Function successCallback, Function errorCallback) {
     String url = Api.getReposWatcher(reposOwner, reposName);
     if (isEnable) {
-      HttpManager.doDelete(url, successCallback, errorCallback);
+      HttpManager.doDelete(url, null, null, successCallback, errorCallback);
     } else {
       HttpManager.doPut(url, successCallback, errorCallback);
     }

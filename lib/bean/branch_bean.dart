@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'branch_bean.g.dart';
 
 @JsonSerializable()
-class BranchBean extends Object with _$BranchBeanSerializerMixin {
+class BranchBean{
   @JsonKey(name: 'name')
   String name;
 
@@ -32,7 +32,7 @@ class BranchBean extends Object with _$BranchBeanSerializerMixin {
 }
 
 @JsonSerializable()
-class Commit extends Object with _$CommitSerializerMixin {
+class Commit extends Object {
   @JsonKey(name: 'sha')
   String sha;
 
@@ -49,7 +49,7 @@ class Commit extends Object with _$CommitSerializerMixin {
 }
 
 @JsonSerializable()
-class Protection extends Object with _$ProtectionSerializerMixin {
+class Protection extends Object {
   @JsonKey(name: 'enabled')
   bool enabled;
 
@@ -66,8 +66,7 @@ class Protection extends Object with _$ProtectionSerializerMixin {
 }
 
 @JsonSerializable()
-class Required_status_checks extends Object
-    with _$Required_status_checksSerializerMixin {
+class Required_status_checks {
   @JsonKey(name: 'enforcement_level')
   String enforcementLevel;
 

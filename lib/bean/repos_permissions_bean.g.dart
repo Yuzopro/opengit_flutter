@@ -7,14 +7,15 @@ part of 'repos_permissions_bean.dart';
 // **************************************************************************
 
 RepositoryPermissions _$RepositoryPermissionsFromJson(
-        Map<String, dynamic> json) =>
-    new RepositoryPermissions(
-        json['admin'] as bool, json['push'] as bool, json['pull'] as bool);
-
-abstract class _$RepositoryPermissionsSerializerMixin {
-  bool get admin;
-  bool get push;
-  bool get pull;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'admin': admin, 'push': push, 'pull': pull};
+    Map<String, dynamic> json) {
+  return RepositoryPermissions(
+      json['admin'] as bool, json['push'] as bool, json['pull'] as bool);
 }
+
+Map<String, dynamic> _$RepositoryPermissionsToJson(
+        RepositoryPermissions instance) =>
+    <String, dynamic>{
+      'admin': instance.admin,
+      'push': instance.push,
+      'pull': instance.pull
+    };

@@ -18,23 +18,25 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  dio: ^2.1.0
+  cupertino_icons: any
+  dio: any
   connectivity: ^0.3.2
-  json_annotation: ^2.0.0
-  shared_preferences: ^0.5.1+2
-  markdown: ^2.0.2
-  flutter_markdown: ^0.2.0
-  cached_network_image: ^0.7.0
-  flutter_webview_plugin: ^0.3.1
-  photo_view: ^0.2.2
-  flutter_spinkit: ^3.1.0
+  json_annotation: any
+  shared_preferences: ^0.4.3
+  markdown: any
+  flutter_markdown: any
+  cached_network_image: any
+  flutter_webview_plugin: any
+  photo_view: any
+  flutter_spinkit: any
+#  flutter_html_view: ^0.5.11
+#  zefyr: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.2.8
-  json_serializable: ^2.0.3
+  build_runner: any
+  json_serializable: any
 
 
 # For information on the generic Dart part of this file, see the
@@ -82,3 +84,11 @@ flutter:
   - image/ic_welcome.png
   - image/ic_branch.png
   - image/ic_default_head.png
+  - image/1f44d.png
+  - image/1f44e.png
+  - image/1f389.png
+  - image/1f440.png
+  - image/1f604.png
+  - image/1f615.png
+  - image/1f680.png
+  - image/2764.png

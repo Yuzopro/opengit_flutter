@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:open_git/bean/reaction_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 
 part 'issue_bean.g.dart';
@@ -31,7 +32,8 @@ class IssueBean {
   @JsonKey(name: "closed_by")
   UserBean closeBy;
 
-
+  @JsonKey(name: "reactions")
+  ReactionBean reaction;
 
   IssueBean(
     this.id,
@@ -49,13 +51,15 @@ class IssueBean {
     this.repoUrl,
     this.htmlUrl,
     this.closeBy,
+    this.reaction,
   );
 
-  factory IssueBean.fromJson(Map<String, dynamic> json) => _$IssueBeanFromJson(json);
+  factory IssueBean.fromJson(Map<String, dynamic> json) =>
+      _$IssueBeanFromJson(json);
 
   @override
   String toString() {
-    return 'IssueBean{number: $number, title: $title, commentNum: $commentNum, user: $user}';
+    return 'IssueBean{id: $id, user: $user, repoUrl: $repoUrl}';
   }
 
 }

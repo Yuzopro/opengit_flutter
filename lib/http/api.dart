@@ -112,6 +112,36 @@ class Api {
     return "${repoUrl}/issues/$issueNumber/comments?";
   }
 
+  //增加issue评论 post
+  static addIssueComment(repoUrl, issueNumber) {
+    return "${repoUrl}/issues/$issueNumber/comments";
+  }
+
+  //编辑评论 patch, delete
+  static editComment(repoUrl, commentId) {
+    return "${repoUrl}/issues/comments/$commentId";
+  }
+
+  //增加issue评论 post
+  static addCommentReactions(repoUrl, commentId) {
+    return "${repoUrl}/issues/comments/$commentId/reactions";
+  }
+
+  //查询问题评论的行为 get
+  static getCommentReactions(repoUrl, commentId, content) {
+    return "${repoUrl}/issues/comments/$commentId/reactions?content=$content";
+  }
+
+  //查询问题的行为 get
+  static getIssueReactions(repoUrl, commentId, content) {
+    return "${repoUrl}/issues/$commentId/reactions?content=$content";
+  }
+
+  //删除行为
+  static deleteReactions(reaction_id) {
+    return "${_BASE_URL}reactions/$reaction_id";
+  }
+
   //处理分页参数
   static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
     if (page != null) {

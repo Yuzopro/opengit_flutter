@@ -19,7 +19,8 @@ SourceFileBean _$SourceFileBeanFromJson(Map<String, dynamic> json) {
       json['type'] as String);
 }
 
-Map<String, dynamic> _$SourceFileBeanToJson(SourceFileBean instance) => <String, dynamic>{
+Map<String, dynamic> _$SourceFileBeanToJson(SourceFileBean instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'path': instance.path,
       'sha': instance.sha,

@@ -6,67 +6,59 @@ part of 'branch_bean.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BranchBean _$BranchBeanFromJson(Map<String, dynamic> json) => new BranchBean(
-    json['name'] as String,
-    json['commit'] == null
-        ? null
-        : new Commit.fromJson(json['commit'] as Map<String, dynamic>),
-    json['protected'] as bool,
-    json['protection'] == null
-        ? null
-        : new Protection.fromJson(json['protection'] as Map<String, dynamic>),
-    json['protection_url'] as String);
-
-abstract class _$BranchBeanSerializerMixin {
-  String get name;
-  Commit get commit;
-  bool get protected;
-  Protection get protection;
-  String get protectionUrl;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'name': name,
-        'commit': commit,
-        'protected': protected,
-        'protection': protection,
-        'protection_url': protectionUrl
-      };
+BranchBean _$BranchBeanFromJson(Map<String, dynamic> json) {
+  return BranchBean(
+      json['name'] as String,
+      json['commit'] == null
+          ? null
+          : Commit.fromJson(json['commit'] as Map<String, dynamic>),
+      json['protected'] as bool,
+      json['protection'] == null
+          ? null
+          : Protection.fromJson(json['protection'] as Map<String, dynamic>),
+      json['protection_url'] as String);
 }
 
-Commit _$CommitFromJson(Map<String, dynamic> json) =>
-    new Commit(json['sha'] as String, json['url'] as String);
+Map<String, dynamic> _$BranchBeanToJson(BranchBean instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'commit': instance.commit,
+      'protected': instance.protected,
+      'protection': instance.protection,
+      'protection_url': instance.protectionUrl
+    };
 
-abstract class _$CommitSerializerMixin {
-  String get sha;
-  String get url;
-  Map<String, dynamic> toJson() => <String, dynamic>{'sha': sha, 'url': url};
+Commit _$CommitFromJson(Map<String, dynamic> json) {
+  return Commit(json['sha'] as String, json['url'] as String);
 }
 
-Protection _$ProtectionFromJson(Map<String, dynamic> json) => new Protection(
-    json['enabled'] as bool,
-    json['required_status_checks'] == null
-        ? null
-        : new Required_status_checks.fromJson(
-            json['required_status_checks'] as Map<String, dynamic>));
+Map<String, dynamic> _$CommitToJson(Commit instance) =>
+    <String, dynamic>{'sha': instance.sha, 'url': instance.url};
 
-abstract class _$ProtectionSerializerMixin {
-  bool get enabled;
-  Required_status_checks get requiredStatusChecks;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'enabled': enabled,
-        'required_status_checks': requiredStatusChecks
-      };
+Protection _$ProtectionFromJson(Map<String, dynamic> json) {
+  return Protection(
+      json['enabled'] as bool,
+      json['required_status_checks'] == null
+          ? null
+          : Required_status_checks.fromJson(
+              json['required_status_checks'] as Map<String, dynamic>));
 }
+
+Map<String, dynamic> _$ProtectionToJson(Protection instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'required_status_checks': instance.requiredStatusChecks
+    };
 
 Required_status_checks _$Required_status_checksFromJson(
-        Map<String, dynamic> json) =>
-    new Required_status_checks(
-        json['enforcement_level'] as String, json['contexts'] as List);
-
-abstract class _$Required_status_checksSerializerMixin {
-  String get enforcementLevel;
-  List<dynamic> get contexts;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'enforcement_level': enforcementLevel,
-        'contexts': contexts
-      };
+    Map<String, dynamic> json) {
+  return Required_status_checks(
+      json['enforcement_level'] as String, json['contexts'] as List);
 }
+
+Map<String, dynamic> _$Required_status_checksToJson(
+        Required_status_checks instance) =>
+    <String, dynamic>{
+      'enforcement_level': instance.enforcementLevel,
+      'contexts': instance.contexts
+    };

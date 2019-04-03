@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_bean.g.dart';
 
 @JsonSerializable()
-class UserBean extends Object with _$UserBeanSerializerMixin {
+class UserBean {
   @JsonKey(name: 'login')
   String login;
 
@@ -152,12 +152,12 @@ class UserBean extends Object with _$UserBeanSerializerMixin {
 
   @override
   String toString() {
-    return 'UserBean{login: $login, id: $id, type: $type}';
+    return 'UserBean{login: $login, type: $type, siteAdmin: $siteAdmin}';
   }
 }
 
 @JsonSerializable()
-class Plan extends Object with _$PlanSerializerMixin {
+class Plan {
   @JsonKey(name: 'name')
   String name;
 
