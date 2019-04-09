@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/reaction_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 
@@ -35,31 +36,34 @@ class IssueBean {
   @JsonKey(name: "reactions")
   ReactionBean reaction;
 
+  @JsonKey(name: 'labels')
+  List<Labels> labels;
+
   IssueBean(
-    this.id,
-    this.number,
-    this.title,
-    this.state,
-    this.locked,
-    this.commentNum,
-    this.createdAt,
-    this.updatedAt,
-    this.closedAt,
-    this.body,
-    this.bodyHtml,
-    this.user,
-    this.repoUrl,
-    this.htmlUrl,
-    this.closeBy,
-    this.reaction,
-  );
+      this.id,
+      this.number,
+      this.title,
+      this.state,
+      this.locked,
+      this.commentNum,
+      this.createdAt,
+      this.updatedAt,
+      this.closedAt,
+      this.body,
+      this.bodyHtml,
+      this.user,
+      this.repoUrl,
+      this.htmlUrl,
+      this.closeBy,
+      this.reaction,
+      this.labels);
 
   factory IssueBean.fromJson(Map<String, dynamic> json) =>
       _$IssueBeanFromJson(json);
 
   @override
   String toString() {
-    return 'IssueBean{id: $id, user: $user, repoUrl: $repoUrl}';
+    return 'IssueBean{number: $number, title: $title, commentNum: $commentNum, body: $body, user: $user}';
   }
 
 }

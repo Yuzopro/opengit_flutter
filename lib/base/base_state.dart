@@ -58,7 +58,12 @@ abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
               title: new Text(title),
             ),
       body: buildBody(context),
+      floatingActionButton: buildFloatingActionButton(),
     );
+  }
+
+  Widget buildFloatingActionButton() {
+    return null;
   }
 
   List<Widget> getActions() {

@@ -18,7 +18,7 @@ class ReactionDetailBean extends Object {
   String content;
 
   @JsonKey(name: 'created_at')
-  String createdAt;
+  DateTime createdAt;
 
   ReactionDetailBean(
     this.id,

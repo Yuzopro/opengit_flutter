@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
+import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/delete_reaction_contract.dart';
+import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/presenter/delete_reaction_presenter.dart';
+import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
@@ -37,14 +40,31 @@ class _DeleteReactionState extends PullRefreshListState<
 
   @override
   Widget getItemRow(ReactionDetailBean item) {
-    print(item);
+    UserBean userBean = LoginManager.instance.getUserBean();
+    bool isYou = false;
+    if (item != null &&
+        userBean != null &&
+        item.user != null &&
+        userBean.login == item.user.login) {
+      isYou = true;
+    }
+
     return new ListTile(
       leading: ImageUtil.getImageWidget(item.user.avatarUrl, 36.0),
       title: Text(item.user.login),
-      subtitle: Text(item.createdAt),
-      onTap: () {
-        _deleteReactions(item);
-      },
+      subtitle: Text(
+          DateUtil.getNewsTimeStr(item.createdAt) + (isYou ? "(it's you)" : "")),
+      trailing: isYou
+          ? InkWell(
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+              onTap: () {
+                _deleteReactions(item);
+              },
+            )
+          : null,
     );
   }
 

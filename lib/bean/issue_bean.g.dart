@@ -35,7 +35,11 @@ IssueBean _$IssueBeanFromJson(Map<String, dynamic> json) {
           : UserBean.fromJson(json['closed_by'] as Map<String, dynamic>),
       json['reactions'] == null
           ? null
-          : ReactionBean.fromJson(json['reactions'] as Map<String, dynamic>));
+          : ReactionBean.fromJson(json['reactions'] as Map<String, dynamic>),
+      (json['labels'] as List)
+          ?.map((e) =>
+              e == null ? null : Labels.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
 
 Map<String, dynamic> _$IssueBeanToJson(IssueBean instance) => <String, dynamic>{
@@ -54,5 +58,6 @@ Map<String, dynamic> _$IssueBeanToJson(IssueBean instance) => <String, dynamic>{
       'repository_url': instance.repoUrl,
       'html_url': instance.htmlUrl,
       'closed_by': instance.closeBy,
-      'reactions': instance.reaction
+      'reactions': instance.reaction,
+      'labels': instance.labels
     };

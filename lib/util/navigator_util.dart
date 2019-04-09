@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:open_git/page/app_info_page.dart';
 import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/delete_reaction_page.dart';
+import 'package:open_git/page/edit_issue_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
@@ -147,14 +148,20 @@ class NavigatorUtil {
   }
 
   //评论编辑页
-  static goMarkdownEditor(BuildContext context, issueBean, repoUrl) async {
+  static goMarkdownEditor(BuildContext context, issueBean, repoUrl, isAdd) async {
     return Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new MarkdownEditorPage(issueBean, repoUrl)));
+        new CupertinoPageRoute(builder: (context) => new MarkdownEditorPage(issueBean, repoUrl, isAdd)));
   }
 
   //评论编辑页
   static goDeleteReaction(BuildContext context, issueBean, repoUrl, content, isIssue) async {
     return Navigator.push(context,
         new CupertinoPageRoute(builder: (context) => new DeleteReactionPage(issueBean, repoUrl, content, isIssue)));
+  }
+
+  //问题编辑页
+  static goEditIssue(BuildContext context, issueBean, repoUrl) {
+    return Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new EditIssuePage(issueBean: issueBean, repoUrl: repoUrl,)));
   }
 }

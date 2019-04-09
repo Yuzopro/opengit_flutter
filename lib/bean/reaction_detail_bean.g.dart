@@ -14,7 +14,9 @@ ReactionDetailBean _$ReactionDetailBeanFromJson(Map<String, dynamic> json) {
           ? null
           : UserBean.fromJson(json['user'] as Map<String, dynamic>),
       json['content'] as String,
-      json['created_at'] as String);
+      json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String));
 }
 
 Map<String, dynamic> _$ReactionDetailBeanToJson(ReactionDetailBean instance) =>
@@ -23,5 +25,5 @@ Map<String, dynamic> _$ReactionDetailBeanToJson(ReactionDetailBean instance) =>
       'node_id': instance.nodeId,
       'user': instance.user,
       'content': instance.content,
-      'created_at': instance.createdAt
+      'created_at': instance.createdAt?.toIso8601String()
     };

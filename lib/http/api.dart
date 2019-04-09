@@ -74,7 +74,7 @@ class Api {
   static getIssue(q, state, sort, order, userName) {
     return "${_BASE_URL}search/issues?q=$q:$userName+state:$state&sort=$sort&order=$order";
   }
-  
+
   //获取语言类型star列表
   static getLanguages(language) {
     return "${_BASE_URL}search/repositories?q=language:$language&sort=stars";
@@ -99,7 +99,8 @@ class Api {
 
   //仓库路径下的内容 get
   static reposDataDir(reposOwner, repos, path, [branch = 'master']) {
-    return "${_BASE_URL}repos/$reposOwner/$repos/contents$path" + ((branch == null) ? "" : ("?ref=" + branch));
+    return "${_BASE_URL}repos/$reposOwner/$repos/contents$path" +
+        ((branch == null) ? "" : ("?ref=" + branch));
   }
 
   //搜索
@@ -122,9 +123,14 @@ class Api {
     return "${repoUrl}/issues/comments/$commentId";
   }
 
-  //增加issue评论 post
+  //增加issue评论的行为 post
   static addCommentReactions(repoUrl, commentId) {
     return "${repoUrl}/issues/comments/$commentId/reactions";
+  }
+
+  //增加问题的行为 get
+  static addIssueReactions(repoUrl, commentId) {
+    return "${repoUrl}/issues/$commentId/reactions";
   }
 
   //查询问题评论的行为 get
@@ -140,6 +146,11 @@ class Api {
   //删除行为
   static deleteReactions(reaction_id) {
     return "${_BASE_URL}reactions/$reaction_id";
+  }
+
+  //获取单个问题信息
+  static getSingleIssue(repoUrl, number) {
+    return "${repoUrl}/issues/$number";
   }
 
   //处理分页参数

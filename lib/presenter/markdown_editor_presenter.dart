@@ -22,4 +22,21 @@ class MarkdownEditorPresenter extends IMarkdownEditorPresenter {
     });
   }
 
+  @override
+  addIssueComment(repoUrl, issueNumber, comment) {
+    if (view != null) {
+      view.showLoading();
+    }
+    return IssueManager.instance.addIssueComment(
+        repoUrl, issueNumber, comment, (data) {
+      if (view != null) {
+        view.hideLoading();
+      }
+    }, (code, msg) {
+      if (view != null) {
+        view.hideLoading();
+      }
+    });
+  }
+
 }

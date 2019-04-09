@@ -33,6 +33,16 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
     return true;
   }
 
+  void deleteItem(T item) {
+    if (_list.contains(item)) {
+      _list.remove(item);
+    }
+  }
+
+  void addItem(T item) {
+    _list.add(item);
+  }
+
   bool isFirstLoading() {
     return true;
   }
@@ -44,8 +54,6 @@ abstract class PullRefreshListState<T, P extends BasePresenter<V>,
   @override
   void initState() {
     super.initState();
-
-    print(title);
 
     _scrollController.addListener(() {
       var position = _scrollController.position;

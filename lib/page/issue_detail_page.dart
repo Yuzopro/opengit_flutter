@@ -9,13 +9,6 @@ import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
-/**
- * 1: 问题单网络数据请求；
- * 2：删除评论处理；
- * 3：编辑评论权限处理；
- * 4：编辑行为权限处理；
- * 5：行为添加逻辑处理
- */
 class IssueDetailPage extends StatefulWidget {
   final IssueBean issueBean;
 
@@ -33,6 +26,7 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
   String _repoUrl = "";
 
   IssueBean _editIssueBean;
+  IssueBean _signalIssueBean;
 
   _IssueDetailState(this.issueBean);
 
@@ -70,6 +64,9 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
 
   @override
   Widget getHeader() {
+    if (_signalIssueBean == null) {
+      return new Container();
+    }
     return new Column(
       children: <Widget>[
         Padding(
@@ -78,11 +75,11 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
             children: <Widget>[
               Expanded(
                 child: InkWell(
-                  child: Text(issueBean.state),
+                  child: Text(_signalIssueBean.state),
                 ),
                 flex: 1,
               ),
-              Text("#${issueBean.number}"),
+              Text("#${_signalIssueBean.number}"),
             ],
           ),
         ),
@@ -92,15 +89,33 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
         Padding(
           padding: EdgeInsets.all(12.0),
           child: Text(
-            issueBean.title,
+            _signalIssueBean.title,
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
         Divider(
           height: 0.3,
         ),
-        _getItemRow(issueBean, true),
+        _getItemRow(_signalIssueBean, true),
       ],
+    );
+  }
+
+  @override
+  Widget buildFloatingActionButton() {
+    if (_signalIssueBean == null) {
+      return null;
+    }
+    return new FloatingActionButton(
+      onPressed: () {
+        _enterCommentEditor(_signalIssueBean, true);
+      },
+      backgroundColor: Colors.black,
+      tooltip: 'add comment',
+      child: Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
     );
   }
 
@@ -118,7 +133,7 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
 
     Widget line = new Divider(height: 0.3);
 
-    Widget userWidget = _getUserWidget(item);
+    Widget userWidget = _getUserWidget(item, isIssue);
     listWidget.add(userWidget);
     listWidget.add(line);
 
@@ -174,7 +189,44 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
     }
   }
 
-  Widget _getUserWidget(IssueBean item) {
+  @override
+  void onEditSuccess(IssueBean issueBean) {
+    if (issueBean != null) {
+      setState(() {
+        _editIssueBean = issueBean;
+      });
+    }
+  }
+
+  void onAddSuccess(IssueBean issueBean) {
+    print(issueBean);
+    if (issueBean != null) {
+      setState(() {
+        addItem(issueBean);
+      });
+    }
+  }
+
+  @override
+  void onDeleteSuccess(IssueBean issueBean) {
+    if (issueBean != null) {
+      setState(() {
+        deleteItem(issueBean);
+      });
+    }
+  }
+
+  @override
+  void onGetSingleIssueSuccess(IssueBean issueBean) {
+    if (issueBean != null) {
+      print(issueBean);
+      setState(() {
+        _signalIssueBean = issueBean;
+      });
+    }
+  }
+
+  Widget _getUserWidget(IssueBean item, isIssue) {
     List<Widget> userList = new List();
     userList.add(ImageUtil.getImageWidget(item.user.avatarUrl, 36.0));
     userList.add(Expanded(
@@ -197,16 +249,32 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
           Icons.sentiment_satisfied,
           color: Colors.grey,
         ),
-        _reactionList));
+        _reactionList,
+        isIssue));
 
-    if (presenter != null && presenter.isEditAndDeleteEnable(item)) {
-      userList.add(_getCommentMenu(
-          item,
-          Icon(
-            Icons.more_horiz,
-            color: Colors.grey,
-          ),
-          _commentList));
+    if (presenter != null &&
+        presenter.isEditAndDeleteEnable(_signalIssueBean, item)) {
+      if (isIssue) {
+        userList.add(Padding(
+          padding: EdgeInsets.only(left: 5.0),
+          child: InkWell(
+              child: Icon(
+                Icons.edit,
+                color: Colors.grey,
+              ),
+              onTap: () {
+                _enterEditIssue();
+              }),
+        ));
+      } else {
+        userList.add(_getCommentMenu(
+            item,
+            Icon(
+              Icons.more_horiz,
+              color: Colors.grey,
+            ),
+            _commentList));
+      }
     }
 
     return new Container(
@@ -258,13 +326,14 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
     return null;
   }
 
-  Widget _getReactionMenu(IssueBean item, Widget child, List<_Reaction> list) {
+  Widget _getReactionMenu(
+      IssueBean item, Widget child, List<_Reaction> list, isIssue) {
     return new Padding(
       padding: EdgeInsets.only(left: 5.0),
       child: new PopupMenuButton<String>(
         onSelected: (text) {
           if (presenter != null) {
-            presenter.editReactions(item, _repoUrl, text);
+            presenter.editReactions(item, _repoUrl, text, isIssue);
           }
         },
         child: child,
@@ -288,7 +357,13 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
       padding: EdgeInsets.only(left: 5.0),
       child: new PopupMenuButton<String>(
         onSelected: (text) {
-          _enterCommentEditor(item);
+          if (text == _commentList[0]) {
+            _enterCommentEditor(item, false);
+          } else {
+            if (presenter != null) {
+              presenter.deleteIssueComment(item, _repoUrl, item.id);
+            }
+          }
         },
         child: child,
         itemBuilder: (BuildContext context) => list
@@ -393,10 +468,14 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
       };
   }
 
-  _enterCommentEditor(IssueBean item) async {
+  _enterCommentEditor(IssueBean item, bool isAdd) async {
     final result =
-        await NavigatorUtil.goMarkdownEditor(context, item, _repoUrl);
-    onEditSuccess(result);
+        await NavigatorUtil.goMarkdownEditor(context, item, _repoUrl, isAdd);
+    if (isAdd) {
+      onAddSuccess(result);
+    } else {
+      onEditSuccess(result);
+    }
   }
 
   _enterDeleteReaction(IssueBean item, content, isIssue) async {
@@ -405,11 +484,12 @@ class _IssueDetailState extends PullRefreshListState<IssueBean,
     onEditSuccess(result);
   }
 
-  @override
-  void onEditSuccess(IssueBean issueBean) {
-    if (issueBean != null) {
+  _enterEditIssue() async {
+    final result =
+        await NavigatorUtil.goEditIssue(context, _signalIssueBean, _repoUrl);
+    if (result != null) {
       setState(() {
-        _editIssueBean = issueBean;
+        _signalIssueBean = result;
       });
     }
   }

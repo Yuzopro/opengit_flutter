@@ -47,15 +47,14 @@ class IssueManager {
   addIssueComment(repoUrl, issueNumber, comment, Function successCallback,
       Function errorCallback) {
     String url = Api.addIssueComment(repoUrl, issueNumber);
-    HttpManager.doPost(
+    return HttpManager.doPost(
         url, {"body": comment}, null, successCallback, errorCallback);
   }
 
-  deleteIssueComment(repoUrl, issueNumber, comment, Function successCallback,
-      Function errorCallback) {
-    String url = Api.editComment(repoUrl, issueNumber);
-    HttpManager.doDelete(
-        url, {"body": comment}, null, successCallback, errorCallback);
+  deleteIssueComment(
+      repoUrl, comment_id, Function successCallback, Function errorCallback) {
+    String url = Api.editComment(repoUrl, comment_id);
+    HttpManager.doDelete(url, null, null, successCallback, errorCallback);
   }
 
   editIssueComment(repoUrl, issueNumber, comment, Function successCallback,
@@ -72,21 +71,24 @@ class IssueManager {
         errorCallback);
   }
 
-  editReactions(repoUrl, issueNumber, comment, Function successCallback,
-      Function errorCallback) {
-    String url = Api.addCommentReactions(repoUrl, issueNumber);
+  editReactions(repoUrl, issueNumber, comment, isIssue,
+      Function successCallback, Function errorCallback) {
+    String url;
+    if (isIssue) {
+      url = Api.addIssueReactions(repoUrl, issueNumber);
+    } else {
+      url = Api.addCommentReactions(repoUrl, issueNumber);
+    }
     HttpManager.doPost(
         url,
         {"content": comment},
-        {
-          "Accept":
-              'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-        },
+        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'},
         successCallback,
         errorCallback);
   }
 
-  deleteReactions(reaction_id, Function successCallback, Function errorCallback) {
+  deleteReactions(
+      reaction_id, Function successCallback, Function errorCallback) {
     String url = Api.deleteReactions(reaction_id);
     return HttpManager.doDelete(
         url,
@@ -111,10 +113,28 @@ class IssueManager {
     }
     return HttpManager.doGet(
         url,
-        {
-          "Accept":
-              'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-        },
+        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'},
+        successCallback,
+        errorCallback);
+  }
+
+  getSingleIssue(
+      repoUrl, number, Function successCallback, Function errorCallback) {
+    String url = Api.getSingleIssue(repoUrl, number);
+    return HttpManager.doGet(
+        url,
+        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'},
+        successCallback,
+        errorCallback);
+  }
+
+  editIssue(repoUrl, number, title, body, Function successCallback,
+      Function errorCallback) {
+    String url = Api.getSingleIssue(repoUrl, number);
+    return HttpManager.doPatch(
+        url,
+        {"body": body, "title": title},
+        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'},
         successCallback,
         errorCallback);
   }
