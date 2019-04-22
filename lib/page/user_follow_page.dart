@@ -32,7 +32,6 @@ class _UserFollowState extends PullRefreshListState<UserFollowPage, UserBean,
   void initState() {
     super.initState();
     if (userBean != null) {
-      print(userBean.toString());
       _userName = userBean.login ?? "";
     }
   }

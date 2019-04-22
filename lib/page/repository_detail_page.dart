@@ -106,7 +106,6 @@ class _RepositoryDetailPageState extends BaseState<
   @override
   void setBranches(List<BranchBean> list) {
     _branchList = list;
-    print(_isEmptyBranches());
     setState(() {});
   }
 

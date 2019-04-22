@@ -7,6 +7,7 @@ import 'package:open_git/presenter/event_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class EventPage extends StatefulWidget {
@@ -88,30 +89,43 @@ class _EventPageState extends PullRefreshListState<
       centerWidgets.add(Text(desc, style: TextStyle(color: Colors.black87)));
     }
 
-    return new Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Row(
-          children: <Widget>[
-            //头像
-            ClipOval(
-              child: ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: centerWidgets,
-                ),
+    return new InkWell(
+      child: new Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Row(
+            children: <Widget>[
+              //头像
+              ClipOval(
+                child:
+                    ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
               ),
-              flex: 1,
-            ),
-            Text(
-              DateUtil.getNewsTimeStr(item.createdAt),
-              style: TextStyle(color: Colors.grey, fontSize: 12.0),
-            ),
-          ],
-        ));
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: centerWidgets,
+                  ),
+                ),
+                flex: 1,
+              ),
+              Text(
+                DateUtil.getNewsTimeStr(item.createdAt),
+                style: TextStyle(color: Colors.grey, fontSize: 12.0),
+              ),
+            ],
+          )),
+      onTap: () {
+        if (item.payload != null && item.payload.issue != null) {
+          NavigatorUtil.goIssueDetail(context, item.payload.issue);
+        } else if (item.repo != null && item.repo.name != null) {
+          List<String> repo = item.repo.name.split("/");
+          if (repo.length > 1) {
+            NavigatorUtil.goReposDetail(context, repo[0], repo[1], true);
+          }
+        }
+      },
+    );
   }
 }

@@ -199,7 +199,6 @@ class _IssueDetailState extends PullRefreshListState<IssueDetailPage, IssueBean,
   }
 
   void onAddSuccess(IssueBean issueBean) {
-    print(issueBean);
     if (issueBean != null) {
       setState(() {
         addItem(issueBean);
@@ -219,7 +218,6 @@ class _IssueDetailState extends PullRefreshListState<IssueDetailPage, IssueBean,
   @override
   void onGetSingleIssueSuccess(IssueBean issueBean) {
     if (issueBean != null) {
-      print(issueBean);
       setState(() {
         _signalIssueBean = issueBean;
       });
@@ -464,7 +462,6 @@ class _IssueDetailState extends PullRefreshListState<IssueDetailPage, IssueBean,
   TapGestureRecognizer _recognizer(String url) {
     return new TapGestureRecognizer()
       ..onTap = () {
-        print(url);
       };
   }
 

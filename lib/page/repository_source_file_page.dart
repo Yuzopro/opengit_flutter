@@ -64,7 +64,6 @@ class _RepositorySourceFilePage extends PullRefreshListState<
 
   @override
   Widget getItemRow(SourceFileBean item) {
-    print(item);
     return ListTile(
       leading: Icon(item.type == "file" ? Icons.attach_file : Icons.folder),
       title: Text(item.name),
