@@ -16,9 +16,10 @@ class MarkdownEditorPage extends StatefulWidget {
       _MarkdownEditorState(issueBean, repoUrl, isAdd);
 }
 
-class _MarkdownEditorState
-    extends BaseState<MarkdownEditorPresenter, IMarkdownEditorView>
-    implements IMarkdownEditorView {
+class _MarkdownEditorState extends BaseState<
+    MarkdownEditorPage,
+    MarkdownEditorPresenter,
+    IMarkdownEditorView> implements IMarkdownEditorView {
   final IssueBean issueBean;
   final String repoUrl;
   final bool isAdd;
@@ -33,8 +34,8 @@ class _MarkdownEditorState
   @override
   void initData() {
     super.initData();
-    _controller =
-        TextEditingController.fromValue(TextEditingValue(text: isAdd ? "" : issueBean.body));
+    _controller = TextEditingController.fromValue(
+        TextEditingValue(text: isAdd ? "" : issueBean.body));
     _controller.addListener(() {
       if (_controller.text.toString() == (isAdd ? "" : issueBean.body)) {
         _isEnable = false;
@@ -96,7 +97,7 @@ class _MarkdownEditorState
 
   _editIssueComment() async {
     if (presenter != null) {
-      var result = null;
+      IssueBean result = null;
       if (!isAdd) {
         result = await presenter.editIssueComment(
             repoUrl, issueBean.id, _controller.text.toString());
@@ -105,9 +106,7 @@ class _MarkdownEditorState
             repoUrl, issueBean.number, _controller.text.toString());
       }
       if (result != null) {
-        IssueBean issueBean = IssueBean.fromJson(result);
-        print(issueBean);
-        Navigator.pop(context, issueBean);
+        Navigator.pop(context, result);
       }
     }
   }

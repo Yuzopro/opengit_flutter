@@ -24,9 +24,10 @@ class RepositoryDetailPage extends StatefulWidget {
   }
 }
 
-class _RepositoryDetailPageState
-    extends BaseState<RepositoryDetailPresenter, IRepositoryDetailView>
-    implements IRepositoryDetailView {
+class _RepositoryDetailPageState extends BaseState<
+    RepositoryDetailPage,
+    RepositoryDetailPresenter,
+    IRepositoryDetailView> implements IRepositoryDetailView {
   final String reposOwner;
   final String reposName;
   final bool isJumpTrending;

@@ -6,9 +6,9 @@ import 'package:open_git/base/base_state.dart';
 import 'package:open_git/base/i_base_pull_list_view.dart';
 import 'package:open_git/common/config.dart';
 
-abstract class PullRefreshListState<T, P extends BasePresenter<V>,
-        V extends IBasePullListView> extends BaseState<P, V>
-    implements IBasePullListView<T> {
+abstract class PullRefreshListState<R extends StatefulWidget, T,
+        P extends BasePresenter<V>, V extends IBasePullListView>
+    extends BaseState<R, P, V> implements IBasePullListView<T> {
   List<T> _list = [];
 
   int page = 1;

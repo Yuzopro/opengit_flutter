@@ -17,7 +17,8 @@ class EditIssuePage extends StatefulWidget {
   }
 }
 
-class _EditIssueState extends BaseState<EditIssuePresenter, IEditIssueView>
+class _EditIssueState
+    extends BaseState<EditIssuePage, EditIssuePresenter, IEditIssueView>
     implements IEditIssueView {
   TextEditingController _titleController;
   TextEditingController _bodyController;
@@ -120,8 +121,7 @@ class _EditIssueState extends BaseState<EditIssuePresenter, IEditIssueView>
       final result = await presenter.editIssue(repoUrl, issueBean.number,
           _titleController.text.toString(), _bodyController.text.toString());
       if (result != null) {
-        IssueBean issueBean = IssueBean.fromJson(result);
-        Navigator.pop(context, issueBean);
+        Navigator.pop(context, result);
       }
     }
   }

@@ -409,7 +409,7 @@ class _IssuesState extends _PageState<IssueBean, SearchIssuePresenter> {
 }
 
 abstract class _PageState<T, P extends SearchPresenter>
-    extends PullRefreshListState<T, P, IBasePullListView>
+    extends PullRefreshListState<_Page, T, P, IBasePullListView>
     with AutomaticKeepAliveClientMixin {
   final String since;
 

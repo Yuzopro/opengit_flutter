@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
   }
 }
 
-class _LoginPageState extends BaseState<LoginPresenter, ILoginView>
+class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
     implements ILoginView {
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();

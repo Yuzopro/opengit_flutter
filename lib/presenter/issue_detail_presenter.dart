@@ -8,34 +8,35 @@ import 'package:open_git/manager/login_manager.dart';
 class IssueDetailPresenter extends IIssueDetailPresenter {
   @override
   getSingleIssue(repoUrl, number) {
-    return IssueManager.instance.getSingleIssue(repoUrl, number, (data) {
-//      if (data != null && view != null) {
-//        view.onGetSingleIssueSuccess(IssueBean.fromJson(data));
-//      }
-    }, (code, msg) {});
+    return IssueManager.instance.getSingleIssue(repoUrl, number);
   }
 
   @override
   getIssueComment(repoUrl, issueNumber, page, isFromMore) async {
     IssueBean issueBean;
     if (!isFromMore) {
-      var result = await getSingleIssue(repoUrl, issueNumber);
-      issueBean = IssueBean.fromJson(result);
+      issueBean = await getSingleIssue(repoUrl, issueNumber);
     }
-    return IssueManager.instance.getIssueComment(repoUrl, issueNumber, page,
-        (data) {
-      if (data != null && data.length > 0) {
-        List<IssueBean> list = new List();
-        int length = data.length;
-        for (int i = 0; i < length; i++) {
-          list.add(IssueBean.fromJson(data[i]));
-        }
-        if (view != null) {
-          view.onGetSingleIssueSuccess(issueBean);
-          view.setList(list, isFromMore);
-        }
-      }
-    }, (code, msg) {});
+//    return IssueManager.instance.getIssueComment(repoUrl, issueNumber, page,
+//        (data) {
+//      if (data != null && data.length > 0) {
+//        List<IssueBean> list = new List();
+//        int length = data.length;
+//        for (int i = 0; i < length; i++) {
+//          list.add(IssueBean.fromJson(data[i]));
+//        }
+//        if (view != null) {
+//          view.onGetSingleIssueSuccess(issueBean);
+//          view.setList(list, isFromMore);
+//        }
+//      }
+//    }, (code, msg) {});
+    final response =
+        await IssueManager.instance.getIssueComment(repoUrl, issueNumber, page);
+    if (response != null && view != null) {
+      view.onGetSingleIssueSuccess(issueBean);
+      view.setList(response, isFromMore);
+    }
   }
 
   @override
@@ -47,16 +48,21 @@ class IssueDetailPresenter extends IIssueDetailPresenter {
 
   @override
   String getRepoAuthorName(String repoUrl) {
-    return (repoUrl.isNotEmpty && repoUrl.contains("repos/")) ?
-    repoUrl.substring(repoUrl.lastIndexOf("repos/") + 6, repoUrl.lastIndexOf("/")) : null;
+    return (repoUrl.isNotEmpty && repoUrl.contains("repos/"))
+        ? repoUrl.substring(
+            repoUrl.lastIndexOf("repos/") + 6, repoUrl.lastIndexOf("/"))
+        : null;
   }
 
   @override
-  editReactions(IssueBean item, repoUrl, comment, isIssue) {
+  editReactions(IssueBean item, repoUrl, comment, isIssue) async {
     if (view != null) {
       view.showLoading();
     }
-    _queryIssueCommentReaction(item, repoUrl, comment, isIssue);
+    await _queryIssueCommentReaction(item, repoUrl, comment, isIssue);
+    if (view != null) {
+      view.hideLoading();
+    }
   }
 
   @override
@@ -83,95 +89,111 @@ class IssueDetailPresenter extends IIssueDetailPresenter {
     return false;
   }
 
-  void _queryIssueCommentReaction(
-      IssueBean issueBean, repoUrl, comment, isIssue) {
+  _queryIssueCommentReaction(
+      IssueBean issueBean, repoUrl, comment, isIssue) async {
     int id;
     if (isIssue) {
       id = issueBean.number;
     } else {
       id = issueBean.id;
     }
-    IssueManager.instance.getCommentReactions(repoUrl, id, comment, 1, isIssue,
-        (data) {
-      if (data != null) {
-        int length = data.length;
-        ReactionDetailBean findReaction = null;
-        UserBean userBean = LoginManager.instance.getUserBean();
-        for (int i = 0; i < length; i++) {
-          ReactionDetailBean reactionDetailBean =
-              ReactionDetailBean.fromJson(data[i]);
-          if (reactionDetailBean != null &&
-              reactionDetailBean.content == comment &&
-              userBean != null &&
-              reactionDetailBean.user != null &&
-              userBean.login == reactionDetailBean.user.login) {
-            findReaction = reactionDetailBean;
-            break;
-          }
-        }
-        if (findReaction != null) {
-          _deleteIssueCommentReaction(
-              issueBean, findReaction, comment, isIssue);
-        } else {
-          _createIssueCommentReaction(issueBean, repoUrl, comment, isIssue);
+    final response = await IssueManager.instance
+        .getCommentReactions(repoUrl, id, comment, 1, isIssue);
+    ReactionDetailBean findReaction = null;
+    if (response != null) {
+      UserBean userBean = LoginManager.instance.getUserBean();
+      for (int i = 0; i < response.length; i++) {
+        ReactionDetailBean reactionDetailBean = response[i];
+        if (reactionDetailBean != null &&
+            reactionDetailBean.content == comment &&
+            userBean != null &&
+            reactionDetailBean.user != null &&
+            userBean.login == reactionDetailBean.user.login) {
+          findReaction = reactionDetailBean;
+          break;
         }
       }
-    }, (code, msg) {
-      if (view != null) {
-        view.hideLoading();
-      }
-    });
+    }
+    if (findReaction != null) {
+      return await _deleteIssueCommentReaction(
+          issueBean, findReaction, comment);
+    } else {
+      return await _createIssueCommentReaction(
+          issueBean, repoUrl, comment, isIssue);
+    }
   }
 
-  void _createIssueCommentReaction(IssueBean item, repoUrl, comment, isIssue) {
+  _createIssueCommentReaction(IssueBean item, repoUrl, comment, isIssue) async {
     int id;
     if (isIssue) {
       id = item.number;
     } else {
       id = item.id;
     }
-    IssueManager.instance.editReactions(repoUrl, id, comment, isIssue, (data) {
+    final response = await IssueManager.instance
+        .editReactions(repoUrl, id, comment, isIssue);
+    if (response != null && response.result) {
       if (view != null) {
         view.onEditSuccess(_addIssueBean(item, comment));
-        view.hideLoading();
       }
-    }, (code, msg) {
-      if (view != null) {
-        view.hideLoading();
-      }
-    });
+    }
+    if (view != null) {
+      view.hideLoading();
+    }
+    return response;
   }
 
-  void _deleteIssueCommentReaction(
-      IssueBean issueBean, ReactionDetailBean item, content, isIssue) {
-    IssueManager.instance.deleteReactions(item.id, (data) {
+  _deleteIssueCommentReaction(
+      IssueBean issueBean, ReactionDetailBean item, content) async {
+//    IssueManager.instance.deleteReactions(item.id, (data) {
+//      if (view != null) {
+//        view.onEditSuccess(_subtractionIssueBean(issueBean, content));
+//        view.hideLoading();
+//      }
+//    }, (code, msg) {
+//      if (view != null) {
+//        view.hideLoading();
+//      }
+//    });
+    final response = await IssueManager.instance.deleteReactions(item.id);
+    if (response != null && response.result) {
       if (view != null) {
         view.onEditSuccess(_subtractionIssueBean(issueBean, content));
-        view.hideLoading();
       }
-    }, (code, msg) {
-      if (view != null) {
-        view.hideLoading();
-      }
-    });
+    }
+    if (view != null) {
+      view.hideLoading();
+    }
+    return response;
   }
 
   @override
-  deleteIssueComment(IssueBean issueBean, repoUrl, comment_id) {
+  deleteIssueComment(IssueBean issueBean, repoUrl, comment_id) async {
     if (view != null) {
       view.showLoading();
     }
-    return IssueManager.instance.deleteIssueComment(repoUrl, comment_id,
-        (data) {
+//    return IssueManager.instance.deleteIssueComment(repoUrl, comment_id,
+//        (data) {
+//      if (view != null) {
+//        view.onDeleteSuccess(issueBean);
+//        view.hideLoading();
+//      }
+//    }, (code, msg) {
+//      if (view != null) {
+//        view.hideLoading();
+//      }
+//    });
+    final response =
+        await IssueManager.instance.deleteIssueComment(repoUrl, comment_id);
+    if (response != null && response.result) {
       if (view != null) {
         view.onDeleteSuccess(issueBean);
-        view.hideLoading();
       }
-    }, (code, msg) {
-      if (view != null) {
-        view.hideLoading();
-      }
-    });
+    }
+    if (view != null) {
+      view.hideLoading();
+    }
+    return response;
   }
 
   IssueBean _subtractionIssueBean(IssueBean issueBean, String comment) {

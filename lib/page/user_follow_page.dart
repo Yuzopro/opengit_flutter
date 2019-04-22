@@ -17,8 +17,8 @@ class UserFollowPage extends StatefulWidget {
   }
 }
 
-class _UserFollowState
-    extends PullRefreshListState<UserBean, UserFollowPresenter, IUserFollowView>
+class _UserFollowState extends PullRefreshListState<UserFollowPage, UserBean,
+        UserFollowPresenter, IUserFollowView>
     with AutomaticKeepAliveClientMixin
     implements IUserFollowView {
   bool isFollower;

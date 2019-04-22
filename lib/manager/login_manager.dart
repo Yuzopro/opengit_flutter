@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/http/api.dart';
@@ -67,8 +68,7 @@ class LoginManager {
     return auth;
   }
 
-  login(String userName, String password, Function successCallback,
-      Function errorCallback) {
+  login(String userName, String password) async {
     _token = Credentials.basic(userName, password);
 
     Map requestParams = {
@@ -77,11 +77,31 @@ class LoginManager {
       "client_id": "1d1d0f0e84625e416efb",
       "client_secret": "d8cb03c0f6dc85ebf610077148b0471aa66f1b42"
     };
-    HttpManager.doPost(
-        Api.authorizations(), requestParams, null, successCallback, errorCallback);
+    final response = await HttpManager.doPost(Api.authorizations(), requestParams, null);
+    if (response != null && response.data != null) {
+      LoginBean loginBean = LoginBean.fromJson(response.data);
+      if (loginBean != null) {
+        String token = loginBean.token;
+        LoginManager.instance.setToken(token);
+        SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, token);
+
+        //获取自己的用户信息
+        return await getMyUserInfo();
+      }
+    }
+    return null;
   }
 
-  getMyUserInfo(Function successCallback, Function errorCallback) {
-    HttpManager.doGet(Api.getMyUserInfo(), null, successCallback, errorCallback);
+  getMyUserInfo() async {
+    final response = await HttpManager.doGet(Api.getMyUserInfo(), null);
+    if (response != null && response.data != null) {
+      //缓存用户信息
+      SharedPrfUtils.saveString(
+          SharedPrfKey.SP_KEY_USER_INFO, jsonEncode(response.data));
+      LoginManager.instance.setUserBean(response.data);
+
+      return UserBean.fromJson(response.data);
+    }
+    return null;
   }
 }

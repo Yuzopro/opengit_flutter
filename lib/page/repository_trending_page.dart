@@ -86,8 +86,8 @@ class _Page extends StatefulWidget {
   }
 }
 
-class _PageState
-    extends BaseState<RepositoryTrendingPresenter, IRepositoryTrendingView>
+class _PageState extends BaseState<_Page, RepositoryTrendingPresenter,
+        IRepositoryTrendingView>
     with AutomaticKeepAliveClientMixin
     implements IRepositoryTrendingView {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =

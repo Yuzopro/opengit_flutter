@@ -22,7 +22,7 @@ class DeleteReactionPage extends StatefulWidget {
   }
 }
 
-class _DeleteReactionState extends PullRefreshListState<
+class _DeleteReactionState extends PullRefreshListState<DeleteReactionPage,
     ReactionDetailBean,
     DeleteReactionPresenter,
     IDeleteReactionView> implements IDeleteReactionView {

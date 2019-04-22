@@ -19,7 +19,7 @@ class IssuePage extends StatefulWidget {
 }
 
 class _IssuePageState
-    extends PullRefreshListState<IssueBean, IssuePresenter, IIssueView>
+    extends PullRefreshListState<IssuePage, IssueBean, IssuePresenter, IIssueView>
     with AutomaticKeepAliveClientMixin
     implements IIssueView {
   static List<String> _p = ["involves", "assignee", "author", "mentions"];

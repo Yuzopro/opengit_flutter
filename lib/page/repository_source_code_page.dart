@@ -19,9 +19,10 @@ class RepositorySourceCodePage extends StatefulWidget {
   }
 }
 
-class _RepositorySourceCodePage
-    extends BaseState<RepositorySourceCodePresenter, IRepositorySourceCodeView>
-    implements IRepositorySourceCodeView {
+class _RepositorySourceCodePage extends BaseState<
+    RepositorySourceCodePage,
+    RepositorySourceCodePresenter,
+    IRepositorySourceCodeView> implements IRepositorySourceCodeView {
   String title, url;
 
   var _data;

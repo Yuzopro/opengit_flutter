@@ -4,8 +4,8 @@ import 'package:open_git/base/base_presenter.dart';
 import 'package:open_git/base/i_base_view.dart';
 import 'package:open_git/util/common_util.dart';
 
-abstract class BaseState<P extends BasePresenter<V>, V extends IBaseView>
-    extends State<StatefulWidget> implements IBaseView {
+abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
+    V extends IBaseView> extends State<T> implements IBaseView {
   String title = "";
 
   P presenter;

@@ -1,3 +1,4 @@
+import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_manager.dart';
 
@@ -16,14 +17,31 @@ class EventManager {
     return _instance;
   }
 
-  getEventReceived(
-      userName, page, Function successCallback, Function errorCallback) {
+  getEventReceived(userName, page) async {
     String url = Api.getEventReceived(userName) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<EventBean> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        list.add(EventBean.fromJson(dataItem));
+      }
+      return list;
+    }
+    return null;
   }
 
-  getEvent(userName, page, Function successCallback, Function errorCallback) {
+  getEvent(userName, page) async {
     String url = Api.getEvent(userName) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<EventBean> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        list.add(EventBean.fromJson(dataItem));
+      }
+      return list;
+    }
+    return null;
   }
 }

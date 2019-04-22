@@ -17,8 +17,8 @@ class SearchManager {
   }
 
   getIssue(
-      type, query, page, Function successCallback, Function errorCallback) {
+      type, query, page) async {
     String url = Api.search(type, query) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    return await HttpManager.doGet(url, null);
   }
 }

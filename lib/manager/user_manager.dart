@@ -1,3 +1,5 @@
+import 'package:open_git/bean/repos_bean.dart';
+import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_manager.dart';
 
@@ -16,8 +18,8 @@ class UserManager {
     return _instance;
   }
 
-  getUserRepos(String userName, int page, String sort, bool isStar,
-      Function successCallback, Function errorCallback) {
+  Future<List<Repository>> getUserRepos(
+      String userName, int page, String sort, bool isStar) async {
     String url;
     if (isStar) {
       url = Api.userStar(userName, null);
@@ -25,18 +27,47 @@ class UserManager {
       url = Api.userRepos(userName, sort);
     }
     url += Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<Repository> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        Repository repository = Repository.fromJson(dataItem);
+//        repository.description =
+//            MarkdownUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+        repository.description = repository.description ?? "暂无描述";
+        list.add(repository);
+      }
+      return list;
+    }
+    return null;
   }
 
-  getUserFollower(String userName, int page, Function successCallback,
-      Function errorCallback) {
+  Future<List<UserBean>> getUserFollower(String userName, int page) async {
     String url = Api.getUserFollower(userName) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<UserBean> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        list.add(UserBean.fromJson(dataItem));
+      }
+      return list;
+    }
+    return null;
   }
 
-  getUserFollowing(String userName, int page, Function successCallback,
-      Function errorCallback) {
+  Future<List<UserBean>> getUserFollowing(String userName, int page) async {
     String url = Api.getUserFollowing(userName) + Api.getPageParams("&", page);
-    return HttpManager.doGet(url, null, successCallback, errorCallback);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<UserBean> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        list.add(UserBean.fromJson(dataItem));
+      }
+      return list;
+    }
+    return null;
   }
 }

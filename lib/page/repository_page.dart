@@ -8,7 +8,6 @@ import 'package:open_git/presenter/repository_presenter.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
-//import 'package:markdown/markdown.dart' as md;
 
 class RepositoryPage extends StatefulWidget {
   final bool isStar;
@@ -22,8 +21,8 @@ class RepositoryPage extends StatefulWidget {
   }
 }
 
-class _RepositoryPageState extends PullRefreshListState<Repository,
-        RepositoryPresenter, IRepositoryView>
+class _RepositoryPageState extends PullRefreshListState<RepositoryPage,
+        Repository, RepositoryPresenter, IRepositoryView>
     with AutomaticKeepAliveClientMixin
     implements IRepositoryView {
   bool isStar;
@@ -59,8 +58,6 @@ class _RepositoryPageState extends PullRefreshListState<Repository,
   @override
   Future<Null> onRefresh() async {
     if (presenter != null) {
-      clearList();
-      setState(() {});
       page = 1;
       await presenter.getUserRepos(userBean, page, isStar, false);
     }

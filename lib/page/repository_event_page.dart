@@ -22,6 +22,7 @@ class RepositoryEventPage extends StatefulWidget {
 }
 
 class _RepositoryEventPageState extends PullRefreshListState<
+    RepositoryEventPage,
     EventBean,
     RepositoryEventPresenter,
     IRepositoryEventView> implements IRepositoryEventView {
@@ -67,8 +68,7 @@ class _RepositoryEventPageState extends PullRefreshListState<
           children: <Widget>[
             //头像
             ClipOval(
-              child: ImageUtil.getImageWidget(
-                  item.actor.avatarUrl ?? "", 36.0),
+              child: ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
             ),
             Expanded(
               child: Padding(

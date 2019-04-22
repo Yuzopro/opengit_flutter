@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:open_git/http/response_result_data.dart';
 import 'package:open_git/manager/login_manager.dart';
 
 class HttpManager {
@@ -13,42 +14,33 @@ class HttpManager {
   static const _DELETE = "DELETE";
   static const _PATCH = "patch";
 
-  static doGet(url, Map<String, String> header, Function successCallback,
-      Function errorCallback) {
-    return _doRequest(url, null, header, successCallback, errorCallback,
-        new Options(method: _GET));
+  static doGet(url, Map<String, String> header) {
+    return _doRequest(url, null, header, new Options(method: _GET));
   }
 
-  static doPut(url, Function successCallback, Function errorCallback) {
-    return _doRequest(url, null, null, successCallback, errorCallback,
-        new Options(method: _PUT));
+  static doPut(url) {
+    return _doRequest(url, null, null, new Options(method: _PUT));
   }
 
-  static doDelete(url, params, Map<String, String> header,  Function successCallback, Function errorCallback) {
-    return _doRequest(url, params, header, successCallback, errorCallback,
-        new Options(method: _DELETE));
+  static doDelete(url, params, Map<String, String> header) {
+    return _doRequest(url, params, header, new Options(method: _DELETE));
   }
 
-  static doPatch(url, params, Map<String, String> header, Function successCallback, Function errorCallback) {
-    return _doRequest(url, params, header, successCallback, errorCallback,
-        new Options(method: _PATCH));
+  static doPatch(url, params, Map<String, String> header) {
+    return _doRequest(url, params, header, new Options(method: _PATCH));
   }
 
-  static doPost(url, params, Map<String, String> header, Function successCallback, Function errorCallback) {
-    return _doRequest(url, params, header, successCallback, errorCallback,
-        new Options(method: _POST));
+  static doPost(url, params, Map<String, String> header) {
+    return _doRequest(url, params, header, new Options(method: _POST));
   }
 
-  static _doRequest(url, params, Map<String, String> header,
-      Function successCallback, Function errorCallback, Options options) async {
+  static _doRequest(
+      url, params, Map<String, String> header, Options options) async {
     debugPrint("[HttpRequest] url is " + url);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      if (errorCallback != null) {
-        errorCallback(HttpStatus.badGateway, "无网络");
-      }
-      return null;
+      return new ResponseResultData(null, false, -1);
     }
     //封装网络请求头
     Map<String, String> headers = _getHeaders(header);
@@ -63,47 +55,27 @@ class HttpManager {
     //设置请求超时时间
     options.connectTimeout = 15 * 1000;
 
-    Dio dio = new Dio();
-    //证书认证
-//    dio.onHttpClientCreate = (HttpClient client) {
-//      client.badCertificateCallback =
-//          (X509Certificate cert, String host, int port) {
-//        return true;
-//      };
-//    };
-
+    Dio _dio = new Dio();
     //开始请求
     Response response;
     try {
       //因为contenttype是application/json，不用在进行json转换
-      response = await dio.request(url, data: params, options: options);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        response = e.response;
-      } else {
-        debugPrint(e.message);
-      }
-    }
-
-    //处理返回结果
-    if (response != null) {
+      response = await _dio.request(url, data: params, options: options);
       debugPrint("[HttpRequest] response is " +
           response.toString() +
           "@statusCode is " +
           response.statusCode.toString());
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
-        if (successCallback != null) {
-          successCallback(response.data);
-        }
+        return new ResponseResultData(
+            response.data, true, response.statusCode);
       } else {
-        if (errorCallback != null) {
-          errorCallback(response.statusCode, response.data["message"]);
-        }
+        return new ResponseResultData(
+            response.data["message"], false, response.statusCode);
       }
-      return response.data;
+    } on DioError catch (e) {
+      return new ResponseResultData(null, false, -2);
     }
-    return null;
   }
 
   static _getHeaders(Map<String, String> header) {

@@ -21,6 +21,7 @@ class RepositoryLanguagePage extends StatefulWidget {
 }
 
 class _RepositoryLanguagePageState extends PullRefreshListState<
+    RepositoryLanguagePage,
     Repository,
     RepositoryLanguagePresenter,
     IRepositoryLanguageView> implements IRepositoryLanguageView {
@@ -94,8 +95,7 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
         ),
       ),
       onTap: () {
-        NavigatorUtil.goReposDetail(
-            context, item.owner.login, item.name, true);
+        NavigatorUtil.goReposDetail(context, item.owner.login, item.name, true);
       },
     );
   }

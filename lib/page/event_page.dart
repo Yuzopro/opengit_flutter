@@ -20,11 +20,11 @@ class EventPage extends StatefulWidget {
   }
 }
 
-class _EventPageState
-    extends PullRefreshListState<EventBean, EventPresenter, IEventView>
-    with AutomaticKeepAliveClientMixin
-    implements IEventView {
-
+class _EventPageState extends PullRefreshListState<
+    EventPage,
+    EventBean,
+    EventPresenter,
+    IEventView> with AutomaticKeepAliveClientMixin implements IEventView {
   final String userName;
 
   _EventPageState(this.userName);
@@ -114,5 +114,4 @@ class _EventPageState
           ],
         ));
   }
-
 }

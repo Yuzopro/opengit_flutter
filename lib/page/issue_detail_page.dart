@@ -20,7 +20,7 @@ class IssueDetailPage extends StatefulWidget {
   }
 }
 
-class _IssueDetailState extends PullRefreshListState<IssueBean,
+class _IssueDetailState extends PullRefreshListState<IssueDetailPage, IssueBean,
     IssueDetailPresenter, IIssueDetailView> implements IIssueDetailView {
   final IssueBean issueBean;
   String _repoUrl = "";
