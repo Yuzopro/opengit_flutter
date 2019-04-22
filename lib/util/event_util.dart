@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/push_event_commit_bean.dart';
 
@@ -75,11 +77,99 @@ class EventUtil {
     String postfix = "";
     switch (event.type) {
       case "CreateEvent":
-        if (event.payload != null) {
-          postfix += (event.payload.ref + " " + event.payload.refType + " in");
+//        if (event.payload != null) {
+//          postfix += (event.payload.ref + " " + event.payload.refType + " in");
+//        }
+        postfix = "创建了";
+        break;
+      case "CommitCommentEvent":
+        postfix = "评论了";
+        break;
+      case "DeleteEvent":
+        postfix = "删除了";
+        break;
+      case "ForkEvent":
+        postfix = "fork了";
+        break;
+      case "IssueCommentEvent":
+        postfix = "评论了";
+        break;
+      case "IssuesEvent":
+        if (event.payload.issue != null) {
+          postfix = "打开了 issue #${event.payload.issue.commentNum} for";
         }
         break;
+      case "WatchEvent":
+        postfix = "star了";
+        break;
+      default:
+        postfix =
+            event.type.toLowerCase().replaceAll("event", "") + " $postfix";
+        break;
     }
-    return event.type.toLowerCase().replaceAll("event", "") + " $postfix";
+    return postfix;
+  }
+
+  static getTypeIcon(EventBean event) {
+    Icon icon = null;
+    switch (event.type) {
+      case "CreateEvent":
+        icon = Icon(
+          Icons.create,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "CommitCommentEvent":
+        icon = Icon(
+          Icons.comment,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "DeleteEvent":
+        icon = Icon(
+          Icons.delete,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "ForkEvent":
+        icon = Icon(
+          Icons.list,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "IssueCommentEvent":
+        icon = Icon(
+          Icons.comment,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "IssuesEvent":
+        icon = Icon(
+          Icons.question_answer,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      case "WatchEvent":
+        icon = Icon(
+          Icons.star,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+      default:
+        icon = Icon(
+          Icons.sentiment_satisfied,
+          color: Colors.grey,
+          size: 16.0,
+        );
+        break;
+    }
+    return icon;
   }
 }
