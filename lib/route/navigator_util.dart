@@ -5,9 +5,7 @@ import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/edit_issue_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
-import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
-import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/markdown_editor_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
@@ -17,20 +15,20 @@ import 'package:open_git/page/repository_source_code_page.dart';
 import 'package:open_git/page/repository_source_file_page.dart';
 import 'package:open_git/page/repository_trending_page.dart';
 import 'package:open_git/page/search_page.dart';
-import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
 import 'package:open_git/page/user_profile_page.dart';
+import 'package:open_git/route/routes.dart';
 
 class NavigatorUtil {
   //主页
   static goMain(BuildContext context) {
-    Navigator.pushReplacementNamed(context, MainPage.sName);
+    Navigator.pushReplacementNamed(context, AppRoutes.home);
   }
 
   //登录页
   static goLogin(BuildContext context) {
-    Navigator.pushReplacementNamed(context, LoginPage.sName);
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
   }
 
   //趋势页
@@ -47,8 +45,7 @@ class NavigatorUtil {
 
   //设置页
   static goSetting(BuildContext context) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new SettingPage()));
+    Navigator.pushNamed(context, AppRoutes.setting);
   }
 
   //关于页
@@ -114,8 +111,10 @@ class NavigatorUtil {
 
   //用户资料
   static goUserProfile(BuildContext context, userBean) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new UserProfilePage(userBean)));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new UserProfilePage(userBean)));
   }
 
   //查看源码文件目录
@@ -143,25 +142,45 @@ class NavigatorUtil {
 
   //问题详情
   static goIssueDetail(BuildContext context, issueBean) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new IssueDetailPage(issueBean)));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new IssueDetailPage(issueBean)));
   }
 
   //评论编辑页
-  static goMarkdownEditor(BuildContext context, issueBean, repoUrl, isAdd) async {
-    return Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new MarkdownEditorPage(issueBean, repoUrl, isAdd)));
+  static goMarkdownEditor(
+      BuildContext context, issueBean, repoUrl, isAdd) async {
+    return Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) =>
+                new MarkdownEditorPage(issueBean, repoUrl, isAdd)));
   }
 
   //评论编辑页
-  static goDeleteReaction(BuildContext context, issueBean, repoUrl, content, isIssue) async {
-    return Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new DeleteReactionPage(issueBean, repoUrl, content, isIssue)));
+  static goDeleteReaction(
+      BuildContext context, issueBean, repoUrl, content, isIssue) async {
+    return Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) =>
+                new DeleteReactionPage(issueBean, repoUrl, content, isIssue)));
   }
 
   //问题编辑页
   static goEditIssue(BuildContext context, issueBean, repoUrl) {
-    return Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new EditIssuePage(issueBean: issueBean, repoUrl: repoUrl,)));
+    return Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new EditIssuePage(
+                  issueBean: issueBean,
+                  repoUrl: repoUrl,
+                )));
+  }
+
+  //主题页
+  static goTheme(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.theme);
   }
 }

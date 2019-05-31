@@ -4,7 +4,7 @@ import 'package:open_git/contract/issue_contract.dart';
 import 'package:open_git/presenter/issue_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class IssuePage extends StatefulWidget {

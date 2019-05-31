@@ -9,19 +9,17 @@ import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 
 class MainPage extends StatefulWidget {
-  static const String sName = "main_page";
-
   @override
   State<StatefulWidget> createState() {
     return _MainPageState();
   }
 }
 
-class _MainPageState
-    extends State<MainPage> with SingleTickerProviderStateMixin {
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   UserBean _userBean;
 
   TabController _tabController;

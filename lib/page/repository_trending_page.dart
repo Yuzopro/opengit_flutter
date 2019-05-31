@@ -6,7 +6,7 @@ import 'package:open_git/bean/trending_bean.dart';
 import 'package:open_git/contract/repository_trending_contract.dart';
 import 'package:open_git/presenter/repository_trending_presenter.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 
 class RepositoryTrendingPage extends StatefulWidget {
   final String trending;

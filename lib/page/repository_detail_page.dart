@@ -9,7 +9,7 @@ import 'package:open_git/presenter/repository_detail_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/file_size_util.dart';
 import 'package:open_git/util/markdown_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 
 class RepositoryDetailPage extends StatefulWidget {
   final String reposOwner;

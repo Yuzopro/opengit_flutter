@@ -6,7 +6,7 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/repository_contract.dart';
 import 'package:open_git/presenter/repository_presenter.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class RepositoryPage extends StatefulWidget {

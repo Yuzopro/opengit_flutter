@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/redux/state.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:redux/redux.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -23,7 +26,8 @@ class _SplashPageState extends State<SplashPage> {
     _isInit = true;
 
     new Future.delayed(const Duration(seconds: 2), () {
-      LoginManager.instance.initData().then((userBean) {
+      Store<AppState> store = StoreProvider.of(context);
+      LoginManager.instance.initData(store).then((userBean) {
         if (userBean != null) {
           NavigatorUtil.goMain(context);
         } else {

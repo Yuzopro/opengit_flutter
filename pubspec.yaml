@@ -9,8 +9,8 @@ description: A new Flutter application.
 # Read more about versioning at semver.org.
 version: 1.0.0+1
 
-environment:
-  sdk: ">=2.1.0 <3.0.0"
+#environment:
+#  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -31,6 +31,7 @@ dependencies:
   flutter_spinkit: any
 #  flutter_html_view: ^0.5.11
 #  zefyr: any
+  flutter_redux: any
 
 dev_dependencies:
   flutter_test:

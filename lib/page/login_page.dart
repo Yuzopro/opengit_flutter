@@ -3,11 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/contract/login_contract.dart';
 import 'package:open_git/presenter/login_presenter.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 
 class LoginPage extends StatefulWidget {
-  static const String sName = "login_page";
-
   @override
   State<StatefulWidget> createState() {
     return new _LoginPageState();

@@ -8,7 +8,7 @@ import 'package:open_git/presenter/event_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class EventPage extends StatefulWidget {

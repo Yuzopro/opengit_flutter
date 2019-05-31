@@ -6,7 +6,7 @@ import 'package:open_git/presenter/issue_detail_presenter.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/html_parser_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class IssueDetailPage extends StatefulWidget {

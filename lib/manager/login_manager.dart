@@ -1,12 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/common/config.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
 import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/redux/actions.dart';
 import 'package:open_git/util/shared_prf_util.dart';
+
+import '../theme.dart';
 
 class LoginManager {
   factory LoginManager() => _getInstance();
@@ -26,13 +31,20 @@ class LoginManager {
     return _instance;
   }
 
-  initData() {
+  initData(store) {
     _initToken();
+    _initTheme(store);
     return _initUserInfo();
   }
 
   _initToken() async {
     _token = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_TOKEN);
+  }
+  
+  _initTheme(store) async {
+    int value = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_THEME_COLOR);
+    Color color = new Color(value);
+    store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
   }
 
   _initUserInfo() async {
@@ -74,8 +86,8 @@ class LoginManager {
     Map requestParams = {
       "scopes": ['user', 'repo', 'gist', 'notifications'],
       "note": "admin_script",
-      "client_id": "1d1d0f0e84625e416efb",
-      "client_secret": "d8cb03c0f6dc85ebf610077148b0471aa66f1b42"
+      "client_id": Config.CLIENT_ID,
+      "client_secret": Config.CLIENT_SECRET
     };
     final response = await HttpManager.doPost(Api.authorizations(), requestParams, null);
     if (response != null && response.data != null) {

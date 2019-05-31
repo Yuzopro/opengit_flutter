@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrfUtils {
+  static saveInt(String key, value) async {
+    SharedPreferences spf = await SharedPreferences.getInstance();
+    spf.setInt(key, value);
+  }
+
   static saveString(String key, value) async {
     SharedPreferences spf = await SharedPreferences.getInstance();
     spf.setString(key, value);

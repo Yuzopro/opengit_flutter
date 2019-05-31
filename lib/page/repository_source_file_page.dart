@@ -4,7 +4,7 @@ import 'package:open_git/contract/repository_source_file_contract.dart';
 import 'package:open_git/presenter/repository_source_file_presenter.dart';
 import 'package:open_git/util/file_size_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/widget/pull_refresh_list.dart';
 
 class RepositorySourceFilePage extends StatefulWidget {

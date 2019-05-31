@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/util/navigator_util.dart';
+import 'package:open_git/redux/actions.dart';
+import 'package:open_git/redux/state.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:redux/redux.dart';
+
+import '../theme.dart';
 
 class DrawerPage extends StatelessWidget {
   final String name, email, headUrl;
@@ -29,7 +35,6 @@ class DrawerPage extends StatelessWidget {
             leading: new Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goReposTrending(context, "all");
-//              NavigatorUtil.goTrend(context);
             },
           ),
           new ListTile(
@@ -67,7 +72,6 @@ class DrawerPage extends StatelessWidget {
               NavigatorUtil.goLogout(context);
             },
           ),
-          //主页、通知、动态、问题 | 我的版本库、星标版本库、书签 | 足迹、趋势版本库、版本库集合、精选主题、全球动态|设置、关于
         ],
       ),
     );
