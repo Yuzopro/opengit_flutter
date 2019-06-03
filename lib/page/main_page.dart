@@ -2,14 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/page/drawer_page.dart';
 import 'package:open_git/page/event_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
-import 'package:open_git/util/image_util.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/image_util.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -24,6 +25,8 @@ class _MainPageState extends State<MainPage>
 
   TabController _tabController;
   final PageController _pageController = new PageController();
+
+  final List<Choice> choices = new List(4);
 
   @override
   void initState() {
@@ -40,6 +43,11 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    choices[0] = new Choice(title: AppLocalizations.of(context).currentlocal.home);
+    choices[1] = new Choice(title: AppLocalizations.of(context).currentlocal.repository);
+    choices[2] = new Choice(title: AppLocalizations.of(context).currentlocal.event);
+    choices[3] = new Choice(title: AppLocalizations.of(context).currentlocal.issue);
+
     return new WillPopScope(
         child: new DefaultTabController(
           length: choices.length,
@@ -107,12 +115,15 @@ class _MainPageState extends State<MainPage>
     return showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-              title: Text("提示"),
-              content: Text("确定要退出应用？"),
+              title: Text(
+                  AppLocalizations.of(context).currentlocal.dialog_exit_title),
+              content: Text(AppLocalizations.of(context)
+                  .currentlocal
+                  .dialog_exit_content),
               actions: <Widget>[
                 FlatButton(
                   child: Text(
-                    "取消",
+                    AppLocalizations.of(context).currentlocal.cancel,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -120,7 +131,7 @@ class _MainPageState extends State<MainPage>
                 ),
                 FlatButton(
                   child: Text(
-                    "确定",
+                    AppLocalizations.of(context).currentlocal.ok,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(true);
@@ -136,10 +147,3 @@ class Choice {
 
   final String title;
 }
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: '主页'),
-  const Choice(title: '项目'),
-  const Choice(title: '动态'),
-  const Choice(title: '问题'),
-];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/page/language_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/setting_page.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static final login = "/login";
   static final setting = "/home/setting";
   static final theme = "/home/setting/theme";
+  static final language = "/home/setting/language";
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -28,6 +30,9 @@ class AppRoutes {
       },
       AppRoutes.theme: (context) {
         return new ThemeSelectPage();
+      },
+      AppRoutes.language: (context) {
+        return new LanguagePage();
       },
     };
   }

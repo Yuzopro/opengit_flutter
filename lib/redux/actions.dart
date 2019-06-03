@@ -6,3 +6,10 @@ class RefreshThemeDataAction{
 
   RefreshThemeDataAction(this.themeData);
 }
+
+//刷新语言
+class RefreshLocalAction{
+  final Locale locale;
+
+  RefreshLocalAction(this.locale);
+}

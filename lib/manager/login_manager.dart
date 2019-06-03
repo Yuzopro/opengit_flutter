@@ -9,9 +9,10 @@ import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
 import 'package:open_git/http/http_manager.dart';
 import 'package:open_git/redux/actions.dart';
+import 'package:open_git/util/locale_util.dart';
 import 'package:open_git/util/shared_prf_util.dart';
 
-import '../theme.dart';
+import 'package:open_git/util/theme_util.dart';
 
 class LoginManager {
   factory LoginManager() => _getInstance();
@@ -34,6 +35,7 @@ class LoginManager {
   initData(store) {
     _initToken();
     _initTheme(store);
+    _initLanguage(store);
     return _initUserInfo();
   }
 
@@ -43,8 +45,19 @@ class LoginManager {
   
   _initTheme(store) async {
     int value = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_THEME_COLOR);
+    if (value == null) {
+      return;
+    }
     Color color = new Color(value);
     store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
+  }
+
+  _initLanguage(store) async {
+    int value = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
+    if (value == null) {
+      return;
+    }
+    store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(value)));
   }
 
   _initUserInfo() async {

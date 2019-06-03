@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-
-import '../theme.dart';
+import 'package:open_git/util/theme_util.dart';
 
 class AppState {
+  //主题
   ThemeData themeData;
 
-  AppState({this.themeData});
+  //语言
+  Locale locale;
 
-  factory AppState.initial() => AppState(themeData: AppTheme.theme);
+  AppState({this.themeData, this.locale});
+
+  factory AppState.initial() =>
+      AppState(themeData: AppTheme.theme, locale: Locale('zh', 'CH'));
 }

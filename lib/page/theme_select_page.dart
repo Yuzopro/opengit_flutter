@@ -5,12 +5,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/actions.dart';
 import 'package:open_git/redux/state.dart';
 import 'package:open_git/util/shared_prf_util.dart';
+import 'package:open_git/util/theme_util.dart';
 import 'package:redux/redux.dart';
-
-import '../theme.dart';
 
 const double kColorItemHeight = 48.0;
 
@@ -145,7 +145,7 @@ class ColorItem extends StatelessWidget {
                 new Text(colorString()),
               ],
             ),
-            onPressed: (){
+            onPressed: () {
               onChangeTheme(color);
             },
           ),
@@ -225,7 +225,8 @@ class ThemeSelectPage extends StatelessWidget {
             child: new Scaffold(
               appBar: new AppBar(
                 elevation: 0.0,
-                title: const Text("主题色"),
+                title: new Text(
+                    AppLocalizations.of(context).currentlocal.theme),
                 bottom: new TabBar(
                   isScrollable: true,
                   tabs: allPalettes

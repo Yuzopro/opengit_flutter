@@ -183,4 +183,9 @@ class NavigatorUtil {
   static goTheme(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.theme);
   }
+
+  //语言切换页
+  static goLanguage(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.language);
+  }
 }

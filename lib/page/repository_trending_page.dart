@@ -53,6 +53,7 @@ class _RepositoryTrendingState extends State<RepositoryTrendingPage>
             title: Text(widget.trending),
             bottom: new TabBar(
               controller: _tabController,
+              indicatorColor: Colors.white,
               tabs: _allPages
                   .map(
                     (_Page page) => new Tab(text: page.label),
