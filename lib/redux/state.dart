@@ -8,6 +8,9 @@ class AppState {
   //语言
   Locale locale;
 
+  //系统语言
+  Locale platformLocale;
+
   AppState({this.themeData, this.locale});
 
   factory AppState.initial() =>

@@ -74,6 +74,7 @@ class HttpManager {
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
+      print(e);
       return new ResponseResultData(null, false, -2);
     }
   }

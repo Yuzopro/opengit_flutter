@@ -101,6 +101,7 @@ class _SearchPage extends State<SearchPage> with SingleTickerProviderStateMixin 
             actions: _query.isNotEmpty ? _actionViews : null,
             bottom: new TabBar(
               controller: _tabController,
+              indicatorColor: Colors.white,
               tabs: _allPages
                   .map(
                     (_Page page) => new Tab(text: page.label),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
@@ -9,10 +10,11 @@ import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
 import 'package:open_git/http/http_manager.dart';
 import 'package:open_git/redux/actions.dart';
+import 'package:open_git/redux/state.dart';
 import 'package:open_git/util/locale_util.dart';
 import 'package:open_git/util/shared_prf_util.dart';
-
 import 'package:open_git/util/theme_util.dart';
+import 'package:redux/redux.dart';
 
 class LoginManager {
   factory LoginManager() => _getInstance();
@@ -32,10 +34,11 @@ class LoginManager {
     return _instance;
   }
 
-  initData(store) {
+  initData(context) {
+    Store<AppState> store = StoreProvider.of(context);
     _initToken();
     _initTheme(store);
-    _initLanguage(store);
+    _initLanguage(store, context);
     return _initUserInfo();
   }
 
@@ -52,12 +55,13 @@ class LoginManager {
     store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
   }
 
-  _initLanguage(store) async {
+  _initLanguage(store, context) async {
+    store.state.platformLocale = Localizations.localeOf(context);
     int value = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
     if (value == null) {
       return;
     }
-    store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(value)));
+    store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(store.state, value)));
   }
 
   _initUserInfo() async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/contract/edit_issue_contract.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/presenter/edit_issue_presenter.dart';
 
 class EditIssuePage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _EditIssueState
 
   @override
   String getTitle() {
-    return "编辑issue";
+    return AppLocalizations.of(context).currentlocal.edit_issue;
   }
 
   @override
@@ -82,9 +83,9 @@ class _EditIssueState
   Widget buildBody(BuildContext context) {
     final form = ListView(
       children: <Widget>[
-        Text("标题:"),
+        Text(AppLocalizations.of(context).currentlocal.edit_issue_title),
         _buildTitleWidget(),
-        Text("描述:"),
+        Text(AppLocalizations.of(context).currentlocal.edit_issue_desc),
         _buildBodyWidget(),
       ],
     );
@@ -102,7 +103,6 @@ class _EditIssueState
 
   Widget _buildTitleWidget() {
     return TextField(
-//        decoration: InputDecoration(labelText: 'Description'),
       controller: _titleController,
       autofocus: true,
     );
@@ -110,7 +110,6 @@ class _EditIssueState
 
   Widget _buildBodyWidget() {
     return TextField(
-//        decoration: InputDecoration(labelText: 'Description'),
       controller: _bodyController,
       autofocus: false,
     );

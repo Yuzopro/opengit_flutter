@@ -48,4 +48,19 @@ class ZhString extends AppBaseString {
 
   @override
   String get ok => "确定";
+
+  @override
+  String get edit_issue => "编辑问题";
+
+  @override
+  String get edit_issue_title => "标题:";
+
+  @override
+  String get edit_issue_desc => "描述:";
+
+  @override
+  String get delete => "删除";
+
+  @override
+  String get edit => "编辑";
 }

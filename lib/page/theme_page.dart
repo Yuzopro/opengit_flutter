@@ -214,7 +214,7 @@ class PaletteTabView extends StatelessWidget {
   }
 }
 
-class ThemeSelectPage extends StatelessWidget {
+class ThemePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -224,9 +224,9 @@ class ThemeSelectPage extends StatelessWidget {
             length: allPalettes.length,
             child: new Scaffold(
               appBar: new AppBar(
-                elevation: 0.0,
-                title: new Text(
-                    AppLocalizations.of(context).currentlocal.theme),
+                centerTitle: true,
+                title:
+                    new Text(AppLocalizations.of(context).currentlocal.theme),
                 bottom: new TabBar(
                   isScrollable: true,
                   tabs: allPalettes

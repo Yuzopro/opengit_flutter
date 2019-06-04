@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/page/repository_page.dart';
@@ -75,7 +77,6 @@ class _UserProfileState extends State<UserProfilePage>
         expandedHeight: 200.0,
         pinned: true,
         flexibleSpace: FlexibleSpaceBar(
-//          title: new Text(_userName),
           background: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -83,15 +84,12 @@ class _UserProfileState extends State<UserProfilePage>
                 _userAvatar,
                 fit: BoxFit.cover,
               ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment(0.0, -1.0),
-                    end: Alignment(0.0, -0.4),
-                    colors: <Color>[Color(0x60000000), Color(0x00000000)],
-                  ),
+              new BackdropFilter(
+                filter: new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: new Container(
+                  decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
                 ),
-              ),
+              )
             ],
           ),
         ),

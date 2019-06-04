@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/localizations/app_localizations_delegate.dart';
 import 'package:open_git/redux/state.dart';
 import 'package:open_git/redux/reducer.dart';
+import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:redux/redux.dart';
 
@@ -26,7 +28,13 @@ void main() {
 class OpenGitApp extends StatelessWidget {
   final Store<AppState> store;
 
-  OpenGitApp(this.store);
+  OpenGitApp(this.store) {
+    final router = new Router();
+
+    AppRoutes.configureRoutes(router);
+
+    Application.router = router;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +52,7 @@ class OpenGitApp extends StatelessWidget {
             locale: vm.locale,
             supportedLocales: [vm.locale],
             theme: vm.themeData,
-            routes: AppRoutes.getRoutes(),
+            onGenerateRoute: Application.router.generator,
           );
         },
       ),

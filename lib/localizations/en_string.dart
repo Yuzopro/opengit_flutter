@@ -23,13 +23,13 @@ class EnString extends AppBaseString {
   String get home => "Home";
 
   @override
-  String get repository => "Repository";
+  String get repository => "Repos";
 
   @override
-  String get event => "Event";
+  String get event => "Events";
 
   @override
-  String get issue => "Issue";
+  String get issue => "Issues";
 
   @override
   String get theme => "Theme";
@@ -48,4 +48,19 @@ class EnString extends AppBaseString {
 
   @override
   String get ok => "ok";
+
+  @override
+  String get edit_issue => "Edit Issue";
+
+  @override
+  String get edit_issue_title => "title:";
+
+  @override
+  String get edit_issue_desc => "desc:";
+
+  @override
+  String get delete => "delete";
+
+  @override
+  String get edit => "edit";
 }

@@ -153,6 +153,11 @@ class Api {
     return "${repoUrl}/issues/$number";
   }
 
+  static getJueJinApi(int page) {
+    return "https://timeline-merger-ms.juejin.im/v1/get_tag_entry?"
+        "src=web&tagId=5a96291f6fb9a0535b535438&page=$page&pageSize=20&sort=rankIndex";
+  }
+
   //处理分页参数
   static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
     if (page != null) {

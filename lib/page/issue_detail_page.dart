@@ -137,14 +137,6 @@ class _IssueDetailState extends PullRefreshListState<IssueDetailPage, IssueBean,
     listWidget.add(userWidget);
     listWidget.add(line);
 
-//    List<Widget> descWidget = _getDescWidget(item.bodyHtml);
-//    if (descWidget != null) {
-//      listWidget.add(new Padding(
-//          padding: EdgeInsets.all(12.0),
-//          child: new Column(
-//            children: descWidget,
-//          )));
-//    }
     listWidget.add(
         new Padding(padding: EdgeInsets.all(12.0), child: Text(item.body)));
 

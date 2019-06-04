@@ -23,6 +23,13 @@ class LanguagePage extends StatelessWidget {
             body: new ListView(
               children: <Widget>[
                 ListTile(
+                  title: new Text('跟随系统'),
+                  trailing: new Icon(Icons.arrow_right),
+                  onTap: () {
+                    vm.onChangeLanguage(0);
+                  },
+                ),
+                ListTile(
                   title: new Text('简体中文'),
                   trailing: new Icon(Icons.arrow_right),
                   onTap: () {
@@ -52,7 +59,7 @@ class _ViewModel {
     return _ViewModel(
       onChangeLanguage: (language) {
         SharedPrfUtils.saveInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR, language);
-        store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(language)));
+        store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(store.state, language)));
       },
     );
   }

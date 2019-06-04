@@ -2,6 +2,7 @@ import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/util/markdown_util.dart';
 
 class UserManager {
   factory UserManager() => _getInstance();
@@ -33,9 +34,9 @@ class UserManager {
       for (int i = 0; i < response.data.length; i++) {
         var dataItem = response.data[i];
         Repository repository = Repository.fromJson(dataItem);
-//        repository.description =
-//            MarkdownUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
-        repository.description = repository.description ?? "暂无描述";
+        repository.description =
+            MarkdownUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+//        repository.description = repository.description ?? "暂无描述";
         list.add(repository);
       }
       return list;

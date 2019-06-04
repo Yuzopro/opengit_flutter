@@ -43,10 +43,14 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
-    choices[0] = new Choice(title: AppLocalizations.of(context).currentlocal.home);
-    choices[1] = new Choice(title: AppLocalizations.of(context).currentlocal.repository);
-    choices[2] = new Choice(title: AppLocalizations.of(context).currentlocal.event);
-    choices[3] = new Choice(title: AppLocalizations.of(context).currentlocal.issue);
+    choices[0] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.home);
+    choices[1] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.repository);
+    choices[2] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.event);
+    choices[3] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.issue);
 
     return new WillPopScope(
         child: new DefaultTabController(
@@ -73,6 +77,7 @@ class _MainPageState extends State<MainPage>
               }),
               centerTitle: true,
               title: new TabBar(
+                labelPadding: EdgeInsets.all(8.0),
                 controller: _tabController,
                 isScrollable: true,
                 indicatorColor: Colors.white,

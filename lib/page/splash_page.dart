@@ -26,8 +26,7 @@ class _SplashPageState extends State<SplashPage> {
     _isInit = true;
 
     new Future.delayed(const Duration(seconds: 2), () {
-      Store<AppState> store = StoreProvider.of(context);
-      LoginManager.instance.initData(store).then((userBean) {
+      LoginManager.instance.initData(context).then((userBean) {
         if (userBean != null) {
           NavigatorUtil.goMain(context);
         } else {

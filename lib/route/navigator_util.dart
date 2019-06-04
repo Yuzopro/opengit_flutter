@@ -5,7 +5,9 @@ import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/edit_issue_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
+import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
+import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/markdown_editor_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';
@@ -13,28 +15,24 @@ import 'package:open_git/page/repository_event_page.dart';
 import 'package:open_git/page/repository_language_page.dart';
 import 'package:open_git/page/repository_source_code_page.dart';
 import 'package:open_git/page/repository_source_file_page.dart';
-import 'package:open_git/page/repository_trending_page.dart';
 import 'package:open_git/page/search_page.dart';
 import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
 import 'package:open_git/page/user_profile_page.dart';
+import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 
 class NavigatorUtil {
   //主页
   static goMain(BuildContext context) {
-    Navigator.pushReplacementNamed(context, AppRoutes.home);
+    Navigator.pushReplacement(
+        context, new CupertinoPageRoute(builder: (context) => new MainPage()));
   }
 
   //登录页
   static goLogin(BuildContext context) {
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
-  }
-
-  //趋势页
-  static goTrend(BuildContext context) {
-    Navigator.push(
-        context, new CupertinoPageRoute(builder: (context) => new TrendPage()));
+    Navigator.pushReplacement(
+        context, new CupertinoPageRoute(builder: (context) => new LoginPage()));
   }
 
   //书签页
@@ -45,7 +43,9 @@ class NavigatorUtil {
 
   //设置页
   static goSetting(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.setting);
+    Application.router.navigateTo(context, AppRoutes.setting);
+//    Navigator.push(context,
+//        new CupertinoPageRoute(builder: (context) => new SettingPage()));
   }
 
   //关于页
@@ -77,11 +77,9 @@ class NavigatorUtil {
   }
 
   //趋势
-  static goReposTrending(BuildContext context, language) {
-    Navigator.push(
-        context,
-        new CupertinoPageRoute(
-            builder: (context) => new RepositoryTrendingPage(language)));
+  static goTrend(BuildContext context, language) {
+    Navigator.push(context,
+        new CupertinoPageRoute(builder: (context) => new TrendPage(language)));
   }
 
   //仓库语言按star排名
@@ -181,11 +179,19 @@ class NavigatorUtil {
 
   //主题页
   static goTheme(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.theme);
+    Application.router.navigateTo(context, AppRoutes.theme);
   }
 
   //语言切换页
   static goLanguage(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.language);
+    Application.router.navigateTo(context, AppRoutes.language);
+  }
+
+  //h5页面
+  static goWebView(BuildContext context, title, url) {
+    Application.router.navigateTo(
+        context,
+        AppRoutes.webview +
+            "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
   }
 }

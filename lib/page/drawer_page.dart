@@ -30,7 +30,7 @@ class DrawerPage extends StatelessWidget {
             title: new Text(AppLocalizations.of(context).currentlocal.trend),
             leading: new Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
-              NavigatorUtil.goReposTrending(context, "all");
+              NavigatorUtil.goTrend(context, "all");
             },
           ),
           new ListTile(

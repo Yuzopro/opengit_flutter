@@ -1,39 +1,34 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:open_git/page/language_page.dart';
-import 'package:open_git/page/login_page.dart';
-import 'package:open_git/page/main_page.dart';
-import 'package:open_git/page/setting_page.dart';
-import 'package:open_git/page/splash_page.dart';
-import 'package:open_git/page/theme_select_page.dart';
+import 'package:open_git/route/route_handlers.dart';
 
 class AppRoutes {
   static final splash = "/";
-  static final home = "/home";
+  static final main = "/main";
   static final login = "/login";
-  static final setting = "/home/setting";
-  static final theme = "/home/setting/theme";
-  static final language = "/home/setting/language";
+  static final setting = "/main/setting";
+  static final theme = "/main/setting/theme";
+  static final language = "/main/setting/language";
+  static final webview = "/main/webview";
 
-  static Map<String, WidgetBuilder> getRoutes() {
-    return {
-      AppRoutes.splash: (context) {
-        return new SplashPage();
-      },
-      AppRoutes.login: (context) {
-        return new LoginPage();
-      },
-      AppRoutes.home: (context) {
-        return new MainPage();
-      },
-      AppRoutes.setting: (context) {
-        return new SettingPage();
-      },
-      AppRoutes.theme: (context) {
-        return new ThemeSelectPage();
-      },
-      AppRoutes.language: (context) {
-        return new LanguagePage();
-      },
-    };
+  static void configureRoutes(Router router) {
+    router.notFoundHandler = new Handler(
+        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      print("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(splash,
+        handler: splashHandler, transitionType: TransitionType.inFromRight);
+    router.define(main,
+        handler: homeHandler, transitionType: TransitionType.inFromRight);
+    router.define(login,
+        handler: loginHandler, transitionType: TransitionType.inFromRight);
+    router.define(setting,
+        handler: settingHandler, transitionType: TransitionType.inFromRight);
+    router.define(theme,
+        handler: themeHandler, transitionType: TransitionType.inFromRight);
+    router.define(language,
+        handler: languageHandler, transitionType: TransitionType.inFromRight);
+    router.define(webview,
+        handler: webviewHandler, transitionType: TransitionType.inFromRight);
   }
 }
