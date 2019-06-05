@@ -8,7 +8,6 @@ class SettingPage extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(AppLocalizations.of(context).currentlocal.setting),
-        centerTitle: true,
       ),
       body: new ListView(
         children: <Widget>[

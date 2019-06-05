@@ -18,7 +18,6 @@ class LanguagePage extends StatelessWidget {
             appBar: new AppBar(
               title:
                   new Text(AppLocalizations.of(context).currentlocal.language),
-              centerTitle: true,
             ),
             body: new ListView(
               children: <Widget>[
@@ -59,7 +58,8 @@ class _ViewModel {
     return _ViewModel(
       onChangeLanguage: (language) {
         SharedPrfUtils.saveInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR, language);
-        store.dispatch(RefreshLocalAction(LocaleUtil.changeLocale(store.state, language)));
+        store.dispatch(
+            RefreshLocalAction(LocaleUtil.changeLocale(store.state, language)));
       },
     );
   }

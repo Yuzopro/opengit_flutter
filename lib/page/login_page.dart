@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/contract/login_contract.dart';
 import 'package:open_git/presenter/login_presenter.dart';
@@ -31,122 +30,30 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
   }
 
   @override
-  String getTitle() {
-    return "登录";
-  }
-
-  @override
   Widget buildBody(BuildContext context) {
-    return new Padding(
-      padding: const EdgeInsets.only(top: 21.0, left: 20.0, right: 20.0),
-      child: new ListView(
-        //解决键盘弹起导致视图被挤压的问题
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _logoWidget(),
-              //输入组件
-              _inputWidget(),
-              //登陆按钮
-              _loginBtnWidget(),
-            ],
-          ),
-        ],
-      ),
-    );
+    return Scaffold(
+        body: Form(
+            child: ListView(
+      padding: EdgeInsets.symmetric(horizontal: 22.0),
+      children: <Widget>[
+        SizedBox(
+          height: kToolbarHeight,
+        ),
+        _buildTitle(),
+        _buildTitleLine(),
+        SizedBox(height: 70.0),
+        _buildNameTextField(),
+        SizedBox(height: 30.0),
+        _buildPasswordTextField(context),
+        SizedBox(height: 60.0),
+        _buildLoginButton(context),
+      ],
+    )));
   }
 
   @override
   LoginPresenter initPresenter() {
     return LoginPresenter();
-  }
-
-  Widget _logoWidget() {
-    return new Image(
-        width: 64.0,
-        height: 64.0,
-        image: new AssetImage('image/ic_welcome.png'));
-  }
-
-  Widget _inputWidget() {
-    return new Form(
-        autovalidate: true,
-        child: new Column(
-          children: <Widget>[
-            //输入账号名
-            _userNameWidget(),
-            //输入密码
-            _userPwdWidget(),
-          ],
-        ));
-  }
-
-  Widget _userNameWidget() {
-    return new TextFormField(
-      controller: _nameController,
-      decoration: new InputDecoration(
-        hintText: "你的Github账号",
-        labelText: "用户名 *",
-        icon: Icon(Icons.person),
-        suffixIcon: new GestureDetector(
-          onTap: () {
-            setState(() {
-              _nameController.clear();
-            });
-          },
-          child: new Icon(_nameController.text.length > 0 ? Icons.clear : null),
-        ),
-      ),
-      maxLines: 1,
-    );
-  }
-
-  Widget _userPwdWidget() {
-    return new TextFormField(
-      controller: _passwordController,
-      decoration: new InputDecoration(
-        hintText: "你的Github账号密码",
-        labelText: "密码 *",
-        icon: Icon(Icons.lock),
-        suffixIcon: new GestureDetector(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-          child: new Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
-        ),
-      ),
-      maxLines: 1,
-      obscureText: _obscureText,
-    );
-  }
-
-  Widget _loginBtnWidget() {
-    return new Container(
-      margin: const EdgeInsets.only(top: 40.0),
-      width: MediaQuery.of(context).size.width - 80,
-      child: new FlatButton(
-        color: Colors.black,
-        highlightColor: Colors.black,
-        colorBrightness: Brightness.dark,
-        splashColor: Colors.grey,
-        disabledColor: Colors.black45,
-        child: Text(
-          "登录",
-          style: new TextStyle(
-            color: Colors.white,
-            fontSize: 17.0,
-          ),
-        ),
-        onPressed: _isValidLogin()
-            ? () {
-                _login();
-              }
-            : null,
-      ),
-    );
   }
 
   _isValidLogin() {
@@ -167,5 +74,89 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
   @override
   void onLoginSuccess() {
     NavigatorUtil.goMain(context);
+  }
+
+  Align _buildLoginButton(BuildContext context) {
+    return Align(
+      child: SizedBox(
+        height: 45.0,
+        width: 270.0,
+        child: RaisedButton(
+          child: Text(
+            'Login',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          color: Colors.black,
+          onPressed: _isValidLogin()
+              ? () {
+                  _login();
+                }
+              : null,
+          shape: StadiumBorder(side: BorderSide()),
+        ),
+      ),
+    );
+  }
+
+  TextFormField _buildPasswordTextField(BuildContext context) {
+    return new TextFormField(
+      controller: _passwordController,
+      decoration: new InputDecoration(
+        labelText: "Github密码",
+        suffixIcon: new GestureDetector(
+          onTap: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
+          child:
+              new Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+        ),
+      ),
+      maxLines: 1,
+      obscureText: _obscureText,
+    );
+  }
+
+  TextFormField _buildNameTextField() {
+    return new TextFormField(
+      controller: _nameController,
+      decoration: new InputDecoration(
+        labelText: "Github账号",
+        suffixIcon: new GestureDetector(
+          onTap: () {
+            setState(() {
+              _nameController.clear();
+            });
+          },
+          child: new Icon(_nameController.text.length > 0 ? Icons.clear : null),
+        ),
+      ),
+      maxLines: 1,
+    );
+  }
+
+  Padding _buildTitleLine() {
+    return Padding(
+      padding: EdgeInsets.only(left: 12.0, top: 4.0),
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+          color: Colors.black,
+          width: 40.0,
+          height: 2.0,
+        ),
+      ),
+    );
+  }
+
+  Padding _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Text(
+        'Login',
+        style: TextStyle(fontSize: 42.0),
+      ),
+    );
   }
 }

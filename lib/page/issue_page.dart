@@ -18,10 +18,11 @@ class IssuePage extends StatefulWidget {
   }
 }
 
-class _IssuePageState
-    extends PullRefreshListState<IssuePage, IssueBean, IssuePresenter, IIssueView>
-    with AutomaticKeepAliveClientMixin
-    implements IIssueView {
+class _IssuePageState extends PullRefreshListState<
+    IssuePage,
+    IssueBean,
+    IssuePresenter,
+    IIssueView> with AutomaticKeepAliveClientMixin implements IIssueView {
   static List<String> _p = ["involves", "assignee", "author", "mentions"];
   static List<String> _state = ["open", "closed"];
   static List<String> _sort = ["created", "updated", "comments"];
@@ -161,20 +162,19 @@ class _IssuePageState
                   _getItemBottom(
                       Icon(
                         Icons.timer,
-                        color: Colors.black,
-                        size: 12.0,
+                        color: Colors.grey,
+                        size: 14.0,
                       ),
                       DateUtil.getNewsTimeStr(item.createdAt)),
                   _getItemBottom(
-                      Icon(
-                        Icons.comment,
-                        color: Colors.black,
-                        size: 12.0,
-                      ),
+                      Image(
+                          width: 12.0,
+                          height: 12.0,
+                          image: new AssetImage('image/ic_comment.png')),
                       item.commentNum.toString()),
                   Text(
                     "#${item.number}",
-                    style: TextStyle(color: Colors.black, fontSize: 12.0),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                 ],
               ),
@@ -192,9 +192,12 @@ class _IssuePageState
       child: Row(
         children: <Widget>[
           icon,
-          Text(
-            count,
-            style: new TextStyle(color: Colors.black, fontSize: 12.0),
+          Padding(
+            padding: EdgeInsets.only(left: 3.0),
+            child: Text(
+              count,
+              style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+            ),
           ),
         ],
       ),

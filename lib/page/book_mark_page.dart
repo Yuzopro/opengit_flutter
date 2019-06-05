@@ -10,9 +10,9 @@ class BookMarkPage extends StatefulWidget {
 class _BookMarkPageState extends State<BookMarkPage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: new Center(
-        child: new Text("BookMark page"),
+        child: Text('BookMarkPage'),
       ),
     );
   }

@@ -65,25 +65,22 @@ class _RepositoryLanguagePageState extends PullRefreshListState<
             Row(
               children: <Widget>[
                 _getItemBottom(
-                    Icon(
-                      Icons.star_border,
-                      color: Colors.black,
-                      size: 12.0,
-                    ),
+                    Image(
+                        width: 16.0,
+                        height: 16.0,
+                        image: new AssetImage('image/ic_star.png')),
                     item.stargazersCount.toString()),
                 _getItemBottom(
-                    Icon(
-                      Icons.info_outline,
-                      color: Colors.black,
-                      size: 12.0,
-                    ),
+                    Image(
+                        width: 16.0,
+                        height: 16.0,
+                        image: new AssetImage('image/ic_issue.png')),
                     item.openIssuesCount.toString()),
                 _getItemBottom(
-                    Image.asset(
-                      "image/ic_branch.png",
-                      width: 10.0,
-                      height: 10.0,
-                    ),
+                    Image(
+                        width: 16.0,
+                        height: 16.0,
+                        image: new AssetImage('image/ic_branch.png')),
                     item.forksCount.toString()),
                 Text(
                   item.fork ? "Forked" : "",

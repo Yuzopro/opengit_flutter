@@ -127,9 +127,8 @@ class _MainPageState extends State<MainPage>
                   .dialog_exit_content),
               actions: <Widget>[
                 FlatButton(
-                  child: Text(
-                    AppLocalizations.of(context).currentlocal.cancel,
-                  ),
+                  child: Text(AppLocalizations.of(context).currentlocal.cancel,
+                      style: TextStyle(color: Colors.grey)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -137,6 +136,7 @@ class _MainPageState extends State<MainPage>
                 FlatButton(
                   child: Text(
                     AppLocalizations.of(context).currentlocal.ok,
+                    style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(true);

@@ -63,4 +63,13 @@ class ZhString extends AppBaseString {
 
   @override
   String get edit => "编辑";
+
+  @override
+  String get introduction => "功能介绍";
+
+  @override
+  String get update => "检查更新";
+
+  @override
+  String get download_app_tips => "扫码此二维码，下载OpenGit";
 }

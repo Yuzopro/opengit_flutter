@@ -26,8 +26,8 @@ class CommonUtil {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         new Container(
-                            child: SpinKitWave(
-                          color: Colors.black,
+                            child: SpinKitCircle(
+                          color: Colors.white,
                           size: 25.0,
                         )),
                         new Container(height: 10.0),

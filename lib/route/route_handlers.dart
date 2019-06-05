@@ -1,9 +1,12 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:open_git/page/about_page.dart';
 import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/language_page.dart';
 import 'package:open_git/page/login_page.dart';
+import 'package:open_git/page/main_page.dart';
 import 'package:open_git/page/setting_page.dart';
+import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/splash_page.dart';
 import 'package:open_git/page/theme_page.dart';
 import 'package:open_git/page/web_view_page.dart';
@@ -13,9 +16,9 @@ var splashHandler = new Handler(
   return new SplashPage();
 });
 
-var homeHandler = new Handler(
+var mainHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new HomePage();
+  return new MainPage();
 });
 
 var loginHandler = new Handler(
@@ -46,4 +49,14 @@ var webviewHandler = new Handler(
     title: title,
     url: url,
   );
+});
+
+var aboutHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return new AboutPage();
+});
+
+var shareHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return new SharePage();
 });

@@ -60,18 +60,10 @@ class _HomePageState
               Row(
                 children: <Widget>[
                   _getItemBottom(
-                      Icon(
-                        Icons.collections,
-                        color: Colors.grey,
-                        size: 12.0,
-                      ),
+                      'image/ic_like.png',
                       item.collectionCount.toString()),
                   _getItemBottom(
-                      Icon(
-                        Icons.comment,
-                        color: Colors.grey,
-                        size: 12.0,
-                      ),
+                      'image/ic_comment.png',
                       item.commentsCount.toString()),
                 ],
               ),
@@ -124,16 +116,19 @@ class _HomePageState
     );
   }
 
-  Widget _getItemBottom(Widget icon, String count) {
+  Widget _getItemBottom(String icon, String count) {
     return new Padding(
       padding: new EdgeInsets.only(right: 12.0),
       child: Row(
         children: <Widget>[
-          icon,
-          Text(
+          Image(
+              width: 12.0,
+              height: 12.0,
+              image: new AssetImage(icon)),
+          Padding(padding: EdgeInsets.only(left: 3.0), child: Text(
             count,
-            style: new TextStyle(color: Colors.black, fontSize: 12.0),
-          ),
+            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+          ),),
         ],
       ),
     );

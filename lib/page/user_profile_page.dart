@@ -73,7 +73,6 @@ class _UserProfileState extends State<UserProfilePage>
   List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
     return <Widget>[
       SliverAppBar(
-        centerTitle: true,
         expandedHeight: 200.0,
         pinned: true,
         flexibleSpace: FlexibleSpaceBar(

@@ -54,7 +54,6 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
           ? null
           : new AppBar(
               actions: getActions(),
-              centerTitle: true,
               title: new Text(title),
             ),
       body: buildBody(context),
@@ -107,7 +106,7 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             new Container(
-                child: SpinKitWave(
+                child: SpinKitCircle(
               color: Colors.black,
               size: 25.0,
             )),

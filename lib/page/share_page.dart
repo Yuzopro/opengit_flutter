@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/localizations/app_localizations.dart';
+import 'package:package_info/package_info.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class SharePage extends StatefulWidget {
   @override
@@ -8,178 +11,80 @@ class SharePage extends StatefulWidget {
 }
 
 class _SharePageState extends State<SharePage> {
+  String _version = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _getPackageInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new DefaultTabController(
-      length: _allPages.length,
-      child: new Scaffold(
-        body: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                child: new SliverAppBar(
-                  title: const Text('Tabs and scrolling'),
-                  pinned: true,
-                  expandedHeight: 150.0,
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: new TabBar(
-                    tabs: _allPages.keys
-                        .map(
-                          (_Page page) => new Tab(text: page.label),
-                        )
-                        .toList(),
-                  ),
+    double size = MediaQuery.of(context).size.width - 100;
+    double qrSize = size - 80;
+    return new Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).currentlocal.share),
+      ),
+      body: new Center(
+          child: new DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: new Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 12.0, top: 12.0),
+                child: Row(
+                  children: <Widget>[
+                    Image(
+                        width: 32.0,
+                        height: 32.0,
+                        image: new AssetImage('image/ic_launcher.png')),
+                    Padding(
+                      padding: EdgeInsets.only(left: 3.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('OpenGit',
+                              style: new TextStyle(
+                                  color: Colors.black, fontSize: 12.0)),
+                          new Text(_version,
+                              style: new TextStyle(
+                                  color: Colors.grey, fontSize: 12.0))
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ];
-          },
-          body: new TabBarView(
-            children: _allPages.keys.map((_Page page) {
-              return new SafeArea(
-                top: false,
-                bottom: false,
-                child: new Builder(
-                  builder: (BuildContext context) {
-                    return new CustomScrollView(
-//                      key: new PageStorageKey<_Page>(page),
-                      physics: AlwaysScrollableScrollPhysics(),
-                      slivers: <Widget>[
-                        new SliverOverlapInjector(
-                          handle: NestedScrollView
-                              .sliverOverlapAbsorberHandleFor(context),
-                        ),
-                        new SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                            horizontal: 16.0,
-                          ),
-                          sliver: new SliverFixedExtentList(
-                            itemExtent: _CardDataItem.height,
-                            delegate: new SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                                final _CardData data = _allPages[page][index];
-                                return new Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0,
-                                  ),
-                                  child: new _CardDataItem(
-                                    page: page,
-                                    data: data,
-                                  ),
-                                );
-                              },
-                              childCount: _allPages[page].length,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              );
-            }).toList(),
+              QrImage(
+                  data: "https://yuzopro.github.io/",
+                  size: qrSize,
+                  onError: (ex) {
+                    print("[QR] ERROR - $ex");
+                  }),
+              Text(AppLocalizations.of(context).currentlocal.download_app_tips,
+                  style: new TextStyle(color: Colors.grey, fontSize: 12.0)),
+            ],
           ),
         ),
-      ),
+      )),
     );
   }
-}
 
-class _Page {
-  _Page({this.label});
-
-  final String label;
-
-  String get id => label[0];
-
-  @override
-  String toString() => '$runtimeType("$label")';
-}
-
-class _CardData {
-  const _CardData({this.title});
-
-  final String title;
-}
-
-final Map<_Page, List<_CardData>> _allPages = <_Page, List<_CardData>>{
-  new _Page(label: 'HOME'): <_CardData>[
-    const _CardData(
-      title: 'Flatwear',
-    ),
-    const _CardData(
-      title: 'Pine Table',
-    ),
-    const _CardData(
-      title: 'Blue Cup',
-    ),
-    const _CardData(
-      title: 'Tea Set',
-    ),
-    const _CardData(
-      title: 'Desk Set',
-    ),
-    const _CardData(
-      title: 'Blue Linen Napkins',
-    ),
-    const _CardData(
-      title: 'Planters',
-    ),
-    const _CardData(
-      title: 'Kitchen Quattro',
-    ),
-    const _CardData(
-      title: 'Platter',
-    ),
-  ],
-  new _Page(label: 'APPAREL'): <_CardData>[
-    const _CardData(
-      title: 'Cloud-White Dress',
-    ),
-    const _CardData(
-      title: 'Ginger Scarf',
-    ),
-    const _CardData(
-      title: 'Blush Sweats',
-    ),
-  ],
-};
-
-class _CardDataItem extends StatelessWidget {
-  const _CardDataItem({this.page, this.data});
-
-  static const double height = 272.0;
-  final _Page page;
-  final _CardData data;
-
-  @override
-  Widget build(BuildContext context) {
-    return new Card(
-      child: new Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            new Align(
-              alignment:
-                  page.id == 'H' ? Alignment.centerLeft : Alignment.centerRight,
-              child: new CircleAvatar(child: new Text('${page.id}')),
-            ),
-            new SizedBox(
-              width: 144.0,
-              height: 144.0,
-            ),
-            new Center(
-              child: new Text(
-                data.title,
-                style: Theme.of(context).textTheme.title,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  _getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if (packageInfo != null) {
+      setState(() {
+        _version = packageInfo.version;
+      });
+    }
   }
 }

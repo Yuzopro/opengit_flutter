@@ -63,4 +63,13 @@ class EnString extends AppBaseString {
 
   @override
   String get edit => "edit";
+
+  @override
+  String get introduction => "introduction";
+
+  @override
+  String get update => "update";
+
+  @override
+  String get download_app_tips => "scan the qr code，download OpenGit";
 }

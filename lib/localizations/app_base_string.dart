@@ -20,4 +20,7 @@ abstract class AppBaseString {
   String edit_issue_desc;
   String delete;
   String edit;
+  String introduction;
+  String update;
+  String download_app_tips;
 }

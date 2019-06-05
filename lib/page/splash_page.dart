@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/redux/state.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:redux/redux.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -46,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
         child: new Image(
             width: 64.0,
             height: 64.0,
-            image: new AssetImage('image/ic_welcome.png')),
+            image: new AssetImage('image/ic_launcher.png')),
       ),
     );
   }

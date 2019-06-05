@@ -111,7 +111,7 @@ class EventUtil {
   }
 
   static getTypeIcon(EventBean event) {
-    Icon icon = null;
+    Widget icon = null;
     switch (event.type) {
       case "CreateEvent":
         icon = Icon(
@@ -121,11 +121,10 @@ class EventUtil {
         );
         break;
       case "CommitCommentEvent":
-        icon = Icon(
-          Icons.comment,
-          color: Colors.grey,
-          size: 16.0,
-        );
+        icon = Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_comment.png'));
         break;
       case "DeleteEvent":
         icon = Icon(
@@ -135,32 +134,28 @@ class EventUtil {
         );
         break;
       case "ForkEvent":
-        icon = Icon(
-          Icons.list,
-          color: Colors.grey,
-          size: 16.0,
-        );
+        icon = Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_branch.png'));
         break;
       case "IssueCommentEvent":
-        icon = Icon(
-          Icons.comment,
-          color: Colors.grey,
-          size: 16.0,
-        );
+        icon = Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_comment.png'));
         break;
       case "IssuesEvent":
-        icon = Icon(
-          Icons.question_answer,
-          color: Colors.grey,
-          size: 16.0,
-        );
+        icon = Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_issue.png'));
         break;
       case "WatchEvent":
-        icon = Icon(
-          Icons.star,
-          color: Colors.grey,
-          size: 16.0,
-        );
+        icon = Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_star.png'));
         break;
       default:
         icon = Icon(

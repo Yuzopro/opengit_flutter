@@ -175,11 +175,10 @@ class _EventPageState extends PullRefreshListState<
               ),
               flex: 1,
             ),
-            Icon(
-              Icons.comment,
-              color: Colors.grey,
-              size: 16.0,
-            ),
+            Image(
+                width: 16.0,
+                height: 16.0,
+                image: new AssetImage('image/ic_comment.png')),
             Text(
               "${payload.issue.commentNum}",
               style: new TextStyle(color: Colors.grey),

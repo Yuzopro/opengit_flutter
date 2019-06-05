@@ -381,16 +381,15 @@ class _RepositoryDetailPageState extends BaseState<
         ExpansionTile(
           title: Row(
             children: <Widget>[
-              Image.asset(
-                "image/ic_branch.png",
-                width: 16.0,
-                height: 16.0,
-              ),
+              Image(
+                  width: 16.0,
+                  height: 16.0,
+                  image: new AssetImage('image/ic_branch.png')),
               Padding(
                 padding: EdgeInsets.only(left: 4.0),
                 child: new Text(
                   repository.defaultBranch,
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.grey),
                 ),
               )
             ],

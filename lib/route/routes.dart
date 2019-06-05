@@ -10,6 +10,8 @@ class AppRoutes {
   static final theme = "/main/setting/theme";
   static final language = "/main/setting/language";
   static final webview = "/main/webview";
+  static final about = "/main/about";
+  static final share = "/main/share";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
@@ -19,7 +21,7 @@ class AppRoutes {
     router.define(splash,
         handler: splashHandler, transitionType: TransitionType.inFromRight);
     router.define(main,
-        handler: homeHandler, transitionType: TransitionType.inFromRight);
+        handler: mainHandler, transitionType: TransitionType.inFromRight);
     router.define(login,
         handler: loginHandler, transitionType: TransitionType.inFromRight);
     router.define(setting,
@@ -30,5 +32,9 @@ class AppRoutes {
         handler: languageHandler, transitionType: TransitionType.inFromRight);
     router.define(webview,
         handler: webviewHandler, transitionType: TransitionType.inFromRight);
+    router.define(about,
+        handler: aboutHandler, transitionType: TransitionType.inFromRight);
+    router.define(share,
+        handler: shareHandler, transitionType: TransitionType.inFromRight);
   }
 }

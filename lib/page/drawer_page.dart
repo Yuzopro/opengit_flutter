@@ -3,6 +3,7 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/image_util.dart';
 
 class DrawerPage extends StatelessWidget {
   final String name, email, headUrl;
@@ -17,9 +18,15 @@ class DrawerPage extends StatelessWidget {
           new UserAccountsDrawerHeader(
             accountName: new Text(name),
             accountEmail: new Text(email),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: new NetworkImage(this.headUrl),
+            currentAccountPicture: new GestureDetector(
+              //用户头像
+              onTap: () {
+                UserBean userBean = LoginManager.instance.getUserBean();
+                NavigatorUtil.goUserProfile(context, userBean);
+              },
+              child: new ClipOval(
+                child: ImageUtil.getImageWidget(this.headUrl ?? "", 64.0),
+              ),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
@@ -51,7 +58,7 @@ class DrawerPage extends StatelessWidget {
             title: new Text(AppLocalizations.of(context).currentlocal.about),
             leading: new Icon(Icons.info, color: Colors.grey),
             onTap: () {
-              NavigatorUtil.goAppInfo(context);
+              NavigatorUtil.goAbout(context);
             },
           ),
           new ListTile(

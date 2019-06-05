@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_git/page/app_info_page.dart';
 import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/edit_issue_page.dart';
@@ -16,7 +15,6 @@ import 'package:open_git/page/repository_language_page.dart';
 import 'package:open_git/page/repository_source_code_page.dart';
 import 'package:open_git/page/repository_source_file_page.dart';
 import 'package:open_git/page/search_page.dart';
-import 'package:open_git/page/share_page.dart';
 import 'package:open_git/page/trend_page.dart';
 import 'package:open_git/page/user_profile_page.dart';
 import 'package:open_git/route/application.dart';
@@ -25,6 +23,7 @@ import 'package:open_git/route/routes.dart';
 class NavigatorUtil {
   //主页
   static goMain(BuildContext context) {
+//    Application.router.navigateTo(context, AppRoutes.main);
     Navigator.pushReplacement(
         context, new CupertinoPageRoute(builder: (context) => new MainPage()));
   }
@@ -44,20 +43,16 @@ class NavigatorUtil {
   //设置页
   static goSetting(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.setting);
-//    Navigator.push(context,
-//        new CupertinoPageRoute(builder: (context) => new SettingPage()));
   }
 
   //关于页
-  static goAppInfo(BuildContext context) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new AppInfoPage()));
+  static goAbout(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.about);
   }
 
   //分享页
   static goShare(BuildContext context) {
-    Navigator.push(
-        context, new CupertinoPageRoute(builder: (context) => new SharePage()));
+    Application.router.navigateTo(context, AppRoutes.share);
   }
 
   //注销页

@@ -19,8 +19,7 @@ class TrendPage extends StatefulWidget {
   }
 }
 
-class _TrendState extends State<TrendPage>
-    with SingleTickerProviderStateMixin {
+class _TrendState extends State<TrendPage> with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<_Page> _allPages;
   final PageController _pageController = new PageController();
@@ -177,11 +176,10 @@ class _TrendingBeanItem extends StatelessWidget {
       padding: new EdgeInsets.only(right: 12.0),
       child: Row(
         children: <Widget>[
-          Icon(
-            Icons.star_border,
-            color: Colors.black,
-            size: 12.0,
-          ),
+          Image(
+              width: 16.0,
+              height: 16.0,
+              image: new AssetImage('image/ic_star.png')),
           Text(
             data.starCount,
             style: new TextStyle(color: Colors.black, fontSize: 10.0),
@@ -193,11 +191,10 @@ class _TrendingBeanItem extends StatelessWidget {
 
     Widget _forkView = new Row(
       children: <Widget>[
-        Image.asset(
-          "image/ic_branch.png",
-          width: 10.0,
-          height: 10.0,
-        ),
+        Image(
+            width: 16.0,
+            height: 16.0,
+            image: new AssetImage('image/ic_branch.png')),
         Text(
           data.forkCount,
           style: new TextStyle(color: Colors.black, fontSize: 10.0),

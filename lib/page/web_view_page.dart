@@ -19,7 +19,6 @@ class _WebViewState extends State<WebViewPage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
-        centerTitle: true,
       ),
       body: WebviewScaffold(
         url: widget.url,

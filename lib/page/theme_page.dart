@@ -224,7 +224,6 @@ class ThemePage extends StatelessWidget {
             length: allPalettes.length,
             child: new Scaffold(
               appBar: new AppBar(
-                centerTitle: true,
                 title:
                     new Text(AppLocalizations.of(context).currentlocal.theme),
                 bottom: new TabBar(
