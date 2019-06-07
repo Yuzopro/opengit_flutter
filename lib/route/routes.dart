@@ -12,6 +12,8 @@ class AppRoutes {
   static final webview = "/main/webview";
   static final about = "/main/about";
   static final share = "/main/share";
+  static final introduction = "/main/about/introduction";
+  static final introduction_detail = "/main/about/introduction/detail";
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
@@ -36,5 +38,11 @@ class AppRoutes {
         handler: aboutHandler, transitionType: TransitionType.inFromRight);
     router.define(share,
         handler: shareHandler, transitionType: TransitionType.inFromRight);
+    router.define(introduction,
+        handler: introductionHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(introduction_detail,
+        handler: introductionDetailHandler,
+        transitionType: TransitionType.inFromRight);
   }
 }

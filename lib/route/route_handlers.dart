@@ -2,6 +2,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/page/about_page.dart';
 import 'package:open_git/page/home_page.dart';
+import 'package:open_git/page/introduction_detail_page.dart';
+import 'package:open_git/page/introduction_page.dart';
 import 'package:open_git/page/language_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/main_page.dart';
@@ -59,4 +61,19 @@ var aboutHandler = new Handler(
 var shareHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return new SharePage();
+});
+
+var introductionHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return new IntroductionPage();
+});
+
+var introductionDetailHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String title = params["title"]?.first;
+  String body = params["body"]?.first;
+  return new IntroductionDetailPage(
+    title: title,
+    body: body,
+  );
 });

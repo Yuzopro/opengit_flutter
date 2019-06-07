@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CommonUtil {
   static Future<Null> showLoadingDialog(BuildContext context) {
@@ -42,5 +45,29 @@ class CommonUtil {
                 ),
               ));
         });
+  }
+
+  static getLocalPath() async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.storage]);
+      if (permissions[PermissionGroup.storage] != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+    Directory appDir;
+    if (Platform.isIOS) {
+      appDir = await getApplicationDocumentsDirectory();
+    } else {
+      appDir = await getExternalStorageDirectory();
+    }
+    String appDocPath = appDir.path + "/opengit_flutter";
+    Directory appPath = Directory(appDocPath);
+    await appPath.create(recursive: true);
+    return appPath;
   }
 }

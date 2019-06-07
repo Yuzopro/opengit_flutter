@@ -21,6 +21,12 @@ abstract class AppBaseString {
   String delete;
   String edit;
   String introduction;
-  String update;
+  String update_title;
   String download_app_tips;
+  String dialog_logout_title;
+  String dialog_logout_content;
+  String login;
+  String account;
+  String password;
+  String update;
 }

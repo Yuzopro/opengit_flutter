@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/shared_prf_util.dart';
 
 class DrawerPage extends StatelessWidget {
   final String name, email, headUrl;
@@ -72,11 +74,44 @@ class DrawerPage extends StatelessWidget {
             title: new Text(AppLocalizations.of(context).currentlocal.logout),
             leading: new Icon(Icons.power_settings_new, color: Colors.grey),
             onTap: () {
-              NavigatorUtil.goLogout(context);
+              _handleLogoutApp(context);
             },
           ),
         ],
       ),
     );
+  }
+
+  Future<bool> _handleLogoutApp(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+              title: Text(AppLocalizations.of(context)
+                  .currentlocal
+                  .dialog_logout_title),
+              content: Text(AppLocalizations.of(context)
+                  .currentlocal
+                  .dialog_logout_content),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(AppLocalizations.of(context).currentlocal.cancel,
+                      style: TextStyle(color: Colors.grey)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text(
+                    AppLocalizations.of(context).currentlocal.ok,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    LoginManager.instance.clearAll();
+                    NavigatorUtil.goLogin(context);
+                  },
+                ),
+              ],
+            ));
   }
 }

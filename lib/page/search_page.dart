@@ -44,10 +44,6 @@ class _SearchPage extends State<SearchPage>
 
     _controller.addListener(() {
       String text = _controller.text;
-//      int length = _allPages.length;
-//      for (int i = 0; i < length; i++) {
-//        _allPages[i].state.setQueryText(text, false);
-//      }
       setState(() {
         _query = text;
       });

@@ -49,4 +49,9 @@ class ReleaseBean {
   );
 
   factory ReleaseBean.fromJson(Map<String, dynamic> json) => _$ReleaseBeanFromJson(json);
+
+  @override
+  String toString() {
+    return 'ReleaseBean{id: $id, tagName: $tagName, targetCommitish: $targetCommitish, name: $name, body: $body, bodyHtml: $bodyHtml, tarballUrl: $tarballUrl, zipballUrl: $zipballUrl, draft: $draft, preRelease: $preRelease, createdAt: $createdAt, publishedAt: $publishedAt, author: $author, assets: $assets}';
+  }
 }

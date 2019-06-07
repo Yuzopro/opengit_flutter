@@ -153,6 +153,11 @@ class Api {
     return "${repoUrl}/issues/$number";
   }
 
+  //获取仓库release列表
+  static getReposReleases(userName, repos) {
+    return "${_BASE_URL}repos/$userName/$repos/releases?";
+  }
+
   static getJueJinApi(int page) {
     return "https://timeline-merger-ms.juejin.im/v1/get_tag_entry?"
         "src=web&tagId=5a96291f6fb9a0535b535438&page=$page&pageSize=20&sort=rankIndex";

@@ -67,8 +67,7 @@ class HttpManager {
           response.statusCode.toString());
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
-        return new ResponseResultData(
-            response.data, true, response.statusCode);
+        return new ResponseResultData(response.data, true, response.statusCode);
       } else {
         return new ResponseResultData(
             response.data["message"], false, response.statusCode);
@@ -86,5 +85,16 @@ class HttpManager {
     }
     headers["Authorization"] = LoginManager.instance.getToken();
     return headers;
+  }
+
+  static download(url, savePath, progress) async {
+    try {
+      Dio _dio = new Dio();
+      Response response =
+          await _dio.download(url, savePath, onReceiveProgress: progress);
+      print(response.statusCode);
+    } catch (e) {
+      print(e);
+    }
   }
 }

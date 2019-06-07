@@ -11,7 +11,6 @@ class LoginPresenter extends ILoginPresenter {
     if (view != null) {
       view.hideLoading();
       if (response != null) {
-        view.showToast("登录成功");
         view.onLoginSuccess();
       } else {
         view.showToast("登录失败");

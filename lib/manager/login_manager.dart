@@ -66,7 +66,7 @@ class LoginManager {
 
   _initUserInfo() async {
     var user = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_USER_INFO);
-    if (user != null) {
+    if (user != null && user.length > 0) {
       var userMap = jsonDecode(user);
       setUserBean(userMap);
       return _userBean;
@@ -83,6 +83,13 @@ class LoginManager {
 
   getUserBean() {
     return _userBean;
+  }
+
+  clearAll() async {
+    SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_USER_INFO, "");
+    LoginManager.instance.setUserBean(null);
+    SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, "");
+    LoginManager.instance.setToken(null);
   }
 
   void setToken (String token) {

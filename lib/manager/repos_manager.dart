@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/event_bean.dart';
+import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bean/trending_bean.dart';
@@ -169,6 +170,21 @@ class ReposManager {
             .toString();
       }
       return result;
+    }
+    return null;
+  }
+
+  getReposReleases(userName, repos, {page = 1}) async {
+    String url =
+        Api.getReposReleases(userName, repos) + Api.getPageParams("&", page);
+    final response = await HttpManager.doGet(url, null);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<ReleaseBean> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        list.add(ReleaseBean.fromJson(dataItem));
+      }
+      return list;
     }
     return null;
   }

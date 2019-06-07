@@ -228,6 +228,7 @@ class ThemePage extends StatelessWidget {
                     new Text(AppLocalizations.of(context).currentlocal.theme),
                 bottom: new TabBar(
                   isScrollable: true,
+                  indicatorColor: Colors.white,
                   tabs: allPalettes
                       .map((Palette swatch) => new Tab(text: swatch.name))
                       .toList(),

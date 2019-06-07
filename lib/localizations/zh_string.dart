@@ -68,8 +68,26 @@ class ZhString extends AppBaseString {
   String get introduction => "功能介绍";
 
   @override
-  String get update => "检查更新";
+  String get update_title => "检查更新";
 
   @override
   String get download_app_tips => "扫码此二维码，下载OpenGit";
+
+  @override
+  String get dialog_logout_title => "退出登录";
+
+  @override
+  String get dialog_logout_content => "确定退出当前账号？";
+
+  @override
+  String get login => "登录";
+
+  @override
+  String get account => "Github账号";
+
+  @override
+  String get password => "Github密码";
+
+  @override
+  String get update => "更新";
 }

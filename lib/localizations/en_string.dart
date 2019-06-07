@@ -68,8 +68,26 @@ class EnString extends AppBaseString {
   String get introduction => "introduction";
 
   @override
-  String get update => "update";
+  String get update_title => "check update";
 
   @override
   String get download_app_tips => "scan the qr code，download OpenGit";
+
+  @override
+  String get dialog_logout_title => "logout";
+
+  @override
+  String get dialog_logout_content => "make sure to log out of the current account？";
+
+  @override
+  String get login => "Login";
+
+  @override
+  String get account => "Github Account";
+
+  @override
+  String get password => "Github Password";
+
+  @override
+  String get update => "update";
 }

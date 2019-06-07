@@ -177,12 +177,12 @@ class _TrendingBeanItem extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Image(
-              width: 16.0,
-              height: 16.0,
+              width: 12.0,
+              height: 12.0,
               image: new AssetImage('image/ic_star.png')),
           Text(
             data.starCount,
-            style: new TextStyle(color: Colors.black, fontSize: 10.0),
+            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
           ),
         ],
       ),
@@ -192,12 +192,12 @@ class _TrendingBeanItem extends StatelessWidget {
     Widget _forkView = new Row(
       children: <Widget>[
         Image(
-            width: 16.0,
-            height: 16.0,
+            width: 12.0,
+            height: 12.0,
             image: new AssetImage('image/ic_branch.png')),
         Text(
           data.forkCount,
-          style: new TextStyle(color: Colors.black, fontSize: 10.0),
+          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
         ),
       ],
     );
@@ -219,7 +219,7 @@ class _TrendingBeanItem extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                 child: Text(data.description,
-                    style: new TextStyle(color: Colors.grey))),
+                    style: new TextStyle(color: Colors.black54, fontSize: 12.0))),
             Row(
               children: _bottomViews,
             ),
@@ -240,7 +240,7 @@ class _TrendingBeanItem extends StatelessWidget {
         children: <Widget>[
           ClipOval(
             child: Container(
-              color: Colors.black87,
+              color: Colors.grey,
               width: 8.0,
               height: 8.0,
             ),
@@ -249,7 +249,7 @@ class _TrendingBeanItem extends StatelessWidget {
             padding: new EdgeInsets.only(left: 4.0),
             child: Text(
               language,
-              style: new TextStyle(color: Colors.black54, fontSize: 10.0),
+              style: new TextStyle(color: Colors.grey, fontSize: 10.0),
               overflow: TextOverflow.ellipsis,
             ),
           ),

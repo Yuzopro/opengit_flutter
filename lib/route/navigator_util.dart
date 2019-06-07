@@ -189,4 +189,17 @@ class NavigatorUtil {
         AppRoutes.webview +
             "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
   }
+
+  //功能介绍页
+  static goIntroduction(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.introduction);
+  }
+
+  //功能介绍详情页
+  static goIntroductionDetail(BuildContext context, title, body) {
+    Application.router.navigateTo(
+        context,
+        AppRoutes.introduction_detail +
+            "?title=${Uri.encodeComponent(title)}&body=${Uri.encodeComponent(body)}");
+  }
 }

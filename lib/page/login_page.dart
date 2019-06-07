@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/contract/login_contract.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/presenter/login_presenter.dart';
 import 'package:open_git/route/navigator_util.dart';
 
@@ -83,7 +84,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
         width: 270.0,
         child: RaisedButton(
           child: Text(
-            'Login',
+            AppLocalizations.of(context).currentlocal.login,
             style: Theme.of(context).primaryTextTheme.headline,
           ),
           color: Colors.black,
@@ -102,7 +103,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
     return new TextFormField(
       controller: _passwordController,
       decoration: new InputDecoration(
-        labelText: "Github密码",
+        labelText: AppLocalizations.of(context).currentlocal.password,
         suffixIcon: new GestureDetector(
           onTap: () {
             setState(() {
@@ -122,7 +123,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
     return new TextFormField(
       controller: _nameController,
       decoration: new InputDecoration(
-        labelText: "Github账号",
+        labelText: AppLocalizations.of(context).currentlocal.account,
         suffixIcon: new GestureDetector(
           onTap: () {
             setState(() {
@@ -154,7 +155,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginPresenter, ILoginView>
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        'Login',
+        AppLocalizations.of(context).currentlocal.login,
         style: TextStyle(fontSize: 42.0),
       ),
     );

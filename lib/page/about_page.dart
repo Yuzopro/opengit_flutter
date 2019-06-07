@@ -1,5 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:open_git/base/base_state.dart';
+import 'package:open_git/bean/release_asset_bean.dart';
+import 'package:open_git/bean/release_bean.dart';
+import 'package:open_git/contract/repos_release_contract.dart';
+import 'package:open_git/http/http_manager.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/presenter/repos_release_presenter.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:package_info/package_info.dart';
 
 class AboutPage extends StatefulWidget {
@@ -9,17 +19,28 @@ class AboutPage extends StatefulWidget {
   }
 }
 
-class _AboutState extends State<AboutPage> {
+class _AboutState
+    extends BaseState<AboutPage, ReposReleasePresenter, IReposReleaseView>
+    implements IReposReleaseView {
   String _version = "";
 
   @override
-  void initState() {
-    super.initState();
+  void initData() {
+    super.initData();
     _getPackageInfo();
   }
 
+  _getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if (packageInfo != null) {
+      setState(() {
+        _version = packageInfo.version;
+      });
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildBody(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: Text(AppLocalizations.of(context).currentlocal.about),
@@ -53,15 +74,22 @@ class _AboutState extends State<AboutPage> {
               title: new Text(
                   AppLocalizations.of(context).currentlocal.introduction),
               trailing: new Icon(Icons.arrow_right),
-              onTap: () {},
+              onTap: () {
+                NavigatorUtil.goIntroduction(context);
+              },
             ),
             Divider(
               height: 0.3,
             ),
             ListTile(
-              title: new Text(AppLocalizations.of(context).currentlocal.update),
+              title: new Text(
+                  AppLocalizations.of(context).currentlocal.update_title),
               trailing: new Icon(Icons.arrow_right),
-              onTap: () {},
+              onTap: () {
+                if (presenter != null) {
+                  presenter.getReposReleases('Yuzopro', 'OpenGit_Flutter');
+                }
+              },
             ),
             Divider(
               height: 0.3,
@@ -72,12 +100,109 @@ class _AboutState extends State<AboutPage> {
     );
   }
 
-  _getPackageInfo() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    if (packageInfo != null) {
-      setState(() {
-        _version = packageInfo.version;
-      });
+  @override
+  void getReposReleasesSuccess(List<ReleaseBean> list) {
+    if (list != null && list.length > 0) {
+      ReleaseBean bean = list[0];
+      if (bean != null) {
+        String serverVersion = bean.name;
+        if (presenter != null) {
+          int compare = presenter.compareVersion(_version, serverVersion);
+          if (/*compare == -1*/ true) {
+            String url = "";
+            if (bean.assets != null && bean.assets.length > 0) {
+              ReleaseAssetBean assetBean = bean.assets[0];
+              if (assetBean != null) {
+                url = assetBean.downloadUrl;
+              }
+            }
+            _showUpdateDialog(context, serverVersion, bean.body, url);
+          } else {
+            showToast("已经是最新版本");
+          }
+        }
+      }
     }
+  }
+
+  @override
+  ReposReleasePresenter initPresenter() {
+    return new ReposReleasePresenter();
+  }
+
+  _showUpdateDialog(BuildContext context, title, content, String url) {
+    bool isDownload = false;
+    double progress = 0;
+
+    return showDialog(
+        context: context,
+        builder: (context) =>
+            new StatefulBuilder(builder: (context, StateSetter setState) {
+              List<Widget> contentWidget = [];
+              List<Widget> actionWidget;
+              contentWidget.add(Text(content));
+              contentWidget.add(SizedBox(
+                height: 10.0,
+              ));
+
+              if (isDownload) {
+                contentWidget.add(LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.black,
+                ));
+              } else {
+                actionWidget = [
+                  FlatButton(
+                    child: Text(
+                        AppLocalizations.of(context).currentlocal.cancel,
+                        style: TextStyle(color: Colors.grey)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      AppLocalizations.of(context).currentlocal.update,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      if (url != null && url.contains('.apk')) {
+                        CommonUtil.getLocalPath().then((appDir) {
+                          if (appDir == null) {
+                            return;
+                          }
+                          setState(() {
+                            isDownload = true;
+                          });
+                          HttpManager.download(
+                              url, appDir.path + title + ".apk",
+                              (received, total) {
+                            setState(() {
+                              progress = received / total;
+                              if (progress == 1) {
+                                Navigator.of(context).pop();
+                              } else {
+                                isDownload = true;
+                              }
+                            });
+                          });
+                        });
+                      }
+                    },
+                  ),
+                ];
+              }
+
+              return new AlertDialog(
+                title: Text(title),
+                content: SizedBox(
+                  height: 80.0,
+                  child: ListView(
+                    children: contentWidget,
+                  ),
+                ),
+                actions: actionWidget,
+              );
+            }));
   }
 }
