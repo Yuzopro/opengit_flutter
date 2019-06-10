@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.yuzo.install_apk_plugin">
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <application>
+        <!--provider start-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            tools:replace="android:authorities"
+            android:authorities="com.yuzo.opengit.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                tools:replace="android:resource"
+                android:resource="@xml/file_path" />
+        </provider>
+        <!--provider end-->
+    </application>
+</manifest>

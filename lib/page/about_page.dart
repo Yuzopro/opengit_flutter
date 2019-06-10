@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:install_apk_plugin/install_apk_plugin.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
@@ -108,7 +107,7 @@ class _AboutState
         String serverVersion = bean.name;
         if (presenter != null) {
           int compare = presenter.compareVersion(_version, serverVersion);
-          if (/*compare == -1*/ true) {
+          if (compare == -1) {
             String url = "";
             if (bean.assets != null && bean.assets.length > 0) {
               ReleaseAssetBean assetBean = bean.assets[0];
@@ -174,13 +173,13 @@ class _AboutState
                           setState(() {
                             isDownload = true;
                           });
-                          HttpManager.download(
-                              url, appDir.path + title + ".apk",
-                              (received, total) {
+                          String path = appDir.path + title + ".apk";
+                          HttpManager.download(url, path, (received, total) {
                             setState(() {
                               progress = received / total;
                               if (progress == 1) {
                                 Navigator.of(context).pop();
+                                InstallApkPlugin.installApk(path);
                               } else {
                                 isDownload = true;
                               }

@@ -29,7 +29,6 @@ dependencies:
   flutter_webview_plugin: any
   photo_view: any
   flutter_spinkit: any
-#  flutter_html_view: ^0.5.11
   flutter_redux: any
   fluro: "^1.4.0"
   package_info: any
@@ -43,6 +42,8 @@ dev_dependencies:
     sdk: flutter
   build_runner: any
   json_serializable: any
+  install_apk_plugin:
+    path: install_apk_plugin
 
 
 # For information on the generic Dart part of this file, see the
@@ -87,18 +88,18 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
   assets:
-  - image/ic_launcher.png
-  - image/ic_branch.png
-  - image/ic_default_head.png
-  - image/1f44d.png
-  - image/1f44e.png
-  - image/1f389.png
-  - image/1f440.png
-  - image/1f604.png
-  - image/1f615.png
-  - image/1f680.png
-  - image/2764.png
-  - image/ic_like.png
-  - image/ic_comment.png
-  - image/ic_star.png
-  - image/ic_issue.png
+    - image/ic_launcher.png
+    - image/ic_branch.png
+    - image/ic_default_head.png
+    - image/1f44d.png
+    - image/1f44e.png
+    - image/1f389.png
+    - image/1f440.png
+    - image/1f604.png
+    - image/1f615.png
+    - image/1f680.png
+    - image/2764.png
+    - image/ic_like.png
+    - image/ic_comment.png
+    - image/ic_star.png
+    - image/ic_issue.png
