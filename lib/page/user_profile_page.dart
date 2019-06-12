@@ -62,10 +62,14 @@ class _UserProfileState extends State<UserProfilePage>
           body: NestedScrollView(
         headerSliverBuilder: _sliverBuilder,
         body: new PageView(
-            controller: _pageController,
-            children: _choices.map((choice) {
-              return choice.widget;
-            }).toList()),
+          controller: _pageController,
+          children: _choices.map((choice) {
+            return choice.widget;
+          }).toList(),
+          onPageChanged: (page) {
+            _tabController.animateTo(page);
+          },
+        ),
       )),
     );
   }
@@ -86,7 +90,8 @@ class _UserProfileState extends State<UserProfilePage>
               new BackdropFilter(
                 filter: new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                 child: new Container(
-                  decoration: new BoxDecoration(color: Colors.black.withOpacity(0.2)),
+                  decoration:
+                      new BoxDecoration(color: Colors.black.withOpacity(0.2)),
                 ),
               )
             ],

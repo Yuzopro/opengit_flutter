@@ -45,7 +45,7 @@ class _HomePageState
   Widget buildFloatingActionButton() {
     return new FloatingActionButton(
       onPressed: () {
-        showAlertDialog(context);
+        _showAlertDialog(context);
       },
       child: new Text(
         '免责\n声明',
@@ -171,7 +171,7 @@ class _HomePageState
     );
   }
 
-  void showAlertDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context) {
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

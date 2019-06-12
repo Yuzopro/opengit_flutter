@@ -36,7 +36,7 @@ class HttpManager {
 
   static _doRequest(
       url, params, Map<String, String> header, Options options) async {
-    debugPrint("[HttpRequest] url is " + url);
+//    debugPrint("[HttpRequest] url is " + url);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -61,10 +61,10 @@ class HttpManager {
     try {
       //因为contenttype是application/json，不用在进行json转换
       response = await _dio.request(url, data: params, options: options);
-      debugPrint("[HttpRequest] response is " +
-          response.toString() +
-          "@statusCode is " +
-          response.statusCode.toString());
+//      debugPrint("[HttpRequest] response is " +
+//          response.toString() +
+//          "@statusCode is " +
+//          response.statusCode.toString());
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
         return new ResponseResultData(response.data, true, response.statusCode);

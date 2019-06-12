@@ -103,6 +103,7 @@ class ReposManager {
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null) {
       var repos = TrendingUtil.htmlToRepo(response.data);
+      print("repos length is " + repos.length.toString());
       if (repos != null && repos.length > 0) {
         List<TrendingBean> list = new List();
         for (int i = 0; i < repos.length; i++) {

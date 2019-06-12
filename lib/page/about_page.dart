@@ -121,6 +121,8 @@ class _AboutState
           }
         }
       }
+    } else {
+      showToast("已经是最新版本");
     }
   }
 
@@ -129,11 +131,11 @@ class _AboutState
     return new ReposReleasePresenter();
   }
 
-  _showUpdateDialog(BuildContext context, title, content, String url) {
+  void _showUpdateDialog(BuildContext context, title, content, String url) {
     bool isDownload = false;
     double progress = 0;
 
-    return showDialog(
+    showDialog(
         context: context,
         builder: (context) =>
             new StatefulBuilder(builder: (context, StateSetter setState) {
@@ -194,9 +196,8 @@ class _AboutState
 
               return new AlertDialog(
                 title: Text(title),
-                content: SizedBox(
-                  height: 80.0,
-                  child: ListView(
+                content: SingleChildScrollView(
+                  child: ListBody(
                     children: contentWidget,
                   ),
                 ),

@@ -68,6 +68,9 @@ class _TrendState extends State<TrendPage> with SingleTickerProviderStateMixin {
             children: _allPages.map((_Page page) {
               return page;
             }).toList(),
+            onPageChanged: (page){
+              _tabController.animateTo(page);
+            },
           ),
         ));
   }

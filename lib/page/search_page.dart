@@ -117,6 +117,9 @@ class _SearchPage extends State<SearchPage>
             children: _allPages.map((_Page page) {
               return page;
             }).toList(),
+            onPageChanged: (page) {
+              _tabController.animateTo(page);
+            },
           ),
         ));
     ;

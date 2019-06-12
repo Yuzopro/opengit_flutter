@@ -12,15 +12,16 @@ class TrendingUtil {
       responseData = responseData.replaceAll(new RegExp('\n'), '');
     } catch (e) {}
     var repos = new List();
-    var splitWithH3 = responseData.split('<h3');
+    var splitWithH3 = responseData.split('<h1 class="h3 lh-condensed">');
     splitWithH3.removeAt(0);
+    print("splitWithH3.length is " + splitWithH3.length.toString());
     for (var i = 0; i < splitWithH3.length; i++) {
       var repo = TrendingBean.empty();
       var html = splitWithH3[i];
 
       parseRepoBaseInfo(repo, html);
 
-      var metaNoteContent = parseContentWithNote(html, 'class="f6 text-gray mt-2">', '<\/li>');
+      var metaNoteContent = parseContentWithNote(html, 'class="f6 text-gray mt-2">', '<\/article>');
       repo.meta = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["meta"]);
       repo.starCount = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["starCount"]);
       repo.forkCount = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["forkCount"]);
@@ -55,7 +56,7 @@ class TrendingUtil {
       repo.reposName = repo.fullName.split('/')[1];
     }
 
-    String description = parseContentWithNote(htmlBaseInfo, '<p class="col-9 d-inline-block text-gray m-0 pr-4">', '</p>');
+    String description = parseContentWithNote(htmlBaseInfo, '<p class="col-9 text-gray my-1 pr-4">', '</p>');
     if (description != null) {
       String reg = "<g-emoji.*?>.+?</g-emoji>";
       RegExp tag = new RegExp(reg);

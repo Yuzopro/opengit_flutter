@@ -2,18 +2,6 @@
 <paths xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="ResourceName">
 
-    <external-files-path
-        name="upgrade_apk"
-        path="update/" />
-
-    <external-files-path
-        name="image"
-        path="image/" />
-
-    <external-files-path
-        name="log"
-        path="log/" />
-
     <root-path
         name="root_path"
         path="." />

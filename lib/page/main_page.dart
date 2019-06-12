@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:install_apk_plugin/install_apk_plugin.dart';
 import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
@@ -16,6 +17,7 @@ import 'package:open_git/page/issue_page.dart';
 import 'package:open_git/page/repository_page.dart';
 import 'package:open_git/presenter/repos_release_presenter.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:package_info/package_info.dart';
 
@@ -131,6 +133,9 @@ class _MainPageState
                 EventPage(userName),
                 IssuePage(userName),
               ],
+              onPageChanged: (page) {
+                _tabController.animateTo(page);
+              },
             ),
           ),
         ),
@@ -197,15 +202,14 @@ class _MainPageState
     }
   }
 
-  _showUpdateDialog(BuildContext context, title, content, String url) {
+  void _showUpdateDialog(BuildContext context, title, content, String url) {
     bool isDownload = false;
     double progress = 0;
 
-    return showDialog(
+    showDialog(
         context: context,
         builder: (context) =>
             new StatefulBuilder(builder: (context, StateSetter setState) {
-              print("StatefulBuilder");
               List<Widget> contentWidget = [];
               List<Widget> actionWidget;
               contentWidget.add(Text(content));
@@ -235,20 +239,24 @@ class _MainPageState
                     ),
                     onPressed: () {
                       if (url != null && url.contains('.apk')) {
-                        setState(() {
-                          isDownload = true;
-                        });
-                        //todo 权限以及安装还未处理
-                        HttpManager.download(
-                            url, "/storage/emulated/0/Download/release.apk",
-                            (received, total) {
+                        CommonUtil.getLocalPath().then((appDir) {
+                          if (appDir == null) {
+                            return;
+                          }
                           setState(() {
-                            progress = received / total;
-                            if (progress == 1) {
-                              Navigator.of(context).pop();
-                            } else {
-                              isDownload = true;
-                            }
+                            isDownload = true;
+                          });
+                          String path = appDir.path + title + ".apk";
+                          HttpManager.download(url, path, (received, total) {
+                            setState(() {
+                              progress = received / total;
+                              if (progress == 1) {
+                                Navigator.of(context).pop();
+                                InstallApkPlugin.installApk(path);
+                              } else {
+                                isDownload = true;
+                              }
+                            });
                           });
                         });
                       }
