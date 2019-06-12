@@ -1,6 +1,6 @@
 # open_git
 
-A new Flutter application.
+A new Github Flutter application.
 
 ## Getting Started
 
