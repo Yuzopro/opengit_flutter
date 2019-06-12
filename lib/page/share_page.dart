@@ -65,7 +65,7 @@ class _SharePageState extends State<SharePage> {
                 ),
               ),
               QrImage(
-                  data: "https://yuzopro.github.io/",
+                  data: "https://yuzopro.github.io/portfolio/work/opengit-flutter.html",
                   size: qrSize,
                   onError: (ex) {
                     print("[QR] ERROR - $ex");
