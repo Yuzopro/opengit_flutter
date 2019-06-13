@@ -10,22 +10,13 @@
 
 部分页面效果如下：
 
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_7.png" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_15.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_18.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_16.jepg" width="210px"/>
+<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_7.png" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_15.jpeg" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_18.jpeg" width="210px"/>
 
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_19.jepg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_17.png" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_8.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_9.png" width="210px"/>
+<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_16.jpeg" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_17.png" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_8.jpeg" width="210px"/>
 
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_10.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_11.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_12.jpeg" width="210px"/>
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_13.jpeg" width="210px"/>
+<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_9.png" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_10.jpeg" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_11.jpeg" width="210px"/>
 
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_14.png" width="210px"/>
+<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_12.jpeg" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_13.jpeg" width="210px"/> <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_14.png" width="210px"/>
 
 ## Android版安装包：
 [点击下载](https://github.com/Yuzopro/OpenGit_Flutter/releases/download/1.0.0/opengit-release-1.0.0.apk)
@@ -107,7 +98,7 @@
 
 - [CSDN](https://blog.csdn.net/Yuzopro)
 
-⭐⭐⭐觉得还可以的话，来个Star、Fork支持一波！有问题欢迎提Issue。⭐⭐⭐
+如果觉得好？请打赏下作者😀
 
 <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/weixin_pay.jpeg" width="150px"/>
 
