@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/page/book_mark_page.dart';
 import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/edit_issue_page.dart';
@@ -36,8 +38,13 @@ class NavigatorUtil {
 
   //书签页
   static goBookMark(BuildContext context) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new BookMarkPage()));
+    Navigator.push(
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => new BlocProvider<HomeBloc>(
+                  child: BookMarkPage(),
+                  bloc: new HomeBloc(),
+                )));
   }
 
   //设置页

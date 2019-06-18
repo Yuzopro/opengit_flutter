@@ -30,8 +30,8 @@ class ReposReleasePresenter extends IReposReleasePresenter {
     if (localVersion == serverVersion) {
       return 0;
     }
-    List<String> version1Array = localVersion.split("\\.");
-    List<String> version2Array = serverVersion.split("\\.");
+    List<String> version1Array = localVersion.split(".");
+    List<String> version2Array = serverVersion.split(".");
     int index = 0;
     // 获取最小长度值
     int minLen = min(version1Array.length, version2Array.length);

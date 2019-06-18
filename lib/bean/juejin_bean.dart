@@ -182,6 +182,11 @@ class Entrylist extends Object {
 
   factory Entrylist.fromJson(Map<String, dynamic> srcJson) =>
       _$EntrylistFromJson(srcJson);
+
+  @override
+  String toString() {
+    return 'Entrylist{collectionCount: $collectionCount, userRankIndex: $userRankIndex, buildTime: $buildTime, commentsCount: $commentsCount, gfw: $gfw, objectId: $objectId, checkStatus: $checkStatus, isEvent: $isEvent, entryView: $entryView, subscribersCount: $subscribersCount, ngxCachedTime: $ngxCachedTime, verifyStatus: $verifyStatus, tags: $tags, updatedAt: $updatedAt, rankIndex: $rankIndex, hot: $hot, autoPass: $autoPass, originalUrl: $originalUrl, verifyCreatedAt: $verifyCreatedAt, createdAt: $createdAt, user: $user, author: $author, screenshot: $screenshot, original: $original, hotIndex: $hotIndex, content: $content, title: $title, lastCommentTime: $lastCommentTime, type: $type, english: $english, category: $category, viewsCount: $viewsCount, summaryInfo: $summaryInfo, isCollected: $isCollected}';
+  }
 }
 
 @JsonSerializable()

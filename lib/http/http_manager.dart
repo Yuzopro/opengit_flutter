@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:open_git/http/response_result_data.dart';
 import 'package:open_git/manager/login_manager.dart';
+import 'package:open_git/util/log_util.dart';
 
 class HttpManager {
+  static final String TAG = "HttpManager";
+
   static const _GET = "GET";
   static const _POST = "POST";
   static const _PUT = "PUT";
@@ -36,7 +38,7 @@ class HttpManager {
 
   static _doRequest(
       url, params, Map<String, String> header, Options options) async {
-//    debugPrint("[HttpRequest] url is " + url);
+//    LogUtil.v(url, tag: TAG);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -61,10 +63,8 @@ class HttpManager {
     try {
       //因为contenttype是application/json，不用在进行json转换
       response = await _dio.request(url, data: params, options: options);
-//      debugPrint("[HttpRequest] response is " +
-//          response.toString() +
-//          "@statusCode is " +
-//          response.statusCode.toString());
+      LogUtil.v(url + "--->" + "@statusCode is " + response.statusCode.toString(),
+          tag: TAG);
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
         return new ResponseResultData(response.data, true, response.statusCode);

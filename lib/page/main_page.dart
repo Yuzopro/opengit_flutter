@@ -6,6 +6,8 @@ import 'package:open_git/base/base_state.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/contract/repos_release_contract.dart';
 import 'package:open_git/http/http_manager.dart';
 import 'package:open_git/localizations/app_localizations.dart';
@@ -128,7 +130,10 @@ class _MainPageState
             body: new PageView(
               controller: _pageController,
               children: <Widget>[
-                HomePage(),
+                new BlocProvider<HomeBloc>(
+                  child: HomePage(),
+                  bloc: new HomeBloc(),
+                ),
                 RepositoryPage(LoginManager.instance.getUserBean(), false),
                 EventPage(userName),
                 IssuePage(userName),
