@@ -10,7 +10,7 @@ class UserManager {
   static UserManager get instance => _getInstance();
   static UserManager _instance;
 
-  UserManager._internal() {}
+  UserManager._internal();
 
   static UserManager _getInstance() {
     if (_instance == null) {

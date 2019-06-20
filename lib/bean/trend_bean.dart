@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'trending_bean.g.dart';
+part 'trend_bean.g.dart';
 
 @JsonSerializable()
-class TrendingBean {
+class TrendBean {
   String fullName;
   String url;
 
@@ -19,7 +19,7 @@ class TrendingBean {
 
   String reposName;
 
-  TrendingBean(
+  TrendBean(
     this.fullName,
     this.url,
     this.description,
@@ -33,12 +33,12 @@ class TrendingBean {
     this.forkCount,
   );
 
-  TrendingBean.empty();
+  TrendBean.empty();
 
-  factory TrendingBean.fromJson(Map<String, dynamic> json) => _$TrendingBeanFromJson(json);
+  factory TrendBean.fromJson(Map<String, dynamic> json) => _$TrendBeanFromJson(json);
 
   @override
   String toString() {
-    return 'TrendingBean{fullName: $fullName, url: $url, description: $description, language: $language, meta: $meta, contributors: $contributors, contributorsUrl: $contributorsUrl, starCount: $starCount, forkCount: $forkCount, name: $name, reposName: $reposName}';
+    return 'TrendBean{fullName: $fullName, url: $url, description: $description, language: $language, meta: $meta, contributors: $contributors, contributorsUrl: $contributorsUrl, starCount: $starCount, forkCount: $forkCount, name: $name, reposName: $reposName}';
   }
 }

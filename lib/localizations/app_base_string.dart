@@ -29,4 +29,7 @@ abstract class AppBaseString {
   String account;
   String password;
   String update;
+  String today;
+  String week;
+  String month;
 }

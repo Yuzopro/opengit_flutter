@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/contract/introduction_contract.dart';
-import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/presenter/introduction_presenter.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/date_util.dart';

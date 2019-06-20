@@ -27,14 +27,3 @@ EventBean _$EventBeanFromJson(Map<String, dynamic> json) {
           ? null
           : DateTime.parse(json['created_at'] as String));
 }
-
-Map<String, dynamic> _$EventBeanToJson(EventBean instance) => <String, dynamic>{
-      'id': instance.id,
-      'type': instance.type,
-      'actor': instance.actor,
-      'repo': instance.repo,
-      'org': instance.org,
-      'payload': instance.payload,
-      'public': instance.isPublic,
-      'created_at': instance.createdAt?.toIso8601String()
-    };

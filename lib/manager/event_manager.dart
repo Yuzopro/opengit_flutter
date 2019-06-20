@@ -8,7 +8,7 @@ class EventManager {
   static EventManager get instance => _getInstance();
   static EventManager _instance;
 
-  EventManager._internal() {}
+  EventManager._internal();
 
   static EventManager _getInstance() {
     if (_instance == null) {

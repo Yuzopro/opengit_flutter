@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/page/about_page.dart';
-import 'package:open_git/page/home_page.dart';
 import 'package:open_git/page/introduction_detail_page.dart';
 import 'package:open_git/page/introduction_page.dart';
 import 'package:open_git/page/language_page.dart';

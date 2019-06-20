@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trending_bean.dart';
+part of 'trend_bean.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TrendingBean _$TrendingBeanFromJson(Map<String, dynamic> json) {
-  return TrendingBean(
+TrendBean _$TrendBeanFromJson(Map<String, dynamic> json) {
+  return TrendBean(
       json['fullName'] as String,
       json['url'] as String,
       json['description'] as String,
@@ -21,7 +21,7 @@ TrendingBean _$TrendingBeanFromJson(Map<String, dynamic> json) {
       json['forkCount'] as String);
 }
 
-Map<String, dynamic> _$TrendingBeanToJson(TrendingBean instance) =>
+Map<String, dynamic> _$TrendBeanToJson(TrendBean instance) =>
     <String, dynamic>{
       'fullName': instance.fullName,
       'url': instance.url,

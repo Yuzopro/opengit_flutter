@@ -90,4 +90,13 @@ class EnString extends AppBaseString {
 
   @override
   String get update => "update";
+
+  @override
+  String get today => "today";
+
+  @override
+  String get week => "this week";
+
+  @override
+  String get month => "this month";
 }

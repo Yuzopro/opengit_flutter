@@ -4,8 +4,6 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_git/bloc/application_bloc.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/localizations/app_localizations_delegate.dart';
 import 'package:open_git/redux/reducer.dart';
 import 'package:open_git/redux/state.dart';
@@ -20,10 +18,7 @@ void main() {
   );
 
   runZoned(() {
-    runApp(/*BlocProvider<ApplicationBloc>(
-      bloc: ApplicationBloc(),
-      child: OpenGitApp(store),
-    )*/OpenGitApp(store));
+    runApp(OpenGitApp(store));
   }, onError: (Object obj, StackTrace trace) {
     print(obj);
     print(trace);
@@ -49,6 +44,7 @@ class OpenGitApp extends StatelessWidget {
         converter: _ViewModel.fromStore,
         builder: (context, vm) {
           return new MaterialApp(
+//            showPerformanceOverlay: true,
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

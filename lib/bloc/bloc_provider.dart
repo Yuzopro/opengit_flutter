@@ -29,7 +29,7 @@ class _BlocProviderState<T> extends State<BlocProvider<BaseBloc>> {
   @override
   void initState() {
     super.initState();
-    widget.bloc.initState();
+    widget.bloc.initState(context);
   }
 
   @override

@@ -7,7 +7,7 @@ abstract class BaseStatelessWidget<B extends BaseBloc> extends StatelessWidget {
 
   Widget buildWidget(BuildContext context);
 
-  String getTitle() {
+  String getTitle(BuildContext context) {
     return "";
   }
 
@@ -15,15 +15,20 @@ abstract class BaseStatelessWidget<B extends BaseBloc> extends StatelessWidget {
     return true;
   }
 
+  void initData() {
+  }
+
   @override
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<B>(context);
+
+    initData();
 
     return new Scaffold(
       appBar: isShowAppBar()
           ? new AppBar(
               elevation: 0,
-              title: new Text(getTitle()),
+              title: new Text(getTitle(context)),
             )
           : null,
       body: buildWidget(context),

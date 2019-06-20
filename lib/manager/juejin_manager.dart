@@ -8,7 +8,7 @@ class JueJinManager {
   static JueJinManager get instance => _getInstance();
   static JueJinManager _instance;
 
-  JueJinManager._internal() {}
+  JueJinManager._internal();
 
   static JueJinManager _getInstance() {
     if (_instance == null) {

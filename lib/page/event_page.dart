@@ -1,71 +1,27 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:open_git/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/event_payload_bean.dart';
-import 'package:open_git/contract/event_contract.dart';
-import 'package:open_git/presenter/event_presenter.dart';
+import 'package:open_git/bloc/event_bloc.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
-class EventPage extends StatefulWidget {
+class EventPage extends BaseListStatelessWidget<EventBean, EventBloc> {
   final String userName;
 
   EventPage(this.userName);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _EventPageState(userName);
-  }
-}
-
-class _EventPageState extends PullRefreshListState<
-    EventPage,
-    EventBean,
-    EventPresenter,
-    IEventView> with AutomaticKeepAliveClientMixin implements IEventView {
-  final String userName;
-
-  _EventPageState(this.userName);
+  static final String TAG = "EventPage";
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
-  EventPresenter initPresenter() {
-    return new EventPresenter();
+  bool isShowAppBar() {
+    return false;
   }
 
   @override
-  @mustCallSuper
-  Widget build(BuildContext context) {
-    super.build(context);
-    return new Scaffold(
-      body: buildBody(context),
-    );
-  }
-
-  @override
-  getMoreData() {
-    if (presenter != null) {
-      page++;
-      presenter.getEventReceived(userName, page, true);
-    }
-  }
-
-  @override
-  Future<Null> onRefresh() async {
-    if (presenter != null) {
-      page = 1;
-      await presenter.getEventReceived(userName, page, false);
-    }
-  }
-
-  @override
-  Widget getItemRow(EventBean item) {
+  Widget builderItem(BuildContext context, EventBean item) {
     String repoUser, repoName;
     if (item.repo.name.isNotEmpty && item.repo.name.contains("/")) {
       List<String> repos = item.repo.name.split("/");

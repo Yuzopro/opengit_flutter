@@ -27,7 +27,9 @@ class NavigatorUtil {
   static goMain(BuildContext context) {
 //    Application.router.navigateTo(context, AppRoutes.main);
     Navigator.pushReplacement(
-        context, new CupertinoPageRoute(builder: (context) => new MainPage()));
+        context,
+        new CupertinoPageRoute(
+            builder: (context) => MainPage()));
   }
 
   //登录页

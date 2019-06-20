@@ -11,9 +11,6 @@ juejin_bean _$juejin_beanFromJson(Map<String, dynamic> json) {
       json['d'] == null ? null : D.fromJson(json['d'] as Map<String, dynamic>));
 }
 
-Map<String, dynamic> _$juejin_beanToJson(juejin_bean instance) =>
-    <String, dynamic>{'s': instance.s, 'm': instance.m, 'd': instance.d};
-
 D _$DFromJson(Map<String, dynamic> json) {
   return D(
       json['total'] as int,
@@ -22,9 +19,6 @@ D _$DFromJson(Map<String, dynamic> json) {
               e == null ? null : Entrylist.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
-
-Map<String, dynamic> _$DToJson(D instance) =>
-    <String, dynamic>{'total': instance.total, 'entrylist': instance.entrylist};
 
 Entrylist _$EntrylistFromJson(Map<String, dynamic> json) {
   return Entrylist(
@@ -71,54 +65,10 @@ Entrylist _$EntrylistFromJson(Map<String, dynamic> json) {
       json['isCollected'] as bool);
 }
 
-Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
-      'collectionCount': instance.collectionCount,
-      'userRankIndex': instance.userRankIndex,
-      'buildTime': instance.buildTime,
-      'commentsCount': instance.commentsCount,
-      'gfw': instance.gfw,
-      'objectId': instance.objectId,
-      'checkStatus': instance.checkStatus,
-      'isEvent': instance.isEvent,
-      'entryView': instance.entryView,
-      'subscribersCount': instance.subscribersCount,
-      'ngxCachedTime': instance.ngxCachedTime,
-      'verifyStatus': instance.verifyStatus,
-      'tags': instance.tags,
-      'updatedAt': instance.updatedAt,
-      'rankIndex': instance.rankIndex,
-      'hot': instance.hot,
-      'autoPass': instance.autoPass,
-      'originalUrl': instance.originalUrl,
-      'verifyCreatedAt': instance.verifyCreatedAt,
-      'createdAt': instance.createdAt,
-      'user': instance.user,
-      'author': instance.author,
-      'screenshot': instance.screenshot,
-      'original': instance.original,
-      'hotIndex': instance.hotIndex,
-      'content': instance.content,
-      'title': instance.title,
-      'lastCommentTime': instance.lastCommentTime,
-      'type': instance.type,
-      'english': instance.english,
-      'category': instance.category,
-      'viewsCount': instance.viewsCount,
-      'summaryInfo': instance.summaryInfo,
-      'isCollected': instance.isCollected
-    };
-
 Tags _$TagsFromJson(Map<String, dynamic> json) {
   return Tags(json['ngxCachedTime'] as int, json['ngxCached'] as bool,
       json['title'] as String, json['id'] as String);
 }
-
-Map<String, dynamic> _$TagsToJson(Tags instance) => <String, dynamic>{
-      'ngxCachedTime': instance.ngxCachedTime,
-      'ngxCached': instance.ngxCached,
-      'title': instance.title,
-      'id': instance.id
-    };
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
@@ -145,29 +95,6 @@ User _$UserFromJson(Map<String, dynamic> json) {
       json['avatarLarge'] as String,
       json['objectId'] as String);
 }
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'community': instance.community,
-      'collectedEntriesCount': instance.collectedEntriesCount,
-      'company': instance.company,
-      'followersCount': instance.followersCount,
-      'followeesCount': instance.followeesCount,
-      'role': instance.role,
-      'postedPostsCount': instance.postedPostsCount,
-      'level': instance.level,
-      'isAuthor': instance.isAuthor,
-      'postedEntriesCount': instance.postedEntriesCount,
-      'totalCommentsCount': instance.totalCommentsCount,
-      'ngxCachedTime': instance.ngxCachedTime,
-      'ngxCached': instance.ngxCached,
-      'viewedEntriesCount': instance.viewedEntriesCount,
-      'jobTitle': instance.jobTitle,
-      'subscribedTagsCount': instance.subscribedTagsCount,
-      'totalCollectionsCount': instance.totalCollectionsCount,
-      'username': instance.username,
-      'avatarLarge': instance.avatarLarge,
-      'objectId': instance.objectId
-    };
 
 Community _$CommunityFromJson(Map<String, dynamic> json) {
   return Community(json['github'] == null

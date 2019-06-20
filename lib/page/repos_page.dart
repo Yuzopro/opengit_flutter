@@ -1,70 +1,26 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:open_git/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/contract/repository_contract.dart';
-import 'package:open_git/presenter/repository_presenter.dart';
-import 'package:open_git/util/image_util.dart';
+import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
+import 'package:open_git/util/image_util.dart';
 
-class RepositoryPage extends StatefulWidget {
+class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
+  static final String TAG = "ReposPage";
+
   final bool isStar;
   final UserBean userBean;
 
-  RepositoryPage(this.userBean, this.isStar);
+  ReposPage(this.userBean, this.isStar);
 
   @override
-  State<StatefulWidget> createState() {
-    return _RepositoryPageState(userBean, isStar);
-  }
-}
-
-class _RepositoryPageState extends PullRefreshListState<RepositoryPage,
-        Repository, RepositoryPresenter, IRepositoryView>
-    with AutomaticKeepAliveClientMixin
-    implements IRepositoryView {
-  bool isStar;
-  final UserBean userBean;
-
-  @override
-  bool get wantKeepAlive => true;
-
-  _RepositoryPageState(this.userBean, this.isStar);
-
-  @override
-  RepositoryPresenter initPresenter() {
-    return new RepositoryPresenter();
+  bool isShowAppBar() {
+    return false;
   }
 
   @override
-  @mustCallSuper
-  Widget build(BuildContext context) {
-    super.build(context);
-    return new Scaffold(
-      body: buildBody(context),
-    );
-  }
-
-  @override
-  getMoreData() {
-    if (presenter != null) {
-      page++;
-      presenter.getUserRepos(userBean, page, isStar, true);
-    }
-  }
-
-  @override
-  Future<Null> onRefresh() async {
-    if (presenter != null) {
-      page = 1;
-      await presenter.getUserRepos(userBean, page, isStar, false);
-    }
-  }
-
-  @override
-  Widget getItemRow(Repository item) {
+  Widget builderItem(BuildContext context, item) {
     return new InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),

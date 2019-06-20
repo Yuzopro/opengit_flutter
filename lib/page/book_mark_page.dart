@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:open_git/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/image_util.dart';
 
@@ -18,8 +19,8 @@ const disclaimerText2 = '对于已经授权本APP独家使用并提供给本站�
 
 class BookMarkPage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   @override
-  String getTitle() {
-    return "书签";
+  String getTitle(BuildContext context) {
+    return AppLocalizations.of(context).currentlocal.bookmark;
   }
 
   @override

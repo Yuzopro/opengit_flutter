@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
+import 'package:open_git/util/log_util.dart';
 import 'package:open_git/widget/refresh_scaffold.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -11,32 +10,45 @@ abstract class BaseListStatelessWidget<T, B extends BaseListBloc<T>>
     extends BaseStatelessWidget<B> {
   static final String TAG = "BaseListStatelessWidget";
 
+  RefreshController controller;
+
   Widget builderItem(BuildContext context, T item);
 
   Widget buildFloatingActionButton(BuildContext context) {
     return null;
   }
 
+  Widget getHeader(BuildContext context) {
+    return null;
+  }
+
+  void requestRefresh() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.position != null) {
+        controller.requestRefresh();
+      }
+    });
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
-    final RefreshController _controller = new RefreshController();
+    controller = new RefreshController();
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _controller.requestRefresh();
-    });
+    requestRefresh();
 
     return new StreamBuilder(
         stream: bloc.stream,
         builder: (BuildContext context, AsyncSnapshot<List<T>> snapshot) {
+          //每进入或退出一个页面该地方都会刷新？？？
           return new RefreshScaffold(
             isLoading: snapshot.data == null,
-            controller: _controller,
+            controller: controller,
             enablePullUp: true,
             onRefresh: () {
-              return bloc.onRefresh(_controller);
+              return bloc.onRefresh(controller);
             },
             onLoadMore: () {
-              return bloc.onLoadMore(_controller);
+              return bloc.onLoadMore(controller);
             },
             itemCount: snapshot.data == null ? 0 : snapshot.data.length,
             itemBuilder: (BuildContext context, int index) {
@@ -44,6 +56,7 @@ abstract class BaseListStatelessWidget<T, B extends BaseListBloc<T>>
               return builderItem(context, model);
             },
             floatingActionButton: buildFloatingActionButton(context),
+            header: getHeader(context),
           );
         });
   }

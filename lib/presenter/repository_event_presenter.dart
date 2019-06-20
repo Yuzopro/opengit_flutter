@@ -1,4 +1,3 @@
-import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/contract/repository_event_contract.dart';
 import 'package:open_git/manager/repos_manager.dart';
 

@@ -34,22 +34,3 @@ EventPayloadBean _$EventPayloadBeanFromJson(Map<String, dynamic> json) {
         ? null
         : IssueEventBean.fromJson(json['comment'] as Map<String, dynamic>);
 }
-
-Map<String, dynamic> _$EventPayloadBeanToJson(EventPayloadBean instance) =>
-    <String, dynamic>{
-      'push_id': instance.pushId,
-      'size': instance.size,
-      'distinct_size': instance.distinctSize,
-      'ref': instance.ref,
-      'head': instance.head,
-      'before': instance.before,
-      'commits': instance.commits,
-      'action': instance.action,
-      'ref_type': instance.refType,
-      'master_branch': instance.masterBranch,
-      'description': instance.description,
-      'pusher_type': instance.pusherType,
-      'release': instance.release,
-      'issue': instance.issue,
-      'comment': instance.comment
-    };

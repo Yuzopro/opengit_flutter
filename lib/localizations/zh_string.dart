@@ -90,4 +90,13 @@ class ZhString extends AppBaseString {
 
   @override
   String get update => "更新";
+
+  @override
+  String get today => "每日";
+
+  @override
+  String get week => "每周";
+
+  @override
+  String get month => "每月";
 }

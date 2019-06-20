@@ -25,7 +25,7 @@ class LoginManager {
   String _token;
   UserBean _userBean;
 
-  LoginManager._internal() {}
+  LoginManager._internal();
 
   static LoginManager _getInstance() {
     if (_instance == null) {

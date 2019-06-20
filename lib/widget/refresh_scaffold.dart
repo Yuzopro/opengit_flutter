@@ -12,7 +12,8 @@ class RefreshScaffold extends StatefulWidget {
       this.child,
       this.itemCount,
       this.itemBuilder,
-      this.floatingActionButton})
+      this.floatingActionButton,
+      this.header})
       : super(key: key);
 
   final bool isLoading;
@@ -24,6 +25,7 @@ class RefreshScaffold extends StatefulWidget {
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final Widget floatingActionButton;
+  final Widget header;
 
   @override
   State<StatefulWidget> createState() {
@@ -74,6 +76,11 @@ class RefreshScaffoldState extends State<RefreshScaffold>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    int itemCount = widget.isLoading
+        ? 0
+        : widget.header == null ? widget.itemCount : widget.itemCount + 1;
+
     return new Scaffold(
         body: new Stack(
           children: <Widget>[
@@ -97,8 +104,14 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                 onLoading: widget.onLoadMore,
                 child: widget.child ??
                     new ListView.builder(
-                      itemCount: widget.isLoading ? 0 : widget.itemCount,
-                      itemBuilder: widget.itemBuilder,
+                      itemCount: itemCount,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (widget.header != null && index == 0) {
+                          return widget.header;
+                        }
+                        return widget.itemBuilder(
+                            context, widget.header == null ? index : index - 1);
+                      },
                     )),
             new Offstage(
               offstage: widget.isLoading != true,

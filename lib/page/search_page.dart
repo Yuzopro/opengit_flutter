@@ -122,7 +122,6 @@ class _SearchPage extends State<SearchPage>
             },
           ),
         ));
-    ;
   }
 }
 

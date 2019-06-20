@@ -1,4 +1,4 @@
-import 'package:open_git/bean/trending_bean.dart';
+import 'package:open_git/bean/trend_bean.dart';
 
 class TrendingUtil {
   static const TAGS = {
@@ -14,9 +14,8 @@ class TrendingUtil {
     var repos = new List();
     var splitWithH3 = responseData.split('<h1 class="h3 lh-condensed">');
     splitWithH3.removeAt(0);
-    print("splitWithH3.length is " + splitWithH3.length.toString());
     for (var i = 0; i < splitWithH3.length; i++) {
-      var repo = TrendingBean.empty();
+      var repo = TrendBean.empty();
       var html = splitWithH3[i];
 
       parseRepoBaseInfo(repo, html);

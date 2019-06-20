@@ -5,7 +5,7 @@ import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
-import 'package:open_git/bean/trending_bean.dart';
+import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_manager.dart';
 import 'package:open_git/util/html_util.dart';
@@ -18,7 +18,7 @@ class ReposManager {
   static ReposManager get instance => _getInstance();
   static ReposManager _instance;
 
-  ReposManager._internal() {}
+  ReposManager._internal();
 
   static ReposManager _getInstance() {
     if (_instance == null) {
@@ -98,14 +98,13 @@ class ReposManager {
     return null;
   }
 
-  getTrending(since, languageType) async {
+  getTrend(since, languageType) async {
     String url = Api.getTrending(since, languageType);
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null) {
       var repos = TrendingUtil.htmlToRepo(response.data);
-      print("repos length is " + repos.length.toString());
       if (repos != null && repos.length > 0) {
-        List<TrendingBean> list = new List();
+        List<TrendBean> list = new List();
         for (int i = 0; i < repos.length; i++) {
           var dataItem = repos[i];
           list.add(dataItem);

@@ -7,7 +7,7 @@ class SearchManager {
   static SearchManager get instance => _getInstance();
   static SearchManager _instance;
 
-  SearchManager._internal() {}
+  SearchManager._internal();
 
   static SearchManager _getInstance() {
     if (_instance == null) {

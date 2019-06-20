@@ -9,7 +9,7 @@ class IssueManager {
   static IssueManager get instance => _getInstance();
   static IssueManager _instance;
 
-  IssueManager._internal() {}
+  IssueManager._internal();
 
   static IssueManager _getInstance() {
     if (_instance == null) {

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class BaseBloc<T> {
@@ -8,7 +9,7 @@ abstract class BaseBloc<T> {
 
   Stream<T> get stream => _subject.stream;
 
-  void initState();
+  void initState(BuildContext context);
 
   void dispose() {
    _subject.close();

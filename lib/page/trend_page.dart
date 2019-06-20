@@ -1,178 +1,87 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_state.dart';
-import 'package:open_git/bean/trending_bean.dart';
-import 'package:open_git/contract/repository_trending_contract.dart';
-import 'package:open_git/presenter/repository_trending_presenter.dart';
-import 'package:open_git/util/image_util.dart';
+import 'package:open_git/base/base_list_stateless_widget.dart';
+import 'package:open_git/bean/trend_bean.dart';
+import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bloc/trend_bloc.dart';
+import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/page/main_page.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/image_util.dart';
 
-class TrendPage extends StatefulWidget {
+class TrendPage extends StatelessWidget {
   final String trending;
 
   TrendPage(this.trending);
 
   @override
-  State<StatefulWidget> createState() {
-    return _TrendState();
-  }
-}
-
-class _TrendState extends State<TrendPage> with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  List<_Page> _allPages;
-  final PageController _pageController = new PageController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _allPages = [
-      new _Page("daily", widget.trending, label: "每日"),
-      new _Page("weekly", widget.trending, label: "每周"),
-      new _Page("monthly", widget.trending, label: "每月")
-    ];
-
-    _tabController = new TabController(vsync: this, length: _allPages.length);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final List<Choice> choices = new List(3);
+    choices[0] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.today);
+    choices[1] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.week);
+    choices[2] =
+        new Choice(title: AppLocalizations.of(context).currentlocal.month);
+
     return new DefaultTabController(
-        length: _allPages.length,
+        length: choices.length,
         child: new Scaffold(
           appBar: new AppBar(
-            title: Text(widget.trending),
+            title: Text(trending),
             bottom: new TabBar(
-              controller: _tabController,
               indicatorColor: Colors.white,
-              tabs: _allPages
+              tabs: choices
                   .map(
-                    (_Page page) => new Tab(text: page.label),
+                    (Choice choice) => new Tab(text: choice.title),
                   )
                   .toList(),
-              onTap: (index) {
-                _pageController.jumpToPage(index);
-              },
             ),
           ),
-          body: new PageView(
-            controller: _pageController,
-            children: _allPages.map((_Page page) {
-              return page;
-            }).toList(),
-            onPageChanged: (page){
-              _tabController.animateTo(page);
-            },
+          body: new TabBarView(
+            children: <Widget>[
+              new BlocProvider<TrendBloc>(
+                child: _Page("daily", trending),
+                bloc: new TrendBloc(),
+              ),
+              new BlocProvider<TrendBloc>(
+                child: _Page("weekly", trending),
+                bloc: new TrendBloc(),
+              ),
+              new BlocProvider<TrendBloc>(
+                child: _Page("monthly", trending),
+                bloc: new TrendBloc(),
+              ),
+            ],
           ),
         ));
   }
 }
 
-class _Page extends StatefulWidget {
-  _Page(this.since, this.trending, {this.label});
-
-  final String label;
-  final String since;
-  final String trending;
-
-  @override
-  State<StatefulWidget> createState() {
-    return _PageState(since, trending);
-  }
-}
-
-class _PageState extends BaseState<_Page, RepositoryTrendingPresenter,
-        IRepositoryTrendingView>
-    with AutomaticKeepAliveClientMixin
-    implements IRepositoryTrendingView {
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+class _Page extends BaseListStatelessWidget<TrendBean, TrendBloc> {
+  static final String TAG = "TrendItemPage";
 
   final String since;
-  final String trending;
+  final String trend;
 
-  List<TrendingBean> _trendingList = new List();
-
-  _PageState(this.since, this.trending);
+  _Page(this.since, this.trend);
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return buildBody(context);
+  bool isShowAppBar() {
+    return false;
   }
 
   @override
-  Widget buildBody(BuildContext context) {
-    return new RefreshIndicator(
-        key: _refreshIndicatorKey,
-        color: Colors.black,
-        backgroundColor: Colors.white,
-        child: new ListView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
-            itemCount: _trendingList.length,
-            itemBuilder: (context, index) {
-              return new _TrendingBeanItem(
-                trending,
-                data: _trendingList[index],
-              );
-            }),
-        onRefresh: _onRefresh);
-  }
-
-  @override
-  RepositoryTrendingPresenter initPresenter() {
-    return new RepositoryTrendingPresenter();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _showRefreshLoading();
-  }
-
-  @override
-  void setTrendingList(List<TrendingBean> list) {
-    _trendingList.clear();
-    _trendingList.addAll(list);
-    setState(() {});
-  }
-
-  void _showRefreshLoading() async {
-    await Future.delayed(const Duration(seconds: 0), () {
-      _refreshIndicatorKey.currentState.show().then((e) {});
-      return true;
-    });
-  }
-
-  Future<Null> _onRefresh() async {
-    if (presenter != null) {
-      await presenter.getReposTrending(since, trending);
+  void initData() {
+    if (bloc != null) {
+      bloc.initData(since, trend);
     }
   }
-}
-
-class _TrendingBeanItem extends StatelessWidget {
-  const _TrendingBeanItem(this.trending, {this.data});
-
-  final TrendingBean data;
-  final String trending;
 
   @override
-  Widget build(BuildContext context) {
+  Widget builderItem(BuildContext context, TrendBean item) {
     List<Widget> _bottomViews = new List();
-    if (data.language != null && data.language.isNotEmpty) {
-      _bottomViews.add(_getItemLanguage(data.language));
+    if (item.language != null && item.language.isNotEmpty) {
+      _bottomViews.add(_getItemLanguage(item.language));
     }
 
     Widget _starView = new Padding(
@@ -184,7 +93,7 @@ class _TrendingBeanItem extends StatelessWidget {
               height: 12.0,
               image: new AssetImage('image/ic_star.png')),
           Text(
-            data.starCount,
+            item.starCount,
             style: new TextStyle(color: Colors.grey, fontSize: 12.0),
           ),
         ],
@@ -199,14 +108,14 @@ class _TrendingBeanItem extends StatelessWidget {
             height: 12.0,
             image: new AssetImage('image/ic_branch.png')),
         Text(
-          data.forkCount,
+          item.forkCount,
           style: new TextStyle(color: Colors.grey, fontSize: 12.0),
         ),
       ],
     );
     _bottomViews.add(_forkView);
 
-    Widget _builtByView = _getBuiltByWidget();
+    Widget _builtByView = _getBuiltByWidget(item);
     _bottomViews.add(_builtByView);
 
     return new InkWell(
@@ -216,13 +125,14 @@ class _TrendingBeanItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(data.fullName,
+            Text(item.fullName,
                 style: new TextStyle(
                     color: Colors.black, fontWeight: FontWeight.bold)),
             Padding(
                 padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                child: Text(data.description,
-                    style: new TextStyle(color: Colors.black54, fontSize: 12.0))),
+                child: Text(item.description,
+                    style:
+                        new TextStyle(color: Colors.black54, fontSize: 12.0))),
             Row(
               children: _bottomViews,
             ),
@@ -230,8 +140,8 @@ class _TrendingBeanItem extends StatelessWidget {
         ),
       ),
       onTap: () {
-        NavigatorUtil.goReposDetail(context, data.name, data.reposName,
-            trending.toLowerCase() == "all");
+        NavigatorUtil.goReposDetail(
+            context, item.name, item.reposName, trend.toLowerCase() == "all");
       },
     );
   }
@@ -261,7 +171,7 @@ class _TrendingBeanItem extends StatelessWidget {
     );
   }
 
-  Widget _getBuiltByWidget() {
+  Widget _getBuiltByWidget(TrendBean item) {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -269,7 +179,7 @@ class _TrendingBeanItem extends StatelessWidget {
           Text("Built by",
               style: new TextStyle(color: Colors.grey, fontSize: 10.0)),
           Row(
-            children: data.contributors
+            children: item.contributors
                 .map(
                   (String url) => new Padding(
                         padding: EdgeInsets.only(left: 2.0),
