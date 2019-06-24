@@ -5,10 +5,10 @@ import 'package:open_git/page/introduction_detail_page.dart';
 import 'package:open_git/page/introduction_page.dart';
 import 'package:open_git/page/language_page.dart';
 import 'package:open_git/page/login_page.dart';
-import 'package:open_git/page/main_page.dart';
+import 'package:open_git/ui/main_page.dart';
 import 'package:open_git/page/setting_page.dart';
 import 'package:open_git/page/share_page.dart';
-import 'package:open_git/page/splash_page.dart';
+import 'package:open_git/ui/splash/splash_page.dart';
 import 'package:open_git/page/theme_page.dart';
 import 'package:open_git/page/web_view_page.dart';
 

@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/page/repos_page.dart';
+import 'package:open_git/list_page_type.dart';
+import 'package:open_git/ui/repos/repos_page.dart';
 import 'package:open_git/page/user_follow_page.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -31,17 +32,18 @@ class _UserProfileState extends State<UserProfilePage>
     super.initState();
 
     _choices = <Choice>[
-      Choice(title: '项目', widget: ReposPage(userBean, false)),
-      Choice(title: 'Star过的项目', widget: ReposPage(userBean, true)),
+      Choice(title: '项目', widget: ReposPage(type: ListPageType.repos_user)),
+      Choice(
+          title: 'Star过的项目',
+          widget: ReposPage(type: ListPageType.repos_user_star)),
       Choice(title: '关注我的', widget: UserFollowPage(userBean, false)),
       Choice(title: '我关注的', widget: UserFollowPage(userBean, true)),
-      Choice(title: '所在组织', widget: ReposPage(userBean, false)),
+      Choice(title: '所在组织', widget: Text('所在组织')),
     ];
 
     if (userBean != null) {
       _userAvatar = userBean.avatarUrl ?? "";
     }
-
   }
 
   @override

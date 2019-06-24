@@ -3,8 +3,8 @@ import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/contract/introduction_contract.dart';
 import 'package:open_git/presenter/introduction_presenter.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class IntroductionPage extends StatefulWidget {
   @override

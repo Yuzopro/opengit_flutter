@@ -2,18 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
-import 'package:open_git/bloc/event_bloc.dart';
-import 'package:open_git/bloc/home_bloc.dart';
-import 'package:open_git/bloc/issue_bloc.dart';
-import 'package:open_git/bloc/repos_bloc.dart';
+import 'package:open_git/list_page_type.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/page/drawer_page.dart';
-import 'package:open_git/page/event_page.dart';
-import 'package:open_git/page/home_page.dart';
-import 'package:open_git/page/issue_page.dart';
-import 'package:open_git/page/repos_page.dart';
+import 'package:open_git/ui/drawer_page.dart';
+import 'package:open_git/ui/event/event_page.dart';
+import 'package:open_git/ui/home/home_page.dart';
+import 'package:open_git/ui/issue/issue_page.dart';
+import 'package:open_git/ui/repos/repos_page.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/image_util.dart';
 
@@ -33,8 +29,6 @@ class MainPage extends StatelessWidget {
         new Choice(title: AppLocalizations.of(context).currentlocal.issue);
 
     UserBean _userBean = LoginManager.instance.getUserBean();
-
-    String userName = _userBean != null ? _userBean.login : "";
 
     return new WillPopScope(
         child: new DefaultTabController(
@@ -82,23 +76,10 @@ class MainPage extends StatelessWidget {
             ),
             body: new TabBarView(
               children: <Widget>[
-                new BlocProvider<HomeBloc>(
-                  child: HomePage(),
-                  bloc: new HomeBloc(),
-                ),
-                new BlocProvider<ReposBloc>(
-                  child: ReposPage(LoginManager.instance.getUserBean(), false),
-                  bloc: new ReposBloc(
-                      LoginManager.instance.getUserBean().login, false),
-                ),
-                new BlocProvider<EventBloc>(
-                  child: EventPage(userName),
-                  bloc: new EventBloc(userName),
-                ),
-                new BlocProvider<IssueBloc>(
-                  child: IssuePage(userName),
-                  bloc: new IssueBloc(userName),
-                ),
+                HomePage(),
+                ReposPage(type: ListPageType.repos),
+                EventPage(),
+                IssuePage(),
               ],
             ),
           ),

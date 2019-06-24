@@ -4,7 +4,7 @@ import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/trend_bloc.dart';
 import 'package:open_git/localizations/app_localizations.dart';
-import 'package:open_git/page/main_page.dart';
+import 'package:open_git/ui/main_page.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/image_util.dart';
 

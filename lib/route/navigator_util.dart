@@ -8,7 +8,7 @@ import 'package:open_git/page/edit_issue_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
 import 'package:open_git/page/login_page.dart';
 import 'package:open_git/page/logout_page.dart';
-import 'package:open_git/page/main_page.dart';
+import 'package:open_git/ui/main_page.dart';
 import 'package:open_git/page/markdown_editor_page.dart';
 import 'package:open_git/page/repository_contributor_page.dart';
 import 'package:open_git/page/repository_detail_page.dart';

@@ -1,7 +1,7 @@
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 
-import 'actions.dart';
+import 'common_actions.dart';
 
 final themeReducer = combineReducers<ThemeData>([
   TypedReducer<ThemeData, RefreshThemeDataAction>(_refresh),

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/contract/issue_detail_contract.dart';
 import 'package:open_git/presenter/issue_detail_presenter.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/html_parser_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class IssueDetailPage extends StatefulWidget {
   final IssueBean issueBean;

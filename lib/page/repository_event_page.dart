@@ -6,10 +6,10 @@ import 'package:open_git/bean/event_payload_bean.dart';
 import 'package:open_git/contract/repository_event_contract.dart';
 import 'package:open_git/presenter/repository_event_presenter.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class RepositoryEventPage extends StatefulWidget {
   final String reposOwner;

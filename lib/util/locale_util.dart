@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/redux/state.dart';
+import 'package:open_git/redux/app_state.dart';
 
 class LocaleUtil {
   static Locale changeLocale(AppState state, int index) {

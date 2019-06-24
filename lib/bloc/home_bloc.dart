@@ -15,8 +15,15 @@ import 'package:rxdart/rxdart.dart';
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";
 
+  static bool _isInit = false;
+
   @override
   void initState(BuildContext context) {
+    if (_isInit) {
+      return;
+    }
+    _isInit = true;
+
     Observable.just(1).delay(new Duration(milliseconds: 200)).listen((_) {
       ReposManager.instance
           .getReposReleases('Yuzopro', 'OpenGit_Flutter')

@@ -7,10 +7,10 @@ import 'package:open_git/presenter/search_issue_presenter.dart';
 import 'package:open_git/presenter/search_presenter.dart';
 import 'package:open_git/presenter/search_repository_presenter.dart';
 import 'package:open_git/presenter/search_user_presenter.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class SearchPage extends StatefulWidget {
   @override

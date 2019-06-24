@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/redux/actions.dart';
+import 'package:open_git/redux/common_actions.dart';
 import 'package:redux/redux.dart';
 
 final localeReducer = combineReducers<Locale>([

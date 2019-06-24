@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_list_stateless_widget.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/juejin_bean.dart';
-import 'package:open_git/bloc/home_bloc.dart';
-import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/list_page_type.dart';
+import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/home/home_page_view_model.dart';
+import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 const disclaimerText1 = '本APP属于个人的非赢利性开源项目，以供开源社区使用，凡本APP转载的所有的文章 、'
     '图片、音频、视频文件等资料的版权归版权所有人所有，本APP采用的非本站原创文章及'
@@ -17,28 +21,76 @@ const disclaimerText2 = '对于已经授权本APP独家使用并提供给本站�
     '作者所有，如其他媒体、网站或个人从本网下载使用，请在转载有关文章时务必尊重该文章的著作权，'
     '保留本网注明的“稿件来源”，并自负版权等法律责任。';
 
-class BookMarkPage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
+class BookMarkPage extends StatefulWidget {
   @override
-  String getTitle(BuildContext context) {
-    return AppLocalizations.of(context).currentlocal.bookmark;
+  State<StatefulWidget> createState() {
+    return HomePageState();
+  }
+}
+
+class HomePageState extends State<BookMarkPage> {
+  RefreshController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new RefreshController();
   }
 
   @override
-  Widget buildFloatingActionButton(BuildContext context) {
-    return new FloatingActionButton(
-      onPressed: () {
-        _showAlertDialog(context);
-      },
-      child: new Text(
-        '免责\n声明',
-        style: new TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, HomePageViewModel>(
+      distinct: true,
+      onInit: (store) => store.dispatch(FetchAction(ListPageType.home)),
+      converter: (store) => HomePageViewModel.fromStore(store),
+      builder: (_, viewModel) => HomesPageContent(viewModel, controller),
     );
   }
 
   @override
-  Widget builderItem(BuildContext context, Entrylist item) {
+  void dispose() {
+    super.dispose();
+    if (controller != null) {
+      controller.dispose();
+      controller = null;
+    }
+  }
+}
+
+class HomesPageContent extends StatelessWidget {
+  static final String TAG = "HomesPageContent";
+
+  HomesPageContent(this.viewModel, this.controller);
+
+  final HomePageViewModel viewModel;
+  final RefreshController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.homes == null ? 0 : viewModel.homes.length,
+      controller: controller,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.homes[index]);
+      },
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          _showAlertDialog(context);
+        },
+        child: new Text(
+          '免责\n声明',
+          style: new TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, Entrylist item) {
     return new InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),

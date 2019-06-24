@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
-import 'package:open_git/util/log_util.dart';
-import 'package:open_git/widget/refresh_scaffold.dart';
+import 'package:open_git/ui/widget/refresh_scaffold.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'base_stateless_widget.dart';

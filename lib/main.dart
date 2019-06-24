@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/localizations/app_localizations_delegate.dart';
-import 'package:open_git/redux/reducer.dart';
-import 'package:open_git/redux/state.dart';
+import 'package:open_git/redux/app_reducer.dart';
+import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/redux/common_actions.dart';
+import 'package:open_git/redux/event/event_middleware.dart';
+import 'package:open_git/redux/home/home_middleware.dart';
+import 'package:open_git/redux/issue/issue_middleware.dart';
+import 'package:open_git/redux/repos/repos_middleware.dart';
+import 'package:open_git/redux/user/user_middleware.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:redux/redux.dart';
@@ -15,6 +21,13 @@ void main() {
   final store = new Store<AppState>(
     appReducer,
     initialState: AppState.initial(),
+    middleware: [
+      UserMiddleware(),
+      HomeMiddleware(),
+      ReposMiddleware(),
+      EventMiddleware(),
+      IssueMiddleware(),
+    ],
   );
 
   runZoned(() {
@@ -25,7 +38,7 @@ void main() {
   });
 }
 
-class OpenGitApp extends StatelessWidget {
+class OpenGitApp extends StatefulWidget {
   final Store<AppState> store;
 
   OpenGitApp(this.store) {
@@ -37,9 +50,25 @@ class OpenGitApp extends StatelessWidget {
   }
 
   @override
+  State<StatefulWidget> createState() {
+    return _OpenGitAppState();
+  }
+}
+
+class _OpenGitAppState extends State<OpenGitApp> {
+  static final String TAG = "OpenGitApp";
+
+  @override
+  void initState() {
+    super.initState();
+//    widget.store.state.platformLocale = Localizations.localeOf(context);
+    widget.store.dispatch(InitAction());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreProvider<AppState>(
-      store: store,
+      store: widget.store,
       child: StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
         builder: (context, vm) {

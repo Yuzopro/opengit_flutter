@@ -1,45 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_list_stateless_widget.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/juejin_bean.dart';
-import 'package:open_git/bloc/home_bloc.dart';
+import 'package:open_git/bean/release_asset_bean.dart';
+import 'package:open_git/bean/release_bean.dart';
+import 'package:open_git/common/config.dart';
+import 'package:open_git/list_page_type.dart';
+import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/home/home_page_view_model.dart';
+import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/log_util.dart';
+import 'package:open_git/util/update_util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:rxdart/rxdart.dart';
 
-const disclaimerText1 = '本APP属于个人的非赢利性开源项目，以供开源社区使用，凡本APP转载的所有的文章 、'
-    '图片、音频、视频文件等资料的版权归版权所有人所有，本APP采用的非本站原创文章及'
-    '图片等内容无法一一和版权者联系，如果本网所选内容的文章作者及编辑认为其作品不宜'
-    '上网供大家浏览，或不应无偿使用请及时用电子邮件或电话通知我们，以迅速采取适当措施，'
-    '避免给双方造成不必要的经济损失。';
+bool isShowUpdateDialog = false;
 
-const disclaimerText2 = '对于已经授权本APP独家使用并提供给本站资料的版权所有人的文章、'
-    '图片等资料，如需转载使用，需取得本站和版权所有人的同意。本APP所刊发、转载的文章，其版权均归原'
-    '作者所有，如其他媒体、网站或个人从本网下载使用，请在转载有关文章时务必尊重该文章的著作权，'
-    '保留本网注明的“稿件来源”，并自负版权等法律责任。';
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return HomePageState();
+  }
+}
 
-class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
-  static final String TAG = "HomePage";
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  RefreshController controller;
 
   @override
-  bool isShowAppBar() {
-    return false;
+  void initState() {
+    super.initState();
+    controller = new RefreshController();
   }
 
   @override
-  Widget buildFloatingActionButton(BuildContext context) {
-    return new FloatingActionButton(
-      onPressed: () {
-        _showAlertDialog(context);
-      },
-      child: new Text(
-        '免责\n声明',
-        style: new TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, HomePageViewModel>(
+      distinct: true,
+      onInit: (store) => store.dispatch(FetchAction(ListPageType.home)),
+      converter: (store) => HomePageViewModel.fromStore(store),
+      builder: (_, viewModel) => HomesPageContent(viewModel, controller),
     );
   }
 
   @override
-  Widget builderItem(BuildContext context, Entrylist item) {
+  void dispose() {
+    super.dispose();
+    if (controller != null) {
+      controller.dispose();
+      controller = null;
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class HomesPageContent extends StatelessWidget {
+  static final String TAG = "HomesPageContent";
+
+  HomesPageContent(this.viewModel, this.controller);
+
+  final HomePageViewModel viewModel;
+  final RefreshController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    LogUtil.v('build', tag: TAG);
+
+    _showUpdateDialog(context, viewModel.releaseBean);
+
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.homes == null ? 0 : viewModel.homes.length,
+      controller: controller,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.homes[index]);
+      },
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () {
+          _showAlertDialog(context);
+        },
+        child: new Text(
+          '免责\n声明',
+          style: new TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, Entrylist item) {
     return new InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),
@@ -144,8 +199,8 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(disclaimerText1),
-                Text(disclaimerText2),
+                Text(Config.disclaimerText1),
+                Text(Config.disclaimerText2),
               ],
             ),
           ),
@@ -177,5 +232,22 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         );
       },
     );
+  }
+
+  void _showUpdateDialog(BuildContext context, ReleaseBean bean) {
+    if (isShowUpdateDialog || bean == null) {
+      return;
+    }
+    isShowUpdateDialog = true;
+    Observable.just(1).delay(new Duration(milliseconds: 200)).listen((_) {
+      String url = "";
+      if (bean.assets != null && bean.assets.length > 0) {
+        ReleaseAssetBean assetBean = bean.assets[0];
+        if (assetBean != null) {
+          url = assetBean.downloadUrl;
+        }
+      }
+      UpdateUtil.showUpdateDialog(context, bean.name, bean.body, url);
+    });
   }
 }

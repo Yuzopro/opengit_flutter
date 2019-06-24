@@ -1,26 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_list_stateless_widget.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/repos_bloc.dart';
+import 'package:open_git/list_page_type.dart';
+import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/redux/repos/repos_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/repos/repos_page_view_model.dart';
+import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/log_util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
-  static final String TAG = "ReposPage";
+class ReposPage extends StatefulWidget {
+  final ListPageType type;
 
-  final bool isStar;
-  final UserBean userBean;
-
-  ReposPage(this.userBean, this.isStar);
+  const ReposPage({Key key, this.type}) : super(key: key);
 
   @override
-  bool isShowAppBar() {
-    return false;
+  State<StatefulWidget> createState() {
+    return ReposPageState();
+  }
+}
+
+class ReposPageState extends State<ReposPage>
+    with AutomaticKeepAliveClientMixin {
+  RefreshController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new RefreshController();
   }
 
   @override
-  Widget builderItem(BuildContext context, item) {
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, ReposPageViewModel>(
+      distinct: true,
+      onInit: (store) => store.dispatch(FetchReposAction(widget.type)),
+      converter: (store) => ReposPageViewModel.fromStore(store, widget.type),
+      builder: (_, viewModel) => ReposPageContent(viewModel, controller),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (controller != null) {
+      controller.dispose();
+      controller = null;
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class ReposPageContent extends StatelessWidget {
+  static final String TAG = "ReposPageContent";
+
+  ReposPageContent(this.viewModel, this.controller);
+
+  final ReposPageViewModel viewModel;
+  final RefreshController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    LogUtil.v('build', tag: TAG);
+
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.repos == null ? 0 : viewModel.repos.length,
+      controller: controller,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.repos[index]);
+      },
+    );
+  }
+
+  Widget _buildItem(BuildContext context, Repository item) {
     return new InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),

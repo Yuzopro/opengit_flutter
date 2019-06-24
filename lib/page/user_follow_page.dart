@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/user_follow_contract.dart';
 import 'package:open_git/presenter/user_follow_presenter.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class UserFollowPage extends StatefulWidget {
   bool isFollower;

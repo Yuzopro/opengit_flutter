@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/contract/repository_source_file_contract.dart';
 import 'package:open_git/presenter/repository_source_file_presenter.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/file_size_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class RepositorySourceFilePage extends StatefulWidget {
   String reposOwner, reposName;

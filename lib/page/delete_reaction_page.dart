@@ -5,9 +5,9 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/contract/delete_reaction_contract.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/presenter/delete_reaction_presenter.dart';
+import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/widget/pull_refresh_list.dart';
 
 class DeleteReactionPage extends StatefulWidget {
   final IssueBean issueBean;
