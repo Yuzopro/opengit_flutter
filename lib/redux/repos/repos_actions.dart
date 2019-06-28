@@ -1,6 +1,6 @@
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 
 class RequestingReposAction {
   final ListPageType type;
@@ -14,11 +14,18 @@ class FetchReposAction {
   FetchReposAction(this.type);
 }
 
+class FetchReposTrendAction {
+  final String language;
+
+  FetchReposTrendAction(this.language);
+}
+
 class RefreshReposAction {
   final RefreshStatus refreshStatus;
   final ListPageType type;
+  final String language;
 
-  RefreshReposAction(this.refreshStatus, this.type);
+  RefreshReposAction(this.refreshStatus, this.type, this.language);
 }
 
 class ReceivedReposAction {

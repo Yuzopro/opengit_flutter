@@ -99,4 +99,7 @@ class EnString extends AppBaseString {
 
   @override
   String get month => "this month";
+
+  @override
+  String get timeline => "Timeline";
 }

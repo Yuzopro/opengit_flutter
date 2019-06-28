@@ -1,0 +1,17 @@
+enum ListPageType {
+  home,
+  repos,
+  event,
+  issue,
+  repos_user,
+  repos_user_star,
+  day_trend,
+  week_trend,
+  month_trend,
+  about,
+  timeline,
+  follower,
+  by_follower,
+  repos_event,
+  repos_trend,
+}

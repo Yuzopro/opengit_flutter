@@ -1,9 +1,9 @@
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/loading_status.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/repos/repos_actions.dart';
 import 'package:open_git/redux/repos/repos_state.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/loading_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
@@ -37,6 +37,12 @@ ReposState _requestingRepos(ReposState state, action) {
         refreshStatus_user_star: RefreshStatus.idle,
         repos_user_star: [],
         page_user_star: 1);
+  } else if (action.type == ListPageType.repos_trend) {
+    return state.copyWith(
+        status_trend: LoadingStatus.loading,
+        refreshStatus_trend: RefreshStatus.idle,
+        repos_trend: [],
+        page_trend: 1);
   }
   return state;
 }
@@ -51,6 +57,9 @@ ReposState _resetPage(ReposState state, action) {
   } else if (action.type == ListPageType.repos_user_star) {
     return state.copyWith(
         page_user_star: 1, refreshStatus_user_star: RefreshStatus.idle);
+  } else if (action.type == ListPageType.repos_trend) {
+    return state.copyWith(
+        page_trend: 1, refreshStatus_trend: RefreshStatus.idle);
   }
   return state;
 }
@@ -68,6 +77,10 @@ ReposState _increasePage(ReposState state, action) {
     int page = state.page_user_star + 1;
     return state.copyWith(
         page_user_star: page, refreshStatus_user_star: RefreshStatus.idle);
+  } else if (action.type == ListPageType.repos_trend) {
+    int page = state.page_trend + 1;
+    return state.copyWith(
+        page_trend: page, refreshStatus_trend: RefreshStatus.idle);
   }
   return state;
 }
@@ -92,6 +105,12 @@ ReposState _receivedRepos(ReposState state, action) {
       refreshStatus_user_star: action.refreshStatus,
       repos_user_star: action.repos,
     );
+  } else if (action.type == ListPageType.repos_trend) {
+    return state.copyWith(
+      status_trend: LoadingStatus.success,
+      refreshStatus_trend: action.refreshStatus,
+      repos_trend: action.repos,
+    );
   }
   return state;
 }
@@ -109,6 +128,10 @@ ReposState _errorLoadingRepos(ReposState state, action) {
     return state.copyWith(
         status_user_star: LoadingStatus.error,
         refreshStatus_user_star: RefreshStatus.idle);
+  } else if (action.type == ListPageType.repos_trend) {
+    return state.copyWith(
+        status_trend: LoadingStatus.error,
+        refreshStatus_trend: RefreshStatus.idle);
   }
   return state;
 }

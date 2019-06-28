@@ -1,9 +1,9 @@
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/loading_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/loading_status.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/home/home_actions.dart';
 import 'package:open_git/redux/home/home_state.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
@@ -14,7 +14,6 @@ final homeReducer = combineReducers<HomeState>([
   TypedReducer<HomeState, ResetPageAction>(_resetPage),
   TypedReducer<HomeState, IncreasePageAction>(_increasePage),
   TypedReducer<HomeState, ReceivedHomesAction>(_receivedHomes),
-  TypedReducer<HomeState, UpdateDialogAction>(_updateDialog),
   TypedReducer<HomeState, ErrorLoadingHomesAction>(_errorLoadingHomes),
 ]);
 
@@ -44,13 +43,6 @@ HomeState _increasePage(HomeState state, action) {
   } else {
     return state;
   }
-}
-
-HomeState _updateDialog(HomeState state, action) {
-  LogUtil.v('_updateDialog releaseBean is ' + action.releaseBean.toString(), tag: TAG);
-  return state.copyWith(
-    releaseBean: action.releaseBean,
-  );
 }
 
 HomeState _receivedHomes(HomeState state, action) {

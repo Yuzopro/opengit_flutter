@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:open_git/login_status.dart';
+import 'package:open_git/ui/status/login_status.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:redux/redux.dart';
 

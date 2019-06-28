@@ -1,6 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/juejin_bean.dart';
-import 'package:open_git/bean/release_bean.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 
 class RequestingHomesAction {}
 
@@ -11,10 +12,10 @@ class ReceivedHomesAction {
   final RefreshStatus refreshStatus;
 }
 
-class UpdateDialogAction {
-  final ReleaseBean releaseBean;
+class FetchHomeAction {
+  final BuildContext context;
 
-  UpdateDialogAction(this.releaseBean);
+  FetchHomeAction(this.context);
 }
 
 class ErrorLoadingHomesAction {}

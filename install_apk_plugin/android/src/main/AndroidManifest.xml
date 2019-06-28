@@ -9,7 +9,7 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             tools:replace="android:authorities"
-            android:authorities="com.yuzo.opengit.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

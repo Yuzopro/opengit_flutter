@@ -2,75 +2,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/event_payload_bean.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/event/event_page_view_model.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
 import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/log_util.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class EventPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return EventPageState();
-  }
-}
-
-class EventPageState extends State<EventPage>
-    with AutomaticKeepAliveClientMixin {
-  RefreshController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new RefreshController();
-  }
-
+class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, EventPageViewModel>(
       distinct: true,
       onInit: (store) => store.dispatch(FetchAction(ListPageType.event)),
-      converter: (store) => EventPageViewModel.fromStore(store),
-      builder: (_, viewModel) => EventPageContent(viewModel, controller),
+      converter: (store) =>
+          EventPageViewModel.fromStore(store, ListPageType.event, "", ""),
+      builder: (_, viewModel) => EventPageContent(viewModel),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (controller != null) {
-      controller.dispose();
-      controller = null;
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
+
+//class EventPageState extends State<EventPage> {
+//  RefreshController controller;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    controller = new RefreshController();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    if (controller != null) {
+//      controller.dispose();
+//      controller = null;
+//    }
+//  }
+//}
 
 class EventPageContent extends StatelessWidget {
   static final String TAG = "EventPageContent";
 
-  EventPageContent(this.viewModel, this.controller);
+  EventPageContent(this.viewModel, {this.title});
 
   final EventPageViewModel viewModel;
-  final RefreshController controller;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     LogUtil.v('build', tag: TAG);
 
     return new YZPullRefreshList(
+      title: title,
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.events == null ? 0 : viewModel.events.length,
-      controller: controller,
+//      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {
@@ -119,7 +116,7 @@ class EventPageContent extends StatelessWidget {
         if (item.payload != null && item.payload.issue != null) {
           NavigatorUtil.goIssueDetail(context, item.payload.issue);
         } else if (item.repo != null && item.repo.name != null) {
-          NavigatorUtil.goReposDetail(context, repoUser, repoName, true);
+          NavigatorUtil.goReposDetail(context, repoUser, repoName);
         }
       },
     );

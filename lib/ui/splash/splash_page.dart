@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_git/login_status.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/splash/splash_page_view_model.dart';
+import 'package:open_git/ui/status/login_status.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SplashPage extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 
 class InitAction {}
 

@@ -1,4 +1,4 @@
-import 'package:open_git/login_status.dart';
+import 'package:open_git/ui/status/login_status.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/user/user_state.dart';
 import 'package:redux/redux.dart';

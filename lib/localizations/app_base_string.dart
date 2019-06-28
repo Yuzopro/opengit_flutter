@@ -32,4 +32,5 @@ abstract class AppBaseString {
   String today;
   String week;
   String month;
+  String timeline;
 }

@@ -1,6 +1,6 @@
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/loading_status.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/loading_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 
 class ReposState {
   final LoadingStatus status;
@@ -18,19 +18,29 @@ class ReposState {
   final List<Repository> repos_user_star;
   final int page_user_star;
 
-  ReposState(
-      {this.status,
-      this.refreshStatus,
-      this.repos,
-      this.page,
-      this.status_user,
-      this.refreshStatus_user,
-      this.repos_user,
-      this.page_user,
-      this.status_user_star,
-      this.refreshStatus_user_star,
-      this.repos_user_star,
-      this.page_user_star});
+  final LoadingStatus status_trend;
+  final RefreshStatus refreshStatus_trend;
+  final List<Repository> repos_trend;
+  final int page_trend;
+
+  ReposState({
+    this.status,
+    this.refreshStatus,
+    this.repos,
+    this.page,
+    this.status_user,
+    this.refreshStatus_user,
+    this.repos_user,
+    this.page_user,
+    this.status_user_star,
+    this.refreshStatus_user_star,
+    this.repos_user_star,
+    this.page_user_star,
+    this.status_trend,
+    this.refreshStatus_trend,
+    this.repos_trend,
+    this.page_trend,
+  });
 
   factory ReposState.initial() {
     return ReposState(
@@ -46,22 +56,31 @@ class ReposState {
       refreshStatus_user_star: RefreshStatus.idle,
       repos_user_star: [],
       page_user_star: 1,
+      status_trend: LoadingStatus.idle,
+      refreshStatus_trend: RefreshStatus.idle,
+      repos_trend: [],
+      page_trend: 1,
     );
   }
 
-  ReposState copyWith(
-      {LoadingStatus status,
-      RefreshStatus refreshStatus,
-      List<Repository> repos,
-      int page,
-      LoadingStatus status_user,
-      RefreshStatus refreshStatus_user,
-      List<Repository> repos_user,
-      int page_user,
-      LoadingStatus status_user_star,
-      RefreshStatus refreshStatus_user_star,
-      List<Repository> repos_user_star,
-      int page_user_star}) {
+  ReposState copyWith({
+    LoadingStatus status,
+    RefreshStatus refreshStatus,
+    List<Repository> repos,
+    int page,
+    LoadingStatus status_user,
+    RefreshStatus refreshStatus_user,
+    List<Repository> repos_user,
+    int page_user,
+    LoadingStatus status_user_star,
+    RefreshStatus refreshStatus_user_star,
+    List<Repository> repos_user_star,
+    int page_user_star,
+    LoadingStatus status_trend,
+    RefreshStatus refreshStatus_trend,
+    List<Repository> repos_trend,
+    int page_trend,
+  }) {
     return ReposState(
       status: status ?? this.status,
       refreshStatus: refreshStatus ?? this.refreshStatus,
@@ -76,6 +95,10 @@ class ReposState {
           refreshStatus_user_star ?? this.refreshStatus_user_star,
       repos_user_star: repos_user_star ?? this.repos_user_star,
       page_user_star: page_user_star ?? this.page_user_star,
+      status_trend: status_trend ?? this.status_trend,
+      refreshStatus_trend: refreshStatus_trend ?? this.refreshStatus_trend,
+      repos_trend: repos_trend ?? this.repos_trend,
+      page_trend: page_trend ?? this.page_trend,
     );
   }
 

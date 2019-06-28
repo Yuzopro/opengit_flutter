@@ -1,9 +1,9 @@
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/loading_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/loading_status.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/issue/issue_actions.dart';
 import 'package:open_git/redux/issue/issue_state.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 

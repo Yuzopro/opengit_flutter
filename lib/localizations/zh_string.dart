@@ -99,4 +99,7 @@ class ZhString extends AppBaseString {
 
   @override
   String get month => "每月";
+
+  @override
+  String get timeline => "功能介绍";
 }

@@ -1,5 +1,5 @@
 import 'package:open_git/bean/issue_bean.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 
 class RequestingIssuesAction {}
 

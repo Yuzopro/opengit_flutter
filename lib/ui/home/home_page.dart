@@ -1,81 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/juejin_bean.dart';
-import 'package:open_git/bean/release_asset_bean.dart';
-import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/redux/common_actions.dart';
+import 'package:open_git/redux/home/home_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/home/home_page_view_model.dart';
 import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/log_util.dart';
-import 'package:open_git/util/update_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:rxdart/rxdart.dart';
 
-bool isShowUpdateDialog = false;
-
-class HomePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return HomePageState();
-  }
-}
-
-class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
-  RefreshController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new RefreshController();
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, HomePageViewModel>(
       distinct: true,
-      onInit: (store) => store.dispatch(FetchAction(ListPageType.home)),
+      onInit: (store) => store.dispatch(FetchHomeAction(context)),
       converter: (store) => HomePageViewModel.fromStore(store),
-      builder: (_, viewModel) => HomesPageContent(viewModel, controller),
+      builder: (_, viewModel) => HomesPageContent(viewModel),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (controller != null) {
-      controller.dispose();
-      controller = null;
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class HomesPageContent extends StatelessWidget {
   static final String TAG = "HomesPageContent";
 
-  HomesPageContent(this.viewModel, this.controller);
+  HomesPageContent(this.viewModel);
 
   final HomePageViewModel viewModel;
-  final RefreshController controller;
 
   @override
   Widget build(BuildContext context) {
     LogUtil.v('build', tag: TAG);
 
-    _showUpdateDialog(context, viewModel.releaseBean);
-
     return new YZPullRefreshList(
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.homes == null ? 0 : viewModel.homes.length,
-      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {
@@ -232,22 +194,5 @@ class HomesPageContent extends StatelessWidget {
         );
       },
     );
-  }
-
-  void _showUpdateDialog(BuildContext context, ReleaseBean bean) {
-    if (isShowUpdateDialog || bean == null) {
-      return;
-    }
-    isShowUpdateDialog = true;
-    Observable.just(1).delay(new Duration(milliseconds: 200)).listen((_) {
-      String url = "";
-      if (bean.assets != null && bean.assets.length > 0) {
-        ReleaseAssetBean assetBean = bean.assets[0];
-        if (assetBean != null) {
-          url = assetBean.downloadUrl;
-        }
-      }
-      UpdateUtil.showUpdateDialog(context, bean.name, bean.body, url);
-    });
   }
 }

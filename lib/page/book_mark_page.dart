@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/juejin_bean.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/home/home_page_view_model.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
 import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 const disclaimerText1 = '本APP属于个人的非赢利性开源项目，以供开源社区使用，凡本APP转载的所有的文章 、'
     '图片、音频、视频文件等资料的版权归版权所有人所有，本APP采用的非本站原创文章及'
@@ -21,49 +20,53 @@ const disclaimerText2 = '对于已经授权本APP独家使用并提供给本站�
     '作者所有，如其他媒体、网站或个人从本网下载使用，请在转载有关文章时务必尊重该文章的著作权，'
     '保留本网注明的“稿件来源”，并自负版权等法律责任。';
 
-class BookMarkPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return HomePageState();
-  }
-}
-
-class HomePageState extends State<BookMarkPage> {
-  RefreshController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new RefreshController();
-  }
-
+class BookMarkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, HomePageViewModel>(
       distinct: true,
       onInit: (store) => store.dispatch(FetchAction(ListPageType.home)),
       converter: (store) => HomePageViewModel.fromStore(store),
-      builder: (_, viewModel) => HomesPageContent(viewModel, controller),
+      builder: (_, viewModel) => HomesPageContent(viewModel),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (controller != null) {
-      controller.dispose();
-      controller = null;
-    }
-  }
 }
+
+//class HomePageState extends State<BookMarkPage> {
+//  RefreshController controller;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    controller = new RefreshController();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return StoreConnector<AppState, HomePageViewModel>(
+//      distinct: true,
+//      onInit: (store) => store.dispatch(FetchAction(ListPageType.home)),
+//      converter: (store) => HomePageViewModel.fromStore(store),
+//      builder: (_, viewModel) => HomesPageContent(viewModel, controller),
+//    );
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    if (controller != null) {
+//      controller.dispose();
+//      controller = null;
+//    }
+//  }
+//}
 
 class HomesPageContent extends StatelessWidget {
   static final String TAG = "HomesPageContent";
 
-  HomesPageContent(this.viewModel, this.controller);
+  HomesPageContent(this.viewModel);
 
   final HomePageViewModel viewModel;
-  final RefreshController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +74,7 @@ class HomesPageContent extends StatelessWidget {
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.homes == null ? 0 : viewModel.homes.length,
-      controller: controller,
+//      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {

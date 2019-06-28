@@ -5,13 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/localizations/app_localizations_delegate.dart';
+import 'package:open_git/redux/about/about_middleware.dart';
+import 'package:open_git/redux/about/timeline_middleware.dart';
 import 'package:open_git/redux/app_reducer.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/event/event_middleware.dart';
 import 'package:open_git/redux/home/home_middleware.dart';
 import 'package:open_git/redux/issue/issue_middleware.dart';
+import 'package:open_git/redux/profile/follow_middleware.dart';
+import 'package:open_git/redux/repos/repos_detail_middleware.dart';
 import 'package:open_git/redux/repos/repos_middleware.dart';
+import 'package:open_git/redux/repos/repos_source_code_middleware.dart';
+import 'package:open_git/redux/repos/repos_source_file_middleware.dart';
+import 'package:open_git/redux/trend/trend_middleware.dart';
 import 'package:open_git/redux/user/user_middleware.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
@@ -27,6 +34,13 @@ void main() {
       ReposMiddleware(),
       EventMiddleware(),
       IssueMiddleware(),
+      TrendMiddleware(),
+      AboutMiddleware(),
+      TimelineMiddleware(),
+      FollowMiddleware(),
+      ReposDetailMiddleware(),
+      ReposSourceFileMiddleware(),
+      ReposSourceCodeMiddleware(),
     ],
   );
 
@@ -61,6 +75,7 @@ class _OpenGitAppState extends State<OpenGitApp> {
   @override
   void initState() {
     super.initState();
+
 //    widget.store.state.platformLocale = Localizations.localeOf(context);
     widget.store.dispatch(InitAction());
   }

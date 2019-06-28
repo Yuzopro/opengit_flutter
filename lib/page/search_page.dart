@@ -7,10 +7,10 @@ import 'package:open_git/presenter/search_issue_presenter.dart';
 import 'package:open_git/presenter/search_presenter.dart';
 import 'package:open_git/presenter/search_repository_presenter.dart';
 import 'package:open_git/presenter/search_user_presenter.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
-import 'package:open_git/route/navigator_util.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -19,11 +19,9 @@ class SearchPage extends StatefulWidget {
   }
 }
 
-class _SearchPage extends State<SearchPage>
-    with SingleTickerProviderStateMixin {
+class _SearchPage extends State<SearchPage> {
   final TextEditingController _controller = new TextEditingController();
 
-  TabController _tabController;
   final PageController _pageController = new PageController();
 
   final List<_Page> _allPages = [
@@ -40,20 +38,12 @@ class _SearchPage extends State<SearchPage>
   void initState() {
     super.initState();
 
-    _tabController = new TabController(vsync: this, length: _allPages.length);
-
     _controller.addListener(() {
       String text = _controller.text;
       setState(() {
         _query = text;
       });
     });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   @override
@@ -97,7 +87,6 @@ class _SearchPage extends State<SearchPage>
             ),
             actions: _query.isNotEmpty ? _actionViews : null,
             bottom: new TabBar(
-              controller: _tabController,
               indicatorColor: Colors.white,
               tabs: _allPages
                   .map(
@@ -112,14 +101,10 @@ class _SearchPage extends State<SearchPage>
               },
             ),
           ),
-          body: new PageView(
-            controller: _pageController,
+          body: new TabBarView(
             children: _allPages.map((_Page page) {
               return page;
             }).toList(),
-            onPageChanged: (page) {
-              _tabController.animateTo(page);
-            },
           ),
         ));
   }
@@ -213,8 +198,7 @@ class _RepositoriesState
           ),
         ),
         onTap: () {
-          NavigatorUtil.goReposDetail(
-              context, item.owner.login, item.name, true);
+          NavigatorUtil.goReposDetail(context, item.owner.login, item.name);
         });
   }
 
@@ -429,6 +413,7 @@ abstract class _PageState<T, P extends SearchPresenter>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return buildBody(context);
   }
 

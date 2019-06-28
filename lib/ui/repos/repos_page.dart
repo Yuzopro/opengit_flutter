@@ -1,77 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/repos/repos_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/repos/repos_page_view_model.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
 import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/log_util.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ReposPage extends StatefulWidget {
+class ReposPage extends StatelessWidget {
   final ListPageType type;
 
   const ReposPage({Key key, this.type}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ReposPageState();
-  }
-}
-
-class ReposPageState extends State<ReposPage>
-    with AutomaticKeepAliveClientMixin {
-  RefreshController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new RefreshController();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ReposPageViewModel>(
       distinct: true,
-      onInit: (store) => store.dispatch(FetchReposAction(widget.type)),
-      converter: (store) => ReposPageViewModel.fromStore(store, widget.type),
-      builder: (_, viewModel) => ReposPageContent(viewModel, controller),
+      onInit: (store) => store.dispatch(FetchReposAction(type)),
+      converter: (store) => ReposPageViewModel.fromStore(store, type, ''),
+      builder: (_, viewModel) => ReposPageContent(viewModel),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (controller != null) {
-      controller.dispose();
-      controller = null;
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class ReposPageContent extends StatelessWidget {
   static final String TAG = "ReposPageContent";
 
-  ReposPageContent(this.viewModel, this.controller);
+  ReposPageContent(this.viewModel, {this.title});
 
   final ReposPageViewModel viewModel;
-  final RefreshController controller;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     LogUtil.v('build', tag: TAG);
 
     return new YZPullRefreshList(
+      title: title,
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.repos == null ? 0 : viewModel.repos.length,
-      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {
@@ -137,8 +108,7 @@ class ReposPageContent extends StatelessWidget {
           ),
         ),
         onTap: () {
-          NavigatorUtil.goReposDetail(
-              context, item.owner.login, item.name, true);
+          NavigatorUtil.goReposDetail(context, item.owner.login, item.name);
         });
   }
 

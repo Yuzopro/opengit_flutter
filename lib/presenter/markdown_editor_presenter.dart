@@ -7,18 +7,6 @@ class MarkdownEditorPresenter extends IMarkdownEditorPresenter {
     if (view != null) {
       view.showLoading();
     }
-//    return IssueManager.instance.editIssueComment(repoUrl, issueNumber, comment,
-//        (data) {
-//      if (view != null) {
-//        IssueBean issueBean = IssueBean.fromJson(data);
-//        view.onEditSuccess(issueBean);
-//        view.hideLoading();
-//      }
-//    }, (code, msg) {
-//      if (view != null) {
-//        view.hideLoading();
-//      }
-//    });
     final response = await IssueManager.instance
         .editIssueComment(repoUrl, issueNumber, comment);
     if (view != null) {

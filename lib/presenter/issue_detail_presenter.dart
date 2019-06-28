@@ -17,20 +17,6 @@ class IssueDetailPresenter extends IIssueDetailPresenter {
     if (!isFromMore) {
       issueBean = await getSingleIssue(repoUrl, issueNumber);
     }
-//    return IssueManager.instance.getIssueComment(repoUrl, issueNumber, page,
-//        (data) {
-//      if (data != null && data.length > 0) {
-//        List<IssueBean> list = new List();
-//        int length = data.length;
-//        for (int i = 0; i < length; i++) {
-//          list.add(IssueBean.fromJson(data[i]));
-//        }
-//        if (view != null) {
-//          view.onGetSingleIssueSuccess(issueBean);
-//          view.setList(list, isFromMore);
-//        }
-//      }
-//    }, (code, msg) {});
     final response =
         await IssueManager.instance.getIssueComment(repoUrl, issueNumber, page);
     if (response != null && view != null) {
@@ -145,16 +131,6 @@ class IssueDetailPresenter extends IIssueDetailPresenter {
 
   _deleteIssueCommentReaction(
       IssueBean issueBean, ReactionDetailBean item, content) async {
-//    IssueManager.instance.deleteReactions(item.id, (data) {
-//      if (view != null) {
-//        view.onEditSuccess(_subtractionIssueBean(issueBean, content));
-//        view.hideLoading();
-//      }
-//    }, (code, msg) {
-//      if (view != null) {
-//        view.hideLoading();
-//      }
-//    });
     final response = await IssueManager.instance.deleteReactions(item.id);
     if (response != null && response.result) {
       if (view != null) {
@@ -172,17 +148,6 @@ class IssueDetailPresenter extends IIssueDetailPresenter {
     if (view != null) {
       view.showLoading();
     }
-//    return IssueManager.instance.deleteIssueComment(repoUrl, comment_id,
-//        (data) {
-//      if (view != null) {
-//        view.onDeleteSuccess(issueBean);
-//        view.hideLoading();
-//      }
-//    }, (code, msg) {
-//      if (view != null) {
-//        view.hideLoading();
-//      }
-//    });
     final response =
         await IssueManager.instance.deleteIssueComment(repoUrl, comment_id);
     if (response != null && response.result) {

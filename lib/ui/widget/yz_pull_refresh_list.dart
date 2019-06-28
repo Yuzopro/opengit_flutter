@@ -1,46 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/loading_status.dart';
-import 'package:open_git/refresh_status.dart' as refresh_status;
-import 'package:open_git/util/log_util.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:open_git/ui/status/loading_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart' as app;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class YZPullRefreshList extends StatelessWidget {
+class YZPullRefreshList extends StatefulWidget {
   static final String TAG = "YZRefreshScaffold";
 
   final LoadingStatus status;
-  final refresh_status.RefreshStatus refreshStatus;
+  final app.RefreshStatus refreshStatus;
   final Function onRefreshCallback, onLoadCallback;
-  final RefreshController controller;
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final Widget floatingActionButton;
+  final bool enablePullUp;
+  final bool enablePullDown;
+  final String title;
+  final Widget child;
 
   YZPullRefreshList(
       {this.status,
       this.refreshStatus,
       this.onRefreshCallback,
       this.onLoadCallback,
-      this.controller,
       this.itemCount,
       this.itemBuilder,
-      this.floatingActionButton});
+      this.floatingActionButton,
+      this.enablePullUp: true,
+      this.enablePullDown: true,
+      this.title,
+      this.child});
+
+  @override
+  State<StatefulWidget> createState() {
+    return YZPullRefreshListState();
+  }
+}
+
+class YZPullRefreshListState extends State<YZPullRefreshList>
+    with AutomaticKeepAliveClientMixin {
+  RefreshController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new RefreshController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    LogUtil.v(refreshStatus.toString() + "@" + status.toString(), tag: TAG);
-
-    if (refreshStatus == refresh_status.RefreshStatus.refresh) {
+    super.build(context);
+    if (widget.refreshStatus == app.RefreshStatus.refresh) {
       controller.refreshCompleted();
-    } else if (refreshStatus == refresh_status.RefreshStatus.refresh_no_data) {
+    } else if (widget.refreshStatus == app.RefreshStatus.refresh_no_data) {
       controller.refreshCompleted();
       controller.loadNoData();
-    } else if (refreshStatus == refresh_status.RefreshStatus.loading) {
+    } else if (widget.refreshStatus == app.RefreshStatus.loading) {
       controller.loadComplete();
-    } else if (refreshStatus == refresh_status.RefreshStatus.loading_no_data) {
+    } else if (widget.refreshStatus == app.RefreshStatus.loading_no_data) {
       controller.loadNoData();
     }
 
     return new Scaffold(
+      appBar: widget.title != null
+          ? new AppBar(
+              title: new Text(widget.title),
+            )
+          : null,
       body: new Stack(
         children: <Widget>[
           new SmartRefresher(
@@ -49,36 +75,52 @@ class YZPullRefreshList extends StatelessWidget {
                 color: Colors.black,
               ),
               footer: ClassicFooter(
-                loadingIcon: const SizedBox(
+                loadingIcon: SizedBox(
                   width: 25.0,
                   height: 25.0,
-                  child: const CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      valueColor: AlwaysStoppedAnimation(Colors.black)),
+                  child: SpinKitCircle(
+                    color: Theme.of(context).primaryColor,
+                    size: 25.0,
+                  ),
                 ),
               ),
-              enablePullDown: true,
-              enablePullUp: true,
-              onRefresh: onRefreshCallback,
-              onLoading: onLoadCallback,
-              child: new ListView.builder(
-                itemCount: itemCount,
-                itemBuilder: itemBuilder,
-              )),
+              enablePullDown: widget.enablePullDown,
+              enablePullUp: widget.enablePullUp,
+              onRefresh: widget.onRefreshCallback,
+              onLoading: widget.onLoadCallback,
+              child: widget.child != null
+                  ? widget.child
+                  : new ListView.builder(
+                      itemCount: widget.itemCount,
+                      itemBuilder: widget.itemBuilder,
+                    )),
           new Offstage(
-            offstage: status != LoadingStatus.loading,
+            offstage: widget.status != LoadingStatus.loading,
             child: new Container(
               alignment: Alignment.center,
               child: new Center(
-                child: const CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                    valueColor: AlwaysStoppedAnimation(Colors.black)),
+                child: SpinKitCircle(
+                  color: Theme.of(context).primaryColor,
+                  size: 25.0,
+                ),
               ),
             ),
           )
         ],
       ),
-      floatingActionButton: floatingActionButton,
+      floatingActionButton: widget.floatingActionButton,
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (controller != null) {
+      controller.dispose();
+      controller = null;
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

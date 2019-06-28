@@ -1,56 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/issue_bean.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/issue/issue_page_view_model.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
 import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class IssuePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return IssuePageState();
-  }
-}
-
-class IssuePageState extends State<IssuePage>
-    with AutomaticKeepAliveClientMixin {
-  RefreshController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = new RefreshController();
-  }
-
+class IssuePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, IssuePageViewModel>(
       distinct: true,
       onInit: (store) => store.dispatch(FetchAction(ListPageType.issue)),
       converter: (store) => IssuePageViewModel.fromStore(store),
-      builder: (_, viewModel) => IssuePageContent(viewModel, controller),
+      builder: (_, viewModel) => IssuePageContent(viewModel),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (controller != null) {
-      controller.dispose();
-      controller = null;
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }
+
+//class IssuePageState extends State<IssuePage> {
+//  RefreshController controller;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    controller = new RefreshController();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return StoreConnector<AppState, IssuePageViewModel>(
+//      distinct: true,
+//      onInit: (store) => store.dispatch(FetchAction(ListPageType.issue)),
+//      converter: (store) => IssuePageViewModel.fromStore(store),
+//      builder: (_, viewModel) => IssuePageContent(viewModel, controller),
+//    );
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    if (controller != null) {
+//      controller.dispose();
+//      controller = null;
+//    }
+//  }
+//}
 
 class IssuePageContent extends StatelessWidget {
   static final String TAG = "EventPageContent";
@@ -60,10 +61,9 @@ class IssuePageContent extends StatelessWidget {
   static final List<String> _sort = ["created", "updated", "comments"];
   static final List<String> _direction = ["asc", "desc"];
 
-  IssuePageContent(this.viewModel, this.controller);
+  IssuePageContent(this.viewModel);
 
   final IssuePageViewModel viewModel;
-  final RefreshController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class IssuePageContent extends StatelessWidget {
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.events == null ? 1 : viewModel.events.length + 1,
-      controller: controller,
+//      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {

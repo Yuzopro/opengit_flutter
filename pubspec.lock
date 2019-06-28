@@ -7,7 +7,7 @@ packages:
       name: after_layout
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.7+1"
+    version: "1.0.7+2"
   analyzer:
     dependency: transitive
     description:
@@ -56,7 +56,7 @@ packages:
       name: build_daemon
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   build_resolvers:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: build_runner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.5.2"
+    version: "1.6.0"
   build_runner_core:
     dependency: transitive
     description:
@@ -189,7 +189,7 @@ packages:
       name: fluro
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -240,6 +240,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.5"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.0"
   front_end:
     dependency: transitive
     description:
@@ -456,7 +463,7 @@ packages:
       name: pull_to_refresh
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.4.4"
+    version: "1.4.5"
   qr:
     dependency: transitive
     description:
@@ -573,7 +580,7 @@ packages:
       name: synchronized
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.0+1"
   term_glyph:
     dependency: transitive
     description:

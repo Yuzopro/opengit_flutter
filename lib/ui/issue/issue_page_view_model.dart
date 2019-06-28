@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/issue_bean.dart';
-import 'package:open_git/list_page_type.dart';
-import 'package:open_git/loading_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/loading_status.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/issue/issue_actions.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 import 'package:redux/redux.dart';
 
 typedef IssueMenuSelected = void Function(int index, String value);

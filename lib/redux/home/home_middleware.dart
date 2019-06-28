@@ -1,13 +1,15 @@
+import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/juejin_bean.dart';
+import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/list_page_type.dart';
 import 'package:open_git/manager/juejin_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/home/home_actions.dart';
-import 'package:open_git/refresh_status.dart';
+import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/ui/status/refresh_status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
@@ -19,17 +21,16 @@ class HomeMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store store, action, NextDispatcher next) {
     next(action);
-    if (action is InitCompleteAction) {
-      _handleUpdate(next);
-    } else if (action is FetchAction && action.type == ListPageType.home) {
+    if (action is FetchHomeAction) {
       _fetchHomes(store, next, 1, RefreshStatus.idle);
+      _handleUpdate(next, action.context);
     } else if (action is RefreshAction && action.type == ListPageType.home) {
       _handleRefreshAction(store, action, next);
     }
   }
 
   //处理app升级逻辑
-  void _handleUpdate(NextDispatcher next) {
+  void _handleUpdate(NextDispatcher next, BuildContext context) {
     ReposManager.instance
         .getReposReleases('Yuzopro', 'OpenGit_Flutter')
         .then((result) {
@@ -42,7 +43,14 @@ class HomeMiddleware extends MiddlewareClass<AppState> {
               String serverVersion = bean.name;
               int compare = UpdateUtil.compareVersion(version, serverVersion);
               if (compare == -1) {
-                next(UpdateDialogAction(bean));
+                String url = "";
+                if (bean.assets != null && bean.assets.length > 0) {
+                  ReleaseAssetBean assetBean = bean.assets[0];
+                  if (assetBean != null) {
+                    url = assetBean.downloadUrl;
+                  }
+                }
+                UpdateUtil.showUpdateDialog(context, bean.name, bean.body, url);
               }
             }
           });
