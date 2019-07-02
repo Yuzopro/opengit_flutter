@@ -17,7 +17,7 @@ class ReposTrendPage extends StatelessWidget {
       distinct: true,
       onInit: (store) => store.dispatch(FetchReposTrendAction(language)),
       converter: (store) => ReposPageViewModel.fromStore(
-          store, ListPageType.repos_trend, language),
+          store, ListPageType.repos_trend, language, store.state.userState.currentUser.login),
       builder: (_, viewModel) => ReposPageContent(
             viewModel,
             title: language,

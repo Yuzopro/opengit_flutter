@@ -21,17 +21,19 @@ class ReposPageViewModel {
       @required this.onRefresh,
       @required this.onLoad});
 
-  static ReposPageViewModel fromStore(
-      Store<AppState> store, ListPageType type, String language) {
+  static ReposPageViewModel fromStore(Store<AppState> store, ListPageType type,
+      String language, String userName) {
     return ReposPageViewModel(
         status: getLoadingStatus(store, type),
         refreshStatus: getRefreshStatus(store, type),
         repos: getList(store, type),
         onRefresh: () {
-          store.dispatch(RefreshReposAction(RefreshStatus.refresh, type, language));
+          store.dispatch(RefreshReposAction(
+              RefreshStatus.refresh, type, language, userName));
         },
         onLoad: () {
-          store.dispatch(RefreshReposAction(RefreshStatus.loading, type, language));
+          store.dispatch(RefreshReposAction(
+              RefreshStatus.loading, type, language, userName));
         });
   }
 

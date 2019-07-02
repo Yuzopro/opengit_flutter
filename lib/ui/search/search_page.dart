@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/base/i_base_pull_list_view.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
@@ -7,27 +8,32 @@ import 'package:open_git/presenter/search_issue_presenter.dart';
 import 'package:open_git/presenter/search_presenter.dart';
 import 'package:open_git/presenter/search_repository_presenter.dart';
 import 'package:open_git/presenter/search_user_presenter.dart';
+import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/search/search_issue_page_view_model.dart';
+import 'package:open_git/ui/search/search_page_view_model.dart';
+import 'package:open_git/ui/search/search_repos_page_view_model.dart';
+import 'package:open_git/ui/search/search_user_page_view_model.dart';
 import 'package:open_git/ui/widget/pull_refresh_list.dart';
+import 'package:open_git/ui/widget/yz_pull_refresh_list.dart';
 import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:open_git/util/log_util.dart';
 
 class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _SearchPage();
+    return _SearchPageState();
   }
 }
 
-class _SearchPage extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = new TextEditingController();
 
-  final PageController _pageController = new PageController();
-
   final List<_Page> _allPages = [
-    new _Page("repositories", label: "项目"),
-    new _Page("users", label: "用户"),
-    new _Page("issues", label: "问题")
+    new _Page("repositories", label:"项目"),
+    new _Page("users", label:"用户"),
+    new _Page("issues", label:"问题")
   ];
 
   int _index = 0;
@@ -40,9 +46,7 @@ class _SearchPage extends State<SearchPage> {
 
     _controller.addListener(() {
       String text = _controller.text;
-      setState(() {
-        _query = text;
-      });
+      _query = text;
     });
   }
 
@@ -94,7 +98,6 @@ class _SearchPage extends State<SearchPage> {
                   )
                   .toList(),
               onTap: (index) {
-                _pageController.jumpToPage(index);
                 setState(() {
                   _index = index;
                 });
@@ -107,6 +110,369 @@ class _SearchPage extends State<SearchPage> {
             }).toList(),
           ),
         ));
+  }
+}
+
+abstract class SearchItemPage extends StatelessWidget {
+  final String since;
+  final String label;
+
+  SearchPageViewModel parentModel;
+
+  SearchItemPage(this.since, this.label);
+
+  void startQuery(String text) {
+    if (parentModel != null) {
+      parentModel.onFetch(text);
+    }
+  }
+}
+
+class SearchReposPage extends SearchItemPage {
+  SearchReposPage(String since, String label) : super(since, label);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, SearchReposPageViewModel>(
+      distinct: true,
+      converter: (store) => SearchReposPageViewModel.fromStore(store),
+      builder: (_, viewModel) {
+        parentModel = viewModel;
+        return SearchReposItemPage(viewModel);
+      },
+    );
+  }
+}
+
+class SearchReposItemPage extends StatelessWidget {
+  static final String TAG = "SearchReposItemPage";
+
+  final SearchReposPageViewModel viewModel;
+
+  SearchReposItemPage(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    LogUtil.v('build', tag: TAG);
+
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.repos == null ? 0 : viewModel.repos.length,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.repos[index]);
+      },
+    );
+  }
+
+  Widget _buildItem(BuildContext context, Repository item) {
+    return new InkWell(
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  _getItemOwner(item.owner.avatarUrl, item.owner.login),
+                  _getItemLanguage(item.language ?? ""),
+                ],
+              ),
+              //全称
+              Padding(
+                padding: new EdgeInsets.only(top: 6.0, bottom: 6.0),
+                child: Text(
+                  item.fullName ?? "",
+                  style: new TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              //描述
+              Text(
+                item.description,
+                style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+              ),
+              //底部数据
+              Row(
+                children: <Widget>[
+                  _getItemBottom(
+                      Image(
+                          width: 16.0,
+                          height: 16.0,
+                          image: new AssetImage('image/ic_star.png')),
+                      item.stargazersCount.toString()),
+                  _getItemBottom(
+                      Image(
+                          width: 16.0,
+                          height: 16.0,
+                          image: new AssetImage('image/ic_issue.png')),
+                      item.openIssuesCount.toString()),
+                  _getItemBottom(
+                      Image(
+                          width: 16.0,
+                          height: 16.0,
+                          image: new AssetImage('image/ic_branch.png')),
+                      item.forksCount.toString()),
+                  Text(
+                    item.fork ? "Forked" : "",
+                    style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+          NavigatorUtil.goReposDetail(context, item.owner.login, item.name);
+        });
+  }
+
+  Widget _getItemOwner(String ownerHead, String ownerName) {
+    return Row(
+      children: <Widget>[
+        ClipOval(
+          child: ImageUtil.getImageWidget(ownerHead, 18.0),
+        ),
+        Padding(
+          padding: new EdgeInsets.only(left: 4.0),
+          child: Text(
+            ownerName,
+            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getItemLanguage(String language) {
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          ClipOval(
+            child: Container(
+              color: Colors.black87,
+              width: 8.0,
+              height: 8.0,
+            ),
+          ),
+          Padding(
+            padding: new EdgeInsets.only(left: 4.0),
+            child: Text(
+              language,
+              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+            ),
+          ),
+        ],
+      ),
+      flex: 1,
+    );
+  }
+
+  Widget _getItemBottom(Widget icon, String count) {
+    return new Padding(
+      padding: new EdgeInsets.only(right: 12.0),
+      child: Row(
+        children: <Widget>[
+          icon,
+          Text(
+            count,
+            style: new TextStyle(color: Colors.black, fontSize: 12.0),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchUserPage extends SearchItemPage {
+  SearchUserPage(String since, String label) : super(since, label);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, SearchUserPageViewModel>(
+      distinct: true,
+      converter: (store) => SearchUserPageViewModel.fromStore(store),
+      builder: (_, viewModel) {
+        parentModel = viewModel;
+        return SearchUserItemPage(viewModel);
+      },
+    );
+  }
+}
+
+class SearchUserItemPage extends StatelessWidget {
+  static final String TAG = "SearchUserItemPage";
+
+  final SearchUserPageViewModel viewModel;
+
+  SearchUserItemPage(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    LogUtil.v('build', tag: TAG);
+
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.users == null ? 0 : viewModel.users.length,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.users[index]);
+      },
+    );
+  }
+
+  Widget _buildItem(BuildContext context, UserBean item) {
+    return new InkWell(
+      child: Container(
+        padding: EdgeInsets.only(left: 12.0, right: 12.0),
+        height: 56.0,
+        child: Row(
+          children: <Widget>[
+            ClipOval(
+              child: ImageUtil.getImageWidget(item.avatarUrl, 36.0),
+            ),
+            Padding(
+              padding: new EdgeInsets.only(left: 4.0),
+              child: Text(
+                item.login,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        NavigatorUtil.goUserProfile(context, item);
+      },
+    );
+  }
+}
+
+class SearchIssuePage extends SearchItemPage {
+  SearchIssuePage(String since, String label) : super(since, label);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, SearchIssuePageViewModel>(
+      distinct: true,
+      converter: (store) => SearchIssuePageViewModel.fromStore(store),
+      builder: (_, viewModel) {
+        parentModel = viewModel;
+        return SearchIssueItemPage(viewModel);
+      },
+    );
+  }
+}
+
+class SearchIssueItemPage extends StatelessWidget {
+  static final String TAG = "SearchUserItemPage";
+
+  final SearchIssuePageViewModel viewModel;
+
+  SearchIssueItemPage(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    LogUtil.v('build', tag: TAG);
+
+    return new YZPullRefreshList(
+      status: viewModel.status,
+      refreshStatus: viewModel.refreshStatus,
+      itemCount: viewModel.issues == null ? 0 : viewModel.issues.length,
+      onRefreshCallback: viewModel.onRefresh,
+      onLoadCallback: viewModel.onLoad,
+      itemBuilder: (context, index) {
+        return _buildItem(context, viewModel.issues[index]);
+      },
+    );
+  }
+
+  Widget _buildItem(BuildContext context, IssueBean item) {
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                _getItemOwner(item.user.avatarUrl, item.user.login),
+                Text(
+                  DateUtil.getNewsTimeStr(item.createdAt),
+                  style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                ),
+              ],
+            ),
+            //描述
+            Text(
+              item.title,
+              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    getReposFullName(item.repoUrl) +
+                        "#" +
+                        item.number.toString(),
+                    style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+                  ),
+                  flex: 1,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.comment,
+                      color: Colors.grey,
+                      size: 12.0,
+                    ),
+                    Text(
+                      item.commentNum.toString(),
+                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        NavigatorUtil.goIssueDetail(context, item);
+      },
+    );
+  }
+
+  Widget _getItemOwner(String ownerHead, String ownerName) {
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          ClipOval(
+            child: ImageUtil.getImageWidget(ownerHead, 18.0),
+          ),
+          Padding(
+            padding: new EdgeInsets.only(left: 8.0),
+            child: Text(
+              ownerName,
+              style: new TextStyle(
+                  color: Colors.black54,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+      flex: 1,
+    );
+  }
+
+  String getReposFullName(String repoUrl) {
+    return (repoUrl.isNotEmpty && repoUrl.contains("repos/"))
+        ? repoUrl.substring(repoUrl.lastIndexOf("repos/") + 6)
+        : "";
   }
 }
 

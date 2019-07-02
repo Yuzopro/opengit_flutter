@@ -26,30 +26,6 @@ class EventPage extends StatelessWidget {
   }
 }
 
-//class EventPageState extends State<EventPage> {
-//  RefreshController controller;
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    controller = new RefreshController();
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//
-//  }
-//
-//  @override
-//  void dispose() {
-//    super.dispose();
-//    if (controller != null) {
-//      controller.dispose();
-//      controller = null;
-//    }
-//  }
-//}
-
 class EventPageContent extends StatelessWidget {
   static final String TAG = "EventPageContent";
 
@@ -67,7 +43,6 @@ class EventPageContent extends StatelessWidget {
       status: viewModel.status,
       refreshStatus: viewModel.refreshStatus,
       itemCount: viewModel.events == null ? 0 : viewModel.events.length,
-//      controller: controller,
       onRefreshCallback: viewModel.onRefresh,
       onLoadCallback: viewModel.onLoad,
       itemBuilder: (context, index) {

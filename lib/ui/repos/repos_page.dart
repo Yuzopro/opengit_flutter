@@ -12,15 +12,16 @@ import 'package:open_git/util/log_util.dart';
 
 class ReposPage extends StatelessWidget {
   final ListPageType type;
+  final String userName;
 
-  const ReposPage({Key key, this.type}) : super(key: key);
+  const ReposPage({Key key, this.type, this.userName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ReposPageViewModel>(
       distinct: true,
-      onInit: (store) => store.dispatch(FetchReposAction(type)),
-      converter: (store) => ReposPageViewModel.fromStore(store, type, ''),
+      onInit: (store) => store.dispatch(FetchReposAction(type, userName)),
+      converter: (store) => ReposPageViewModel.fromStore(store, type, '', userName),
       builder: (_, viewModel) => ReposPageContent(viewModel),
     );
   }

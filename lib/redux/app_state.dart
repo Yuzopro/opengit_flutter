@@ -9,9 +9,12 @@ import 'package:open_git/redux/repos/repos_detail_state.dart';
 import 'package:open_git/redux/repos/repos_source_code_state.dart';
 import 'package:open_git/redux/repos/repos_source_file_state.dart';
 import 'package:open_git/redux/repos/repos_state.dart';
+import 'package:open_git/redux/search/search_state.dart';
 import 'package:open_git/redux/trend/trend_state.dart';
 import 'package:open_git/redux/user/user_state.dart';
 import 'package:open_git/util/theme_util.dart';
+
+import 'login/login_state.dart';
 
 class AppState {
   //主题
@@ -19,6 +22,9 @@ class AppState {
 
   //语言
   final Locale locale;
+
+  //登录
+  final LoginState loginState;
 
   //主页
   final HomeState homeState;
@@ -56,12 +62,15 @@ class AppState {
   //源码
   final ReposSourceCodeState reposSourceCodeState;
 
+  final SearchState searchState;
+
   //系统语言
   Locale platformLocale;
 
   AppState(
       {this.themeData,
       this.locale,
+      this.loginState,
       this.userState,
       this.homeState,
       this.reposState,
@@ -73,11 +82,13 @@ class AppState {
       this.followState,
       this.reposDetailState,
       this.reposSourceFileState,
-      this.reposSourceCodeState});
+      this.reposSourceCodeState,
+      this.searchState});
 
   factory AppState.initial() => AppState(
       themeData: AppTheme.theme,
       locale: Locale('zh', 'CH'),
+      loginState: LoginState.initial(),
       userState: UserState.initial(),
       homeState: HomeState.initial(),
       reposState: ReposState.initial(),
@@ -89,5 +100,6 @@ class AppState {
       followState: FollowState.initial(),
       reposDetailState: ReposDetailState.initial(),
       reposSourceFileState: ReposSourceFileState.initial(),
-      reposSourceCodeState: ReposSourceCodeState.initial());
+      reposSourceCodeState: ReposSourceCodeState.initial(),
+      searchState: SearchState.initial());
 }

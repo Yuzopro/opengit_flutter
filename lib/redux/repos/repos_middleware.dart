@@ -17,7 +17,7 @@ class ReposMiddleware extends MiddlewareClass<AppState> {
   void call(Store store, action, NextDispatcher next) {
     next(action);
     if (action is FetchReposAction) {
-      _fetchRepos(store, next, 1, RefreshStatus.idle, action.type);
+      _fetchRepos(store, next, 1, RefreshStatus.idle, action.type, action.userName);
     } else if (action is RefreshReposAction) {
       RefreshStatus status = action.refreshStatus;
       if (status == RefreshStatus.refresh) {
@@ -30,7 +30,7 @@ class ReposMiddleware extends MiddlewareClass<AppState> {
             action.language);
       } else {
         _fetchRepos(
-            store, next, store.state.reposState.page, status, action.type);
+            store, next, store.state.reposState.page, status, action.type, action.userName);
       }
     }
     if (action is FetchReposTrendAction) {
@@ -39,12 +39,7 @@ class ReposMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _fetchRepos(Store<AppState> store, NextDispatcher next, int page,
-      RefreshStatus status, ListPageType type) async {
-    String userName = "";
-    if (store.state.userState.currentUser != null) {
-      userName = store.state.userState.currentUser.login;
-    }
-
+      RefreshStatus status, ListPageType type, String userName) async {
     List<Repository> repos = getList(store, type);
 
     if (status == RefreshStatus.idle) {

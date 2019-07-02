@@ -5,13 +5,12 @@ import 'package:open_git/page/delete_reaction_page.dart';
 import 'package:open_git/page/edit_issue_page.dart';
 import 'package:open_git/page/issue_detail_page.dart';
 import 'package:open_git/page/markdown_editor_page.dart';
-import 'package:open_git/page/search_page.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:open_git/ui/login/login_page.dart';
-import 'package:open_git/ui/login/logout_page.dart';
 import 'package:open_git/ui/main_page.dart';
 import 'package:open_git/ui/profile/user_profile_page.dart';
+import 'package:open_git/ui/search/search_page.dart';
 
 class NavigatorUtil {
   //主页
@@ -54,13 +53,7 @@ class NavigatorUtil {
 //        context, new CupertinoPageRoute(builder: (context) => SharePage()));
   }
 
-  //注销页
-  static goLogout(BuildContext context) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new LogoutPage()));
-  }
-
-  ///仓库详情
+  //仓库详情
   static goReposDetail(BuildContext context, reposOwner, reposName) {
     Application.router.navigateTo(
         context,

@@ -27,55 +27,6 @@ class LoginManager {
     return _instance;
   }
 
-  initData() {
-    _initToken();
-    return _initUserInfo();
-  }
-
-  _initToken() async {
-    _token = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_TOKEN);
-  }
-
-  _initUserInfo() async {
-    var user = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_USER_INFO);
-    if (user != null && user.length > 0) {
-      var userMap = jsonDecode(user);
-      setUserBean(userMap);
-      return _userBean;
-    }
-  }
-
-  setUserBean(data) {
-    if (data == null) {
-      _userBean = null;
-    } else {
-      _userBean = UserBean.fromJson(data);
-    }
-  }
-
-  getUserBean() {
-    return _userBean;
-  }
-
-  clearAll() async {
-    SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_USER_INFO, "");
-    LoginManager.instance.setUserBean(null);
-    SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, "");
-    LoginManager.instance.setToken(null);
-  }
-
-  void setToken(String token) {
-    _token = token;
-  }
-
-  String getToken() {
-    String auth = _token;
-    if (_token != null && _token.length > 0) {
-      auth = _token.startsWith("Basic") ? _token : "token " + _token;
-    }
-    return auth;
-  }
-
   login(String userName, String password) async {
     _token = Credentials.basic(userName, password);
 
@@ -88,15 +39,7 @@ class LoginManager {
     final response =
         await HttpManager.doPost(Api.authorizations(), requestParams, null);
     if (response != null && response.data != null) {
-      LoginBean loginBean = LoginBean.fromJson(response.data);
-      if (loginBean != null) {
-        String token = loginBean.token;
-        LoginManager.instance.setToken(token);
-        SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, token);
-
-        //获取自己的用户信息
-        return await getMyUserInfo();
-      }
+      return LoginBean.fromJson(response.data);
     }
     return null;
   }
@@ -104,13 +47,45 @@ class LoginManager {
   getMyUserInfo() async {
     final response = await HttpManager.doGet(Api.getMyUserInfo(), null);
     if (response != null && response.data != null) {
-      //缓存用户信息
-      SharedPrfUtils.saveString(
-          SharedPrfKey.SP_KEY_USER_INFO, jsonEncode(response.data));
-      LoginManager.instance.setUserBean(response.data);
-
+      LoginManager.instance.setUserBean(response.data, true);
       return UserBean.fromJson(response.data);
     }
     return null;
+  }
+
+  clearAll() async {
+    setUserBean(null, true);
+    setToken(null, true);
+  }
+
+  setUserBean(data, bool isNeedCache) {
+    if (data == null) {
+      _userBean = null;
+    } else {
+      _userBean = UserBean.fromJson(data);
+    }
+    if (isNeedCache) {
+      SharedPrfUtils.saveString(
+          SharedPrfKey.SP_KEY_USER_INFO, data != null ? jsonEncode(data) : '');
+    }
+  }
+
+  getUserBean() {
+    return _userBean;
+  }
+
+  void setToken(String token, bool isNeedCache) {
+    _token = token;
+    if (isNeedCache) {
+      SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
+    }
+  }
+
+  String getToken() {
+    String auth = _token;
+    if (_token != null && _token.length > 0) {
+      auth = _token.startsWith("Basic") ? _token : "token " + _token;
+    }
+    return auth;
   }
 }

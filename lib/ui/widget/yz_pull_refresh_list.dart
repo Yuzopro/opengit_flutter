@@ -105,7 +105,29 @@ class YZPullRefreshListState extends State<YZPullRefreshList>
                 ),
               ),
             ),
-          )
+          ),
+          new Offstage(
+            offstage: widget.itemCount != 0 || widget.status == LoadingStatus.loading,
+            child: new Container(
+              alignment: Alignment.center,
+              child: new Center(
+                child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: Column(
+                    children: <Widget>[
+                      Image(
+                          width: 64.0,
+                          height: 64.0,
+                          image: new AssetImage('image/ic_launcher.png')),
+                      SizedBox(height: 5.0),
+                      Text('暂无数据'),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: widget.floatingActionButton,

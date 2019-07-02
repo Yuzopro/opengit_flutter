@@ -20,13 +20,13 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Choice> choices = new List(4);
     choices[0] =
-    new Choice(title: AppLocalizations.of(context).currentlocal.home);
+        new Choice(title: AppLocalizations.of(context).currentlocal.home);
     choices[1] =
-    new Choice(title: AppLocalizations.of(context).currentlocal.repository);
+        new Choice(title: AppLocalizations.of(context).currentlocal.repository);
     choices[2] =
-    new Choice(title: AppLocalizations.of(context).currentlocal.event);
+        new Choice(title: AppLocalizations.of(context).currentlocal.event);
     choices[3] =
-    new Choice(title: AppLocalizations.of(context).currentlocal.issue);
+        new Choice(title: AppLocalizations.of(context).currentlocal.issue);
 
     UserBean _userBean = LoginManager.instance.getUserBean();
 
@@ -36,10 +36,10 @@ class MainPage extends StatelessWidget {
           child: new Scaffold(
             drawer: new Drawer(
                 child: new DrawerPage(
-                  name: _userBean.login ?? "--",
-                  email: _userBean.blog ?? "--",
-                  headUrl: _userBean.avatarUrl ?? "",
-                )),
+              name: _userBean.login ?? "--",
+              email: _userBean.blog ?? "--",
+              headUrl: _userBean.avatarUrl ?? "",
+            )),
             appBar: new AppBar(
               leading: Builder(builder: (BuildContext context) {
                 return new IconButton(
@@ -77,7 +77,10 @@ class MainPage extends StatelessWidget {
             body: new TabBarView(
               children: <Widget>[
                 HomePage(),
-                ReposPage(type: ListPageType.repos),
+                ReposPage(
+                  type: ListPageType.repos,
+                  userName: _userBean.login,
+                ),
                 EventPage(),
                 IssuePage(),
               ],
@@ -93,30 +96,30 @@ class MainPage extends StatelessWidget {
     return showDialog(
         context: context,
         builder: (context) => new AlertDialog(
-          title: Text(
-              AppLocalizations.of(context).currentlocal.dialog_exit_title),
-          content: Text(AppLocalizations.of(context)
-              .currentlocal
-              .dialog_exit_content),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(AppLocalizations.of(context).currentlocal.cancel,
-                  style: TextStyle(color: Colors.grey)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text(
-                AppLocalizations.of(context).currentlocal.ok,
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        ));
+              title: Text(
+                  AppLocalizations.of(context).currentlocal.dialog_exit_title),
+              content: Text(AppLocalizations.of(context)
+                  .currentlocal
+                  .dialog_exit_content),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(AppLocalizations.of(context).currentlocal.cancel,
+                      style: TextStyle(color: Colors.grey)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                FlatButton(
+                  child: Text(
+                    AppLocalizations.of(context).currentlocal.ok,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+              ],
+            ));
   }
 }
 

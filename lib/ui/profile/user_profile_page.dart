@@ -31,10 +31,16 @@ class _UserProfileState extends State<UserProfilePage> {
     super.initState();
 
     _choices = <Choice>[
-      Choice(title: '项目', widget: ReposPage(type: ListPageType.repos_user)),
+      Choice(
+          title: '项目',
+          widget: ReposPage(
+            type: ListPageType.repos_user,
+            userName: userBean.login,
+          )),
       Choice(
           title: 'Star过的项目',
-          widget: ReposPage(type: ListPageType.repos_user_star)),
+          widget: ReposPage(
+              type: ListPageType.repos_user_star, userName: userBean.login)),
       Choice(title: '关注我的', widget: FollowPage(ListPageType.by_follower)),
       Choice(title: '我关注的', widget: FollowPage(ListPageType.follower)),
 //      Choice(title: '所在组织', widget: Text('所在组织')),

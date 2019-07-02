@@ -14,4 +14,7 @@ enum ListPageType {
   by_follower,
   repos_event,
   repos_trend,
+  search_repos,
+  search_user,
+  search_issue,
 }

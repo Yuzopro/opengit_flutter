@@ -13,6 +13,7 @@ import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/event/event_middleware.dart';
 import 'package:open_git/redux/home/home_middleware.dart';
 import 'package:open_git/redux/issue/issue_middleware.dart';
+import 'package:open_git/redux/login/login_middleware.dart';
 import 'package:open_git/redux/profile/follow_middleware.dart';
 import 'package:open_git/redux/repos/repos_detail_middleware.dart';
 import 'package:open_git/redux/repos/repos_middleware.dart';
@@ -29,6 +30,7 @@ void main() {
     appReducer,
     initialState: AppState.initial(),
     middleware: [
+      LoginMiddleware(),
       UserMiddleware(),
       HomeMiddleware(),
       ReposMiddleware(),

@@ -10,7 +10,7 @@ import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
 class FollowMiddleware extends MiddlewareClass<AppState> {
-  static final String TAG = "ReposMiddleware";
+  static final String TAG = "FollowMiddleware";
 
   @override
   void call(Store store, action, NextDispatcher next) {

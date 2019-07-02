@@ -26,7 +26,6 @@ class UserMiddleware extends MiddlewareClass<AppState> {
 
   Future<Null> _init(
       Store<AppState> store, InitAction action, NextDispatcher next) async {
-    LoginManager.instance.initData();
     //主题
     int theme = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_THEME_COLOR);
     if (theme != null) {
@@ -44,8 +43,10 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     var user = await SharedPrfUtils.get(SharedPrfKey.SP_KEY_USER_INFO);
     if (user != null && user.length > 0) {
       var data = jsonDecode(user);
+      LoginManager.instance.setUserBean(data, false);
       userBean = UserBean.fromJson(data);
     }
+    LoginManager.instance.setToken(token, false);
     next(InitCompleteAction(token, userBean));
   }
 }

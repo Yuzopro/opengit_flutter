@@ -57,6 +57,8 @@ class HttpManager {
     //设置请求超时时间
     options.connectTimeout = 15 * 1000;
 
+    LogUtil.v("headers is " + headers.toString(), tag: TAG);
+
     Dio _dio = new Dio();
     //开始请求
     Response response;

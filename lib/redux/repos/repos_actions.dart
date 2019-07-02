@@ -10,8 +10,9 @@ class RequestingReposAction {
 
 class FetchReposAction {
   final ListPageType type;
+  final String userName;
 
-  FetchReposAction(this.type);
+  FetchReposAction(this.type, this.userName);
 }
 
 class FetchReposTrendAction {
@@ -24,8 +25,9 @@ class RefreshReposAction {
   final RefreshStatus refreshStatus;
   final ListPageType type;
   final String language;
+  final String userName;
 
-  RefreshReposAction(this.refreshStatus, this.type, this.language);
+  RefreshReposAction(this.refreshStatus, this.type, this.language, this.userName);
 }
 
 class ReceivedReposAction {
