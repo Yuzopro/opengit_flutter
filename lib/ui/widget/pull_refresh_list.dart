@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:open_git/base/base_presenter.dart';
-import 'package:open_git/base/base_state.dart';
-import 'package:open_git/base/i_base_pull_list_view.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/mvp/base/base_presenter.dart';
+import 'package:open_git/mvp/base/base_state.dart';
+import 'package:open_git/mvp/base/i_base_pull_list_view.dart';
 
 abstract class PullRefreshListState<R extends StatefulWidget, T,
         P extends BasePresenter<V>, V extends IBasePullListView>

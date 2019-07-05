@@ -1,8 +1,7 @@
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/ui/status/list_page_type.dart';
-import 'package:open_git/ui/status/refresh_status.dart';
+import 'package:open_git/status/status.dart';
 
 class FetchSearchAction {
   final String query;

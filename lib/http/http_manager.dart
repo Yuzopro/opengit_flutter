@@ -16,8 +16,9 @@ class HttpManager {
   static const _DELETE = "DELETE";
   static const _PATCH = "patch";
 
-  static doGet(url, Map<String, String> header) {
-    return _doRequest(url, null, header, new Options(method: _GET));
+  static doGet(url, Map<String, String> header, {bool isText: false}) {
+    return _doRequest(url, null, header, new Options(method: _GET),
+        isText: isText);
   }
 
   static doPut(url) {
@@ -36,8 +37,8 @@ class HttpManager {
     return _doRequest(url, params, header, new Options(method: _POST));
   }
 
-  static _doRequest(
-      url, params, Map<String, String> header, Options options) async {
+  static _doRequest(url, params, Map<String, String> header, Options options,
+      {bool isText: false}) async {
     LogUtil.v(url, tag: TAG);
     //检查网络
     var connectivityResult = await (new Connectivity().checkConnectivity());
@@ -52,12 +53,12 @@ class HttpManager {
       options = new Options(method: _GET);
       options.headers = headers;
     }
-    options.contentType = ContentType.parse("application/json");
+    options.contentType = isText ? ContentType.text : ContentType.json;
 
     //设置请求超时时间
     options.connectTimeout = 15 * 1000;
 
-    LogUtil.v("headers is " + headers.toString(), tag: TAG);
+//    LogUtil.v("headers is " + headers.toString(), tag: TAG);
 
     Dio _dio = new Dio();
     //开始请求

@@ -4,27 +4,71 @@ import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
+import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/juejin_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
+import 'package:open_git/status/status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
+
 
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";
 
-  static bool _isInit = false;
+  bool _isInit = false;
+
+  HomeBloc() {
+    LogUtil.v('HomeBloc', tag: TAG);
+  }
 
   @override
-  void initState(BuildContext context) {
+  ListPageType getListPageType() {
+    return ListPageType.home;
+  }
+
+  void initData(BuildContext context) {
     if (_isInit) {
       return;
     }
     _isInit = true;
+    _fetchHomeList();
+    _checkUpgrade(context);
+  }
 
-    Observable.just(1).delay(new Duration(milliseconds: 200)).listen((_) {
+  @override
+  Future getData() async {
+    await _fetchHomeList();
+  }
+
+  Future _fetchHomeList() async {
+    LogUtil.v('_fetchHomeList', tag: TAG);
+    try {
+      var result = await JueJinManager.instance.getJueJinList(page);
+      if (list == null) {
+        list = List();
+      }
+      if (page == 1) {
+        list.clear();
+      }
+
+      noMore = true;
+      if (result != null) {
+        noMore = result.length != Config.PAGE_SIZE;
+        list.addAll(result);
+      }
+
+      sink.add(UnmodifiableListView<Entrylist>(list));
+    } catch (_) {
+      if (page != 1) {
+        page--;
+      }
+    }
+  }
+
+  void _checkUpgrade(BuildContext context) {
+    Observable.just(1).delay(Duration(milliseconds: 200)).listen((_) {
       ReposManager.instance
           .getReposReleases('Yuzopro', 'OpenGit_Flutter')
           .then((result) {
@@ -52,35 +96,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
           }
         }
       }).catchError((_) {});
-    });
-  }
-
-  @override
-  Future getData(RefreshController controller, bool isLoad) {
-    LogUtil.v("_getData", tag: TAG);
-    return JueJinManager.instance.getJueJinList(page).then((result) {
-      if (list == null) {
-        list = new List();
-      }
-      if (page == 1) {
-        list.clear();
-      }
-      list.addAll(result);
-      sink.add(UnmodifiableListView<Entrylist>(list));
-
-      if (controller != null) {
-        if (!isLoad) {
-          controller.refreshCompleted();
-          controller.loadComplete();
-        } else {
-          controller.loadComplete();
-        }
-      }
-    }).catchError((_) {
-      page--;
-      if (controller != null) {
-        controller.loadFailed();
-      }
     });
   }
 }

@@ -3,28 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:open_git/route/route_handlers.dart';
 
 class AppRoutes {
-  static final splash = "/";
-  static final main = "/main";
-  static final login = "/login";
-  static final setting = "/main/setting";
-  static final theme = "/main/setting/theme";
-  static final language = "/main/setting/language";
-  static final webview = "/main/webview";
-  static final about = "/main/about";
-  static final share = "/main/share";
-  static final timeline = "/main/about/timeline";
-  static final timeline_detail = "/main/about/timeline/detail";
-  static final trend = "/main/trend";
-  static final repos_detail = "/main/repos/detail";
-  static final repos_event = "/main/repos/event";
-  static final repos_trend = "/main/repos/trend";
-  static final repos_file = "/main/repos/file";
-  static final repos_code = "/main/repos/code";
+  static final splash = '/';
+  static final main = '/main';
+  static final login = '/login';
+  static final setting = '/main/setting';
+  static final theme = '/main/setting/theme';
+  static final language = '/main/setting/language';
+  static final webview = '/main/webview';
+  static final about = '/main/about';
+  static final share = '/main/share';
+  static final timeline = '/main/about/timeline';
+  static final timeline_detail = '/main/about/timeline/detail';
+  static final trend = '/main/trend';
+  static final repos_detail = '/main/repos/detail';
+  static final repos_event = '/main/repos/event';
+  static final repos_trend = '/main/repos/trend';
+  static final repos_file = '/main/repos/file';
+  static final repos_code = '/main/repos/code';
+  static final photo_view = '/main/photo/view';
+  static final search = '/main/searct';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      print("ROUTE WAS NOT FOUND !!!");
+      print('ROUTE WAS NOT FOUND !!!');
     });
     router.define(splash,
         handler: splashHandler, transitionType: TransitionType.inFromRight);
@@ -62,5 +64,9 @@ class AppRoutes {
         handler: reposFileHandler, transitionType: TransitionType.inFromRight);
     router.define(repos_code,
         handler: reposCodeHandler, transitionType: TransitionType.inFromRight);
+    router.define(photo_view,
+        handler: photoViewHandler, transitionType: TransitionType.inFromRight);
+    router.define(search,
+        handler: searchHandler, transitionType: TransitionType.inFromRight);
   }
 }

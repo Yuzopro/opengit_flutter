@@ -1,5 +1,6 @@
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/ui/status/login_status.dart';
+import 'package:open_git/status/status.dart';
+
 
 class UserState {
   final LoginStatus status;

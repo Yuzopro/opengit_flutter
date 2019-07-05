@@ -1,7 +1,8 @@
-import 'package:open_git/ui/status/login_status.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/user/user_state.dart';
+import 'package:open_git/status/status.dart';
 import 'package:redux/redux.dart';
+
 
 final userReducer = combineReducers<UserState>([
   TypedReducer<UserState, InitCompleteAction>(_refresh),

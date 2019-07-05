@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_git/page/book_mark_page.dart';
-import 'package:open_git/page/delete_reaction_page.dart';
-import 'package:open_git/page/edit_issue_page.dart';
-import 'package:open_git/page/issue_detail_page.dart';
-import 'package:open_git/page/markdown_editor_page.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
-import 'package:open_git/ui/login/login_page.dart';
-import 'package:open_git/ui/main_page.dart';
-import 'package:open_git/ui/profile/user_profile_page.dart';
-import 'package:open_git/ui/search/search_page.dart';
+import 'package:open_git/ui/page/book_mark_page.dart';
+import 'package:open_git/ui/page/delete_reaction_page.dart';
+import 'package:open_git/ui/page/edit_issue_page.dart';
+import 'package:open_git/ui/page/issue_detail_page.dart';
+import 'package:open_git/ui/page/login_page.dart';
+import 'package:open_git/ui/page/main_page.dart';
+import 'package:open_git/ui/page/markdown_editor_page.dart';
+import 'package:open_git/ui/page/search_page.dart';
+import 'package:open_git/ui/page/user_profile_page.dart';
 
 class NavigatorUtil {
   //主页
@@ -35,22 +35,16 @@ class NavigatorUtil {
   //设置页
   static goSetting(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.setting);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => SettingPage()));
   }
 
   //关于页
   static goAbout(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.about);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => AboutPage()));
   }
 
   //分享页
   static goShare(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.share);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => SharePage()));
   }
 
   //仓库详情
@@ -59,30 +53,17 @@ class NavigatorUtil {
         context,
         AppRoutes.repos_detail +
             "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new ReposDetailPage(
-//                  reposOwner,
-//                  reposName,
-//                )));
   }
 
   //趋势
   static goTrend(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.trend);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => TrendPage()));
   }
 
   //仓库语言按star排名
   static goReposLanguage(BuildContext context, language) {
     Application.router.navigateTo(context,
         AppRoutes.repos_trend + "?language=${Uri.encodeComponent(language)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new ReposTrendPage(language)));
   }
 
   //仓库动态
@@ -91,10 +72,6 @@ class NavigatorUtil {
         context,
         AppRoutes.repos_event +
             "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new ReposEventPage(reposOwner, reposName)));
   }
 
   //用户资料
@@ -111,11 +88,6 @@ class NavigatorUtil {
         context,
         AppRoutes.repos_file +
             "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) =>
-//                new ReposSourceFilePage(reposOwner, reposName)));
   }
 
   //查看源码
@@ -124,16 +96,11 @@ class NavigatorUtil {
         context,
         AppRoutes.repos_code +
             "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new ReposSourceCodePage(title, url)));
   }
 
   //搜索
   static goSearch(BuildContext context) {
-    Navigator.push(context,
-        new CupertinoPageRoute(builder: (context) => new SearchPage()));
+    Application.router.navigateTo(context, AppRoutes.search);
   }
 
   //问题详情
@@ -178,15 +145,11 @@ class NavigatorUtil {
   //主题页
   static goTheme(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.theme);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => ThemePage()));
   }
 
   //语言切换页
   static goLanguage(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.language);
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => LanguagePage()));
   }
 
   //h5页面
@@ -195,21 +158,11 @@ class NavigatorUtil {
         context,
         AppRoutes.webview +
             "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new WebViewPage(
-//                  title: title,
-//                  url: url,
-//                )));
   }
 
   //功能介绍页
   static goTimeline(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.timeline);
-
-//    Navigator.push(
-//        context, new CupertinoPageRoute(builder: (context) => TimelinePage()));
   }
 
   //功能介绍详情页
@@ -218,12 +171,13 @@ class NavigatorUtil {
         context,
         AppRoutes.timeline_detail +
             "?title=${Uri.encodeComponent(title)}&body=${Uri.encodeComponent(body)}");
-//    Navigator.push(
-//        context,
-//        new CupertinoPageRoute(
-//            builder: (context) => new TimelineDetailPage(
-//                  title: title,
-//                  body: body,
-//                )));
+  }
+
+  //查看图片
+  static goPhotoView(BuildContext context, title, url) {
+    Application.router.navigateTo(
+        context,
+        AppRoutes.photo_view +
+            "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
   }
 }

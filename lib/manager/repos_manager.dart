@@ -8,8 +8,7 @@ import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_manager.dart';
-import 'package:open_git/util/html_util.dart';
-import 'package:open_git/util/markdown_util.dart';
+import 'package:open_git/util/code_detail_util.dart';
 import 'package:open_git/util/trending_util.dart';
 
 class ReposManager {
@@ -38,7 +37,8 @@ class ReposManager {
 
   getReadme(reposFullName, branch) async {
     String url = Api.readmeFile(reposFullName, branch);
-    return await getFileAsStream(url, false);
+    return await _getFileAsStream(
+        url, {"Accept": 'application/vnd.github.VERSION.raw'});
   }
 
   getReposStar(reposOwner, reposName) async {
@@ -152,26 +152,18 @@ class ReposManager {
     return null;
   }
 
-  getFileAsStream(url, bool isParse) async {
-    final response = await HttpManager.doGet(
-        url, {"Accept": 'application/vnd.github.VERSION.raw'});
-    if (response != null && response.data != null) {
-      if (!isParse) {
-        return response.data;
-      }
-      String result;
-      if (MarkdownUtil.isMarkdown(url)) {
-        result = response.data;
-      } else {
-        String html = HtmlUtil.generateCodeHtml(
-            response.data, null, false, "#ffffff", false, true);
-        result = new Uri.dataFromString(html,
-                mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
-            .toString();
-      }
-      return result;
-    }
-    return null;
+  getCodeDetail(url) async {
+    final response =
+        await _getFileAsStream(url, {"Accept": 'application/vnd.github.html'});
+    String data = CodeDetailUtil.resolveHtmlFile(response, "java");
+    String result = new Uri.dataFromString(data,
+            mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
+        .toString();
+    return result;
+  }
+
+  _getFileAsStream(url, Map<String, String> header) async {
+    return await HttpManager.doGet(url, header, isText: true);
   }
 
   getReposReleases(userName, repos, {page = 1}) async {

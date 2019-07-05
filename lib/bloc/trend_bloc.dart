@@ -1,53 +1,45 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/util/log_util.dart';
-import 'package:pull_to_refresh/src/smart_refresher.dart';
 
-class TrendBloc extends BaseListBloc<TrendBean> {
+abstract class TrendBloc extends BaseListBloc<TrendBean> {
   static final String TAG = "TrendBloc";
 
-  String since, trend;
+  final String trend;
+  final String since;
 
-  initData(String since, String trend) {
-    this.since = since;
-    this.trend = trend;
+  bool _isInit = false;
+
+  TrendBloc(this.trend, {this.since});
+
+  initData(BuildContext context) {
+    if (_isInit) {
+      return;
+    }
+    _isInit = true;
+    _fetchTrendList();
   }
 
   @override
-  Future getData(RefreshController controller, bool isLoad) {
-    LogUtil.v("_getData", tag: TAG);
-    return ReposManager.instance.getTrend(since, trend)
-        .then((result) {
+  Future getData() async {
+    await _fetchTrendList();
+  }
+
+  Future _fetchTrendList() async {
+    LogUtil.v('_fetchTrendList', tag: TAG);
+    try {
+      var result = await ReposManager.instance.getTrend(since, trend);
       if (list == null) {
-        list = new List();
+        list = List();
       }
-      if (page == 1) {
-        list.clear();
+      if (result != null) {
+        list.addAll(result);
       }
-      list.addAll(result);
       sink.add(UnmodifiableListView<TrendBean>(list));
-
-      if (controller != null) {
-        if (!isLoad) {
-          controller.refreshCompleted();
-          controller.loadNoData();
-        } else {
-          controller.loadComplete();
-        }
-      }
-    }).catchError((_) {
-      page--;
-      if (controller != null) {
-        controller.loadFailed();
-      }
-    });
-  }
-
-  @override
-  void initState(BuildContext context) {
+    } catch (_) {}
   }
 }

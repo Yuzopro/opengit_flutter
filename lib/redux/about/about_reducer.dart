@@ -1,6 +1,6 @@
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/about/about_state.dart';
-import 'package:open_git/ui/status/loading_status.dart';
+import 'package:open_git/status/status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 

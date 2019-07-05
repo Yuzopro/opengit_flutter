@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RefreshScaffold extends StatefulWidget {
@@ -114,18 +115,43 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                       },
                     )),
             new Offstage(
-              offstage: widget.isLoading != true,
+              offstage: !widget.isLoading,
               child: new Container(
                 alignment: Alignment.center,
                 child: new Center(
-                  child: Text("数据暂时为空"),
+                  child: SpinKitCircle(
+                    color: Theme.of(context).primaryColor,
+                    size: 25.0,
+                  ),
                 ),
               ),
-            )
+            ),
+            new Offstage(
+              offstage: widget.itemCount != 0 || widget.isLoading,
+              child: new Container(
+                alignment: Alignment.center,
+                child: new Center(
+                  child: SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Column(
+                      children: <Widget>[
+                        Image(
+                            width: 64.0,
+                            height: 64.0,
+                            image: new AssetImage('image/ic_launcher.png')),
+                        SizedBox(height: 5.0),
+                        Text('暂无数据'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         floatingActionButton:
-            widget.floatingActionButton ?? buildFloatingActionButton());
+            widget.floatingActionButton /*?? buildFloatingActionButton()*/);
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:open_git/ui/status/loading_status.dart';
+import 'package:open_git/status/status.dart';
 
 class LoginState {
   final LoadingStatus status;

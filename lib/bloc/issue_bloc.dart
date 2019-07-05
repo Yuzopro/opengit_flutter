@@ -1,10 +1,11 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/issue_bean.dart';
+import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
+import 'package:open_git/status/status.dart';
 import 'package:open_git/util/log_util.dart';
-import 'package:pull_to_refresh/src/smart_refresher.dart';
 
 import 'base_list_bloc.dart';
 
@@ -14,46 +15,66 @@ class IssueBloc extends BaseListBloc<IssueBean> {
   final String userName;
   String q, state, sort, order;
 
-  IssueBloc(this.userName);
+  bool _isInit = false;
 
-  initData(String q, String state, String sort, String order) {
-    this.q = q;
-    this.state = state;
-    this.sort = sort;
-    this.order = order;
+  IssueBloc(this.userName) {
+    LogUtil.v('IssueBloc', tag: TAG);
+    q = "involves";
+    state = "open";
+    sort = "created";
+    order = "asc";
   }
 
   @override
-  Future getData(RefreshController controller, bool isLoad) {
-    LogUtil.v("_getData", tag: TAG);
-    return IssueManager.instance
-        .getIssue(q, state, sort, order, userName, page)
-        .then((result) {
+  ListPageType getListPageType() {
+    return ListPageType.issue;
+  }
+
+  initData(BuildContext context) {
+    if (_isInit) {
+      return;
+    }
+    _isInit = true;
+    _fetchIssueList();
+  }
+
+  refreshData({String q, String state, String sort, String order}) {
+    this.q = q ?? this.q;
+    this.state = state ?? this.state;
+    this.sort = sort ?? this.sort;
+    this.order = order ?? this.order;
+    sink.add(null);
+    _fetchIssueList();
+  }
+
+  @override
+  Future getData() async {
+    await _fetchIssueList();
+  }
+
+  Future _fetchIssueList() async {
+    LogUtil.v('_fetchIssueList', tag: TAG);
+    try {
+      var result = await IssueManager.instance
+          .getIssue(q, state, sort, order, userName, page);
       if (list == null) {
-        list = new List();
+        list = List();
       }
       if (page == 1) {
         list.clear();
       }
-      list.addAll(result);
+
+      noMore = true;
+      if (result != null) {
+        noMore = result.length != Config.PAGE_SIZE;
+        list.addAll(result);
+      }
+
       sink.add(UnmodifiableListView<IssueBean>(list));
-
-      if (controller != null) {
-        if (!isLoad) {
-          controller.refreshCompleted();
-          controller.loadComplete();
-        } else {
-          controller.loadComplete();
-        }
+    } catch (_) {
+      if (page != 1) {
+        page--;
       }
-    }).catchError((_) {
-      page--;
-      if (controller != null) {
-        controller.loadFailed();
-      }
-    });
+    }
   }
-
-  @override
-  void initState(BuildContext context) {}
 }

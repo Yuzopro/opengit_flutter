@@ -5,7 +5,7 @@ import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
-import 'package:open_git/ui/status/list_page_type.dart';
+import 'package:open_git/status/status.dart';
 import 'package:open_git/util/toast_util.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
