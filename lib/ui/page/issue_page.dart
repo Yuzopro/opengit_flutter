@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/issue_bean.dart';
+import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 
 
@@ -26,7 +27,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
   }
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget getHeader(BuildContext context, LoadingBean<List<IssueBean>> data) {
     IssueBloc bloc = BlocProvider.of<IssueBloc>(context);
 
     return new Row(

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
@@ -15,11 +13,11 @@ class SearchUserBloc extends SearchBloc<UserBean> {
 
   @override
   void dealResult(result) {
-    if (list == null) {
-      list = List();
+    if (bean.data == null) {
+      bean.data = List();
     }
     if (page == 1) {
-      list.clear();
+      bean.data.clear();
     }
 
     noMore = true;
@@ -29,10 +27,10 @@ class SearchUserBloc extends SearchBloc<UserBean> {
       for (int i = 0; i < items.length; i++) {
         var dataItem = items[i];
         UserBean user = UserBean.fromJson(dataItem);
-        list.add(user);
+        bean.data.add(user);
       }
     }
 
-    sink.add(UnmodifiableListView<UserBean>(list));
+    sink.add(bean);
   }
 }

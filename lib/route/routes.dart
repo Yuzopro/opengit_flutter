@@ -22,6 +22,9 @@ class AppRoutes {
   static final repos_code = '/main/repos/code';
   static final photo_view = '/main/photo/view';
   static final search = '/main/searct';
+  static final reaction = '/main/issue/reaction';
+  static final author = '/main/author';
+  static final other = '/main/other';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
@@ -68,5 +71,9 @@ class AppRoutes {
         handler: photoViewHandler, transitionType: TransitionType.inFromRight);
     router.define(search,
         handler: searchHandler, transitionType: TransitionType.inFromRight);
+    router.define(author,
+        handler: authorHandler, transitionType: TransitionType.inFromRight);
+    router.define(other,
+        handler: otherHandler, transitionType: TransitionType.inFromRight);
   }
 }

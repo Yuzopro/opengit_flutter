@@ -9,7 +9,6 @@ import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:redux/redux.dart';
 
-
 class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -61,9 +60,43 @@ class AboutPageContent extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  title: new Text('Github'),
+                  trailing: new Icon(Icons.navigate_next),
+                  onTap: () {
+                    NavigatorUtil.goWebView(context, 'Github',
+                        'https://github.com/Yuzopro/OpenGit_Flutter');
+                  },
+                ),
+                Divider(
+                  height: 0.3,
+                ),
+                ListTile(
+                  title: new Text(
+                      AppLocalizations.of(context).currentlocal.author),
+                  trailing: new Icon(Icons.navigate_next),
+                  onTap: () {
+                    NavigatorUtil.goAuthor(context);
+                  },
+                ),
+                Divider(
+                  height: 0.3,
+                ),
+                ListTile(
+                  title: new Text(
+                      AppLocalizations.of(context).currentlocal.app_home_page),
+                  trailing: new Icon(Icons.navigate_next),
+                  onTap: () {
+                    NavigatorUtil.goWebView(context, AppLocalizations.of(context).currentlocal.app_home_page,
+                        'https://yuzopro.github.io/portfolio/work/opengit-flutter.html');
+                  },
+                ),
+                Divider(
+                  height: 0.3,
+                ),
+                ListTile(
                   title: new Text(
                       AppLocalizations.of(context).currentlocal.introduction),
-                  trailing: new Icon(Icons.arrow_right),
+                  trailing: new Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goTimeline(context);
                   },
@@ -74,19 +107,32 @@ class AboutPageContent extends StatelessWidget {
                 ListTile(
                   title: new Text(
                       AppLocalizations.of(context).currentlocal.update_title),
-                  trailing: new Icon(Icons.arrow_right),
+                  trailing: new Icon(Icons.navigate_next),
                   onTap: viewModel.onLoad,
                 ),
                 Divider(
                   height: 0.3,
-                )
+                ),
+                ListTile(
+                  title:
+                      new Text(AppLocalizations.of(context).currentlocal.other),
+                  trailing: new Icon(Icons.navigate_next),
+                  onTap: () {
+                    NavigatorUtil.goOther(context);
+                  },
+                ),
+                Divider(
+                  height: 0.3,
+                ),
               ],
             ),
           ),
           new Offstage(
             offstage: viewModel.status != LoadingStatus.loading,
             child: new Container(
-              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black54,
               child: new Center(
                 child: SpinKitCircle(
                   color: Theme.of(context).primaryColor,

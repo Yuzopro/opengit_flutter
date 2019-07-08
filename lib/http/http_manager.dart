@@ -66,8 +66,10 @@ class HttpManager {
     try {
       //因为contenttype是application/json，不用在进行json转换
       response = await _dio.request(url, data: params, options: options);
-      LogUtil.v(url + "@statusCode is " + response.statusCode.toString(),
-          tag: TAG);
+//      LogUtil.v(url + "@statusCode is " + response.statusCode.toString(),
+//          tag: TAG);
+//      LogUtil.v('data is ${response.data}', tag: TAG);
+
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
         return new ResponseResultData(response.data, true, response.statusCode);
@@ -76,7 +78,7 @@ class HttpManager {
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
-      print(e);
+      LogUtil.v('request error is $e', tag: TAG);
       return new ResponseResultData(null, false, -2);
     }
   }
@@ -97,7 +99,7 @@ class HttpManager {
           await _dio.download(url, savePath, onReceiveProgress: progress);
       print(response.statusCode);
     } catch (e) {
-      print(e);
+      LogUtil.v('download error is $e', tag: TAG);
     }
   }
 }

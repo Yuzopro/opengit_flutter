@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
+import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/image_util.dart';
+import 'package:redux/redux.dart';
 
 class DrawerPage extends StatelessWidget {
   final String name, email, headUrl;
@@ -105,6 +109,8 @@ class DrawerPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Store<AppState> store = StoreProvider.of(context);
+                    store.dispatch(InitCompleteAction('', null));
                     LoginManager.instance.clearAll();
                     NavigatorUtil.goLogin(context);
                   },

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
@@ -18,7 +16,6 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
 
   @override
   Future getData() {
-    sink.add(null);
     _fetchSourceFile();
   }
 
@@ -33,7 +30,12 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
       return;
     }
     _isInit = true;
+
+    _showLoading();
     _fetchSourceFile();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   void fetchNextDir(String fileName) {
@@ -58,17 +60,17 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
     final result = await ReposManager.instance
         .getReposFileDir(reposOwner, reposName, path: path);
 
-    if (list == null) {
-      list = List();
+    if (bean.data == null) {
+      bean.data = List();
     }
 
-    list.clear();
+    bean.data.clear();
 
     if (result != null) {
-      list.addAll(result);
+      bean.data.addAll(result);
     }
 
-    sink.add(UnmodifiableListView<SourceFileBean>(list));
+    sink.add(bean);
   }
 
   String getHeaderPath() {
@@ -82,5 +84,15 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
       path += ("/" + fileStack[i]);
     }
     return path;
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

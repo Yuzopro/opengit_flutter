@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
@@ -16,11 +14,11 @@ class SearchReposBloc extends SearchBloc<Repository> {
 
   @override
   void dealResult(result) {
-    if (list == null) {
-      list = List();
+    if (bean.data == null) {
+      bean.data = List();
     }
     if (page == 1) {
-      list.clear();
+      bean.data.clear();
     }
 
     noMore = true;
@@ -32,10 +30,10 @@ class SearchReposBloc extends SearchBloc<Repository> {
         Repository repository = Repository.fromJson(dataItem);
         repository.description =
             MarkdownUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
-        list.add(repository);
+        bean.data.add(repository);
       }
     }
 
-    sink.add(UnmodifiableListView<Repository>(list));
+    sink.add(bean);
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class BaseBloc<T> {
+abstract class BaseBloc<T extends LoadingBean> {
   static final String TAG = "BaseBloc";
 
   int page = 1;
@@ -30,13 +31,13 @@ abstract class BaseBloc<T> {
   Future getData();
 
   void onRefresh() async {
-    LogUtil.v('onRefresh type is ${getListPageType().toString()}',tag: TAG);
+    LogUtil.v('onRefresh type is ${getListPageType().toString()}', tag: TAG);
     await getData();
     refreshStatusEvent();
   }
 
   void onLoadMore() async {
-    LogUtil.v('onLoadMore type is ${getListPageType().toString()}',tag: TAG);
+    LogUtil.v('onLoadMore type is ${getListPageType().toString()}', tag: TAG);
     await getData();
     refreshStatusEvent();
   }
@@ -49,7 +50,8 @@ abstract class BaseBloc<T> {
   }
 
   void refreshStatusEvent() {
-    LogUtil.v('refreshStatusEvent type is ${getListPageType().toString()}',tag: TAG);
+    LogUtil.v('refreshStatusEvent type is ${getListPageType().toString()}',
+        tag: TAG);
     statusSink.add(StatusEvent(page, noMore, getListPageType()));
   }
 }

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
@@ -20,7 +19,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
   bool _isInit = false;
 
   HomeBloc() {
-    LogUtil.v('HomeBloc', tag: TAG);
   }
 
   @override
@@ -28,12 +26,18 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     return ListPageType.home;
   }
 
-  void initData(BuildContext context) {
+  void initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
-    _fetchHomeList();
+
+    _showLoading();
+    await _fetchHomeList();
+    _hideLoading();
+
+    refreshStatusEvent();
+
     _checkUpgrade(context);
   }
 
@@ -46,20 +50,20 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     LogUtil.v('_fetchHomeList', tag: TAG);
     try {
       var result = await JueJinManager.instance.getJueJinList(page);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (page == 1) {
-        list.clear();
+        bean.data.clear();
       }
 
       noMore = true;
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
-        list.addAll(result);
+        bean.data.addAll(result);
       }
 
-      sink.add(UnmodifiableListView<Entrylist>(list));
+      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
@@ -97,5 +101,15 @@ class HomeBloc extends BaseListBloc<Entrylist> {
         }
       }).catchError((_) {});
     });
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

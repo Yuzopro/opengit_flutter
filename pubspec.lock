@@ -456,7 +456,7 @@ packages:
       name: pull_to_refresh
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.4.7"
+    version: "1.4.8"
   qr:
     dependency: transitive
     description:
@@ -602,6 +602,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.0.3"
   uuid:
     dependency: transitive
     description:

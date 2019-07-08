@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
@@ -13,17 +12,21 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   final bool isStar;
 
   ReposBloc(this.userName, {this.isStar}) {
-    LogUtil.v('ReposBloc', tag: TAG);
   }
 
   bool _isInit = false;
 
-  void initData(BuildContext context) {
+  void initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
-    _fetchReposList();
+
+    _showLoading();
+    await _fetchReposList();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   @override
@@ -36,24 +39,34 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
     try {
       var result =
           await UserManager.instance.getUserRepos(userName, page, null, isStar);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (page == 1) {
-        list.clear();
+        bean.data.clear();
       }
 
       noMore = true;
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
-        list.addAll(result);
+        bean.data.addAll(result);
       }
 
-      sink.add(UnmodifiableListView<Repository>(list));
+      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
       }
     }
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

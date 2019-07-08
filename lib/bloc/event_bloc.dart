@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
@@ -14,17 +12,21 @@ class EventBloc extends BaseListBloc<EventBean> {
   final String userName;
 
   EventBloc(this.userName) {
-    LogUtil.v('EventBloc', tag: TAG);
   }
 
   bool _isInit = false;
 
-  void initData(BuildContext context) {
+  void initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
-    _fetchEventList();
+
+    _showLoading();
+    await _fetchEventList();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   @override
@@ -41,24 +43,34 @@ class EventBloc extends BaseListBloc<EventBean> {
     LogUtil.v('_fetchEventList', tag: TAG);
     try {
       var result = await EventManager.instance.getEventReceived(userName, page);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (page == 1) {
-        list.clear();
+        bean.data.clear();
       }
 
       noMore = true;
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
-        list.addAll(result);
+        bean.data.addAll(result);
       }
 
-      sink.add(UnmodifiableListView<EventBean>(list));
+      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
       }
     }
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

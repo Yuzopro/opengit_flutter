@@ -26,7 +26,7 @@ class PhotoViewPage extends StatelessWidget {
                           height: 180.0, width: 180.0)),
                   new Center(
                       child:
-                          new SpinKitCircle(color: Colors.white30, size: 60.0)),
+                          new SpinKitCircle(color: Colors.white30, size: 25.0)),
                 ],
               ),
             ),

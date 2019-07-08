@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bloc/base_bloc.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/status/status.dart';
@@ -6,7 +7,7 @@ import 'package:open_git/ui/widget/refresh_scaffold.dart';
 import 'package:open_git/util/log_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
+abstract class BaseStatelessWidget<T extends LoadingBean, B extends BaseBloc<T>>
     extends StatelessWidget {
   static final String TAG = "BaseStatelessWidget";
 
@@ -24,11 +25,17 @@ abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
     return false;
   }
 
+  bool enablePullDown() {
+    return true;
+  }
+
+  bool isLoading(T data);
+
   Widget buildFloatingActionButton(BuildContext context) {
     return null;
   }
 
-  Widget getHeader(BuildContext context) {
+  Widget getHeader(BuildContext context, T data) {
     return null;
   }
 
@@ -57,7 +64,10 @@ abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
       appBar: isShowAppBar()
           ? new AppBar(
               elevation: 0,
-              title: new Text(getTitle(context)),
+              title: new Text(
+                getTitle(context),
+//                style: YZConstant.smallText,
+              ),
             )
           : null,
       body: _buildBody(context, bloc),
@@ -69,11 +79,13 @@ abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
 
     bloc.statusStream.listen((event) {
       if (event.type == getListPageType()) {
-        //to-do 该页面在不触发刷新时也会回调
-        LogUtil.v('page is ${event.page}@type is ${event.type}', tag: TAG);
+//        LogUtil.v(
+//            'page is ${event.page}@type is ${event.type}@noMore is ${event.noMore}',
+//            tag: TAG);
         if (event.page == 1) {
-          controller.refreshCompleted();
+          controller.refreshCompleted(/*resetFooterState: event.noMore*/);
           if (event.noMore) {
+            controller.loadComplete();
             controller.loadNoData();
           }
         } else if (event.noMore) {
@@ -88,10 +100,14 @@ abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
         stream: bloc.stream,
         initialData: initialData(),
         builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
-          LogUtil.v('${getListPageType().toString()} receiver data', tag: TAG);
+//          LogUtil.v(
+//              'type is ${getListPageType().toString()}@isLoading is ' +
+//                  isLoading(snapshot.data).toString(),
+//              tag: TAG);
           return new RefreshScaffold(
-            isLoading: snapshot.data == null,
+            isLoading: isLoading(snapshot.data),
             controller: controller,
+            enablePullDown: enablePullDown(),
             enablePullUp: enablePullUp(),
             onRefresh: () {
               bloc.onRefresh();
@@ -104,7 +120,7 @@ abstract class BaseStatelessWidget<T, B extends BaseBloc<T>>
               return buildItemBuilder(context, snapshot.data, index);
             },
             floatingActionButton: buildFloatingActionButton(context),
-            header: getHeader(context),
+            header: getHeader(context, snapshot.data),
             child: getChild(context, snapshot.data),
           );
         });

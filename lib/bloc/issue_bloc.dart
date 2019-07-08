@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/common/config.dart';
@@ -18,7 +16,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
   bool _isInit = false;
 
   IssueBloc(this.userName) {
-    LogUtil.v('IssueBloc', tag: TAG);
     q = "involves";
     state = "open";
     sort = "created";
@@ -30,21 +27,32 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     return ListPageType.issue;
   }
 
-  initData(BuildContext context) {
+  initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
-    _fetchIssueList();
+
+    _showLoading();
+    await _fetchIssueList();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
-  refreshData({String q, String state, String sort, String order}) {
+  refreshData({String q, String state, String sort, String order}) async {
     this.q = q ?? this.q;
     this.state = state ?? this.state;
     this.sort = sort ?? this.sort;
     this.order = order ?? this.order;
-    sink.add(null);
-    _fetchIssueList();
+
+    page = 1;
+
+    _showLoading();
+    await _fetchIssueList();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   @override
@@ -57,24 +65,34 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     try {
       var result = await IssueManager.instance
           .getIssue(q, state, sort, order, userName, page);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (page == 1) {
-        list.clear();
+        bean.data.clear();
       }
 
       noMore = true;
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
-        list.addAll(result);
+        bean.data.addAll(result);
       }
 
-      sink.add(UnmodifiableListView<IssueBean>(list));
+      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
       }
     }
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

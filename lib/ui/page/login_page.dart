@@ -68,7 +68,9 @@ class _LoginPageContentState extends State<LoginPageContent> {
         new Offstage(
           offstage: widget.viewModel.status != LoadingStatus.loading,
           child: new Container(
-            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black54,
             child: new Center(
               child: SpinKitCircle(
                 color: Theme.of(context).primaryColor,

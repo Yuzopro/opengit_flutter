@@ -7,9 +7,11 @@ import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/bloc/repos_trend_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
 import 'package:open_git/ui/page/about_page.dart';
+import 'package:open_git/ui/page/author_page.dart';
 import 'package:open_git/ui/page/language_page.dart';
 import 'package:open_git/ui/page/login_page.dart';
 import 'package:open_git/ui/page/main_page.dart';
+import 'package:open_git/ui/page/other_page.dart';
 import 'package:open_git/ui/page/photoview_page.dart';
 import 'package:open_git/ui/page/repos_code_detail_page.dart';
 import 'package:open_git/ui/page/repos_detail_page.dart';
@@ -163,4 +165,14 @@ var photoViewHandler = new Handler(
 var searchHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return new SearchPage();
+});
+
+var authorHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return new AuthorPage();
+});
+
+var otherHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return new OtherPage();
 });

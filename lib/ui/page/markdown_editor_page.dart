@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
-import 'package:open_git/mvp/base/base_state.dart';
-import 'package:open_git/mvp/contract/markdown_editor_contract.dart';
-import 'package:open_git/mvp/presenter/markdown_editor_presenter.dart';
+import 'package:open_git/manager/issue_manager.dart';
 
 class MarkdownEditorPage extends StatefulWidget {
   final IssueBean issueBean;
@@ -12,32 +11,28 @@ class MarkdownEditorPage extends StatefulWidget {
   MarkdownEditorPage(this.issueBean, this.repoUrl, this.isAdd);
 
   @override
-  _MarkdownEditorState createState() =>
-      _MarkdownEditorState(issueBean, repoUrl, isAdd);
+  State<StatefulWidget> createState() {
+    return _MarkdownEditorState();
+  }
 }
 
-class _MarkdownEditorState extends BaseState<
-    MarkdownEditorPage,
-    MarkdownEditorPresenter,
-    IMarkdownEditorView> implements IMarkdownEditorView {
-  final IssueBean issueBean;
-  final String repoUrl;
-  final bool isAdd;
-
+class _MarkdownEditorState extends State<MarkdownEditorPage> {
   TextEditingController _controller;
-  final FocusNode _focusNode = new FocusNode();
 
-  _MarkdownEditorState(this.issueBean, this.repoUrl, this.isAdd);
+  _MarkdownEditorState();
 
   bool _isEnable = false;
 
+  bool _isLoading = false;
+
   @override
-  void initData() {
-    super.initData();
+  void initState() {
+    super.initState();
     _controller = TextEditingController.fromValue(
-        TextEditingValue(text: isAdd ? "" : issueBean.body));
+        TextEditingValue(text: widget.isAdd ? "" : widget.issueBean.body));
     _controller.addListener(() {
-      if (_controller.text.toString() == (isAdd ? "" : issueBean.body)) {
+      if (_controller.text.toString() ==
+          (widget.isAdd ? "" : widget.issueBean.body)) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -47,12 +42,39 @@ class _MarkdownEditorState extends BaseState<
   }
 
   @override
-  String getTitle() {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: _getActions(),
+        title: Text(_getTitle()),
+      ),
+      body: Stack(
+        children: <Widget>[
+          _buildBody(context),
+          Offstage(
+            offstage: !_isLoading,
+            child: new Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black54,
+              child: new Center(
+                child: SpinKitCircle(
+                  color: Theme.of(context).primaryColor,
+                  size: 25.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getTitle() {
     return "编辑评论";
   }
 
-  @override
-  List<Widget> getActions() {
+  List<Widget> _getActions() {
     Widget saveWidget = new FlatButton(
       onPressed: _isEnable
           ? () {
@@ -66,8 +88,7 @@ class _MarkdownEditorState extends BaseState<
     return [saveWidget];
   }
 
-  @override
-  Widget buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
     final form = ListView(
       children: <Widget>[
         _buildEditor(),
@@ -82,38 +103,36 @@ class _MarkdownEditorState extends BaseState<
 
   Widget _buildEditor() {
     return TextField(
-//        decoration: InputDecoration(labelText: 'Description'),
       controller: _controller,
-      focusNode: _focusNode,
       autofocus: true,
-//      physics: ClampingScrollPhysics(),
     );
   }
 
-  @override
-  MarkdownEditorPresenter initPresenter() {
-    return new MarkdownEditorPresenter();
-  }
-
   _editIssueComment() async {
-    if (presenter != null) {
-      IssueBean result = null;
-      if (!isAdd) {
-        result = await presenter.editIssueComment(
-            repoUrl, issueBean.id, _controller.text.toString());
-      } else {
-        result = await presenter.addIssueComment(
-            repoUrl, issueBean.number, _controller.text.toString());
-      }
-      if (result != null) {
-        Navigator.pop(context, result);
-      }
+    IssueBean result = null;
+    _showLoading();
+    if (!widget.isAdd) {
+      result = await IssueManager.instance.editIssueComment(
+          widget.repoUrl, widget.issueBean.id, _controller.text.toString());
+    } else {
+      result = await IssueManager.instance.addIssueComment(
+          widget.repoUrl, widget.issueBean.number, _controller.text.toString());
+    }
+    _hideLoading();
+    if (result != null) {
+      Navigator.pop(context, result);
     }
   }
 
-  @override
-  onEditSuccess(IssueBean issueBean) {
-    //在该处会抛异常
-//    Navigator.pop(context, issueBean);
+  _showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  _hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
@@ -19,13 +17,17 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
   }
 
   @override
-  void initData(BuildContext context) {
+  void initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
 
-    _fetchTimeline();
+    _showLoading();
+    await _fetchTimeline();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   @override
@@ -38,24 +40,34 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
     try {
       var result = await ReposManager.instance
           .getReposReleases('Yuzopro', 'OpenGit_Flutter', page: page);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (page == 1) {
-        list.clear();
+        bean.data.clear();
       }
 
       noMore = true;
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
-        list.addAll(result);
+        bean.data.addAll(result);
       }
 
-      sink.add(UnmodifiableListView<ReleaseBean>(list));
+      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
       }
     }
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

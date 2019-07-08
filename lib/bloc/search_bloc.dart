@@ -1,7 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
-import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/search_manager.dart';
 import 'package:open_git/util/log_util.dart';
 
@@ -25,10 +23,13 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
   @override
   void initData(BuildContext context) {}
 
-  void startSearch(String text) {
+  void startSearch(String text) async {
     searchText = text;
-    sink.add(null);
-    onRefresh();
+    _showLoading();
+    await _searchText();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   Future _searchText() async {
@@ -37,5 +38,15 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
     if (response != null && response.result) {
       dealResult(response.data);
     }
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

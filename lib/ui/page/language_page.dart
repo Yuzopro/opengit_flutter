@@ -23,21 +23,21 @@ class LanguagePage extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   title: new Text('跟随系统'),
-                  trailing: new Icon(Icons.arrow_right),
+                  trailing: new Icon(Icons.navigate_next),
                   onTap: () {
                     vm.onChangeLanguage(0);
                   },
                 ),
                 ListTile(
                   title: new Text('简体中文'),
-                  trailing: new Icon(Icons.arrow_right),
+                  trailing: new Icon(Icons.navigate_next),
                   onTap: () {
                     vm.onChangeLanguage(1);
                   },
                 ),
                 ListTile(
                   title: new Text('English'),
-                  trailing: new Icon(Icons.arrow_right),
+                  trailing: new Icon(Icons.navigate_next),
                   onTap: () {
                     vm.onChangeLanguage(2);
                   },

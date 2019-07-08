@@ -102,4 +102,13 @@ class EnString extends AppBaseString {
 
   @override
   String get timeline => "Timeline";
+
+  @override
+  String get author => 'Author';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get app_home_page => 'Home';
 }

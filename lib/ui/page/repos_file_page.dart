@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
+import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/util/file_size_util.dart';
 import 'package:open_git/util/image_util.dart';
 
@@ -43,7 +44,8 @@ class ReposFilePage
   }
 
   @override
-  Widget getHeader(BuildContext context) {
+  Widget getHeader(
+      BuildContext context, LoadingBean<List<SourceFileBean>> data) {
     ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
     return ListTile(
       title: Text(bloc.getHeaderPath()),

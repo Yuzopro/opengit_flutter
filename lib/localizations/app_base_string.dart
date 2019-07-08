@@ -33,4 +33,7 @@ abstract class AppBaseString {
   String week;
   String month;
   String timeline;
+  String author;
+  String other;
+  String app_home_page;
 }

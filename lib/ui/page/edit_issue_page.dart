@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
-import 'package:open_git/mvp/base/base_state.dart';
-import 'package:open_git/mvp/contract/edit_issue_contract.dart';
-import 'package:open_git/mvp/presenter/edit_issue_presenter.dart';
+import 'package:open_git/manager/issue_manager.dart';
 
 class EditIssuePage extends StatefulWidget {
   final IssueBean issueBean;
@@ -14,34 +13,28 @@ class EditIssuePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EditIssueState(issueBean, repoUrl);
+    return _EditIssueState();
   }
 }
 
-class _EditIssueState
-    extends BaseState<EditIssuePage, EditIssuePresenter, IEditIssueView>
-    implements IEditIssueView {
+class _EditIssueState extends State<EditIssuePage> {
   TextEditingController _titleController;
   TextEditingController _bodyController;
 
   bool _isEnable = false;
 
-  final IssueBean issueBean;
-  final String repoUrl;
-
-  _EditIssueState(this.issueBean, this.repoUrl);
+  bool _isLoading = false;
 
   @override
-  void initData() {
-    super.initData();
-
+  void initState() {
+    super.initState();
     _titleController = TextEditingController.fromValue(
-        new TextEditingValue(text: issueBean.title));
+        new TextEditingValue(text: widget.issueBean.title));
     _bodyController = TextEditingController.fromValue(
-        new TextEditingValue(text: issueBean.body));
+        new TextEditingValue(text: widget.issueBean.body));
 
     _titleController.addListener(() {
-      if (_titleController.text.toString() == issueBean.title) {
+      if (_titleController.text.toString() == widget.issueBean.title) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -50,7 +43,7 @@ class _EditIssueState
     });
 
     _bodyController.addListener(() {
-      if (_bodyController.text.toString() == issueBean.body) {
+      if (_bodyController.text.toString() == widget.issueBean.body) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -60,11 +53,39 @@ class _EditIssueState
   }
 
   @override
-  String getTitle() {
-    return AppLocalizations.of(context).currentlocal.edit_issue;
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: getActions(),
+        title: Text(getTitle()),
+      ),
+      body: Stack(
+        children: <Widget>[
+          _buildBody(context),
+          Offstage(
+            offstage: !_isLoading,
+            child: new Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black54,
+              child: new Center(
+                child: SpinKitCircle(
+                  color: Theme.of(context).primaryColor,
+                  size: 25.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
+  String getTitle() {
+    return '编辑问题';
+  }
+
   List<Widget> getActions() {
     Widget saveWidget = new FlatButton(
       onPressed: _isEnable
@@ -79,8 +100,7 @@ class _EditIssueState
     return [saveWidget];
   }
 
-  @override
-  Widget buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
     final form = ListView(
       children: <Widget>[
         Text(AppLocalizations.of(context).currentlocal.edit_issue_title),
@@ -94,11 +114,6 @@ class _EditIssueState
       padding: const EdgeInsets.all(8.0),
       child: form,
     );
-  }
-
-  @override
-  EditIssuePresenter initPresenter() {
-    return new EditIssuePresenter();
   }
 
   Widget _buildTitleWidget() {
@@ -116,17 +131,27 @@ class _EditIssueState
   }
 
   _editIssue() async {
-    if (presenter != null) {
-      final result = await presenter.editIssue(repoUrl, issueBean.number,
-          _titleController.text.toString(), _bodyController.text.toString());
-      if (result != null) {
-        Navigator.pop(context, result);
-      }
+    _showLoading();
+    final result = await IssueManager.instance.editIssue(
+        widget.repoUrl,
+        widget.issueBean.number,
+        _titleController.text.toString(),
+        _bodyController.text.toString());
+    _hideLoading();
+    if (result != null) {
+      Navigator.pop(context, result);
     }
   }
 
-  @override
-  onEditSuccess(IssueBean issueBean) {
-    return null;
+  _showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  _hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

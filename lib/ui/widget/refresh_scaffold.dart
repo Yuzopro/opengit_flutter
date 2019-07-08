@@ -7,6 +7,7 @@ class RefreshScaffold extends StatefulWidget {
       {Key key,
       this.isLoading,
       @required this.controller,
+      this.enablePullDown: true,
       this.enablePullUp: true,
       this.onRefresh,
       this.onLoadMore,
@@ -19,7 +20,7 @@ class RefreshScaffold extends StatefulWidget {
 
   final bool isLoading;
   final RefreshController controller;
-  final bool enablePullUp;
+  final bool enablePullDown, enablePullUp;
   final RefreshCallback onRefresh;
   final RefreshCallback onLoadMore;
   final Widget child;
@@ -40,47 +41,46 @@ class RefreshScaffoldState extends State<RefreshScaffold>
 
   static final String TAG = "RefreshScaffold";
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.controller.scrollController.addListener(() {
-        int offset = widget.controller.scrollController.offset.toInt();
-        if (offset < 480 && isShowFloatBtn) {
-          isShowFloatBtn = false;
-          setState(() {});
-        } else if (offset > 480 && !isShowFloatBtn) {
-          isShowFloatBtn = true;
-          setState(() {});
-        }
-      });
-    });
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//    WidgetsBinding.instance.addPostFrameCallback((_) {
+//      widget.controller.scrollController.addListener(() {
+//        int offset = widget.controller.scrollController.offset.toInt();
+//        if (offset < 480 && isShowFloatBtn) {
+//          isShowFloatBtn = false;
+//          setState(() {});
+//        } else if (offset > 480 && !isShowFloatBtn) {
+//          isShowFloatBtn = true;
+//          setState(() {});
+//        }
+//      });
+//    });
+//  }
 
-  Widget buildFloatingActionButton() {
-    if (widget.controller.scrollController == null ||
-        widget.controller.scrollController.offset < 480) {
-      return null;
-    }
-
-    return new FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(
-          Icons.keyboard_arrow_up,
-        ),
-        onPressed: () {
-          widget.controller.scrollController.animateTo(0.0,
-              duration: new Duration(milliseconds: 300), curve: Curves.linear);
-        });
-  }
+//  Widget buildFloatingActionButton() {
+//    if (widget.controller.scrollController == null ||
+//        widget.controller.scrollController.offset < 480) {
+//      return null;
+//    }
+//
+//    return new FloatingActionButton(
+//        backgroundColor: Theme.of(context).primaryColor,
+//        child: Icon(
+//          Icons.keyboard_arrow_up,
+//        ),
+//        onPressed: () {
+//          widget.controller.scrollController.animateTo(0.0,
+//              duration: new Duration(milliseconds: 300), curve: Curves.linear);
+//        });
+//  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    int itemCount = widget.isLoading
-        ? 0
-        : widget.header == null ? widget.itemCount : widget.itemCount + 1;
+    int itemCount =
+        widget.header == null ? widget.itemCount : widget.itemCount + 1;
 
     return new Scaffold(
         body: new Stack(
@@ -99,7 +99,7 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                         valueColor: AlwaysStoppedAnimation(Colors.black)),
                   ),
                 ),
-                enablePullDown: true,
+                enablePullDown: widget.enablePullDown,
                 enablePullUp: widget.enablePullUp,
                 onRefresh: widget.onRefresh,
                 onLoading: widget.onLoadMore,
@@ -117,7 +117,9 @@ class RefreshScaffoldState extends State<RefreshScaffold>
             new Offstage(
               offstage: !widget.isLoading,
               child: new Container(
-                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black54,
                 child: new Center(
                   child: SpinKitCircle(
                     color: Theme.of(context).primaryColor,

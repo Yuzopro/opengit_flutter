@@ -21,12 +21,10 @@ class IssueManager {
   getIssue(q, state, sort, order, userName, page) async {
     String url = Api.getIssue(q, state, sort, order, userName) +
         Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(
-        url,
-        {
-          "Accept":
-              'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-        });
+    final response = await HttpManager.doGet(url, {
+      "Accept":
+          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
+    });
     if (response != null && response.data != null) {
       List<IssueBean> list = new List();
       var items = response.data["items"];
@@ -43,12 +41,10 @@ class IssueManager {
   getIssueComment(repoUrl, issueNumber, page) async {
     String url = Api.getIssueComment(repoUrl, issueNumber) +
         Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(
-        url,
-        {
-          "Accept":
-              'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-        });
+    final response = await HttpManager.doGet(url, {
+      "Accept":
+          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
+    });
     if (response != null && response.data != null && response.data.length > 0) {
       List<IssueBean> list = new List();
       int length = response.data.length;
@@ -62,8 +58,7 @@ class IssueManager {
 
   addIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.addIssueComment(repoUrl, issueNumber);
-    final response =
-        await HttpManager.doPost(url, {"body": comment}, null);
+    final response = await HttpManager.doPost(url, {"body": comment}, null);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }
@@ -77,13 +72,12 @@ class IssueManager {
 
   editIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.editComment(repoUrl, issueNumber);
-    final response = await HttpManager.doPatch(
-        url,
-        {"body": comment},
-        {
-          "Accept":
-              'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-        });
+    final response = await HttpManager.doPatch(url, {
+      "body": comment
+    }, {
+      "Accept":
+          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
+    });
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }
@@ -97,21 +91,16 @@ class IssueManager {
     } else {
       url = Api.addCommentReactions(repoUrl, issueNumber);
     }
-    return await HttpManager.doPost(
-        url,
-        {"content": comment},
+    return await HttpManager.doPost(url, {"content": comment},
         {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
   }
 
   deleteReactions(reaction_id) {
     String url = Api.deleteReactions(reaction_id);
-    return HttpManager.doDelete(
-        url,
-        null,
-        {
-          "Accept":
-              'application/vnd.github.echo-preview+json, application/vnd.github.squirrel-girl-preview+json'
-        });
+    return HttpManager.doDelete(url, null, {
+      "Accept":
+          'application/vnd.github.echo-preview+json, application/vnd.github.squirrel-girl-preview+json'
+    });
   }
 
   getCommentReactions(repoUrl, commentId, content, page, isIssue) async {
@@ -124,9 +113,8 @@ class IssueManager {
           Api.getPageParams("&", page);
     }
     final response = await HttpManager.doGet(
-        url,
-        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
-    if (response.data != null && response.data != null && response.data.length > 0) {
+        url, {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+    if (response != null && response.data != null && response.data.length > 0) {
       List<ReactionDetailBean> list = new List();
       int length = response.data.length;
       for (int i = 0; i < length; i++) {
@@ -140,8 +128,7 @@ class IssueManager {
   getSingleIssue(repoUrl, number) async {
     String url = Api.getSingleIssue(repoUrl, number);
     final response = await HttpManager.doGet(
-        url,
-        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+        url, {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }

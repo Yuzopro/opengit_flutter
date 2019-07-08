@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/widgets.dart';
 import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
@@ -21,7 +19,12 @@ abstract class TrendBloc extends BaseListBloc<TrendBean> {
       return;
     }
     _isInit = true;
+
+    _showLoading();
     _fetchTrendList();
+    _hideLoading();
+
+    refreshStatusEvent();
   }
 
   @override
@@ -33,13 +36,23 @@ abstract class TrendBloc extends BaseListBloc<TrendBean> {
     LogUtil.v('_fetchTrendList', tag: TAG);
     try {
       var result = await ReposManager.instance.getTrend(since, trend);
-      if (list == null) {
-        list = List();
+      if (bean.data == null) {
+        bean.data = List();
       }
       if (result != null) {
-        list.addAll(result);
+        bean.data.addAll(result);
       }
-      sink.add(UnmodifiableListView<TrendBean>(list));
+      sink.add(bean);
     } catch (_) {}
+  }
+
+  void _showLoading() {
+    bean.isLoading = true;
+    sink.add(bean);
+  }
+
+  void _hideLoading() {
+    bean.isLoading = false;
+    sink.add(bean);
   }
 }

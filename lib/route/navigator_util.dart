@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:open_git/ui/page/book_mark_page.dart';
-import 'package:open_git/ui/page/delete_reaction_page.dart';
 import 'package:open_git/ui/page/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue_detail_page.dart';
 import 'package:open_git/ui/page/login_page.dart';
 import 'package:open_git/ui/page/main_page.dart';
 import 'package:open_git/ui/page/markdown_editor_page.dart';
-import 'package:open_git/ui/page/search_page.dart';
+import 'package:open_git/ui/page/reaction_page.dart';
 import 'package:open_git/ui/page/user_profile_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavigatorUtil {
   //主页
@@ -105,10 +108,14 @@ class NavigatorUtil {
 
   //问题详情
   static goIssueDetail(BuildContext context, issueBean) {
+    IssueDetailBloc bloc = IssueDetailBloc(issueBean);
     Navigator.push(
         context,
         new CupertinoPageRoute(
-            builder: (context) => new IssueDetailPage(issueBean)));
+            builder: (context) => BlocProvider<IssueDetailBloc>(
+                  child: IssueDetailPage(),
+                  bloc: bloc,
+                )));
   }
 
   //评论编辑页
@@ -124,11 +131,14 @@ class NavigatorUtil {
   //评论编辑页
   static goDeleteReaction(
       BuildContext context, issueBean, repoUrl, content, isIssue) async {
+    ReactionBloc bloc = ReactionBloc(issueBean, repoUrl, content, isIssue);
     return Navigator.push(
         context,
         new CupertinoPageRoute(
-            builder: (context) =>
-                new DeleteReactionPage(issueBean, repoUrl, content, isIssue)));
+            builder: (context) => BlocProvider<ReactionBloc>(
+                  child: ReactionPage(),
+                  bloc: bloc,
+                )));
   }
 
   //问题编辑页
@@ -179,5 +189,24 @@ class NavigatorUtil {
         context,
         AppRoutes.photo_view +
             "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
+  }
+
+  //作者
+  static goAuthor(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.author);
+  }
+
+  //其他
+  static goOther(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.other);
+  }
+
+  //系统浏览器
+  static Future<Null> launchInBrowser(String url, {String title}) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

@@ -28,6 +28,8 @@ enum ListPageType {
   search_issue,//搜索问题
   repos_source_code,//源代码
   repos_source_file,//源文件
+  issue_detail,//问题详情
+  reaction,//表情列表
 }
 
 enum LoadingStatus {

@@ -14,7 +14,7 @@ class SettingPage extends StatelessWidget {
           ListTile(
             leading: new Icon(Icons.color_lens),
             title: new Text(AppLocalizations.of(context).currentlocal.theme),
-            trailing: new Icon(Icons.arrow_right),
+            trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goTheme(context);
             },
@@ -22,7 +22,7 @@ class SettingPage extends StatelessWidget {
           ListTile(
             leading: new Icon(Icons.language),
             title: new Text(AppLocalizations.of(context).currentlocal.language),
-            trailing: new Icon(Icons.arrow_right),
+            trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goLanguage(context);
             },

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/bloc/search_issue_bloc.dart';
 import 'package:open_git/bloc/search_repos_bloc.dart';
 import 'package:open_git/bloc/search_user_bloc.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 import 'package:open_git/ui/widget/user_item_widget.dart';
@@ -150,8 +151,8 @@ abstract class _SearchItem<T, B extends BaseListBloc<T>>
   }
 
   @override
-  List<T> initialData() {
-    return [];
+  LoadingBean<List<T>> initialData() {
+    return LoadingBean(isLoading: false, data: []);
   }
 }
 

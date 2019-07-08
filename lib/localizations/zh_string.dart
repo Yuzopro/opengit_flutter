@@ -102,4 +102,13 @@ class ZhString extends AppBaseString {
 
   @override
   String get timeline => "功能介绍";
+
+  @override
+  String get author => '作者';
+
+  @override
+  String get other => '其他';
+
+  @override
+  String get app_home_page => '主页';
 }
