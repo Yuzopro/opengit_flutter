@@ -14,14 +14,14 @@ abstract class TrendBloc extends BaseListBloc<TrendBean> {
 
   TrendBloc(this.trend, {this.since});
 
-  initData(BuildContext context) {
+  initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
 
     _showLoading();
-    _fetchTrendList();
+    await _fetchTrendList();
     _hideLoading();
 
     refreshStatusEvent();

@@ -31,7 +31,7 @@ class RefreshScaffold extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new RefreshScaffoldState();
+    return RefreshScaffoldState();
   }
 }
 
@@ -64,14 +64,14 @@ class RefreshScaffoldState extends State<RefreshScaffold>
 //      return null;
 //    }
 //
-//    return new FloatingActionButton(
+//    return FloatingActionButton(
 //        backgroundColor: Theme.of(context).primaryColor,
 //        child: Icon(
 //          Icons.keyboard_arrow_up,
 //        ),
 //        onPressed: () {
 //          widget.controller.scrollController.animateTo(0.0,
-//              duration: new Duration(milliseconds: 300), curve: Curves.linear);
+//              duration: Duration(milliseconds: 300), curve: Curves.linear);
 //        });
 //  }
 
@@ -82,10 +82,10 @@ class RefreshScaffoldState extends State<RefreshScaffold>
     int itemCount =
         widget.header == null ? widget.itemCount : widget.itemCount + 1;
 
-    return new Scaffold(
-        body: new Stack(
+    return Scaffold(
+        body: Stack(
           children: <Widget>[
-            new SmartRefresher(
+            SmartRefresher(
                 controller: widget.controller,
                 header: MaterialClassicHeader(
                   color: Colors.black,
@@ -104,7 +104,7 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                 onRefresh: widget.onRefresh,
                 onLoading: widget.onLoadMore,
                 child: widget.child ??
-                    new ListView.builder(
+                    ListView.builder(
                       itemCount: itemCount,
                       itemBuilder: (BuildContext context, int index) {
                         if (widget.header != null && index == 0) {
@@ -114,13 +114,13 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                             context, widget.header == null ? index : index - 1);
                       },
                     )),
-            new Offstage(
+            Offstage(
               offstage: !widget.isLoading,
-              child: new Container(
+              child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 color: Colors.black54,
-                child: new Center(
+                child: Center(
                   child: SpinKitCircle(
                     color: Theme.of(context).primaryColor,
                     size: 25.0,
@@ -128,11 +128,11 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                 ),
               ),
             ),
-            new Offstage(
+            Offstage(
               offstage: widget.itemCount != 0 || widget.isLoading,
-              child: new Container(
+              child: Container(
                 alignment: Alignment.center,
-                child: new Center(
+                child: Center(
                   child: SizedBox(
                     width: 200,
                     height: 200,
@@ -141,7 +141,7 @@ class RefreshScaffoldState extends State<RefreshScaffold>
                         Image(
                             width: 64.0,
                             height: 64.0,
-                            image: new AssetImage('image/ic_launcher.png')),
+                            image: AssetImage('image/ic_launcher.png')),
                         SizedBox(height: 5.0),
                         Text('暂无数据'),
                       ],

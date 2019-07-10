@@ -84,18 +84,19 @@ class _UserProfileState extends State<UserProfilePage>
     return new DefaultTabController(
       length: _choices.length,
       child: Scaffold(
-          body: NestedScrollView(
-        headerSliverBuilder: _sliverBuilder,
-        body: new PageView(
-          controller: _pageController,
-          children: _choices.map((choice) {
-            return choice.widget;
-          }).toList(),
-          onPageChanged: (index) {
-            _tabController.animateTo(index);
-          },
+        body: NestedScrollView(
+          headerSliverBuilder: _sliverBuilder,
+          body: new PageView(
+            controller: _pageController,
+            children: _choices.map((choice) {
+              return choice.widget;
+            }).toList(),
+            onPageChanged: (index) {
+              _tabController.animateTo(index);
+            },
+          ),
         ),
-      )),
+      ),
     );
   }
 
