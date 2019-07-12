@@ -4,7 +4,7 @@ class TrendingUtil {
   static const TAGS = {
     "meta": {"start": '<span class="d-inline-block float-sm-right">', "end": '</span>'},
     "starCount": {"start": '<a class="muted-link d-inline-block mr-3"', "flag": '/stargazers">', "end": '</a>'},
-    "forkCount": {"start": '<a class="muted-link d-inline-block mr-3"', "flag": '/network">', "end": '</a>'}
+    "forkCount": {"start": '<a class="muted-link d-inline-block mr-3"', "flag": '/network/members">', "end": '</a>'}
   };
 
   static htmlToRepo(String responseData) {

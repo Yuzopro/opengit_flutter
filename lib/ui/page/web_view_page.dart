@@ -24,7 +24,6 @@ class _WebViewState extends State<WebViewPage> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        centerTitle: true,
         actions: <Widget>[
           new PopupMenuButton(
               padding: const EdgeInsets.all(0.0),
