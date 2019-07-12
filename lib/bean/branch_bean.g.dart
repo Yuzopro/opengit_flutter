@@ -19,9 +19,21 @@ BranchBean _$BranchBeanFromJson(Map<String, dynamic> json) {
       json['protection_url'] as String);
 }
 
+Map<String, dynamic> _$BranchBeanToJson(BranchBean instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'commit': instance.commit,
+      'protected': instance.protected,
+      'protection': instance.protection,
+      'protection_url': instance.protectionUrl
+    };
+
 Commit _$CommitFromJson(Map<String, dynamic> json) {
   return Commit(json['sha'] as String, json['url'] as String);
 }
+
+Map<String, dynamic> _$CommitToJson(Commit instance) =>
+    <String, dynamic>{'sha': instance.sha, 'url': instance.url};
 
 Protection _$ProtectionFromJson(Map<String, dynamic> json) {
   return Protection(
@@ -32,8 +44,21 @@ Protection _$ProtectionFromJson(Map<String, dynamic> json) {
               json['required_status_checks'] as Map<String, dynamic>));
 }
 
+Map<String, dynamic> _$ProtectionToJson(Protection instance) =>
+    <String, dynamic>{
+      'enabled': instance.enabled,
+      'required_status_checks': instance.requiredStatusChecks
+    };
+
 Required_status_checks _$Required_status_checksFromJson(
     Map<String, dynamic> json) {
   return Required_status_checks(
       json['enforcement_level'] as String, json['contexts'] as List);
 }
+
+Map<String, dynamic> _$Required_status_checksToJson(
+        Required_status_checks instance) =>
+    <String, dynamic>{
+      'enforcement_level': instance.enforcementLevel,
+      'contexts': instance.contexts
+    };

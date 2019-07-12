@@ -10,10 +10,9 @@ import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 
 class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
-//  static final String TAG = "IssueDetailBloc";
+  static final String TAG = "IssueDetailBloc";
 
   IssueBean issueBean;
 

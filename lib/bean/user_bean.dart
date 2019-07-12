@@ -99,14 +99,14 @@ class UserBean {
 
   @JsonKey(name: 'plan')
   Plan plan;
-//  @JsonKey(name: 'company')
-//  String company;
-//  @JsonKey(name: 'location')
-//  String location;
-//  @JsonKey(name: 'email')
-//  String email;
-//  @JsonKey(name: 'bio')
-//  String bio;
+  @JsonKey(name: 'company')
+  String company;
+  @JsonKey(name: 'location')
+  String location;
+  @JsonKey(name: 'email')
+  String email;
+  @JsonKey(name: 'bio')
+  String bio;
 
   UserBean(
     this.login,
@@ -141,10 +141,10 @@ class UserBean {
     this.collaborators,
     this.twoFactorAuthentication,
     this.plan,
-//    this.company,
-//    this.location,
-//    this.email,
-//    this.bio,
+    this.company,
+    this.location,
+    this.email,
+    this.bio,
   );
 
   factory UserBean.fromJson(Map<String, dynamic> srcJson) =>

@@ -41,3 +41,23 @@ IssueBean _$IssueBeanFromJson(Map<String, dynamic> json) {
               e == null ? null : Labels.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
+
+Map<String, dynamic> _$IssueBeanToJson(IssueBean instance) => <String, dynamic>{
+      'id': instance.id,
+      'number': instance.number,
+      'title': instance.title,
+      'state': instance.state,
+      'locked': instance.locked,
+      'comments': instance.commentNum,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'closed_at': instance.closedAt?.toIso8601String(),
+      'body': instance.body,
+      'body_html': instance.bodyHtml,
+      'user': instance.user,
+      'repository_url': instance.repoUrl,
+      'html_url': instance.htmlUrl,
+      'closed_by': instance.closeBy,
+      'reactions': instance.reaction,
+      'labels': instance.labels
+    };

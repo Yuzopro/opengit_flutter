@@ -21,8 +21,7 @@ TrendBean _$TrendBeanFromJson(Map<String, dynamic> json) {
       json['forkCount'] as String);
 }
 
-Map<String, dynamic> _$TrendBeanToJson(TrendBean instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TrendBeanToJson(TrendBean instance) => <String, dynamic>{
       'fullName': instance.fullName,
       'url': instance.url,
       'description': instance.description,

@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage>
             drawer: Drawer(
                 child: DrawerPage(
               name: _userBean.login ?? "--",
-              email: _userBean.blog ?? "--",
+              email: _userBean.email ?? "--",
               headUrl: _userBean.avatarUrl ?? "",
             )),
             appBar: AppBar(
