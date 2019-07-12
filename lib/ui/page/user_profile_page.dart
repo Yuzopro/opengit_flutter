@@ -130,6 +130,7 @@ class _UserProfileState extends State<UserProfilePage>
           ),
         ),
         bottom: new TabBar(
+          controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
           tabs: _choices.map((Choice choice) {

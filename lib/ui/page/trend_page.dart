@@ -12,7 +12,6 @@ import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/main_page.dart';
 import 'package:open_git/util/image_util.dart';
 
-
 class TrendPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +19,8 @@ class TrendPage extends StatefulWidget {
   }
 }
 
-class _TrendPageState extends State<TrendPage> {
+class _TrendPageState extends State<TrendPage>
+    with SingleTickerProviderStateMixin {
   static final String TAG = "TrendPage";
 
   TrendBloc dayBloc;
@@ -29,12 +29,24 @@ class _TrendPageState extends State<TrendPage> {
 
   String trend = 'all';
 
+  final PageController _pageController = PageController();
+
+  TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = new TabController(vsync: this, length: 3);
+
     dayBloc = TrendDailyBloc(trend);
     weekBloc = TrendWeeklyBloc(trend);
     monthBloc = TrendMonthlyBloc(trend);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,15 +62,21 @@ class _TrendPageState extends State<TrendPage> {
           appBar: AppBar(
             title: Text(trend),
             bottom: TabBar(
+              controller: _tabController,
               indicatorColor: Colors.white,
               tabs: choices
                   .map(
                     (Choice choice) => Tab(text: choice.title),
                   )
                   .toList(),
+              onTap: (index) {
+                _pageController
+                    .jumpTo(MediaQuery.of(context).size.width * index);
+              },
             ),
           ),
-          body: TabBarView(
+          body: PageView(
+            controller: _pageController,
             children: <Widget>[
               BlocProvider<TrendBloc>(
                 child: _Page(ListPageType.day_trend),
@@ -73,6 +91,9 @@ class _TrendPageState extends State<TrendPage> {
                 bloc: monthBloc,
               ),
             ],
+            onPageChanged: (index) {
+              _tabController.animateTo(index);
+            },
           ),
         ));
   }
