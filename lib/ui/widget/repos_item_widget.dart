@@ -10,10 +10,10 @@ class ReposItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new InkWell(
+    return InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
@@ -24,16 +24,16 @@ class ReposItemWidget extends StatelessWidget {
               ),
               //全称
               Padding(
-                padding: new EdgeInsets.only(top: 6.0, bottom: 6.0),
+                padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
                 child: Text(
                   item.fullName ?? "",
-                  style: new TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               //描述
               Text(
                 item.description,
-                style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+                style: TextStyle(color: Colors.black54, fontSize: 12.0),
               ),
               //底部数据
               Row(
@@ -42,23 +42,23 @@ class ReposItemWidget extends StatelessWidget {
                       Image(
                           width: 12.0,
                           height: 12.0,
-                          image: new AssetImage('image/ic_star.png')),
+                          image: AssetImage('image/ic_star.png')),
                       item.stargazersCount.toString()),
                   _getItemBottom(
                       Image(
                           width: 12.0,
                           height: 12.0,
-                          image: new AssetImage('image/ic_issue.png')),
+                          image: AssetImage('image/ic_issue.png')),
                       item.openIssuesCount.toString()),
                   _getItemBottom(
                       Image(
                           width: 12.0,
                           height: 12.0,
-                          image: new AssetImage('image/ic_branch.png')),
+                          image: AssetImage('image/ic_branch.png')),
                       item.forksCount.toString()),
                   Text(
                     item.fork ? "Forked" : "",
-                    style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
                   ),
                 ],
               ),
@@ -73,14 +73,12 @@ class ReposItemWidget extends StatelessWidget {
   Widget _getItemOwner(String ownerHead, String ownerName) {
     return Row(
       children: <Widget>[
-        ClipOval(
-          child: ImageUtil.getImageWidget(ownerHead, 18.0),
-        ),
+        ImageUtil.getImageWidget(ownerHead, 18.0),
         Padding(
-          padding: new EdgeInsets.only(left: 4.0),
+          padding: EdgeInsets.only(left: 4.0),
           child: Text(
             ownerName,
-            style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+            style: TextStyle(color: Colors.black54, fontSize: 12.0),
           ),
         ),
       ],
@@ -100,10 +98,10 @@ class ReposItemWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: new EdgeInsets.only(left: 4.0),
+            padding: EdgeInsets.only(left: 4.0),
             child: Text(
               language,
-              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+              style: TextStyle(color: Colors.black54, fontSize: 12.0),
             ),
           ),
         ],
@@ -113,8 +111,8 @@ class ReposItemWidget extends StatelessWidget {
   }
 
   Widget _getItemBottom(Widget icon, String count) {
-    return new Padding(
-      padding: new EdgeInsets.only(right: 12.0),
+    return Padding(
+      padding: EdgeInsets.only(right: 12.0),
       child: Row(
         children: <Widget>[
           icon,
@@ -122,7 +120,7 @@ class ReposItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 3.0),
             child: Text(
               count,
-              style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+              style: TextStyle(color: Colors.grey, fontSize: 12.0),
             ),
           ),
         ],

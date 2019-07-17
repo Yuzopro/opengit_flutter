@@ -30,7 +30,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
   Widget getHeader(BuildContext context, LoadingBean<List<IssueBean>> data) {
     IssueBloc bloc = BlocProvider.of<IssueBloc>(context);
 
-    return new Row(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _getIssueItem(bloc.q, _getPopupMenuItemList(_q, bloc.q), bloc),
@@ -65,7 +65,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
   }
 
   Widget _getIssueItem(text, items, IssueBloc bloc) {
-    return new Expanded(
+    return Expanded(
       child: PopupMenuButton<String>(
         onSelected: (value) {
           _onSelected(value, bloc);
@@ -77,7 +77,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
             children: <Widget>[
               Text(
                 text,
-                style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                style: TextStyle(color: Colors.grey, fontSize: 12.0),
               ),
               Icon(
                 Icons.arrow_drop_down,

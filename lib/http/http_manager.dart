@@ -17,40 +17,40 @@ class HttpManager {
   static const _PATCH = "patch";
 
   static doGet(url, Map<String, String> header, {bool isText: false}) {
-    return _doRequest(url, null, header, new Options(method: _GET),
+    return _doRequest(url, null, header, Options(method: _GET),
         isText: isText);
   }
 
   static doPut(url) {
-    return _doRequest(url, null, null, new Options(method: _PUT));
+    return _doRequest(url, null, null, Options(method: _PUT));
   }
 
   static doDelete(url, params, Map<String, String> header) {
-    return _doRequest(url, params, header, new Options(method: _DELETE));
+    return _doRequest(url, params, header, Options(method: _DELETE));
   }
 
   static doPatch(url, params, Map<String, String> header) {
-    return _doRequest(url, params, header, new Options(method: _PATCH));
+    return _doRequest(url, params, header, Options(method: _PATCH));
   }
 
   static doPost(url, params, Map<String, String> header) {
-    return _doRequest(url, params, header, new Options(method: _POST));
+    return _doRequest(url, params, header, Options(method: _POST));
   }
 
   static _doRequest(url, params, Map<String, String> header, Options options,
       {bool isText: false}) async {
     LogUtil.v(url, tag: TAG);
     //检查网络
-    var connectivityResult = await (new Connectivity().checkConnectivity());
+    var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      return new ResponseResultData(null, false, -1);
+      return ResponseResultData(null, false, -1);
     }
     //封装网络请求头
     Map<String, String> headers = _getHeaders(header);
     if (options != null) {
       options.headers = headers;
     } else {
-      options = new Options(method: _GET);
+      options = Options(method: _GET);
       options.headers = headers;
     }
     options.contentType = isText ? ContentType.text : ContentType.json;
@@ -60,7 +60,7 @@ class HttpManager {
 
 //    LogUtil.v("headers is " + headers.toString(), tag: TAG);
 
-    Dio _dio = new Dio();
+    Dio _dio = Dio();
     //开始请求
     Response response;
     try {
@@ -72,19 +72,19 @@ class HttpManager {
 
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
-        return new ResponseResultData(response.data, true, response.statusCode);
+        return ResponseResultData(response.data, true, response.statusCode);
       } else {
-        return new ResponseResultData(
+        return ResponseResultData(
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
       LogUtil.v('request error is $e', tag: TAG);
-      return new ResponseResultData(null, false, -2);
+      return ResponseResultData(null, false, -2);
     }
   }
 
   static _getHeaders(Map<String, String> header) {
-    Map<String, String> headers = new HashMap();
+    Map<String, String> headers = HashMap();
     if (header != null) {
       headers.addAll(header);
     }
@@ -94,7 +94,7 @@ class HttpManager {
 
   static download(url, savePath, progress) async {
     try {
-      Dio _dio = new Dio();
+      Dio _dio = Dio();
       Response response =
           await _dio.download(url, savePath, onReceiveProgress: progress);
       print(response.statusCode);

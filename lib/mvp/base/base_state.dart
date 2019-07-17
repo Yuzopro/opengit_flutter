@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/mvp/base/base_presenter.dart';
 import 'package:open_git/mvp/base/i_base_view.dart';
-import 'package:open_git/util/common_util.dart';
 
 abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
     V extends IBaseView> extends State<T> implements IBaseView {
@@ -10,7 +9,7 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
 
   P presenter;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isLoading = false;
 
@@ -48,13 +47,13 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       appBar: title.isEmpty
           ? null
-          : new AppBar(
+          : AppBar(
               actions: getActions(),
-              title: new Text(title),
+              title: Text(title),
             ),
       body: buildBody(context),
       floatingActionButton: buildFloatingActionButton(),
@@ -71,15 +70,13 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
 
   @override
   showToast(String message) {
-    _scaffoldKey.currentState
-        .showSnackBar(new SnackBar(content: new Text(message)));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   void showLoading() {
     if (!_isLoading) {
       _isLoading = true;
-      CommonUtil.showLoadingDialog(context);
     }
   }
 
@@ -87,34 +84,33 @@ abstract class BaseState<T extends StatefulWidget, P extends BasePresenter<V>,
   void hideLoading() {
     if (_isLoading) {
       _isLoading = false;
-      Navigator.of(context).pop();
     }
   }
 
   Widget buildLoading() {
-    return new Center(
-      child: new Container(
+    return Center(
+      child: Container(
         width: 200.0,
         height: 200.0,
-        padding: new EdgeInsets.all(4.0),
-        decoration: new BoxDecoration(
+        padding: EdgeInsets.all(4.0),
+        decoration: BoxDecoration(
           color: Colors.transparent,
           //用一个BoxDecoration装饰器提供背景图片
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Container(
+            Container(
                 child: SpinKitCircle(
               color: Colors.black,
               size: 25.0,
             )),
-            new Container(height: 10.0),
-            new Container(
-                child: new Text(
+            Container(height: 10.0),
+            Container(
+                child: Text(
               "加载中...",
-              style: new TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.black),
             )),
           ],
         ),

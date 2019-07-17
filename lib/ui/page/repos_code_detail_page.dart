@@ -34,13 +34,13 @@ class _CodeDetailPageState extends State<CodeDetailPageWeb> {
   @override
   Widget build(BuildContext context) {
     if (data == null) {
-      return new Scaffold(
-        appBar: new AppBar(
+      return Scaffold(
+        appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: new Container(
+        body: Container(
           alignment: Alignment.center,
-          child: new Center(
+          child: Center(
             child: SpinKitCircle(
               color: Theme.of(context).primaryColor,
               size: 25.0,
@@ -52,7 +52,7 @@ class _CodeDetailPageState extends State<CodeDetailPageWeb> {
 
     return Scaffold(
       appBar: AppBar(
-        title: new Text(widget.title),
+        title: Text(widget.title),
       ),
       body: WebView(
         initialUrl: data,

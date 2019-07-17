@@ -26,28 +26,29 @@ class EventItemWidget extends StatelessWidget {
     _buildCreatedAtWidget(columnWidgets, item.createdAt);
     _buildIssueWidget(columnWidgets, item.payload, repoName);
 
-    return new InkWell(
-      child: new Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //头像
-              ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: columnWidgets,
-                  ),
+    return InkWell(
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            //头像
+            ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: columnWidgets,
                 ),
-                flex: 1,
               ),
-              EventUtil.getTypeIcon(item),
-            ],
-          )),
+              flex: 1,
+            ),
+            EventUtil.getTypeIcon(item),
+          ],
+        ),
+      ),
       onTap: () {
         if (item.payload != null && item.payload.issue != null) {
           NavigatorUtil.goIssueDetail(context, item.payload.issue);
@@ -83,9 +84,9 @@ class EventItemWidget extends StatelessWidget {
   }
 
   void _buildCreatedAtWidget(List<Widget> column, createdAt) {
-    Padding createdAtWidget = new Padding(
+    Padding createdAtWidget = Padding(
       padding: EdgeInsets.only(top: 6.0),
-      child: new Text(
+      child: Text(
         DateUtil.getNewsTimeStr(createdAt),
         style: TextStyle(color: Colors.grey, fontSize: 12.0),
       ),
@@ -100,24 +101,24 @@ class EventItemWidget extends StatelessWidget {
     }
     if (payload.issue != null) {
       if (payload.comment != null) {
-        Padding commentWidget = new Padding(
+        Padding commentWidget = Padding(
           padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: new Text(
+          child: Text(
             payload.comment.body,
-            style: new TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey),
           ),
         );
         column.add(commentWidget);
 
-        Row issueWidget = new Row(
+        Row issueWidget = Row(
           children: <Widget>[
             ImageUtil.getImageWidget(payload.issue.user.avatarUrl ?? "", 24.0),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 3.0),
-                child: new Text(
+                child: Text(
                   repoName + " #${payload.issue.number}",
-                  style: new TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
               flex: 1,
@@ -125,25 +126,25 @@ class EventItemWidget extends StatelessWidget {
             Image(
                 width: 16.0,
                 height: 16.0,
-                image: new AssetImage('image/ic_comment.png')),
+                image: AssetImage('image/ic_comment.png')),
             Text(
               "${payload.issue.commentNum}",
-              style: new TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey),
             ),
           ],
         );
-        Container issueContainer = new Container(
+        Container issueContainer = Container(
           padding: EdgeInsets.all(6.0),
           color: Colors.grey[350],
           child: issueWidget,
         );
         column.add(issueContainer);
       } else {
-        Padding issueWidget = new Padding(
+        Padding issueWidget = Padding(
           padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: new Text(
+          child: Text(
             payload.issue.title,
-            style: new TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey),
           ),
         );
         column.add(issueWidget);

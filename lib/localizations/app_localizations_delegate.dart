@@ -10,7 +10,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   Future<AppLocalizations> load(Locale locale) {
-    return SynchronousFuture<AppLocalizations>(new AppLocalizations(locale));
+    return SynchronousFuture<AppLocalizations>(AppLocalizations(locale));
   }
 
   @override
@@ -18,5 +18,5 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
     return false;
   }
 
-  static AppLocalizationsDelegate delegate = new AppLocalizationsDelegate();
+  static AppLocalizationsDelegate delegate = AppLocalizationsDelegate();
 }

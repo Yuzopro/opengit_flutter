@@ -19,62 +19,60 @@ class DrawerPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          new UserAccountsDrawerHeader(
-            accountName: new Text(name),
-            accountEmail: new Text(email),
-            currentAccountPicture: new GestureDetector(
+          UserAccountsDrawerHeader(
+            accountName: Text(name),
+            accountEmail: Text(email),
+            currentAccountPicture: GestureDetector(
               //用户头像
               onTap: () {
                 UserBean userBean = LoginManager.instance.getUserBean();
                 NavigatorUtil.goUserProfile(context, userBean);
               },
-              child: new ClipOval(
-                child: ImageUtil.getImageWidget(this.headUrl ?? "", 64.0),
-              ),
+              child: ImageUtil.getImageWidget(this.headUrl ?? "", 64.0),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
               NavigatorUtil.goUserProfile(context, userBean);
             },
           ),
-          new ListTile(
-            title: new Text(AppLocalizations.of(context).currentlocal.trend),
-            leading: new Icon(Icons.trending_up, color: Colors.grey),
+          ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.trend),
+            leading: Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goTrend(context);
             },
           ),
-//          new ListTile(
-//            title: new Text(AppLocalizations.of(context).currentlocal.bookmark),
-//            leading: new Icon(Icons.bookmark, color: Colors.grey),
+//          ListTile(
+//            title: Text(AppLocalizations.of(context).currentlocal.bookmark),
+//            leading: Icon(Icons.bookmark, color: Colors.grey),
 //            onTap: () {
 //              NavigatorUtil.goBookMark(context);
 //            },
 //          ),
-          new ListTile(
-            title: new Text(AppLocalizations.of(context).currentlocal.setting),
-            leading: new Icon(Icons.settings, color: Colors.grey),
+          ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.setting),
+            leading: Icon(Icons.settings, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goSetting(context);
             },
           ),
-          new ListTile(
-            title: new Text(AppLocalizations.of(context).currentlocal.about),
-            leading: new Icon(Icons.info, color: Colors.grey),
+          ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.about),
+            leading: Icon(Icons.info, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goAbout(context);
             },
           ),
-          new ListTile(
-            title: new Text(AppLocalizations.of(context).currentlocal.share),
-            leading: new Icon(Icons.share, color: Colors.grey),
+          ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.share),
+            leading: Icon(Icons.share, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goShare(context);
             },
           ),
-          new ListTile(
-            title: new Text(AppLocalizations.of(context).currentlocal.logout),
-            leading: new Icon(Icons.power_settings_new, color: Colors.grey),
+          ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.logout),
+            leading: Icon(Icons.power_settings_new, color: Colors.grey),
             onTap: () {
               _handleLogoutApp(context);
             },
@@ -87,7 +85,7 @@ class DrawerPage extends StatelessWidget {
   Future<bool> _handleLogoutApp(BuildContext context) {
     return showDialog(
         context: context,
-        builder: (context) => new AlertDialog(
+        builder: (context) => AlertDialog(
               title: Text(AppLocalizations.of(context)
                   .currentlocal
                   .dialog_logout_title),

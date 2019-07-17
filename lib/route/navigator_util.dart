@@ -20,19 +20,19 @@ class NavigatorUtil {
   static goMain(BuildContext context) {
 //    Application.router.navigateTo(context, AppRoutes.main);
     Navigator.pushReplacement(
-        context, new CupertinoPageRoute(builder: (context) => MainPage()));
+        context, CupertinoPageRoute(builder: (context) => MainPage()));
   }
 
   //登录页
   static goLogin(BuildContext context) {
     Navigator.pushReplacement(
-        context, new CupertinoPageRoute(builder: (context) => new LoginPage()));
+        context, CupertinoPageRoute(builder: (context) => LoginPage()));
   }
 
   //书签页
   static goBookMark(BuildContext context) {
     Navigator.push(
-        context, new CupertinoPageRoute(builder: (context) => BookMarkPage()));
+        context, CupertinoPageRoute(builder: (context) => BookMarkPage()));
   }
 
   //设置页
@@ -81,8 +81,8 @@ class NavigatorUtil {
   static goUserProfile(BuildContext context, userBean) {
     Navigator.push(
         context,
-        new CupertinoPageRoute(
-            builder: (context) => new UserProfilePage(userBean)));
+        CupertinoPageRoute(
+            builder: (context) => UserProfilePage(userBean)));
   }
 
   //查看源码文件目录
@@ -111,7 +111,7 @@ class NavigatorUtil {
     IssueDetailBloc bloc = IssueDetailBloc(issueBean);
     Navigator.push(
         context,
-        new CupertinoPageRoute(
+        CupertinoPageRoute(
             builder: (context) => BlocProvider<IssueDetailBloc>(
                   child: IssueDetailPage(),
                   bloc: bloc,
@@ -123,9 +123,9 @@ class NavigatorUtil {
       BuildContext context, issueBean, repoUrl, isAdd) async {
     return Navigator.push(
         context,
-        new CupertinoPageRoute(
+        CupertinoPageRoute(
             builder: (context) =>
-                new MarkdownEditorPage(issueBean, repoUrl, isAdd)));
+                MarkdownEditorPage(issueBean, repoUrl, isAdd)));
   }
 
   //评论编辑页
@@ -134,7 +134,7 @@ class NavigatorUtil {
     ReactionBloc bloc = ReactionBloc(issueBean, repoUrl, content, isIssue);
     return Navigator.push(
         context,
-        new CupertinoPageRoute(
+        CupertinoPageRoute(
             builder: (context) => BlocProvider<ReactionBloc>(
                   child: ReactionPage(),
                   bloc: bloc,
@@ -145,8 +145,8 @@ class NavigatorUtil {
   static goEditIssue(BuildContext context, issueBean, repoUrl) {
     return Navigator.push(
         context,
-        new CupertinoPageRoute(
-            builder: (context) => new EditIssuePage(
+        CupertinoPageRoute(
+            builder: (context) => EditIssuePage(
                   issueBean: issueBean,
                   repoUrl: repoUrl,
                 )));

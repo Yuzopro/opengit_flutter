@@ -142,15 +142,15 @@ class HtmlParser {
   Map<String, dynamic> _tag;
 
   HtmlParser(this.context) {
-    this._startTag = new RegExp(
+    this._startTag = RegExp(
         r'^<([-A-Za-z0-9_]+)((?:\s+[-\w]+(?:\s*=\s*(?:(?:"[^"]*")' +
             "|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>");
-    this._endTag = new RegExp("^<\/([-A-Za-z0-9_]+)[^>]*>");
-    this._attr = new RegExp(
+    this._endTag = RegExp("^<\/([-A-Za-z0-9_]+)[^>]*>");
+    this._attr = RegExp(
         r'([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")' +
             r"|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?");
-    this._style = new RegExp(r'([a-zA-Z\-]+)\s*:\s*([^;]*)');
-    this._color = new RegExp(r'^#([a-fA-F0-9]{6})$');
+    this._style = RegExp(r'([a-zA-Z\-]+)\s*:\s*([^;]*)');
+    this._color = RegExp(r'^#([a-fA-F0-9]{6})$');
   }
 
   List parse(String html) {
@@ -210,12 +210,12 @@ class HtmlParser {
         }
       } else {
         RegExp re =
-            new RegExp(r'(.*)<\/' + this._getStackLastItem() + r'[^>]*>');
+            RegExp(r'(.*)<\/' + this._getStackLastItem() + r'[^>]*>');
 
         html = html.replaceAllMapped(re, (Match match) {
           String text = match[0]
-            ..replaceAll(new RegExp('<!--(.*?)-->'), '\$1')
-            ..replaceAll(new RegExp('<!\[CDATA\[(.*?)]]>'), '\$1');
+            ..replaceAll(RegExp('<!--(.*?)-->'), '\$1')
+            ..replaceAll(RegExp('<!\[CDATA\[(.*?)]]>'), '\$1');
 
           this._appendNode(text);
 
@@ -358,7 +358,7 @@ class HtmlParser {
         break;
       case 'a':
         textDecoration = TextDecoration.underline;
-        color = new Color(int.parse('0xFF1965B5'));
+        color = Color(int.parse('0xFF1965B5'));
         break;
 
       case 'b':
@@ -387,7 +387,7 @@ class HtmlParser {
           case 'color':
             if (this._color.hasMatch(value)) {
               value = value.replaceAll('#', '').trim();
-              color = new Color(int.parse('0xFF' + value));
+              color = Color(int.parse('0xFF' + value));
             }
 
             break;
@@ -422,14 +422,14 @@ class HtmlParser {
     TextStyle textStyle;
 
     if (fontSize != 0.0) {
-      textStyle = new TextStyle(
+      textStyle = TextStyle(
           color: color,
           fontWeight: fontWeight,
           fontStyle: fontStyle,
           decoration: textDecoration,
           fontSize: fontSize);
     } else {
-      textStyle = new TextStyle(
+      textStyle = TextStyle(
         color: color,
         fontWeight: fontWeight,
         fontStyle: fontStyle,

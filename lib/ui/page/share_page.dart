@@ -23,13 +23,13 @@ class _SharePageState extends State<SharePage> {
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width - 100;
     double qrSize = size - 80;
-    return new Scaffold(
+    return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).currentlocal.share),
       ),
-      body: new Center(
-          child: new DecoratedBox(
+      body: Center(
+          child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5.0),
@@ -37,7 +37,7 @@ class _SharePageState extends State<SharePage> {
         child: SizedBox(
           width: size,
           height: size,
-          child: new Column(
+          child: Column(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 12.0, top: 12.0),
@@ -46,17 +46,17 @@ class _SharePageState extends State<SharePage> {
                     Image(
                         width: 32.0,
                         height: 32.0,
-                        image: new AssetImage('image/ic_launcher.png')),
+                        image: AssetImage('image/ic_launcher.png')),
                     Padding(
                       padding: EdgeInsets.only(left: 3.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text('OpenGit',
-                              style: new TextStyle(
+                          Text('OpenGit',
+                              style: TextStyle(
                                   color: Colors.black, fontSize: 12.0)),
-                          new Text(_version,
-                              style: new TextStyle(
+                          Text(_version,
+                              style: TextStyle(
                                   color: Colors.grey, fontSize: 12.0))
                         ],
                       ),
@@ -72,7 +72,7 @@ class _SharePageState extends State<SharePage> {
                     print("[QR] ERROR - $ex");
                   }),
               Text(AppLocalizations.of(context).currentlocal.download_app_tips,
-                  style: new TextStyle(color: Colors.grey, fontSize: 12.0)),
+                  style: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ],
           ),
         ),

@@ -35,7 +35,7 @@ class ReactionPage
 
     ReactionBloc bloc = BlocProvider.of<ReactionBloc>(context);
 
-    return new ListTile(
+    return ListTile(
       leading: ImageUtil.getImageWidget(item.user.avatarUrl, 36.0),
       title: Text(item.user.login),
       subtitle: Text(DateUtil.getNewsTimeStr(item.createdAt) +

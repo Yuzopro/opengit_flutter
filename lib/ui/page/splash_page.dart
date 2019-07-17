@@ -6,7 +6,6 @@ import 'package:open_git/status/status.dart';
 import 'package:redux/redux.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class SplashPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Observable.just(1).delay(new Duration(milliseconds: 500)).listen((_) {
+    Observable.just(1).delay(Duration(milliseconds: 500)).listen((_) {
       if (viewModel.status == LoginStatus.success) {
         NavigatorUtil.goMain(context);
       } else if (viewModel.status == LoginStatus.error) {
@@ -35,19 +34,20 @@ class SplashPageContent extends StatelessWidget {
       }
     });
 
-    return new Container(
+    return Container(
       alignment: Alignment.bottomCenter,
       color: Colors.white,
-      child: new Padding(
-          padding: EdgeInsets.only(bottom: 30.0),
-          child: new Image(
-              width: 64.0,
-              height: 64.0,
-              image: new AssetImage('image/ic_launcher.png'))),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 30.0),
+        child: Image(
+          width: 64.0,
+          height: 64.0,
+          image: AssetImage('image/ic_launcher.png'),
+        ),
+      ),
     );
   }
 }
-
 
 class SplashPageViewModel {
   final LoginStatus status;

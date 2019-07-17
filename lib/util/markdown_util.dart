@@ -17,13 +17,9 @@ class MarkdownUtil {
   ];
 
   static String getGitHubEmojHtml(String text) {
-    var syntaxes = [new EmojiSyntax()];
+    var syntaxes = [EmojiSyntax()];
     String html = markdownToHtml(text, inlineSyntaxes: syntaxes);
     return html.replaceAll("<p>", "").replaceAll("<\/p>", "");
-  }
-
-  static Widget markdownBody(String text) {
-    return new MarkdownBody(data: text);
   }
 
   static bool isMarkdown(String name) {

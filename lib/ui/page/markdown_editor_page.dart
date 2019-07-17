@@ -53,11 +53,11 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
           _buildBody(context),
           Offstage(
             offstage: !_isLoading,
-            child: new Container(
+            child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               color: Colors.black54,
-              child: new Center(
+              child: Center(
                 child: SpinKitCircle(
                   color: Theme.of(context).primaryColor,
                   size: 25.0,
@@ -75,7 +75,7 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
   }
 
   List<Widget> _getActions() {
-    Widget saveWidget = new FlatButton(
+    Widget saveWidget = FlatButton(
       onPressed: _isEnable
           ? () {
               _editIssueComment();

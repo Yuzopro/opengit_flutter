@@ -29,9 +29,9 @@ class _EditIssueState extends State<EditIssuePage> {
   void initState() {
     super.initState();
     _titleController = TextEditingController.fromValue(
-        new TextEditingValue(text: widget.issueBean.title));
+        TextEditingValue(text: widget.issueBean.title));
     _bodyController = TextEditingController.fromValue(
-        new TextEditingValue(text: widget.issueBean.body));
+        TextEditingValue(text: widget.issueBean.body));
 
     _titleController.addListener(() {
       if (_titleController.text.toString() == widget.issueBean.title) {
@@ -64,11 +64,11 @@ class _EditIssueState extends State<EditIssuePage> {
           _buildBody(context),
           Offstage(
             offstage: !_isLoading,
-            child: new Container(
+            child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               color: Colors.black54,
-              child: new Center(
+              child: Center(
                 child: SpinKitCircle(
                   color: Theme.of(context).primaryColor,
                   size: 25.0,
@@ -87,7 +87,7 @@ class _EditIssueState extends State<EditIssuePage> {
   }
 
   List<Widget> getActions() {
-    Widget saveWidget = new FlatButton(
+    Widget saveWidget = FlatButton(
       onPressed: _isEnable
           ? () {
               _editIssue();

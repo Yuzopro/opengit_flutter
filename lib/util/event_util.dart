@@ -124,7 +124,7 @@ class EventUtil {
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: new AssetImage('image/ic_comment.png'));
+            image: AssetImage('image/ic_comment.png'));
         break;
       case "DeleteEvent":
         icon = Icon(
@@ -137,25 +137,25 @@ class EventUtil {
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: new AssetImage('image/ic_branch.png'));
+            image: AssetImage('image/ic_branch.png'));
         break;
       case "IssueCommentEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: new AssetImage('image/ic_comment.png'));
+            image: AssetImage('image/ic_comment.png'));
         break;
       case "IssuesEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: new AssetImage('image/ic_issue.png'));
+            image: AssetImage('image/ic_issue.png'));
         break;
       case "WatchEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: new AssetImage('image/ic_star.png'));
+            image: AssetImage('image/ic_star.png'));
         break;
       default:
         icon = Icon(

@@ -9,9 +9,9 @@ class TrendingUtil {
 
   static htmlToRepo(String responseData) {
     try {
-      responseData = responseData.replaceAll(new RegExp('\n'), '');
+      responseData = responseData.replaceAll(RegExp('\n'), '');
     } catch (e) {}
-    var repos = new List();
+    var repos = List();
     var splitWithH3 = responseData.split('<h1 class="h3 lh-condensed">');
     splitWithH3.removeAt(0);
     for (var i = 0; i < splitWithH3.length; i++) {
@@ -58,11 +58,11 @@ class TrendingUtil {
     String description = parseContentWithNote(htmlBaseInfo, '<p class="col-9 text-gray my-1 pr-4">', '</p>');
     if (description != null) {
       String reg = "<g-emoji.*?>.+?</g-emoji>";
-      RegExp tag = new RegExp(reg);
+      RegExp tag = RegExp(reg);
       Iterable<Match> tags = tag.allMatches(description);
       for (Match m in tags) {
-        String match = m.group(0).replaceAll(new RegExp("<g-emoji.*?>"), "").replaceAll(new RegExp("</g-emoji>"), "");
-        description = description.replaceAll(new RegExp(m.group(0)), match);
+        String match = m.group(0).replaceAll(RegExp("<g-emoji.*?>"), "").replaceAll(RegExp("</g-emoji>"), "");
+        description = description.replaceAll(RegExp(m.group(0)), match);
       }
     }
     repo.description = description;
@@ -95,7 +95,7 @@ class TrendingUtil {
     if (splitWitSemicolon.length > 1) {
       repo.contributorsUrl = splitWitSemicolon[1];
     }
-    var contributors = new List<String>();
+    var contributors = List<String>();
     for (var i = 0; i < splitWitSemicolon.length; i++) {
       String url = splitWitSemicolon[i];
       if (url.indexOf('http') != -1) {

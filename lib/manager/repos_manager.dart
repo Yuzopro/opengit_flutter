@@ -21,7 +21,7 @@ class ReposManager {
 
   static ReposManager _getInstance() {
     if (_instance == null) {
-      _instance = new ReposManager._internal();
+      _instance = ReposManager._internal();
     }
     return _instance;
   }
@@ -74,7 +74,7 @@ class ReposManager {
         Api.getPageParams("&", page);
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null && response.data.length > 0) {
-      List<EventBean> list = new List();
+      List<EventBean> list = List();
       for (int i = 0; i < response.data.length; i++) {
         var dataItem = response.data[i];
         list.add(EventBean.fromJson(dataItem));
@@ -88,7 +88,7 @@ class ReposManager {
     String url = Api.getBranches(reposOwner, reposName);
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null && response.data.length > 0) {
-      List<BranchBean> list = new List();
+      List<BranchBean> list = List();
       for (int i = 0; i < response.data.length; i++) {
         var dataItem = response.data[i];
         list.add(BranchBean.fromJson(dataItem));
@@ -104,7 +104,7 @@ class ReposManager {
     if (response != null && response.data != null) {
       var repos = TrendingUtil.htmlToRepo(response.data);
       if (repos != null && repos.length > 0) {
-        List<TrendBean> list = new List();
+        List<TrendBean> list = List();
         for (int i = 0; i < repos.length; i++) {
           var dataItem = repos[i];
           list.add(dataItem);
@@ -119,7 +119,7 @@ class ReposManager {
     String url = Api.getLanguages(language + Api.getPageParams("&", page));
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null && response.data.length > 0) {
-      List<Repository> list = new List();
+      List<Repository> list = List();
       var items = response.data["items"];
       for (int i = 0; i < items.length; i++) {
         var dataItem = items[i];
@@ -134,8 +134,8 @@ class ReposManager {
     String url = Api.reposDataDir(userName, reposName, path, branch);
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null && response.data.length > 0) {
-      List<SourceFileBean> dirs = new List();
-      List<SourceFileBean> files = new List();
+      List<SourceFileBean> dirs = List();
+      List<SourceFileBean> files = List();
       for (int i = 0; i < response.data.length; i++) {
         SourceFileBean file = SourceFileBean.fromJson(response.data[i]);
         if (file.type == "file") {
@@ -144,7 +144,7 @@ class ReposManager {
           dirs.add(file);
         }
       }
-      List<SourceFileBean> list = new List();
+      List<SourceFileBean> list = List();
       list.addAll(dirs);
       list.addAll(files);
       return list;
@@ -156,7 +156,7 @@ class ReposManager {
     final response =
         await _getFileAsStream(url, {"Accept": 'application/vnd.github.html'});
     String data = CodeDetailUtil.resolveHtmlFile(response, "java");
-    String result = new Uri.dataFromString(data,
+    String result = Uri.dataFromString(data,
             mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
         .toString();
     return result;
@@ -171,7 +171,7 @@ class ReposManager {
         Api.getReposReleases(userName, repos) + Api.getPageParams("&", page);
     final response = await HttpManager.doGet(url, null);
     if (response != null && response.data != null && response.data.length > 0) {
-      List<ReleaseBean> list = new List();
+      List<ReleaseBean> list = List();
       for (int i = 0; i < response.data.length; i++) {
         var dataItem = response.data[i];
         list.add(ReleaseBean.fromJson(dataItem));

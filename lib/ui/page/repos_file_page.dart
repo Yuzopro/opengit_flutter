@@ -26,9 +26,9 @@ class ReposFilePage
         int length = bloc.fileStack.length;
         if (length > 0) {
           bloc.fetchPreDir();
-          return new Future.value(false);
+          return Future.value(false);
         }
-        return new Future.value(true);
+        return Future.value(true);
       },
     );
   }

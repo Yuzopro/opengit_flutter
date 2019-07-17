@@ -45,14 +45,14 @@ class _UserProfileState extends State<UserProfilePage>
         title: '项目',
         widget: BlocProvider<ReposBloc>(
           child: ReposPage(ListPageType.repos_user),
-          bloc: new ReposUserBloc(widget.userBean.login),
+          bloc: ReposUserBloc(widget.userBean.login),
         ),
       ),
       Choice(
         title: 'Star过的项目',
         widget: BlocProvider<ReposBloc>(
           child: ReposPage(ListPageType.repos_user_star),
-          bloc: new ReposUserStarBloc(widget.userBean.login),
+          bloc: ReposUserStarBloc(widget.userBean.login),
         ),
       ),
       Choice(
@@ -76,17 +76,17 @@ class _UserProfileState extends State<UserProfilePage>
       _userAvatar = widget.userBean.avatarUrl ?? "";
     }
 
-    _tabController = new TabController(vsync: this, length: _choices.length);
+    _tabController = TabController(vsync: this, length: _choices.length);
   }
 
   @override
   Widget build(BuildContext context) {
-    return new DefaultTabController(
+    return DefaultTabController(
       length: _choices.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: _sliverBuilder,
-          body: new PageView(
+          body: PageView(
             controller: _pageController,
             children: _choices.map((choice) {
               return choice.widget;
@@ -119,22 +119,22 @@ class _UserProfileState extends State<UserProfilePage>
                 _userAvatar,
                 fit: BoxFit.cover,
               ),
-              new BackdropFilter(
-                filter: new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                child: new Container(
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Container(
                   decoration:
-                      new BoxDecoration(color: Colors.black.withOpacity(0.2)),
+                      BoxDecoration(color: Colors.black.withOpacity(0.2)),
                 ),
               )
             ],
           ),
         ),
-        bottom: new TabBar(
+        bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.white,
           tabs: _choices.map((Choice choice) {
-            return new Tab(
+            return Tab(
               text: choice.title,
             );
           }).toList(),

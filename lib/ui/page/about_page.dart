@@ -28,30 +28,30 @@ class AboutPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: Text(AppLocalizations.of(context).currentlocal.about),
       ),
       body: Stack(
         children: <Widget>[
-          new Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20.0, top: 50.0, right: 20.0),
-            child: new Column(
+            child: Column(
               children: <Widget>[
                 Image(
                     width: 64.0,
                     height: 64.0,
-                    image: new AssetImage('image/ic_launcher.png')),
+                    image: AssetImage('image/ic_launcher.png')),
                 Text(
                   "OpenGit",
-                  style: new TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0),
                 ),
                 Text(
                   "Version ${viewModel.version}",
-                  style: new TextStyle(color: Colors.black, fontSize: 16.0),
+                  style: TextStyle(color: Colors.black, fontSize: 16.0),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
@@ -60,8 +60,8 @@ class AboutPageContent extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  title: new Text('Github'),
-                  trailing: new Icon(Icons.navigate_next),
+                  title: Text('Github'),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goWebView(context, 'Github',
                         'https://github.com/Yuzopro/OpenGit_Flutter');
@@ -71,9 +71,9 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: new Text(
+                  title: Text(
                       AppLocalizations.of(context).currentlocal.author),
-                  trailing: new Icon(Icons.navigate_next),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goAuthor(context);
                   },
@@ -82,9 +82,9 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: new Text(
+                  title: Text(
                       AppLocalizations.of(context).currentlocal.app_home_page),
-                  trailing: new Icon(Icons.navigate_next),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goWebView(context, AppLocalizations.of(context).currentlocal.app_home_page,
                         'https://yuzopro.github.io/portfolio/work/opengit-flutter.html');
@@ -94,9 +94,9 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: new Text(
+                  title: Text(
                       AppLocalizations.of(context).currentlocal.introduction),
-                  trailing: new Icon(Icons.navigate_next),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goTimeline(context);
                   },
@@ -105,9 +105,9 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: new Text(
+                  title: Text(
                       AppLocalizations.of(context).currentlocal.update_title),
-                  trailing: new Icon(Icons.navigate_next),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: viewModel.onLoad,
                 ),
                 Divider(
@@ -115,8 +115,8 @@ class AboutPageContent extends StatelessWidget {
                 ),
                 ListTile(
                   title:
-                      new Text(AppLocalizations.of(context).currentlocal.other),
-                  trailing: new Icon(Icons.navigate_next),
+                      Text(AppLocalizations.of(context).currentlocal.other),
+                  trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goOther(context);
                   },
@@ -127,13 +127,13 @@ class AboutPageContent extends StatelessWidget {
               ],
             ),
           ),
-          new Offstage(
+          Offstage(
             offstage: viewModel.status != LoadingStatus.loading,
-            child: new Container(
+            child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               color: Colors.black54,
-              child: new Center(
+              child: Center(
                 child: SpinKitCircle(
                   color: Theme.of(context).primaryColor,
                   size: 25.0,

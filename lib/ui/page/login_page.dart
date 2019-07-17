@@ -39,8 +39,8 @@ class _LoginPageContentState extends State<LoginPageContent> {
   @override
   void initState() {
     super.initState();
-    _nameController = new TextEditingController();
-    _passwordController = new TextEditingController();
+    _nameController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   @override
@@ -65,13 +65,13 @@ class _LoginPageContentState extends State<LoginPageContent> {
             _buildLoginButton(context),
           ],
         )),
-        new Offstage(
+        Offstage(
           offstage: widget.viewModel.status != LoadingStatus.loading,
-          child: new Container(
+          child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: Colors.black54,
-            child: new Center(
+            child: Center(
               child: SpinKitCircle(
                 color: Theme.of(context).primaryColor,
                 size: 25.0,
@@ -106,18 +106,18 @@ class _LoginPageContentState extends State<LoginPageContent> {
   }
 
   TextFormField _buildPasswordTextField(BuildContext context) {
-    return new TextFormField(
+    return TextFormField(
       controller: _passwordController,
-      decoration: new InputDecoration(
+      decoration: InputDecoration(
         labelText: AppLocalizations.of(context).currentlocal.password,
-        suffixIcon: new GestureDetector(
+        suffixIcon: GestureDetector(
           onTap: () {
             setState(() {
               _obscureText = !_obscureText;
             });
           },
           child:
-              new Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+              Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
         ),
       ),
       maxLines: 1,
@@ -126,15 +126,15 @@ class _LoginPageContentState extends State<LoginPageContent> {
   }
 
   TextFormField _buildNameTextField() {
-    return new TextFormField(
+    return TextFormField(
       controller: _nameController,
-      decoration: new InputDecoration(
+      decoration: InputDecoration(
         labelText: AppLocalizations.of(context).currentlocal.account,
-        suffixIcon: new GestureDetector(
+        suffixIcon: GestureDetector(
           onTap: () {
             _nameController.clear();
           },
-          child: new Icon(_nameController.text.length > 0 ? Icons.clear : null),
+          child: Icon(_nameController.text.length > 0 ? Icons.clear : null),
         ),
       ),
       maxLines: 1,

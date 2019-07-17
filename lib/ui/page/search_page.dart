@@ -24,7 +24,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage>
     with SingleTickerProviderStateMixin {
-  final TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   final PageController _pageController = PageController();
 
@@ -51,7 +51,7 @@ class _SearchPageState extends State<SearchPage>
       SearchIssueBloc(),
     ];
 
-    _tabController = new TabController(vsync: this, length: _labelList.length);
+    _tabController = TabController(vsync: this, length: _labelList.length);
 
     _controller.addListener(() {
       _query = _controller.text;
@@ -62,7 +62,7 @@ class _SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     List<Widget> _actionViews = [];
 
-    Widget clearWidget = new IconButton(
+    Widget clearWidget = IconButton(
       tooltip: 'Clear',
       icon: const Icon(Icons.clear),
       onPressed: () {
@@ -71,7 +71,7 @@ class _SearchPageState extends State<SearchPage>
     );
     _actionViews.add(clearWidget);
 
-    Widget searchWidget = new IconButton(
+    Widget searchWidget = IconButton(
       tooltip: 'Search',
       icon: const Icon(Icons.search),
       onPressed: () {
@@ -80,10 +80,10 @@ class _SearchPageState extends State<SearchPage>
     );
     _actionViews.add(searchWidget);
 
-    return new DefaultTabController(
+    return DefaultTabController(
         length: _labelList.length,
-        child: new Scaffold(
-          appBar: new AppBar(
+        child: Scaffold(
+          appBar: AppBar(
             title: TextField(
               controller: _controller,
               textInputAction: TextInputAction.search,
@@ -98,12 +98,12 @@ class _SearchPageState extends State<SearchPage>
               style: TextStyle(color: Colors.white),
             ),
             actions: _query.isNotEmpty ? _actionViews : null,
-            bottom: new TabBar(
+            bottom: TabBar(
               controller: _tabController,
               indicatorColor: Colors.white,
               tabs: _labelList
                   .map(
-                    (String label) => new Tab(text: label),
+                    (String label) => Tab(text: label),
                   )
                   .toList(),
               onTap: (index) {
@@ -113,7 +113,7 @@ class _SearchPageState extends State<SearchPage>
               },
             ),
           ),
-          body: new PageView(
+          body: PageView(
             controller: _pageController,
             children: <Widget>[
               BlocProvider<SearchReposBloc>(

@@ -87,10 +87,8 @@ class _MainPageState extends State<MainPage>
               leading: Builder(builder: (BuildContext context) {
                 return IconButton(
                   tooltip: 'Open Drawer',
-                  icon: ClipOval(
-                    child: ImageUtil.getImageWidget(
-                        _userBean.avatarUrl ?? "", 24.0),
-                  ),
+                  icon:
+                      ImageUtil.getImageWidget(_userBean.avatarUrl ?? "", 24.0),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },

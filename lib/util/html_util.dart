@@ -155,7 +155,7 @@ class HtmlUtil {
 
   static String _fixWikiLinks(String source) {
     try {
-      RegExp exp = new RegExp("href=\"(.*?)\"");
+      RegExp exp = RegExp("href=\"(.*?)\"");
       Iterable<Match> tags = exp.allMatches(source);
       for (Match m in tags) {
         String oriUrl = m.group(1);
@@ -179,7 +179,7 @@ class HtmlUtil {
         baseUrl.indexOf("blob") + 5, baseUrl.lastIndexOf("/"));
 
     try {
-      RegExp exp = new RegExp("href=\"(.*?)\"");
+      RegExp exp = RegExp("href=\"(.*?)\"");
       Iterable<Match> tags = exp.allMatches(source);
       for (Match m in tags) {
         String oriUrl = m.group(1);
@@ -206,7 +206,7 @@ class HtmlUtil {
     }
 
     try {
-      RegExp exp = new RegExp("src=\"(.*?)\"");
+      RegExp exp = RegExp("src=\"(.*?)\"");
       Iterable<Match> tags = exp.allMatches(source);
       for (Match m in tags) {
         String oriUrl = m.group(1);

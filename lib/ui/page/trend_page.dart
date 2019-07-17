@@ -36,7 +36,7 @@ class _TrendPageState extends State<TrendPage>
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 3);
+    _tabController = TabController(vsync: this, length: 3);
 
     dayBloc = TrendDailyBloc(trend);
     weekBloc = TrendWeeklyBloc(trend);
@@ -225,9 +225,7 @@ class _Page extends BaseListStatelessWidget<TrendBean, TrendBloc> {
                 .map(
                   (String url) => Padding(
                         padding: EdgeInsets.only(left: 2.0),
-                        child: ClipOval(
-                          child: ImageUtil.getImageWidget(url ?? "", 12.0),
-                        ),
+                        child: ImageUtil.getImageWidget(url ?? "", 12.0),
                       ),
                 )
                 .toList(),

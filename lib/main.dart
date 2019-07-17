@@ -16,7 +16,7 @@ import 'package:open_git/route/routes.dart';
 import 'package:redux/redux.dart';
 
 void main() {
-  final store = new Store<AppState>(
+  final store = Store<AppState>(
     appReducer,
     initialState: AppState.initial(),
     middleware: [
@@ -38,7 +38,7 @@ class OpenGitApp extends StatefulWidget {
   final Store<AppState> store;
 
   OpenGitApp(this.store) {
-    final router = new Router();
+    final router = Router();
 
     AppRoutes.configureRoutes(router);
 
@@ -64,12 +64,12 @@ class _OpenGitAppState extends State<OpenGitApp> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider<AppState>(
+    return StoreProvider<AppState>(
       store: widget.store,
       child: StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
         builder: (context, vm) {
-          return new MaterialApp(
+          return MaterialApp(
 //            showPerformanceOverlay: true,
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

@@ -23,13 +23,13 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
 
   @override
   Widget buildFloatingActionButton(BuildContext context) {
-    return new FloatingActionButton(
+    return FloatingActionButton(
       onPressed: () {
         _showAlertDialog(context);
       },
-      child: new Text(
+      child: Text(
         '免责\n声明',
-        style: new TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Theme.of(context).primaryColor,
     );
@@ -37,10 +37,10 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
 
   @override
   Widget builderItem(BuildContext context, Entrylist item) {
-    return new InkWell(
+    return InkWell(
         child: Padding(
           padding: EdgeInsets.all(12.0),
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
@@ -51,16 +51,16 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
               ),
               //全称
               Padding(
-                padding: new EdgeInsets.only(top: 6.0, bottom: 6.0),
+                padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
                 child: Text(
                   item.title ?? "",
-                  style: new TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               //描述
               Text(
                 item.content,
-                style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+                style: TextStyle(color: Colors.black54, fontSize: 12.0),
               ),
               //底部数据
               Row(
@@ -83,14 +83,12 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
     return Expanded(
       child: Row(
         children: <Widget>[
-          ClipOval(
-            child: ImageUtil.getImageWidget(ownerHead, 18.0),
-          ),
+          ImageUtil.getImageWidget(ownerHead, 18.0),
           Padding(
-            padding: new EdgeInsets.only(left: 4.0),
+            padding: EdgeInsets.only(left: 4.0),
             child: Text(
               ownerName,
-              style: new TextStyle(color: Colors.black54, fontSize: 12.0),
+              style: TextStyle(color: Colors.black54, fontSize: 12.0),
             ),
           ),
         ],
@@ -100,16 +98,16 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   }
 
   Widget _getItemBottom(String icon, String count) {
-    return new Padding(
-      padding: new EdgeInsets.only(right: 12.0),
+    return Padding(
+      padding: EdgeInsets.only(right: 12.0),
       child: Row(
         children: <Widget>[
-          Image(width: 12.0, height: 12.0, image: new AssetImage(icon)),
+          Image(width: 12.0, height: 12.0, image: AssetImage(icon)),
           Padding(
             padding: EdgeInsets.only(left: 3.0),
             child: Text(
               count,
-              style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+              style: TextStyle(color: Colors.grey, fontSize: 12.0),
             ),
           ),
         ],
@@ -124,9 +122,9 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         tag += (tags[i].title + "\/");
       }
     }
-    return new Text(
+    return Text(
       tag,
-      style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+      style: TextStyle(color: Colors.grey, fontSize: 12.0),
     );
   }
 
@@ -147,12 +145,12 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
             ),
           ),
           shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)), // 圆角
+              borderRadius: BorderRadius.circular(20.0)), // 圆角
 
           actions: <Widget>[
-            new Container(
+            Container(
               width: 250,
-              child: new Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   FlatButton(

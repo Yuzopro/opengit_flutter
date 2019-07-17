@@ -5,24 +5,24 @@ import 'package:open_git/route/navigator_util.dart';
 class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(AppLocalizations.of(context).currentlocal.setting),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).currentlocal.setting),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
           ListTile(
-            leading: new Icon(Icons.color_lens),
-            title: new Text(AppLocalizations.of(context).currentlocal.theme),
-            trailing: new Icon(Icons.navigate_next),
+            leading: Icon(Icons.color_lens),
+            title: Text(AppLocalizations.of(context).currentlocal.theme),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goTheme(context);
             },
           ),
           ListTile(
-            leading: new Icon(Icons.language),
-            title: new Text(AppLocalizations.of(context).currentlocal.language),
-            trailing: new Icon(Icons.navigate_next),
+            leading: Icon(Icons.language),
+            title: Text(AppLocalizations.of(context).currentlocal.language),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goLanguage(context);
             },

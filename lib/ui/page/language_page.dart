@@ -12,40 +12,40 @@ class LanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
-        builder: (context, vm) {
-          return new Scaffold(
-            appBar: new AppBar(
-              title:
-                  new Text(AppLocalizations.of(context).currentlocal.language),
-            ),
-            body: new ListView(
-              children: <Widget>[
-                ListTile(
-                  title: new Text('跟随系统'),
-                  trailing: new Icon(Icons.navigate_next),
-                  onTap: () {
-                    vm.onChangeLanguage(0);
-                  },
-                ),
-                ListTile(
-                  title: new Text('简体中文'),
-                  trailing: new Icon(Icons.navigate_next),
-                  onTap: () {
-                    vm.onChangeLanguage(1);
-                  },
-                ),
-                ListTile(
-                  title: new Text('English'),
-                  trailing: new Icon(Icons.navigate_next),
-                  onTap: () {
-                    vm.onChangeLanguage(2);
-                  },
-                )
-              ],
-            ),
-          );
-        });
+      converter: _ViewModel.fromStore,
+      builder: (context, vm) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context).currentlocal.language),
+          ),
+          body: ListView(
+            children: <Widget>[
+              ListTile(
+                title: Text('跟随系统'),
+                trailing: Icon(Icons.navigate_next),
+                onTap: () {
+                  vm.onChangeLanguage(0);
+                },
+              ),
+              ListTile(
+                title: Text('简体中文'),
+                trailing: Icon(Icons.navigate_next),
+                onTap: () {
+                  vm.onChangeLanguage(1);
+                },
+              ),
+              ListTile(
+                title: Text('English'),
+                trailing: Icon(Icons.navigate_next),
+                onTap: () {
+                  vm.onChangeLanguage(2);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 

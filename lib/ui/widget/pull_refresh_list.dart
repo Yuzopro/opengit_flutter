@@ -13,10 +13,10 @@ abstract class PullRefreshListState<R extends StatefulWidget, T,
 
   int page = 1;
 
-  final ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   bool isLoading = false;
   bool isNoMore = false;
@@ -151,10 +151,10 @@ abstract class PullRefreshListState<R extends StatefulWidget, T,
   }
 
   Widget _getEmptyWidget() {
-    return new Container(
+    return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height - 100,
-      child: new Center(
+      child: Center(
         child: FlatButton(
             onPressed: () {
               showRefreshLoading();

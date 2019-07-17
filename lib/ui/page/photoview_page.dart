@@ -10,23 +10,23 @@ class PhotoViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
-        body: new Container(
+        body: Container(
           color: Colors.black,
-          child: new PhotoView(
-            imageProvider: new NetworkImage(url),
+          child: PhotoView(
+            imageProvider: NetworkImage(url),
             loadingChild: Container(
-              child: new Stack(
+              child: Stack(
                 children: <Widget>[
-                  new Center(
-                      child: new Image.asset('image/ic_default_head.png',
+                  Center(
+                      child: Image.asset('image/ic_default_head.png',
                           height: 180.0, width: 180.0)),
-                  new Center(
-                      child:
-                          new SpinKitCircle(color: Colors.white30, size: 25.0)),
+                  Center(
+                    child: SpinKitCircle(color: Colors.white30, size: 25.0),
+                  ),
                 ],
               ),
             ),

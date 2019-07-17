@@ -10,17 +10,15 @@ class UserItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new InkWell(
+    return InkWell(
       child: Container(
         padding: EdgeInsets.only(left: 12.0, right: 12.0),
         height: 56.0,
         child: Row(
           children: <Widget>[
-            ClipOval(
-              child: ImageUtil.getImageWidget(item.avatarUrl, 36.0),
-            ),
+            ImageUtil.getImageWidget(item.avatarUrl, 36.0),
             Padding(
-              padding: new EdgeInsets.only(left: 4.0),
+              padding: EdgeInsets.only(left: 4.0),
               child: Text(
                 item.login,
               ),
