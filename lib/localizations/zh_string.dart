@@ -111,4 +111,13 @@ class ZhString extends AppBaseString {
 
   @override
   String get app_home_page => '主页';
+
+  @override
+  String get disclaimer => '免责声明';
+
+  @override
+  String get got_it => '知道了';
+
+  @override
+  String get disclaimer_ => '免责\n声明';
 }

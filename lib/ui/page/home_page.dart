@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/util/image_util.dart';
-
 
 class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   static final String TAG = "HomePage";
@@ -28,8 +28,10 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         _showAlertDialog(context);
       },
       child: Text(
-        '免责\n声明',
-        style: TextStyle(color: Colors.white),
+        AppLocalizations.of(context).currentlocal.disclaimer_,
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
       backgroundColor: Theme.of(context).primaryColor,
     );
@@ -134,8 +136,11 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('免责声明',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+          title: Text(AppLocalizations.of(context).currentlocal.disclaimer,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              )),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -158,8 +163,11 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
                       Navigator.of(context).pop();
                     },
                     child: Text(
-                      '知道了',
-                      style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      AppLocalizations.of(context).currentlocal.got_it,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   SizedBox(

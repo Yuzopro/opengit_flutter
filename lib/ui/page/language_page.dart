@@ -5,7 +5,7 @@ import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/util/locale_util.dart';
-import 'package:open_git/util/shared_prf_util.dart';
+import 'package:open_git/manager/shared_prf_manager.dart';
 import 'package:redux/redux.dart';
 
 class LanguagePage extends StatelessWidget {
@@ -57,7 +57,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       onChangeLanguage: (language) {
-        SharedPrfUtils.saveInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR, language);
+        SharedPrfManager.instance.saveInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR, language);
         store.dispatch(
             RefreshLocalAction(LocaleUtil.changeLocale(store.state, language)));
       },

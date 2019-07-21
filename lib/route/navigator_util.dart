@@ -5,34 +5,28 @@ import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
-import 'package:open_git/ui/page/book_mark_page.dart';
 import 'package:open_git/ui/page/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue_detail_page.dart';
-import 'package:open_git/ui/page/login_page.dart';
-import 'package:open_git/ui/page/main_page.dart';
 import 'package:open_git/ui/page/markdown_editor_page.dart';
 import 'package:open_git/ui/page/reaction_page.dart';
-import 'package:open_git/ui/page/user_profile_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'fluro_convert_util.dart';
 
 class NavigatorUtil {
   //主页
   static goMain(BuildContext context) {
-//    Application.router.navigateTo(context, AppRoutes.main);
-    Navigator.pushReplacement(
-        context, CupertinoPageRoute(builder: (context) => MainPage()));
+    Application.router.navigateTo(context, AppRoutes.main, replace: true);
   }
 
   //登录页
   static goLogin(BuildContext context) {
-    Navigator.pushReplacement(
-        context, CupertinoPageRoute(builder: (context) => LoginPage()));
+    Application.router.navigateTo(context, AppRoutes.login, replace: true);
   }
 
-  //书签页
-  static goBookMark(BuildContext context) {
-    Navigator.push(
-        context, CupertinoPageRoute(builder: (context) => BookMarkPage()));
+  //引导页
+  static goGuide(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.guide, replace: true);
   }
 
   //设置页
@@ -55,7 +49,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.repos_detail +
-            "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
+            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
   }
 
   //趋势
@@ -65,8 +59,10 @@ class NavigatorUtil {
 
   //仓库语言按star排名
   static goReposLanguage(BuildContext context, language) {
-    Application.router.navigateTo(context,
-        AppRoutes.repos_trend + "?language=${Uri.encodeComponent(language)}");
+    Application.router.navigateTo(
+        context,
+        AppRoutes.repos_trend +
+            "?language=${FluroConvertUtil.encode(language)}");
   }
 
   //仓库动态
@@ -74,15 +70,17 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.repos_event +
-            "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
+            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
   }
 
   //用户资料
   static goUserProfile(BuildContext context, userBean) {
-    Navigator.push(
+    String name = userBean.login;
+    String avatar = userBean.avatarUrl;
+    Application.router.navigateTo(
         context,
-        CupertinoPageRoute(
-            builder: (context) => UserProfilePage(userBean)));
+        AppRoutes.profile +
+            "?name=${FluroConvertUtil.encode(name)}&avatar=${FluroConvertUtil.encode(avatar)}");
   }
 
   //查看源码文件目录
@@ -90,7 +88,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.repos_file +
-            "?reposOwner=${Uri.encodeComponent(reposOwner)}&reposName=${Uri.encodeComponent(reposName)}");
+            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
   }
 
   //查看源码
@@ -98,7 +96,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.repos_code +
-            "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
+            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
   }
 
   //搜索
@@ -108,24 +106,35 @@ class NavigatorUtil {
 
   //问题详情
   static goIssueDetail(BuildContext context, issueBean) {
+//    String issue = FluroConvertUtil.object2String(issueBean.toJson);
+//    Application.router
+//        .navigateTo(context, AppRoutes.issue_detail + "?issue=$issue");
+
     IssueDetailBloc bloc = IssueDetailBloc(issueBean);
     Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => BlocProvider<IssueDetailBloc>(
-                  child: IssueDetailPage(),
-                  bloc: bloc,
-                )));
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<IssueDetailBloc>(
+          child: IssueDetailPage(),
+          bloc: bloc,
+        ),
+      ),
+    );
   }
 
   //评论编辑页
   static goMarkdownEditor(
       BuildContext context, issueBean, repoUrl, isAdd) async {
     return Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) =>
-                MarkdownEditorPage(issueBean, repoUrl, isAdd)));
+      context,
+      CupertinoPageRoute(
+        builder: (context) => MarkdownEditorPage(
+          issueBean,
+          repoUrl,
+          isAdd,
+        ),
+      ),
+    );
   }
 
   //评论编辑页
@@ -133,23 +142,26 @@ class NavigatorUtil {
       BuildContext context, issueBean, repoUrl, content, isIssue) async {
     ReactionBloc bloc = ReactionBloc(issueBean, repoUrl, content, isIssue);
     return Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => BlocProvider<ReactionBloc>(
-                  child: ReactionPage(),
-                  bloc: bloc,
-                )));
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<ReactionBloc>(
+          child: ReactionPage(),
+          bloc: bloc,
+        ),
+      ),
+    );
   }
 
   //问题编辑页
-  static goEditIssue(BuildContext context, issueBean, repoUrl) {
+  static goEditIssue(BuildContext context, issueBean) {
     return Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => EditIssuePage(
-                  issueBean: issueBean,
-                  repoUrl: repoUrl,
-                )));
+      context,
+      CupertinoPageRoute(
+        builder: (context) => EditIssuePage(
+          issueBean: issueBean,
+        ),
+      ),
+    );
   }
 
   //主题页
@@ -167,7 +179,15 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.webview +
-            "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
+            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
+  }
+
+  static goWebViewForAd(BuildContext context, title, url) {
+    Application.router.navigateTo(
+        context,
+        AppRoutes.webview +
+            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}&isAd=${FluroConvertUtil.encode(true.toString())}",
+        replace: true);
   }
 
   //功能介绍页
@@ -180,7 +200,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.timeline_detail +
-            "?title=${Uri.encodeComponent(title)}&body=${Uri.encodeComponent(body)}");
+            "?title=${FluroConvertUtil.encode(title)}&body=${FluroConvertUtil.encode(body)}");
   }
 
   //查看图片
@@ -188,7 +208,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.photo_view +
-            "?title=${Uri.encodeComponent(title)}&url=${Uri.encodeComponent(url)}");
+            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
   }
 
   //作者

@@ -61,9 +61,10 @@ class IssueBean {
   factory IssueBean.fromJson(Map<String, dynamic> json) =>
       _$IssueBeanFromJson(json);
 
+  get toJson => _$IssueBeanToJson(this);
+
   @override
   String toString() {
     return 'IssueBean{number: $number, title: $title, commentNum: $commentNum, body: $body, user: $user}';
   }
-
 }

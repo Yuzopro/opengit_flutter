@@ -8,10 +8,12 @@ class InitCompleteAction {
   InitCompleteAction(
     this.token,
     this.userBean,
+    this.isGuide,
   );
 
   final String token;
   final UserBean userBean;
+  final bool isGuide;
 }
 
 class ResetPageAction {

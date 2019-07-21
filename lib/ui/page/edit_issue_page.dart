@@ -6,10 +6,8 @@ import 'package:open_git/manager/issue_manager.dart';
 
 class EditIssuePage extends StatefulWidget {
   final IssueBean issueBean;
-  final String repoUrl;
 
-  const EditIssuePage({Key key, this.issueBean, this.repoUrl})
-      : super(key: key);
+  const EditIssuePage({Key key, this.issueBean}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -57,7 +55,7 @@ class _EditIssueState extends State<EditIssuePage> {
     return Scaffold(
       appBar: AppBar(
         actions: getActions(),
-        title: Text(getTitle()),
+        title: Text(AppLocalizations.of(context).currentlocal.edit_issue),
       ),
       body: Stack(
         children: <Widget>[
@@ -79,11 +77,6 @@ class _EditIssueState extends State<EditIssuePage> {
         ],
       ),
     );
-  }
-
-  @override
-  String getTitle() {
-    return '编辑问题';
   }
 
   List<Widget> getActions() {
@@ -133,7 +126,7 @@ class _EditIssueState extends State<EditIssuePage> {
   _editIssue() async {
     _showLoading();
     final result = await IssueManager.instance.editIssue(
-        widget.repoUrl,
+        widget.issueBean.repoUrl,
         widget.issueBean.number,
         _titleController.text.toString(),
         _bodyController.text.toString());

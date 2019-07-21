@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/redux/app_state.dart';
@@ -108,8 +109,10 @@ class DrawerPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Store<AppState> store = StoreProvider.of(context);
-                    store.dispatch(InitCompleteAction('', null));
+                    store.dispatch(InitCompleteAction('', null, false));
                     LoginManager.instance.clearAll();
+                    CacheProvider provider = CacheProvider();
+                    provider.delete();
                     NavigatorUtil.goLogin(context);
                   },
                 ),

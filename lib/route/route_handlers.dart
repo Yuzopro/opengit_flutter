@@ -1,13 +1,18 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/repos_detail_bloc.dart';
 import 'package:open_git/bloc/repos_event_bloc.dart';
 import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/bloc/repos_trend_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
+import 'package:open_git/route/fluro_convert_util.dart';
 import 'package:open_git/ui/page/about_page.dart';
 import 'package:open_git/ui/page/author_page.dart';
+import 'package:open_git/ui/page/guide/guide_page.dart';
+import 'package:open_git/ui/page/issue_detail_page.dart';
 import 'package:open_git/ui/page/language_page.dart';
 import 'package:open_git/ui/page/login_page.dart';
 import 'package:open_git/ui/page/main_page.dart';
@@ -26,59 +31,71 @@ import 'package:open_git/ui/page/theme_page.dart';
 import 'package:open_git/ui/page/timeline_detail_page.dart';
 import 'package:open_git/ui/page/timeline_page.dart';
 import 'package:open_git/ui/page/trend_page.dart';
+import 'package:open_git/ui/page/user_profile_page.dart';
 import 'package:open_git/ui/page/web_view_page.dart';
+import 'package:open_git/util/log_util.dart';
 
-var splashHandler = new Handler(
+var splashHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new SplashPage();
+  return SplashPage();
 });
 
-var mainHandler = new Handler(
+var guideHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new MainPage();
+  return GuidePage();
 });
 
-var loginHandler = new Handler(
+var mainHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new LoginPage();
+  return MainPage();
 });
 
-var settingHandler = new Handler(
+var loginHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new SettingPage();
+  return LoginPage();
 });
 
-var themeHandler = new Handler(
+var settingHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new ThemePage();
+  return SettingPage();
 });
 
-var languageHandler = new Handler(
+var themeHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new LanguagePage();
+  return ThemePage();
 });
 
-var webviewHandler = new Handler(
+var languageHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return LanguagePage();
+});
+
+var webviewHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String title = params["title"]?.first;
   String url = params["url"]?.first;
-  return new WebViewPage(
+  String isAd = params["isAd"]?.first;
+
+  LogUtil.v('$title --> $url --> $isAd');
+
+  return WebViewPage(
     title: title,
     url: url,
+    isAd: isAd == 'true',
   );
 });
 
-var aboutHandler = new Handler(
+var aboutHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new AboutPage();
+  return AboutPage();
 });
 
-var shareHandler = new Handler(
+var shareHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new SharePage();
+  return SharePage();
 });
 
-var timelineHandler = new Handler(
+var timelineHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return BlocProvider<TimelineBloc>(
     child: TimelinePage(),
@@ -86,22 +103,22 @@ var timelineHandler = new Handler(
   );
 });
 
-var timelineDetailHandler = new Handler(
+var timelineDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String title = params["title"]?.first;
   String body = params["body"]?.first;
-  return new TimelineDetailPage(
+  return TimelineDetailPage(
     title: title,
     body: body,
   );
 });
 
-var trendHandler = new Handler(
+var trendHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new TrendPage();
+  return TrendPage();
 });
 
-var reposDetailHandler = new Handler(
+var reposDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String reposOwner = params["reposOwner"]?.first;
   String reposName = params["reposName"]?.first;
@@ -111,7 +128,7 @@ var reposDetailHandler = new Handler(
   );
 });
 
-var reposEventHandler = new Handler(
+var reposEventHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String reposOwner = params["reposOwner"]?.first;
   String reposName = params["reposName"]?.first;
@@ -122,7 +139,7 @@ var reposEventHandler = new Handler(
   );
 });
 
-var reposTrendHandler = new Handler(
+var reposTrendHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String language = params["language"]?.first;
 
@@ -132,7 +149,7 @@ var reposTrendHandler = new Handler(
   );
 });
 
-var reposFileHandler = new Handler(
+var reposFileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String reposOwner = params["reposOwner"]?.first;
   String reposName = params["reposName"]?.first;
@@ -143,7 +160,7 @@ var reposFileHandler = new Handler(
   );
 });
 
-var reposCodeHandler = new Handler(
+var reposCodeHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String title = params["title"]?.first;
   String url = params["url"]?.first;
@@ -154,7 +171,7 @@ var reposCodeHandler = new Handler(
   );
 });
 
-var photoViewHandler = new Handler(
+var photoViewHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String title = params["title"]?.first;
   String url = params["url"]?.first;
@@ -162,17 +179,35 @@ var photoViewHandler = new Handler(
   return PhotoViewPage(title, url);
 });
 
-var searchHandler = new Handler(
+var searchHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new SearchPage();
+  return SearchPage();
 });
 
-var authorHandler = new Handler(
+var authorHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new AuthorPage();
+  return AuthorPage();
 });
 
-var otherHandler = new Handler(
+var otherHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return new OtherPage();
+  return OtherPage();
+});
+
+var profileHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+  String avatar = params["avatar"]?.first;
+
+  return UserProfilePage(name, avatar);
+});
+
+var issueDetailHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  IssueDetailBloc bloc = IssueDetailBloc(
+      IssueBean.fromJson(FluroConvertUtil.string2Map(params["issue"]?.first)));
+  return BlocProvider<IssueDetailBloc>(
+    child: IssueDetailPage(),
+    bloc: bloc,
+  );
 });

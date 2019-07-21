@@ -92,7 +92,10 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   goEditIssue(BuildContext context) async {
     final result =
-        await NavigatorUtil.goEditIssue(context, issueBean, issueBean.repoUrl);
+        await NavigatorUtil.goEditIssue(context, issueBean);
+    if (result == null) {
+      return;
+    }
     bean.data.issueBean = result;
     sink.add(bean);
   }

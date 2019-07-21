@@ -4,6 +4,7 @@ import 'package:open_git/route/route_handlers.dart';
 
 class AppRoutes {
   static final splash = '/';
+  static final guide = '/guide';
   static final main = '/main';
   static final login = '/login';
   static final setting = '/main/setting';
@@ -25,55 +26,133 @@ class AppRoutes {
   static final reaction = '/main/issue/reaction';
   static final author = '/main/author';
   static final other = '/main/other';
+  static final profile = '/main/profile';
+  static final issue_detail = '/main/issue/detail';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print('ROUTE WAS NOT FOUND !!!');
     });
-    router.define(splash,
-        handler: splashHandler, transitionType: TransitionType.inFromRight);
-    router.define(main,
-        handler: mainHandler, transitionType: TransitionType.inFromRight);
-    router.define(login,
-        handler: loginHandler, transitionType: TransitionType.inFromRight);
-    router.define(setting,
-        handler: settingHandler, transitionType: TransitionType.inFromRight);
-    router.define(theme,
-        handler: themeHandler, transitionType: TransitionType.inFromRight);
-    router.define(language,
-        handler: languageHandler, transitionType: TransitionType.inFromRight);
-    router.define(webview,
-        handler: webviewHandler, transitionType: TransitionType.inFromRight);
-    router.define(about,
-        handler: aboutHandler, transitionType: TransitionType.inFromRight);
-    router.define(share,
-        handler: shareHandler, transitionType: TransitionType.inFromRight);
-    router.define(timeline,
-        handler: timelineHandler, transitionType: TransitionType.inFromRight);
-    router.define(timeline_detail,
-        handler: timelineDetailHandler,
-        transitionType: TransitionType.inFromRight);
-    router.define(trend,
-        handler: trendHandler, transitionType: TransitionType.inFromRight);
-    router.define(repos_detail,
-        handler: reposDetailHandler,
-        transitionType: TransitionType.inFromRight);
-    router.define(repos_event,
-        handler: reposEventHandler, transitionType: TransitionType.inFromRight);
-    router.define(repos_trend,
-        handler: reposTrendHandler, transitionType: TransitionType.inFromRight);
-    router.define(repos_file,
-        handler: reposFileHandler, transitionType: TransitionType.inFromRight);
-    router.define(repos_code,
-        handler: reposCodeHandler, transitionType: TransitionType.inFromRight);
-    router.define(photo_view,
-        handler: photoViewHandler, transitionType: TransitionType.inFromRight);
-    router.define(search,
-        handler: searchHandler, transitionType: TransitionType.inFromRight);
-    router.define(author,
-        handler: authorHandler, transitionType: TransitionType.inFromRight);
-    router.define(other,
-        handler: otherHandler, transitionType: TransitionType.inFromRight);
+    router.define(
+      splash,
+      handler: splashHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      guide,
+      handler: guideHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      main,
+      handler: mainHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      login,
+      handler: loginHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      setting,
+      handler: settingHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      theme,
+      handler: themeHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      language,
+      handler: languageHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      webview,
+      handler: webviewHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      about,
+      handler: aboutHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      share,
+      handler: shareHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      timeline,
+      handler: timelineHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      timeline_detail,
+      handler: timelineDetailHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      trend,
+      handler: trendHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repos_detail,
+      handler: reposDetailHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repos_event,
+      handler: reposEventHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repos_trend,
+      handler: reposTrendHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repos_file,
+      handler: reposFileHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repos_code,
+      handler: reposCodeHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      photo_view,
+      handler: photoViewHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      search,
+      handler: searchHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      author,
+      handler: authorHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      other,
+      handler: otherHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile,
+      handler: profileHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      issue_detail,
+      handler: issueDetailHandler,
+      transitionType: TransitionType.cupertino,
+    );
   }
 }

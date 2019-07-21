@@ -7,7 +7,7 @@ import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
 import 'package:open_git/http/http_manager.dart';
-import 'package:open_git/util/shared_prf_util.dart';
+import 'package:open_git/manager/shared_prf_manager.dart';
 
 class LoginManager {
   factory LoginManager() => _getInstance();
@@ -65,7 +65,7 @@ class LoginManager {
       _userBean = UserBean.fromJson(data);
     }
     if (isNeedCache) {
-      SharedPrfUtils.saveString(
+      SharedPrfManager.instance.saveString(
           SharedPrfKey.SP_KEY_USER_INFO, data != null ? jsonEncode(data) : '');
     }
   }
@@ -77,7 +77,7 @@ class LoginManager {
   void setToken(String token, bool isNeedCache) {
     _token = token;
     if (isNeedCache) {
-      SharedPrfUtils.saveString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
+      SharedPrfManager.instance.saveString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
     }
   }
 

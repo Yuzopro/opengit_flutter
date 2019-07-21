@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/follow_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
@@ -14,9 +13,10 @@ import 'package:open_git/ui/page/repos_page.dart';
 import 'package:open_git/ui/page/user_follow_page.dart';
 
 class UserProfilePage extends StatefulWidget {
-  final UserBean userBean;
+  final String name;
+  final String avatar;
 
-  UserProfilePage(this.userBean);
+  const UserProfilePage(this.name, this.avatar);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,8 +26,6 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfilePage>
     with SingleTickerProviderStateMixin {
-  String _userAvatar;
-
   _UserProfileState();
 
   List<Choice> _choices;
@@ -45,36 +43,32 @@ class _UserProfileState extends State<UserProfilePage>
         title: '项目',
         widget: BlocProvider<ReposBloc>(
           child: ReposPage(ListPageType.repos_user),
-          bloc: ReposUserBloc(widget.userBean.login),
+          bloc: ReposUserBloc(widget.name),
         ),
       ),
       Choice(
         title: 'Star过的项目',
         widget: BlocProvider<ReposBloc>(
           child: ReposPage(ListPageType.repos_user_star),
-          bloc: ReposUserStarBloc(widget.userBean.login),
+          bloc: ReposUserStarBloc(widget.name),
         ),
       ),
       Choice(
         title: '关注我的',
         widget: BlocProvider<FollowBloc>(
           child: FollowPage(ListPageType.followers),
-          bloc: FollowersBloc(widget.userBean.login),
+          bloc: FollowersBloc(widget.name),
         ),
       ),
       Choice(
         title: '我关注的',
         widget: BlocProvider<FollowBloc>(
           child: FollowPage(ListPageType.following),
-          bloc: FollowingBloc(widget.userBean.login),
+          bloc: FollowingBloc(widget.name),
         ),
       ),
 //      Choice(title: '所在组织', widget: Text('所在组织')),
     ];
-
-    if (widget.userBean != null) {
-      _userAvatar = widget.userBean.avatarUrl ?? "";
-    }
 
     _tabController = TabController(vsync: this, length: _choices.length);
   }
@@ -116,14 +110,15 @@ class _UserProfileState extends State<UserProfilePage>
             fit: StackFit.expand,
             children: <Widget>[
               Image.network(
-                _userAvatar,
+                widget.avatar,
                 fit: BoxFit.cover,
               ),
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                 child: Container(
-                  decoration:
-                      BoxDecoration(color: Colors.black.withOpacity(0.2)),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.2),
+                  ),
                 ),
               )
             ],

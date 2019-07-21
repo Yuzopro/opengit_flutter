@@ -33,7 +33,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         LoginManager.instance.setToken(loginBean.token, true);
         UserBean userBean = await LoginManager.instance.getMyUserInfo();
         if (userBean != null) {
-          next(InitCompleteAction(token, userBean));
+          next(InitCompleteAction(token, userBean, false));
           next(ReceivedLoginAction(token, userBean));
           NavigatorUtil.goMain(context);
         } else {

@@ -54,7 +54,7 @@ Map<String, dynamic> _$IssueBeanToJson(IssueBean instance) => <String, dynamic>{
       'closed_at': instance.closedAt?.toIso8601String(),
       'body': instance.body,
       'body_html': instance.bodyHtml,
-      'user': instance.user,
+      'user': instance.user.toJson,
       'repository_url': instance.repoUrl,
       'html_url': instance.htmlUrl,
       'closed_by': instance.closeBy,

@@ -8,6 +8,7 @@ import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_main_bloc.dart';
+import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
@@ -182,6 +183,9 @@ class _MainPageState extends State<MainPage>
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
+                    CacheProvider provider = CacheProvider();
+                    provider.delete();
+
                     Navigator.of(context).pop(true);
                   },
                 ),

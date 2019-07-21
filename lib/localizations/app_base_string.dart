@@ -36,4 +36,7 @@ abstract class AppBaseString {
   String author;
   String other;
   String app_home_page;
+  String disclaimer;
+  String got_it;
+  String disclaimer_;
 }

@@ -111,4 +111,13 @@ class EnString extends AppBaseString {
 
   @override
   String get app_home_page => 'Home';
+
+  @override
+  String get disclaimer => 'Disclaimer';
+
+  @override
+  String get got_it => 'Got it';
+
+  @override
+  String get disclaimer_ => 'Disclaimer';
 }

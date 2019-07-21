@@ -8,7 +8,7 @@ import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/util/shared_prf_util.dart';
+import 'package:open_git/manager/shared_prf_manager.dart';
 import 'package:open_git/util/theme_util.dart';
 import 'package:redux/redux.dart';
 
@@ -256,7 +256,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       onChangeTheme: (color) {
-        SharedPrfUtils.saveInt(SharedPrfKey.SP_KEY_THEME_COLOR, color.value);
+        SharedPrfManager.instance.saveInt(SharedPrfKey.SP_KEY_THEME_COLOR, color.value);
         store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
       },
     );

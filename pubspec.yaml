@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.1.0+3
+version: 1.2.0+4
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
@@ -28,15 +28,19 @@ dependencies:
   photo_view: ^0.4.0
   flutter_spinkit: ^3.1.0
   flutter_redux: ^0.5.3
-  fluro: ^1.4.0
+  fluro: ^1.5.0
   package_info: ^0.4.0+4
   qr_flutter: ^2.1.0+55
   permission_handler: ^3.1.0
   rxdart: ^0.22.0
   pull_to_refresh: ^1.1.6
+  # toast提示
   fluttertoast: ^3.1.0
+  # 浏览器
   webview_flutter: ^0.3.7+1
   url_launcher: ^5.0.3
+  # 数据库
+  sqflite: ^1.1.6
   flutter_localizations:
     sdk: flutter
 
@@ -106,3 +110,8 @@ flutter:
     - image/ic_comment.png
     - image/ic_star.png
     - image/ic_issue.png
+    - image/bg_guide_home.png
+    - image/bg_guide_repos_detail.png
+    - image/bg_guide_issue_detail.png
+    - image/bg_guide_theme.png
+    - image/bg_splash_ad.png

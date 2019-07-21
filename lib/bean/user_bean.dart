@@ -150,6 +150,8 @@ class UserBean {
   factory UserBean.fromJson(Map<String, dynamic> srcJson) =>
       _$UserBeanFromJson(srcJson);
 
+  get toJson => _$UserBeanToJson(this);
+
   @override
   String toString() {
     return 'UserBean{login: $login, type: $type, siteAdmin: $siteAdmin}';
@@ -179,4 +181,6 @@ class Plan {
 
   factory Plan.fromJson(Map<String, dynamic> srcJson) =>
       _$PlanFromJson(srcJson);
+
+  get toJson => _$PlanToJson(this);
 }
