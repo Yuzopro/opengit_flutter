@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:redux/redux.dart';
@@ -14,7 +14,7 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AboutPageViewModel>(
       distinct: true,
-      onInit: (store) => store.dispatch(FetchAction(ListPageType.about)),
+      onInit: (store) => store.dispatch(FetchVersionAction()),
       converter: (store) => AboutPageViewModel.fromStore(store, context),
       builder: (_, viewModel) => AboutPageContent(viewModel),
     );
@@ -30,7 +30,10 @@ class AboutPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).currentlocal.about),
+        title: Text(
+          AppLocalizations.of(context).currentlocal.about,
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -71,8 +74,7 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: Text(
-                      AppLocalizations.of(context).currentlocal.author),
+                  title: Text(AppLocalizations.of(context).currentlocal.author),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goAuthor(context);
@@ -86,7 +88,9 @@ class AboutPageContent extends StatelessWidget {
                       AppLocalizations.of(context).currentlocal.app_home_page),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
-                    NavigatorUtil.goWebView(context, AppLocalizations.of(context).currentlocal.app_home_page,
+                    NavigatorUtil.goWebView(
+                        context,
+                        AppLocalizations.of(context).currentlocal.app_home_page,
                         'https://yuzopro.github.io/portfolio/work/opengit-flutter.html');
                   },
                 ),
@@ -114,8 +118,7 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title:
-                      Text(AppLocalizations.of(context).currentlocal.other),
+                  title: Text(AppLocalizations.of(context).currentlocal.other),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goOther(context);

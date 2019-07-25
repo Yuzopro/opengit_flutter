@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 
 class SqlManager {
   static const TAG = "SqlManager";

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:install_apk_plugin/install_apk_plugin.dart';
-import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/http/http_request.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -91,7 +91,7 @@ class UpdateUtil {
                             isDownload = true;
                           });
                           String path = appDir.path + title + ".apk";
-                          HttpManager.download(url, path, (received, total) {
+                          HttpRequest().download(url, path, (received, total) {
                             setState(() {
                               progress = received / total;
                               if (progress == 1) {

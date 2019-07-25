@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:open_git/db/sql_provider.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class CacheProvider extends BaseDbProvider {
@@ -63,11 +60,11 @@ class CacheProvider extends BaseDbProvider {
   }
 
   Future insert(String url, String data, String date) async {
-    LogUtil.v('insert $url', tag: TAG);
+//    LogUtil.v('insert $url', tag: TAG);
     Database db = await getDataBase();
     var provider = await _getProvider(db, url);
     if (provider != null) {
-      LogUtil.v('insert provider is not null', tag: TAG);
+//      LogUtil.v('insert provider is not null', tag: TAG);
       await db.delete(name, where: "$columnUrl = ?", whereArgs: [url]);
     }
 
@@ -75,7 +72,7 @@ class CacheProvider extends BaseDbProvider {
   }
 
   Future query(String url) async {
-    LogUtil.v('query $url', tag: TAG);
+//    LogUtil.v('query $url', tag: TAG);
     Database db = await getDataBase();
 
     var provider = await _getProvider(db, url);

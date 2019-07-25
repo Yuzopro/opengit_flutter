@@ -3,11 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
 import 'guide_sections.dart';
@@ -129,11 +129,7 @@ class SectionDetailView extends StatelessWidget {
         child: SafeArea(
           top: false,
           bottom: false,
-          child: Image.asset(
-            detail.imageAsset,
-            width: 240,
-            height: 432,
-          ),
+          child: ImageUtil.getImage(detail.imageAsset, 240, 432),
         ),
       );
     } else if (detail.isShowBtn) {

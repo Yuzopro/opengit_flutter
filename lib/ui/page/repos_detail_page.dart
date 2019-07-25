@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
-import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bloc/repos_detail_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/base/base_stateless_widget.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
-import 'package:open_git/util/date_util.dart';
-import 'package:open_git/util/file_size_util.dart';
-import 'package:open_git/util/markdown_util.dart';
+import 'package:open_git/util/repos_util.dart';
 
 class ReposDetailPage
     extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, ReposDetailBloc> {
   @override
-  ListPageType getListPageType() {
-    return ListPageType.repos_detail;
+  PageType getPageType() {
+    return PageType.repos_detail;
   }
 
   @override
@@ -82,7 +82,7 @@ class ReposDetailPage
                       )),
                     ],
                   )),
-              Text(FileSizeUtil.formetFileSize(repos.size * 1024)),
+              Text(FileUtil.formatFileSize(repos.size * 1024)),
             ],
           ),
         ),
@@ -95,7 +95,7 @@ class ReposDetailPage
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           child:
-              Text(MarkdownUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
+              Text(ReposUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
         ),
         Divider(
           color: Colors.grey,
@@ -325,7 +325,7 @@ class ReposDetailPage
           alignment: Alignment.centerLeft,
           height: 56.0,
           padding: EdgeInsets.all(12.0),
-          child: Text("最后一次提交于" + DateUtil.getNewsTimeStr(repos.pushedAt)),
+          child: Text("最后一次提交于" + DateUtil.getMultiDateStr(repos.pushedAt)),
         ),
         Divider(
           color: Colors.grey,

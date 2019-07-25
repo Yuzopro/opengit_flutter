@@ -1,5 +1,5 @@
 import 'package:open_git/http/api.dart';
-import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/http/http_request.dart';
 
 class SearchManager {
   factory SearchManager() => _getInstance();
@@ -19,6 +19,6 @@ class SearchManager {
   getIssue(
       type, query, page) async {
     String url = Api.search(type, query) + Api.getPageParams("&", page);
-    return await HttpManager.doGet(url, null);
+    return await HttpRequest().get(url);
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
-import 'package:open_git/util/date_util.dart';
 
 class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
   @override
@@ -17,7 +18,7 @@ class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
   Widget builderItem(BuildContext context, ReleaseBean item) {
     return ListTile(
       title: Text(item.name),
-      subtitle: Text(DateUtil.getNewsTimeStr(item.createdAt)),
+      subtitle: Text(DateUtil.getMultiDateStr(item.createdAt)),
       onTap: () {
         NavigatorUtil.goTimelineDetail(context, item.name, item.body);
       },
@@ -25,7 +26,7 @@ class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.timeline;
+  PageType getPageType() {
+    return PageType.timeline;
   }
 }

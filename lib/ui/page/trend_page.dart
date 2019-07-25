@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trend_bean.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/trend_bloc.dart';
 import 'package:open_git/bloc/trend_daily_bloc.dart';
 import 'package:open_git/bloc/trend_monthly_bloc.dart';
 import 'package:open_git/bloc/trend_weekly_bloc.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/main_page.dart';
-import 'package:open_git/util/image_util.dart';
 
 class TrendPage extends StatefulWidget {
   @override
@@ -60,7 +60,10 @@ class _TrendPageState extends State<TrendPage>
         length: choices.length,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(trend),
+            title: Text(
+              trend,
+              style: YZConstant.normalTextWhite,
+            ),
             bottom: TabBar(
               controller: _tabController,
               indicatorColor: Colors.white,
@@ -79,15 +82,15 @@ class _TrendPageState extends State<TrendPage>
             controller: _pageController,
             children: <Widget>[
               BlocProvider<TrendBloc>(
-                child: _Page(ListPageType.day_trend),
+                child: _Page(PageType.day_trend),
                 bloc: dayBloc,
               ),
               BlocProvider<TrendBloc>(
-                child: _Page(ListPageType.week_trend),
+                child: _Page(PageType.week_trend),
                 bloc: weekBloc,
               ),
               BlocProvider<TrendBloc>(
-                child: _Page(ListPageType.month_trend),
+                child: _Page(PageType.month_trend),
                 bloc: monthBloc,
               ),
             ],
@@ -102,12 +105,12 @@ class _TrendPageState extends State<TrendPage>
 class _Page extends BaseListStatelessWidget<TrendBean, TrendBloc> {
   static final String TAG = "TrendItemPage";
 
-  final ListPageType type;
+  final PageType type;
 
   _Page(this.type);
 
   @override
-  ListPageType getListPageType() {
+  PageType getPageType() {
     return type;
   }
 
@@ -224,9 +227,10 @@ class _Page extends BaseListStatelessWidget<TrendBean, TrendBloc> {
             children: item.contributors
                 .map(
                   (String url) => Padding(
-                        padding: EdgeInsets.only(left: 2.0),
-                        child: ImageUtil.getImageWidget(url ?? "", 12.0),
-                      ),
+                    padding: EdgeInsets.only(left: 2.0),
+                    child: ImageUtil.getCircleNetworkImage(
+                        url ?? "", 12.0, "image/ic_default_head.png"),
+                  ),
                 )
                 .toList(),
           )

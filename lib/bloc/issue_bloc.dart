@@ -1,11 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
-
-import 'base_list_bloc.dart';
 
 class IssueBloc extends BaseListBloc<IssueBean> {
   static final String TAG = "IssueBloc";
@@ -23,8 +22,8 @@ class IssueBloc extends BaseListBloc<IssueBean> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.issue;
+  PageType getPageType() {
+    return PageType.issue;
   }
 
   initData(BuildContext context) async {

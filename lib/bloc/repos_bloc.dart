@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/manager/user_manager.dart';
-import 'package:open_git/util/log_util.dart';
+import 'package:open_git/manager/repos_manager.dart';
 
 abstract class ReposBloc extends BaseListBloc<Repository> {
   static final String TAG = "ReposBloc";
@@ -38,7 +38,7 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
     LogUtil.v('_fetchReposList', tag: TAG);
     try {
       var result =
-          await UserManager.instance.getUserRepos(userName, page, null, isStar);
+          await ReposManager.instance.getUserRepos(userName, page, null, isStar);
       if (bean.data == null) {
         bean.data = List();
       }

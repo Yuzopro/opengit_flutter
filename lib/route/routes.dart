@@ -28,6 +28,7 @@ class AppRoutes {
   static final other = '/main/other';
   static final profile = '/main/profile';
   static final issue_detail = '/main/issue/detail';
+  static final cache = '/main/setting/cache';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -152,6 +153,11 @@ class AppRoutes {
     router.define(
       issue_detail,
       handler: issueDetailHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      cache,
+      handler: cacheHandler,
       transitionType: TransitionType.cupertino,
     );
   }

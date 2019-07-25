@@ -1,20 +1,18 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/manager/shared_prf_manager.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/user/user_action.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/util/locale_util.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:open_git/util/theme_util.dart';
 import 'package:open_git/util/timer_util.dart';
 import 'package:redux/redux.dart';
@@ -38,38 +36,39 @@ class UserMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<Null> _init(Store<AppState> store, NextDispatcher next) async {
-    await SharedPrfManager.instance.init();
+    await SpUtil.instance.init();
 
     CacheProvider provider = CacheProvider();
     await provider.delete();
 
     //主题
-    int theme = SharedPrfManager.instance.get(SharedPrfKey.SP_KEY_THEME_COLOR);
-    if (theme != null) {
+    int theme =
+        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_THEME_COLOR);
+    if (theme != 0) {
       Color color = new Color(theme);
       next(RefreshThemeDataAction(AppTheme.changeTheme(color)));
     }
     //语言
     int locale =
-        SharedPrfManager.instance.get(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
-    if (locale != null) {
+        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
+    if (locale != 0) {
       next(RefreshLocalAction(LocaleUtil.changeLocale(store.state, locale)));
     }
     //用户信息
-    String token = SharedPrfManager.instance.get(SharedPrfKey.SP_KEY_TOKEN);
+    String token =
+        SpUtil.instance.getString(SharedPrfKey.SP_KEY_TOKEN);
     UserBean userBean = null;
-    var user = SharedPrfManager.instance.get(SharedPrfKey.SP_KEY_USER_INFO);
-    if (user != null && user.length > 0) {
-      var data = jsonDecode(user);
-      LoginManager.instance.setUserBean(data, false);
-      userBean = UserBean.fromJson(data);
+    var user =
+        SpUtil.instance.getObject(SharedPrfKey.SP_KEY_USER_INFO);
+    if (user != null) {
+      LoginManager.instance.setUserBean(user, false);
+      userBean = UserBean.fromJson(user);
     }
     LoginManager.instance.setToken(token, false);
     //引导页
-    String version =
-        SharedPrfManager.instance.get(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
+    String version = SpUtil.instance
+        .getString(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
-    LogUtil.v('version is ${version}', tag: TAG);
     next(InitCompleteAction(token, userBean, currentVersion != version));
   }
 

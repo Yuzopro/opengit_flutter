@@ -1,10 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:open_git/bean/loading_bean.dart';
+import 'package:flutter_base_ui/bloc/base_bloc.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
-import 'package:open_git/bloc/base_bloc.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 
 class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   static final String TAG = 'ReposDetailBloc';
@@ -27,8 +28,8 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.repos_detail;
+  PageType getPageType() {
+    return PageType.repos_detail;
   }
 
   void initData(BuildContext context) async {
@@ -101,7 +102,7 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     sink.add(bean);
 
     final response = await ReposManager.instance
-        .doRepossWatcherAction(reposOwner, reposName, isEnable);
+        .doReposWatcherAction(reposOwner, reposName, isEnable);
     if (response.result) {
       if (isEnable) {
         bean.data.watchStatus = ReposStatus.inactive;

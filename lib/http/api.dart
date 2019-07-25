@@ -60,6 +60,21 @@ class Api {
     return "https://github.com/trending?since=$since";
   }
 
+  //趋势项目
+  static getTrendingRepos(String language, String since) {
+    return "https://github-trending-api.now.sh/repositories?language=$language&since=$since";
+  }
+
+  //趋势用户
+  static getTrendingUser(String language, String since) {
+    return "https://github-trending-api.now.sh/developers?language=$language&since=$since";
+  }
+
+  //趋势语言
+  static getTrendingLanguage() {
+    return "https://github-trending-api.now.sh/languages";
+  }
+
   //用户收到的事件信息 get
   static getEventReceived(userName) {
     return "${_BASE_URL}users/$userName/received_events?";

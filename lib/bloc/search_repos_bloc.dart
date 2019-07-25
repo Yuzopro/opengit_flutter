@@ -1,15 +1,15 @@
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/markdown_util.dart';
+import 'package:open_git/util/repos_util.dart';
 
 class SearchReposBloc extends SearchBloc<Repository> {
   SearchReposBloc() : super('repositories');
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_repos;
+  PageType getPageType() {
+    return PageType.search_repos;
   }
 
   @override
@@ -29,7 +29,7 @@ class SearchReposBloc extends SearchBloc<Repository> {
         var dataItem = items[i];
         Repository repository = Repository.fromJson(dataItem);
         repository.description =
-            MarkdownUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+            ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
         bean.data.add(repository);
       }
     }

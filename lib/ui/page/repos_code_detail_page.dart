@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -36,7 +37,10 @@ class _CodeDetailPageState extends State<CodeDetailPageWeb> {
     if (data == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(
+            widget.title,
+            style: YZConstant.normalTextWhite,
+          ),
         ),
         body: Container(
           alignment: Alignment.center,

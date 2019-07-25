@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
-import 'package:open_git/util/image_util.dart';
 
 class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   static final String TAG = "HomePage";
@@ -17,8 +17,8 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.home;
+  PageType getPageType() {
+    return PageType.home;
   }
 
   @override
@@ -40,29 +40,37 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   @override
   Widget builderItem(BuildContext context, Entrylist item) {
     return InkWell(
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
+        child: Container(
+          color: Color(YZColors.white),
+          margin: EdgeInsets.only(bottom: 8.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  _getItemOwner(item.user.avatarLarge, item.user.username),
+                  _getItemOwner(item.user.username, item.user.avatarLarge),
                   _getItemTag(item.tags),
                 ],
               ),
               //全称
-              Padding(
-                padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
-                child: Text(
-                  item.title ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                item.title ?? "",
+                style: YZConstant.middleTextBold,
+              ),
+              SizedBox(
+                height: 5.0,
               ),
               //描述
               Text(
                 item.content,
-                style: TextStyle(color: Colors.black54, fontSize: 12.0),
+                style: YZConstant.smallSubText,
               ),
               //底部数据
               Row(
@@ -81,18 +89,23 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         });
   }
 
-  Widget _getItemOwner(String ownerHead, String ownerName) {
+  Widget _getItemOwner(String name, String head) {
     return Expanded(
       child: Row(
         children: <Widget>[
-          ImageUtil.getImageWidget(ownerHead, 18.0),
-          Padding(
-            padding: EdgeInsets.only(left: 4.0),
-            child: Text(
-              ownerName,
-              style: TextStyle(color: Colors.black54, fontSize: 12.0),
-            ),
+          ImageUtil.getCircleNetworkImage(
+              head, 24.0, "image/ic_default_head.png"),
+          SizedBox(
+            width: 6.0,
           ),
+          SizedBox(
+            width: 200.0,
+            child: Text(
+              name,
+              maxLines: 1,
+              style: YZConstant.middleText,
+            ),
+          )
         ],
       ),
       flex: 1,
@@ -105,12 +118,12 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
       child: Row(
         children: <Widget>[
           Image(width: 12.0, height: 12.0, image: AssetImage(icon)),
-          Padding(
-            padding: EdgeInsets.only(left: 3.0),
-            child: Text(
-              count,
-              style: TextStyle(color: Colors.grey, fontSize: 12.0),
-            ),
+          SizedBox(
+            width: 4.0,
+          ),
+          Text(
+            count,
+            style: YZConstant.minSubText,
           ),
         ],
       ),
@@ -126,7 +139,7 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
     }
     return Text(
       tag,
-      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+      style: YZConstant.middleSubText,
     );
   }
 

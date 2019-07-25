@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:open_git/bean/release_bean.dart';
 
 class RequestingUpdateAction {}
 
@@ -7,6 +6,9 @@ class ReceivedVersionAction {
   ReceivedVersionAction(this.version);
 
   final String version;
+}
+
+class FetchVersionAction {
 }
 
 class FetchUpdateAction {

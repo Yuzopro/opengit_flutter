@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class ReposItemWidget extends StatelessWidget {
   final Repository item;
@@ -11,29 +12,37 @@ class ReposItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
+        child: Container(
+          color: Color(YZColors.white),
+          margin: EdgeInsets.only(bottom: 8.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  _getItemOwner(item.owner.avatarUrl, item.owner.login),
+                  _getItemOwner(item.owner.login, item.owner.avatarUrl),
                   _getItemLanguage(item.language ?? ""),
                 ],
               ),
               //全称
-              Padding(
-                padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
-                child: Text(
-                  item.fullName ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                item.fullName ?? "",
+                style: YZConstant.middleTextBold,
+              ),
+              SizedBox(
+                height: 5.0,
               ),
               //描述
               Text(
                 item.description,
-                style: TextStyle(color: Colors.black54, fontSize: 12.0),
+                style: YZConstant.smallSubText,
               ),
               //底部数据
               Row(
@@ -58,7 +67,7 @@ class ReposItemWidget extends StatelessWidget {
                       item.forksCount.toString()),
                   Text(
                     item.fork ? "Forked" : "",
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: YZConstant.minSubText,
                   ),
                 ],
               ),
@@ -70,41 +79,49 @@ class ReposItemWidget extends StatelessWidget {
         });
   }
 
-  Widget _getItemOwner(String ownerHead, String ownerName) {
+  Widget _getItemOwner(String name, String head) {
     return Row(
       children: <Widget>[
-        ImageUtil.getImageWidget(ownerHead, 18.0),
-        Padding(
-          padding: EdgeInsets.only(left: 4.0),
-          child: Text(
-            ownerName,
-            style: TextStyle(color: Colors.black54, fontSize: 12.0),
-          ),
+        ImageUtil.getCircleNetworkImage(
+            head, 24.0, "image/ic_default_head.png"),
+        SizedBox(
+          width: 6.0,
         ),
+        SizedBox(
+          width: 200.0,
+          child: Text(
+            name,
+            maxLines: 1,
+            style: YZConstant.middleText,
+          ),
+        )
       ],
     );
   }
 
   Widget _getItemLanguage(String language) {
     return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          ClipOval(
-            child: Container(
-              color: Colors.black87,
-              width: 8.0,
-              height: 8.0,
+      child: Padding(
+        padding: EdgeInsets.only(right: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            ClipOval(
+              child: Container(
+                color: Colors.black,
+                width: 10.0,
+                height: 10.0,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 4.0),
-            child: Text(
-              language,
-              style: TextStyle(color: Colors.black54, fontSize: 12.0),
+            SizedBox(
+              width: 4.0,
             ),
-          ),
-        ],
+            Text(
+              item.language ?? 'unkown',
+              style: YZConstant.middleText,
+            ),
+          ],
+        ),
       ),
       flex: 1,
     );
@@ -116,12 +133,12 @@ class ReposItemWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           icon,
-          Padding(
-            padding: EdgeInsets.only(left: 3.0),
-            child: Text(
-              count,
-              style: TextStyle(color: Colors.grey, fontSize: 12.0),
-            ),
+          SizedBox(
+            width: 4.0,
+          ),
+          Text(
+            count,
+            style: YZConstant.minSubText,
           ),
         ],
       ),

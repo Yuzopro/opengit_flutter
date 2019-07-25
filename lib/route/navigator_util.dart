@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
+import 'package:open_git/bloc/trending_language_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:open_git/ui/page/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue_detail_page.dart';
 import 'package:open_git/ui/page/markdown_editor_page.dart';
 import 'package:open_git/ui/page/reaction_page.dart';
+import 'package:open_git/ui/page/trending_date_page.dart';
+import 'package:open_git/ui/page/trending_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'fluro_convert_util.dart';
@@ -74,9 +77,7 @@ class NavigatorUtil {
   }
 
   //用户资料
-  static goUserProfile(BuildContext context, userBean) {
-    String name = userBean.login;
-    String avatar = userBean.avatarUrl;
+  static goUserProfile(BuildContext context, name, avatar) {
     Application.router.navigateTo(
         context,
         AppRoutes.profile +
@@ -228,5 +229,31 @@ class NavigatorUtil {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  //缓存设置
+  static goCache(BuildContext context) {
+    Application.router.navigateTo(context, AppRoutes.cache);
+  }
+
+  static goTrendingDate(BuildContext context) async {
+    return Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => TrendingDatePage(),
+      ),
+    );
+  }
+
+  static goTrendingLanguage(BuildContext context) async {
+    return Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<TrendingLanguageBloc>(
+          child: TrendingLanguagePage(),
+          bloc: TrendingLanguageBloc(),
+        ),
+      ),
+    );
   }
 }

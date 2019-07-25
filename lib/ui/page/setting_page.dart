@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 
@@ -7,7 +8,10 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).currentlocal.setting),
+        title: Text(
+          AppLocalizations.of(context).currentlocal.setting,
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: ListView(
         children: <Widget>[
@@ -26,7 +30,15 @@ class SettingPage extends StatelessWidget {
             onTap: () {
               NavigatorUtil.goLanguage(context);
             },
-          )
+          ),
+          ListTile(
+            leading: Icon(Icons.cached),
+            title: Text(AppLocalizations.of(context).currentlocal.cache),
+            trailing: Icon(Icons.navigate_next),
+            onTap: () {
+              NavigatorUtil.goCache(context);
+            },
+          ),
         ],
       ),
     );

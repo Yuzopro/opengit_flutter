@@ -1,13 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter_common_util/src/sp_util.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
-import 'package:open_git/http/http_manager.dart';
-import 'package:open_git/manager/shared_prf_manager.dart';
+import 'package:open_git/http/http_request.dart';
 
 class LoginManager {
   factory LoginManager() => _getInstance();
@@ -36,8 +36,15 @@ class LoginManager {
       "client_id": Config.CLIENT_ID,
       "client_secret": Config.CLIENT_SECRET
     };
-    final response =
-        await HttpManager.doPost(Api.authorizations(), requestParams, null);
+
+    String url = Api.authorizations();
+    RequestBuilder requestBuilder = new RequestBuilder();
+    requestBuilder
+        .method(HttpMethod.POST)
+        .url(url)
+        .data(requestParams)
+        .isCache(false);
+    final response = await HttpRequest().builder(requestBuilder);
     if (response != null && response.data != null) {
       return LoginBean.fromJson(response.data);
     }
@@ -45,7 +52,7 @@ class LoginManager {
   }
 
   getMyUserInfo() async {
-    final response = await HttpManager.doGet(Api.getMyUserInfo(), null);
+    final response = await HttpRequest().get(Api.getMyUserInfo());
     if (response != null && response.data != null) {
       LoginManager.instance.setUserBean(response.data, true);
       return UserBean.fromJson(response.data);
@@ -65,7 +72,7 @@ class LoginManager {
       _userBean = UserBean.fromJson(data);
     }
     if (isNeedCache) {
-      SharedPrfManager.instance.saveString(
+      SpUtil.instance.putString(
           SharedPrfKey.SP_KEY_USER_INFO, data != null ? jsonEncode(data) : '');
     }
   }
@@ -77,7 +84,8 @@ class LoginManager {
   void setToken(String token, bool isNeedCache) {
     _token = token;
     if (isNeedCache) {
-      SharedPrfManager.instance.saveString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
+      SpUtil.instance
+          .putString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
     }
   }
 

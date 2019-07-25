@@ -1,7 +1,9 @@
+import 'dart:collection';
+
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/http/api.dart';
-import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/http/http_request.dart';
 
 class IssueManager {
   factory IssueManager() => _getInstance();
@@ -21,10 +23,12 @@ class IssueManager {
   getIssue(q, state, sort, order, userName, page) async {
     String url = Api.getIssue(q, state, sort, order, userName) +
         Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(url, {
-      "Accept":
-          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-    });
+    final response = await HttpRequest().get(url);
+
+//    final response = await HttpManager.doGet(url, {
+//      "Accept":
+//          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
+//    });
     if (response != null && response.data != null) {
       List<IssueBean> list = new List();
       var items = response.data["items"];
@@ -41,10 +45,13 @@ class IssueManager {
   getIssueComment(repoUrl, issueNumber, page) async {
     String url = Api.getIssueComment(repoUrl, issueNumber) +
         Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(url, {
-      "Accept":
-          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-    });
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] =
+        'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
+    RequestBuilder builder = RequestBuilder();
+    builder.url(url).method(HttpMethod.GET).header(header);
+    final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null && response.data.length > 0) {
       List<IssueBean> list = new List();
       int length = response.data.length;
@@ -58,7 +65,7 @@ class IssueManager {
 
   addIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.addIssueComment(repoUrl, issueNumber);
-    final response = await HttpManager.doPost(url, {"body": comment}, null);
+    final response = await HttpRequest().post(url, {"body": comment});
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }
@@ -67,17 +74,22 @@ class IssueManager {
 
   deleteIssueComment(repoUrl, comment_id) async {
     String url = Api.editComment(repoUrl, comment_id);
-    return await HttpManager.doDelete(url, null, null);
+    return await HttpRequest().delete(url);
   }
 
   editIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.editComment(repoUrl, issueNumber);
-    final response = await HttpManager.doPatch(url, {
-      "body": comment
-    }, {
-      "Accept":
-          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-    });
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] =
+        'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
+    RequestBuilder builder = RequestBuilder();
+    builder
+        .url(url)
+        .method(HttpMethod.PATCH)
+        .header(header)
+        .data({"body": comment});
+    final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }
@@ -91,16 +103,28 @@ class IssueManager {
     } else {
       url = Api.addCommentReactions(repoUrl, issueNumber);
     }
-    return await HttpManager.doPost(url, {"content": comment},
-        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
+
+    RequestBuilder builder = RequestBuilder();
+    builder
+        .url(url)
+        .method(HttpMethod.POST)
+        .header(header)
+        .data({"content": comment});
+    return await HttpRequest().builder(builder);
   }
 
-  deleteReactions(reaction_id) {
+  deleteReactions(reaction_id) async {
     String url = Api.deleteReactions(reaction_id);
-    return HttpManager.doDelete(url, null, {
-      "Accept":
-          'application/vnd.github.echo-preview+json, application/vnd.github.squirrel-girl-preview+json'
-    });
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] =
+        'application/vnd.github.echo-preview+json, application/vnd.github.squirrel-girl-preview+json';
+    RequestBuilder builder = RequestBuilder();
+    builder.url(url).method(HttpMethod.DELETE).header(header);
+    return await HttpRequest().builder(builder);
   }
 
   getCommentReactions(repoUrl, commentId, content, page, isIssue) async {
@@ -112,8 +136,12 @@ class IssueManager {
       url = Api.getCommentReactions(repoUrl, commentId, content) +
           Api.getPageParams("&", page);
     }
-    final response = await HttpManager.doGet(
-        url, {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
+    RequestBuilder builder = RequestBuilder();
+    builder.url(url).method(HttpMethod.GET).header(header);
+    final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null && response.data.length > 0) {
       List<ReactionDetailBean> list = new List();
       int length = response.data.length;
@@ -127,8 +155,12 @@ class IssueManager {
 
   getSingleIssue(repoUrl, number) async {
     String url = Api.getSingleIssue(repoUrl, number);
-    final response = await HttpManager.doGet(
-        url, {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
+    RequestBuilder builder = RequestBuilder();
+    builder.url(url).method(HttpMethod.GET).header(header);
+    final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }
@@ -137,10 +169,16 @@ class IssueManager {
 
   editIssue(repoUrl, number, title, body) async {
     String url = Api.getSingleIssue(repoUrl, number);
-    final response = await HttpManager.doPatch(
-        url,
-        {"body": body, "title": title},
-        {"Accept": 'application/vnd.github.squirrel-girl-preview+json'});
+
+    Map<String, dynamic> header = HashMap();
+    header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
+    RequestBuilder builder = RequestBuilder();
+    builder
+        .url(url)
+        .method(HttpMethod.PATCH)
+        .header(header)
+        .data({"body": body, "title": title});
+    final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
     }

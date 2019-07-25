@@ -1,14 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bloc/follow_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
 import 'package:open_git/bloc/following_bloc.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_user_bloc.dart';
 import 'package:open_git/bloc/repos_user_star_bloc.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/repos_page.dart';
 import 'package:open_git/ui/page/user_follow_page.dart';
 
@@ -42,28 +42,28 @@ class _UserProfileState extends State<UserProfilePage>
       Choice(
         title: '项目',
         widget: BlocProvider<ReposBloc>(
-          child: ReposPage(ListPageType.repos_user),
+          child: ReposPage(PageType.repos_user),
           bloc: ReposUserBloc(widget.name),
         ),
       ),
       Choice(
         title: 'Star过的项目',
         widget: BlocProvider<ReposBloc>(
-          child: ReposPage(ListPageType.repos_user_star),
+          child: ReposPage(PageType.repos_user_star),
           bloc: ReposUserStarBloc(widget.name),
         ),
       ),
       Choice(
         title: '关注我的',
         widget: BlocProvider<FollowBloc>(
-          child: FollowPage(ListPageType.followers),
+          child: FollowPage(PageType.followers),
           bloc: FollowersBloc(widget.name),
         ),
       ),
       Choice(
         title: '我关注的',
         widget: BlocProvider<FollowBloc>(
-          child: FollowPage(ListPageType.following),
+          child: FollowPage(PageType.following),
           bloc: FollowingBloc(widget.name),
         ),
       ),

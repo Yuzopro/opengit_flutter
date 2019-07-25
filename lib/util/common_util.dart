@@ -1,19 +1,17 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class CommonUtil {
   static launchUrl(context, String url) {
     if (url == null && url.length == 0) return;
     Uri parseUrl = Uri.parse(url);
-    bool isImage = ImageUtil.isImageEnd(parseUrl.toString());
+    bool isImage = ImageUtil.isImage(parseUrl.toString());
     if (parseUrl.toString().endsWith("?raw=true")) {
       isImage =
-          ImageUtil.isImageEnd(parseUrl.toString().replaceAll("?raw=true", ""));
+          ImageUtil.isImage(parseUrl.toString().replaceAll("?raw=true", ""));
     }
     if (isImage) {
       NavigatorUtil.goPhotoView(context, '', url);
@@ -23,7 +21,7 @@ class CommonUtil {
     if (parseUrl != null &&
         parseUrl.host == "github.com" &&
         parseUrl.path.length > 0) {
-      List<String> pathnames = parseUrl.path.split("/");
+      List<String> pathnames = TextUtil.split(parseUrl.path, '/');
       if (pathnames.length == 2) {
         //解析人
 //        String userName = pathnames[1];
@@ -48,11 +46,12 @@ class CommonUtil {
       NavigatorUtil.goWebView(context, title, url);
     } else {
       NavigatorUtil.goWebView(
-          context,
-          title,
-          Uri.dataFromString(url,
-                  mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
-              .toString());
+        context,
+        title,
+        Uri.dataFromString(url,
+                mimeType: 'text/html', encoding: Encoding.getByName("utf-8"))
+            .toString(),
+      );
     }
   }
 }

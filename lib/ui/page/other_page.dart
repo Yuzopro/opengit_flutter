@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 
@@ -7,7 +8,10 @@ class OtherPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).currentlocal.other),
+        title: Text(
+          AppLocalizations.of(context).currentlocal.other,
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: ListView(
         children: <Widget>[

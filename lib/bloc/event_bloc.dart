@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/event_manager.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 
 class EventBloc extends BaseListBloc<EventBean> {
   static final String TAG = "EventBloc";
@@ -30,8 +30,8 @@ class EventBloc extends BaseListBloc<EventBean> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.event;
+  PageType getPageType() {
+    return PageType.event;
   }
 
   @override

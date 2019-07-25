@@ -1,8 +1,8 @@
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/source_file_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/manager/repos_manager.dart';
-import 'package:open_git/status/status.dart';
 
 class ReposFileBloc extends BaseListBloc<SourceFileBean> {
   final String reposOwner, reposName;
@@ -20,39 +20,38 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.repos_source_file;
+  PageType getPageType() {
+    return PageType.repos_source_file;
   }
 
   @override
-  void initData(BuildContext context) {
+  void initData(BuildContext context) async {
     if (_isInit) {
       return;
     }
     _isInit = true;
 
     _showLoading();
-    _fetchSourceFile();
+    await _fetchSourceFile();
     _hideLoading();
 
     refreshStatusEvent();
   }
 
-  void fetchNextDir(String fileName) {
+  void fetchNextDir(String fileName) async {
+    _showLoading();
     fileStack.add(fileName);
-
-    sink.add(null);
-
-    _fetchSourceFile();
+    await _fetchSourceFile();
+    _hideLoading();
   }
 
-  void fetchPreDir() {
+  void fetchPreDir() async {
+    _showLoading();
     if (fileStack.length > 0) {
       fileStack.removeAt(fileStack.length - 1);
     }
-    sink.add(null);
-
-    _fetchSourceFile();
+    await _fetchSourceFile();
+    _hideLoading();
   }
 
   Future _fetchSourceFile() async {

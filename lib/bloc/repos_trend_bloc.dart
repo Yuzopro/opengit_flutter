@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/status/status.dart';
@@ -31,8 +32,8 @@ class ReposTrendBloc extends BaseListBloc<Repository> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.repos_trend;
+  PageType getPageType() {
+    return PageType.repos_trend;
   }
 
   Future _fetchTrendList() async {

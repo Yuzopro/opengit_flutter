@@ -8,13 +8,14 @@ part of 'label_bean.dart';
 
 Labels _$LabelsFromJson(Map<String, dynamic> json) {
   return Labels(
-      json['id'] as int,
-      json['node_id'] as String,
-      json['url'] as String,
-      json['name'] as String,
-      json['description'] as String,
-      json['color'] as String,
-      json['default'] as bool);
+    json['id'] as int,
+    json['node_id'] as String,
+    json['url'] as String,
+    json['name'] as String,
+    json['description'] as String,
+    json['color'] as String,
+    json['default'] as bool,
+  );
 }
 
 Map<String, dynamic> _$LabelsToJson(Labels instance) => <String, dynamic>{
@@ -24,5 +25,5 @@ Map<String, dynamic> _$LabelsToJson(Labels instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'color': instance.color,
-      'default': instance.default_
+      'default': instance.default_,
     };

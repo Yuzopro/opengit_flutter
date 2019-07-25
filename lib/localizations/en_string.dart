@@ -120,4 +120,10 @@ class EnString extends AppBaseString {
 
   @override
   String get disclaimer_ => 'Disclaimer';
+
+  @override
+  String get cache => 'cache';
+
+  @override
+  String get developers => 'developers';
 }

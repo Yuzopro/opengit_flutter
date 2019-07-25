@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/date_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class IssueItemWidget extends StatelessWidget {
   final IssueBean item;
@@ -43,7 +42,7 @@ class IssueItemWidget extends StatelessWidget {
                         color: Colors.grey,
                         size: 14.0,
                       ),
-                      DateUtil.getNewsTimeStr(item.createdAt)),
+                      DateUtil.getMultiDateStr(item.createdAt)),
                   _getItemBottom(
                       Image(
                           width: 12.0,
@@ -85,7 +84,7 @@ class IssueItemWidget extends StatelessWidget {
   Widget _getItemOwner(String ownerHead, String ownerName) {
     return Row(
       children: <Widget>[
-        ImageUtil.getImageWidget(ownerHead, 18.0),
+        ImageUtil.getCircleNetworkImage(ownerHead, 18.0, "image/ic_default_head.png"),
         Padding(
           padding: EdgeInsets.only(left: 4.0),
           child: Text(

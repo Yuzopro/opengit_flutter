@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
-import 'package:open_git/bean/loading_bean.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/base/base_stateless_widget.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
-import 'package:open_git/util/date_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class IssueDetailPage
     extends BaseStatelessWidget<LoadingBean<IssueDetailBean>, IssueDetailBloc> {
@@ -29,8 +29,8 @@ class IssueDetailPage
   ];
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.issue_detail;
+  PageType getPageType() {
+    return PageType.issue_detail;
   }
 
   @override
@@ -145,7 +145,8 @@ class IssueDetailPage
   Widget _getUserWidget(BuildContext context, IssueBean item, isIssue) {
     List<Widget> userList = List();
     userList.add(
-      ImageUtil.getImageWidget(item.user.avatarUrl, 36.0),
+      ImageUtil.getCircleNetworkImage(
+          item.user.avatarUrl, 36.0, "image/ic_default_head.png"),
     );
     userList.add(
       Expanded(
@@ -156,7 +157,9 @@ class IssueDetailPage
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(item.user.login),
-              Text(DateUtil.getNewsTimeStr(item.createdAt)),
+              Text(
+                DateUtil.getMultiDateStr(item.createdAt),
+              ),
             ],
           ),
         ),
@@ -227,13 +230,10 @@ class IssueDetailPage
         itemBuilder: (BuildContext context) => list
             .map(
               (_Reaction reaction) => PopupMenuItem<String>(
-                    value: reaction.type,
-                    child: Image.asset(
-                      "image/${reaction.img}.png",
-                      width: 24.0,
-                      height: 24.0,
-                    ),
-                  ),
+                value: reaction.type,
+                child:
+                    ImageUtil.getImage("image/${reaction.img}.png", 24.0, 24.0),
+              ),
             )
             .toList(),
       ),
@@ -257,9 +257,9 @@ class IssueDetailPage
         itemBuilder: (BuildContext context) => list
             .map(
               (String text) => PopupMenuItem<String>(
-                    value: text,
-                    child: Text(text),
-                  ),
+                value: text,
+                child: Text(text),
+              ),
             )
             .toList(),
       ),
@@ -333,11 +333,7 @@ class IssueDetailPage
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              img,
-              width: 12.0,
-              height: 12.0,
-            ),
+            ImageUtil.getImage(img, 12.0, 12.0),
             Padding(
               padding: EdgeInsets.only(left: 2.0),
               child: Text(

@@ -8,13 +8,14 @@ part of 'push_event_commit_bean.dart';
 
 PushEventCommitBean _$PushEventCommitBeanFromJson(Map<String, dynamic> json) {
   return PushEventCommitBean(
-      json['sha'] as String,
-      json['author'] == null
-          ? null
-          : UserBean.fromJson(json['author'] as Map<String, dynamic>),
-      json['message'] as String,
-      json['distinct'] as bool,
-      json['url'] as String);
+    json['sha'] as String,
+    json['author'] == null
+        ? null
+        : UserBean.fromJson(json['author'] as Map<String, dynamic>),
+    json['message'] as String,
+    json['distinct'] as bool,
+    json['url'] as String,
+  );
 }
 
 Map<String, dynamic> _$PushEventCommitBeanToJson(
@@ -24,5 +25,5 @@ Map<String, dynamic> _$PushEventCommitBeanToJson(
       'author': instance.author,
       'message': instance.message,
       'distinct': instance.distinct,
-      'url': instance.url
+      'url': instance.url,
     };

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/login/login_action.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
 class LoginPage extends StatelessWidget {
@@ -91,7 +91,7 @@ class _LoginPageContentState extends State<LoginPageContent> {
         child: RaisedButton(
           child: Text(
             AppLocalizations.of(context).currentlocal.login,
-            style: Theme.of(context).primaryTextTheme.headline,
+            style: YZConstant.normalTextWhite,
           ),
           color: Colors.black,
           onPressed: _isValidLogin()
@@ -175,7 +175,6 @@ class _LoginPageContentState extends State<LoginPageContent> {
   _login() {
     String name = _nameController.text;
     String password = _passwordController.text;
-    LogUtil.v('name is $name, password is $password');
     widget.viewModel.onLogin(name, password);
   }
 }
@@ -195,7 +194,6 @@ class LoginPageViewModel {
     return LoginPageViewModel(
       status: store.state.loginState.status,
       onLogin: (String name, String password) {
-        LogUtil.v('name is $name, password is $password', tag: TAG);
         store.dispatch(FetchLoginAction(context, name, password));
       },
     );

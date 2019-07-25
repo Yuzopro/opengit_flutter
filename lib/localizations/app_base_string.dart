@@ -39,4 +39,6 @@ abstract class AppBaseString {
   String disclaimer;
   String got_it;
   String disclaimer_;
+  String cache;
+  String developers;
 }

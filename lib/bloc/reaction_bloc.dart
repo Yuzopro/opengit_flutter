@@ -1,12 +1,12 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 
 class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   static final String TAG = "ReactionBloc";
@@ -20,8 +20,8 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   ReactionBloc(this.issueBean, this.reposUrl, this.content, this.isIssue);
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.reaction;
+  PageType getPageType() {
+    return PageType.reaction;
   }
 
   @override

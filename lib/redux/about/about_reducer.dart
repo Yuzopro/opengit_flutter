@@ -1,7 +1,6 @@
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/about/about_state.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:redux/redux.dart';
 
 const String TAG = "aboutReducer";
@@ -14,12 +13,10 @@ final aboutReducer = combineReducers<AboutState>([
 ]);
 
 AboutState _requestingEvents(AboutState state, action) {
-  LogUtil.v('_requestingEvents', tag: TAG);
   return state.copyWith(status: LoadingStatus.loading, version: '');
 }
 
 AboutState _receivedVersionEvents(AboutState state, action) {
-  LogUtil.v('_receivedVersionEvents', tag: TAG);
   return state.copyWith(
     status: LoadingStatus.success,
     version: action.version,
@@ -27,13 +24,11 @@ AboutState _receivedVersionEvents(AboutState state, action) {
 }
 
 AboutState _receivedUpdateEvents(AboutState state, action) {
-  LogUtil.v('_receivedVersionEvents', tag: TAG);
   return state.copyWith(
     status: LoadingStatus.success,
   );
 }
 
 AboutState _errorLoadingEvents(AboutState state, action) {
-  LogUtil.v('_errorLoadingEvents', tag: TAG);
   return state.copyWith(status: LoadingStatus.error);
 }

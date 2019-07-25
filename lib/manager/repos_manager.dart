@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/event_bean.dart';
@@ -7,8 +8,9 @@ import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/http/api.dart';
-import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/http/http_request.dart';
 import 'package:open_git/util/code_detail_util.dart';
+import 'package:open_git/util/repos_util.dart';
 import 'package:open_git/util/trending_util.dart';
 
 class ReposManager {
@@ -26,9 +28,33 @@ class ReposManager {
     return _instance;
   }
 
+  Future<List<Repository>> getUserRepos(
+      String userName, int page, String sort, bool isStar) async {
+    String url;
+    if (isStar) {
+      url = Api.userStar(userName, null);
+    } else {
+      url = Api.userRepos(userName, sort);
+    }
+    url += Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url);
+    if (response != null && response.data != null && response.data.length > 0) {
+      List<Repository> list = new List();
+      for (int i = 0; i < response.data.length; i++) {
+        var dataItem = response.data[i];
+        Repository repository = Repository.fromJson(dataItem);
+        repository.description =
+            ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+        list.add(repository);
+      }
+      return list;
+    }
+    return null;
+  }
+
   getReposDetail(reposOwner, reposName) async {
-    String url = Api.getReposDetail(reposOwner, reposName);
-    final response = await HttpManager.doGet(url, null);
+    final response =
+        await HttpRequest().get(Api.getReposDetail(reposOwner, reposName));
     if (response != null && response.data != null) {
       return Repository.fromJson(response.data);
     }
@@ -42,37 +68,41 @@ class ReposManager {
   }
 
   getReposStar(reposOwner, reposName) async {
-    String url = Api.getReposStar(reposOwner, reposName);
-    return await HttpManager.doGet(url, null);
+    return await HttpRequest().get(Api.getReposStar(reposOwner, reposName));
   }
 
   getReposWatcher(reposOwner, reposName) async {
-    String url = Api.getReposWatcher(reposOwner, reposName);
-    return await HttpManager.doGet(url, null);
+    return await HttpRequest().get(Api.getReposWatcher(reposOwner, reposName));
   }
 
   doReposStarAction(reposOwner, reposName, bool isEnable) async {
     String url = Api.getReposStar(reposOwner, reposName);
+    RequestBuilder builder = new RequestBuilder();
+    builder.url(url);
     if (isEnable) {
-      return await HttpManager.doDelete(url, null, null);
+      builder.method(HttpMethod.DELETE);
     } else {
-      return await HttpManager.doPut(url);
+      builder.method(HttpMethod.PUT);
     }
+    return await HttpRequest().builder(builder);
   }
 
-  doRepossWatcherAction(reposOwner, reposName, bool isEnable) async {
+  doReposWatcherAction(reposOwner, reposName, bool isEnable) async {
     String url = Api.getReposWatcher(reposOwner, reposName);
+    RequestBuilder builder = new RequestBuilder();
+    builder.url(url);
     if (isEnable) {
-      return await HttpManager.doDelete(url, null, null);
+      builder.method(HttpMethod.DELETE);
     } else {
-      return await HttpManager.doPut(url);
+      builder.method(HttpMethod.PUT);
     }
+    return await HttpRequest().builder(builder);
   }
 
   getReposEvents(reposOwner, reposName, page) async {
     String url = Api.getReposEvents(reposOwner, reposName) +
         Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null && response.data.length > 0) {
       List<EventBean> list = List();
       for (int i = 0; i < response.data.length; i++) {
@@ -86,7 +116,7 @@ class ReposManager {
 
   getBranches(reposOwner, reposName) async {
     String url = Api.getBranches(reposOwner, reposName);
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null && response.data.length > 0) {
       List<BranchBean> list = List();
       for (int i = 0; i < response.data.length; i++) {
@@ -100,7 +130,7 @@ class ReposManager {
 
   getTrend(since, languageType) async {
     String url = Api.getTrending(since, languageType);
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null) {
       var repos = TrendingUtil.htmlToRepo(response.data);
       if (repos != null && repos.length > 0) {
@@ -117,7 +147,7 @@ class ReposManager {
 
   getLanguages(language, page) async {
     String url = Api.getLanguages(language + Api.getPageParams("&", page));
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null && response.data.length > 0) {
       List<Repository> list = List();
       var items = response.data["items"];
@@ -132,7 +162,7 @@ class ReposManager {
 
   getReposFileDir(userName, reposName, {path = '', branch}) async {
     String url = Api.reposDataDir(userName, reposName, path, branch);
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null && response.data.length > 0) {
       List<SourceFileBean> dirs = List();
       List<SourceFileBean> files = List();
@@ -163,13 +193,20 @@ class ReposManager {
   }
 
   _getFileAsStream(url, Map<String, String> header) async {
-    return await HttpManager.doGet(url, header, isText: true);
+    RequestBuilder builder = new RequestBuilder();
+    builder
+        .method(HttpMethod.GET)
+        .url(url)
+        .header(header)
+        .contentType(ContentType.text);
+
+    return await HttpRequest().builder(builder);
   }
 
   getReposReleases(userName, repos, {page = 1}) async {
     String url =
         Api.getReposReleases(userName, repos) + Api.getPageParams("&", page);
-    final response = await HttpManager.doGet(url, null);
+    final response = await HttpRequest().get(url);
     if (response != null && response.data != null && response.data.length > 0) {
       List<ReleaseBean> list = List();
       for (int i = 0; i < response.data.length; i++) {

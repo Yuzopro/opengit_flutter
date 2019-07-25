@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class UserItemWidget extends StatelessWidget {
   final UserBean item;
@@ -16,7 +16,8 @@ class UserItemWidget extends StatelessWidget {
         height: 56.0,
         child: Row(
           children: <Widget>[
-            ImageUtil.getImageWidget(item.avatarUrl, 36.0),
+            ImageUtil.getCircleNetworkImage(
+                item.avatarUrl, 36.0, "image/ic_default_head.png"),
             Padding(
               padding: EdgeInsets.only(left: 4.0),
               child: Text(
@@ -27,7 +28,7 @@ class UserItemWidget extends StatelessWidget {
         ),
       ),
       onTap: () {
-        NavigatorUtil.goUserProfile(context, item);
+        NavigatorUtil.goUserProfile(context, item.login, item.avatarUrl);
       },
     );
   }

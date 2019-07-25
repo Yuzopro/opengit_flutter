@@ -1,10 +1,11 @@
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_base_ui/bloc/base_bloc.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
-import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/base_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -25,8 +26,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.issue_detail;
+  PageType getPageType() {
+    return PageType.issue_detail;
   }
 
   void onRefresh() async {

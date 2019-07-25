@@ -3,12 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/manager/shared_prf_manager.dart';
+import 'package:flutter_common_util/src/sp_util.dart';
 import 'package:open_git/util/theme_util.dart';
 import 'package:redux/redux.dart';
 
@@ -87,8 +88,7 @@ final List<Palette> allPalettes = <Palette>[
       primary: Colors.lime,
       accent: Colors.limeAccent,
       threshold: 800),
-  Palette(
-      name: 'YELLOW', primary: Colors.yellow, accent: Colors.yellowAccent),
+  Palette(name: 'YELLOW', primary: Colors.yellow, accent: Colors.yellowAccent),
   Palette(name: 'AMBER', primary: Colors.amber, accent: Colors.amberAccent),
   Palette(
       name: 'ORANGE',
@@ -224,8 +224,10 @@ class ThemePage extends StatelessWidget {
             length: allPalettes.length,
             child: Scaffold(
               appBar: AppBar(
-                title:
-                    Text(AppLocalizations.of(context).currentlocal.theme),
+                title: Text(
+                  AppLocalizations.of(context).currentlocal.theme,
+                  style: YZConstant.normalTextWhite,
+                ),
                 bottom: TabBar(
                   isScrollable: true,
                   indicatorColor: Colors.white,
@@ -256,7 +258,8 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       onChangeTheme: (color) {
-        SharedPrfManager.instance.saveInt(SharedPrfKey.SP_KEY_THEME_COLOR, color.value);
+        SpUtil.instance
+            .putInt(SharedPrfKey.SP_KEY_THEME_COLOR, color.value);
         store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
       },
     );

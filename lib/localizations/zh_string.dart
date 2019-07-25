@@ -120,4 +120,10 @@ class ZhString extends AppBaseString {
 
   @override
   String get disclaimer_ => '免责\n声明';
+
+  @override
+  String get cache => '缓存';
+
+  @override
+  String get developers => '用户';
 }

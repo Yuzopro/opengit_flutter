@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
 import 'package:open_git/bloc/event_bloc.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
@@ -18,7 +20,6 @@ import 'package:open_git/ui/page/event_page.dart';
 import 'package:open_git/ui/page/home_page.dart';
 import 'package:open_git/ui/page/issue_page.dart';
 import 'package:open_git/ui/page/repos_page.dart';
-import 'package:open_git/util/image_util.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -79,22 +80,27 @@ class _MainPageState extends State<MainPage>
           length: choices.length,
           child: Scaffold(
             drawer: Drawer(
-                child: DrawerPage(
-              name: _userBean.login ?? "--",
-              email: _userBean.email ?? "--",
-              headUrl: _userBean.avatarUrl ?? "",
-            )),
+              child: DrawerPage(
+                name: _userBean.login ?? "--",
+                email: _userBean.email ?? "--",
+                headUrl: _userBean.avatarUrl ?? "",
+              ),
+            ),
             appBar: AppBar(
-              leading: Builder(builder: (BuildContext context) {
-                return IconButton(
-                  tooltip: 'Open Drawer',
-                  icon:
-                      ImageUtil.getImageWidget(_userBean.avatarUrl ?? "", 24.0),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              }),
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    tooltip: 'Open Drawer',
+                    icon: ImageUtil.getCircleNetworkImage(
+                        _userBean.avatarUrl ?? "",
+                        24.0,
+                        "image/ic_default_head.png"),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                },
+              ),
               centerTitle: true,
               title: TabBar(
                 controller: _tabController,
@@ -131,7 +137,7 @@ class _MainPageState extends State<MainPage>
                   bloc: _homeBloc,
                 ),
                 BlocProvider<ReposBloc>(
-                  child: ReposPage(ListPageType.repos),
+                  child: ReposPage(PageType.repos),
                   bloc: _reposBloc,
                 ),
                 BlocProvider<EventBloc>(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/status/status.dart';
 
@@ -16,27 +17,9 @@ class InitCompleteAction {
   final bool isGuide;
 }
 
-class ResetPageAction {
-  final ListPageType type;
-
-  ResetPageAction(this.type);
-}
-
-class IncreasePageAction {
-  final ListPageType type;
-
-  IncreasePageAction(this.type);
-}
-
-class FetchAction {
-  final ListPageType type;
-
-  FetchAction(this.type);
-}
-
 class RefreshAction {
   final RefreshStatus refreshStatus;
-  final ListPageType type;
+  final PageType type;
 
   RefreshAction(this.refreshStatus, this.type);
 }

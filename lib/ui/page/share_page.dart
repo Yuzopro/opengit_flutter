@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -26,7 +27,10 @@ class _SharePageState extends State<SharePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).currentlocal.share),
+        title: Text(
+          AppLocalizations.of(context).currentlocal.share,
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: Center(
           child: DecoratedBox(
@@ -56,8 +60,8 @@ class _SharePageState extends State<SharePage> {
                               style: TextStyle(
                                   color: Colors.black, fontSize: 12.0)),
                           Text(_version,
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: 12.0))
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12.0))
                         ],
                       ),
                     ),

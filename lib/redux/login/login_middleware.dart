@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -6,8 +7,6 @@ import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/login/login_action.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/log_util.dart';
-import 'package:open_git/util/toast_util.dart';
 import 'package:redux/redux.dart';
 
 class LoginMiddleware extends MiddlewareClass<AppState> {
@@ -37,16 +36,16 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
           next(ReceivedLoginAction(token, userBean));
           NavigatorUtil.goMain(context);
         } else {
-          ToastUtil.showToast('登录失败请重新登录');
+          ToastUtil.showMessgae('登录失败请重新登录');
           LoginManager.instance.setToken(null, true);
         }
       } else {
-        ToastUtil.showToast('登录失败请重新登录');
+        ToastUtil.showMessgae('登录失败请重新登录');
         next(ErrorLoadingLoginAction());
       }
     } catch (e) {
       LogUtil.v(e, tag: TAG);
-      ToastUtil.showToast('登录失败请重新登录');
+      ToastUtil.showMessgae('登录失败请重新登录');
       next(ErrorLoadingLoginAction());
     }
   }

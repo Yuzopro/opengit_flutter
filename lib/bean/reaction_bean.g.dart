@@ -8,16 +8,17 @@ part of 'reaction_bean.dart';
 
 ReactionBean _$ReactionBeanFromJson(Map<String, dynamic> json) {
   return ReactionBean(
-      json['url'] as String,
-      json['total_count'] as int,
-      json['+1'] as int,
-      json['-1'] as int,
-      json['laugh'] as int,
-      json['hooray'] as int,
-      json['confused'] as int,
-      json['heart'] as int,
-      json['rocket'] as int,
-      json['eyes'] as int);
+    json['url'] as String,
+    json['total_count'] as int,
+    json['+1'] as int,
+    json['-1'] as int,
+    json['laugh'] as int,
+    json['hooray'] as int,
+    json['confused'] as int,
+    json['heart'] as int,
+    json['rocket'] as int,
+    json['eyes'] as int,
+  );
 }
 
 Map<String, dynamic> _$ReactionBeanToJson(ReactionBean instance) =>
@@ -31,5 +32,5 @@ Map<String, dynamic> _$ReactionBeanToJson(ReactionBean instance) =>
       'confused': instance.confused,
       'heart': instance.heart,
       'rocket': instance.rocket,
-      'eyes': instance.eyes
+      'eyes': instance.eyes,
     };

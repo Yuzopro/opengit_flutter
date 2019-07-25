@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/manager/issue_manager.dart';
@@ -46,7 +47,10 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
     return Scaffold(
       appBar: AppBar(
         actions: _getActions(),
-        title: Text(_getTitle()),
+        title: Text(
+          _getTitle(),
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: Stack(
         children: <Widget>[

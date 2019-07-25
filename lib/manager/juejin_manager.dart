@@ -1,6 +1,6 @@
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/http/api.dart';
-import 'package:open_git/http/http_manager.dart';
+import 'package:open_git/http/http_request.dart';
 
 class JueJinManager {
   factory JueJinManager() => _getInstance();
@@ -18,7 +18,7 @@ class JueJinManager {
   }
 
   Future<List<Entrylist>> getJueJinList(int page) async {
-    final response = await HttpManager.doGet(Api.getJueJinApi(page), null);
+    final response = await HttpRequest().get(Api.getJueJinApi(page));
     if (response != null && response.data != null) {
       juejin_bean bean = juejin_bean.fromJson(response.data);
       if (bean != null && bean.d != null) {

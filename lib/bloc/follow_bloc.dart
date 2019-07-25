@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/util/log_util.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 
 abstract class FollowBloc extends BaseListBloc<UserBean> {
   static final String TAG = "FollowBloc";

@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/juejin_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/log_util.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rxdart/rxdart.dart';
-
 
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";
 
   bool _isInit = false;
 
-  HomeBloc() {
-  }
+  HomeBloc() {}
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.home;
+  PageType getPageType() {
+    return PageType.home;
   }
 
   void initData(BuildContext context) async {

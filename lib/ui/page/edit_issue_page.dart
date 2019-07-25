@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
@@ -55,7 +56,10 @@ class _EditIssueState extends State<EditIssuePage> {
     return Scaffold(
       appBar: AppBar(
         actions: getActions(),
-        title: Text(AppLocalizations.of(context).currentlocal.edit_issue),
+        title: Text(
+          AppLocalizations.of(context).currentlocal.edit_issue,
+          style: YZConstant.normalTextWhite,
+        ),
       ),
       body: Stack(
         children: <Widget>[

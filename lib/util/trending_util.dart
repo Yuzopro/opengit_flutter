@@ -1,10 +1,22 @@
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trend_bean.dart';
 
 class TrendingUtil {
   static const TAGS = {
-    "meta": {"start": '<span class="d-inline-block float-sm-right">', "end": '</span>'},
-    "starCount": {"start": '<a class="muted-link d-inline-block mr-3"', "flag": '/stargazers">', "end": '</a>'},
-    "forkCount": {"start": '<a class="muted-link d-inline-block mr-3"', "flag": '/network/members">', "end": '</a>'}
+    "meta": {
+      "start": '<span class="d-inline-block float-sm-right">',
+      "end": '</span>'
+    },
+    "starCount": {
+      "start": '<a class="muted-link d-inline-block mr-3"',
+      "flag": '/stargazers">',
+      "end": '</a>'
+    },
+    "forkCount": {
+      "start": '<a class="muted-link d-inline-block mr-3"',
+      "flag": '/network/members">',
+      "end": '</a>'
+    }
   };
 
   static htmlToRepo(String responseData) {
@@ -12,7 +24,8 @@ class TrendingUtil {
       responseData = responseData.replaceAll(RegExp('\n'), '');
     } catch (e) {}
     var repos = List();
-    var splitWithH3 = responseData.split('<h1 class="h3 lh-condensed">');
+    var splitWithH3 =
+        TextUtil.split(responseData, '<h1 class="h3 lh-condensed">');
     splitWithH3.removeAt(0);
     for (var i = 0; i < splitWithH3.length; i++) {
       var repo = TrendBean.empty();
@@ -20,10 +33,13 @@ class TrendingUtil {
 
       parseRepoBaseInfo(repo, html);
 
-      var metaNoteContent = parseContentWithNote(html, 'class="f6 text-gray mt-2">', '<\/article>');
+      var metaNoteContent = parseContentWithNote(
+          html, 'class="f6 text-gray mt-2">', '<\/article>');
       repo.meta = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["meta"]);
-      repo.starCount = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["starCount"]);
-      repo.forkCount = parseRepoLabelWithTag(repo, metaNoteContent, TAGS["forkCount"]);
+      repo.starCount =
+          parseRepoLabelWithTag(repo, metaNoteContent, TAGS["starCount"]);
+      repo.forkCount =
+          parseRepoLabelWithTag(repo, metaNoteContent, TAGS["forkCount"]);
 
       parseRepoLang(repo, metaNoteContent);
       parseRepoContributors(repo, metaNoteContent);
@@ -47,21 +63,27 @@ class TrendingUtil {
 
   static parseRepoBaseInfo(repo, htmlBaseInfo) {
     var urlIndex = htmlBaseInfo.indexOf('<a href="') + '<a href="'.length;
-    var url = htmlBaseInfo.substring(urlIndex, htmlBaseInfo.indexOf('">', urlIndex));
+    var url =
+        htmlBaseInfo.substring(urlIndex, htmlBaseInfo.indexOf('">', urlIndex));
     repo.url = url;
     repo.fullName = url.substring(1, url.length);
     if (repo.fullName != null && repo.fullName.indexOf('/') != -1) {
-      repo.name = repo.fullName.split('/')[0];
-      repo.reposName = repo.fullName.split('/')[1];
+      var repos = TextUtil.split(repo.fullName, '/');
+      repo.name = repos[0];
+      repo.reposName = repos[1];
     }
 
-    String description = parseContentWithNote(htmlBaseInfo, '<p class="col-9 text-gray my-1 pr-4">', '</p>');
+    String description = parseContentWithNote(
+        htmlBaseInfo, '<p class="col-9 text-gray my-1 pr-4">', '</p>');
     if (description != null) {
       String reg = "<g-emoji.*?>.+?</g-emoji>";
       RegExp tag = RegExp(reg);
       Iterable<Match> tags = tag.allMatches(description);
       for (Match m in tags) {
-        String match = m.group(0).replaceAll(RegExp("<g-emoji.*?>"), "").replaceAll(RegExp("</g-emoji>"), "");
+        String match = m
+            .group(0)
+            .replaceAll(RegExp("<g-emoji.*?>"), "")
+            .replaceAll(RegExp("</g-emoji>"), "");
         description = description.replaceAll(RegExp(m.group(0)), match);
       }
     }
@@ -76,8 +98,10 @@ class TrendingUtil {
       startFlag = tag["start"];
     }
     var content = parseContentWithNote(noteContent, startFlag, tag["end"]);
-    if(content.indexOf('</svg>') != -1 && (content.indexOf('</svg>') + '</svg>'.length <= content.length)) {
-      var metaContent = content.substring(content.indexOf('</svg>') + '</svg>'.length, content.length);
+    if (content.indexOf('</svg>') != -1 &&
+        (content.indexOf('</svg>') + '</svg>'.length <= content.length)) {
+      var metaContent = content.substring(
+          content.indexOf('</svg>') + '</svg>'.length, content.length);
       return trim(metaContent);
     } else {
       return trim(content);
@@ -85,13 +109,15 @@ class TrendingUtil {
   }
 
   static parseRepoLang(repo, metaNoteContent) {
-    var content = parseContentWithNote(metaNoteContent, 'programmingLanguage">', '</span>');
+    var content = parseContentWithNote(
+        metaNoteContent, 'programmingLanguage">', '</span>');
     repo.language = trim(content);
   }
 
   static parseRepoContributors(repo, htmlContributors) {
-    htmlContributors = parseContentWithNote(htmlContributors, 'Built by', '<\/span>');
-    var splitWitSemicolon = htmlContributors.split('\"');
+    htmlContributors =
+        parseContentWithNote(htmlContributors, 'Built by', '<\/span>');
+    var splitWitSemicolon = TextUtil.split(htmlContributors, '\"');
     if (splitWitSemicolon.length > 1) {
       repo.contributorsUrl = splitWitSemicolon[1];
     }

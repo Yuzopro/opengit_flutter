@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/db/cache_provider.dart';
@@ -7,7 +8,6 @@ import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/image_util.dart';
 import 'package:redux/redux.dart';
 
 class DrawerPage extends StatelessWidget {
@@ -27,13 +27,13 @@ class DrawerPage extends StatelessWidget {
               //用户头像
               onTap: () {
                 UserBean userBean = LoginManager.instance.getUserBean();
-                NavigatorUtil.goUserProfile(context, userBean);
+                NavigatorUtil.goUserProfile(context, userBean.login, userBean.avatarUrl);
               },
-              child: ImageUtil.getImageWidget(this.headUrl ?? "", 64.0),
+              child: ImageUtil.getCircleNetworkImage(this.headUrl ?? "", 64.0, "image/ic_default_head.png"),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
-              NavigatorUtil.goUserProfile(context, userBean);
+              NavigatorUtil.goUserProfile(context, userBean.login, userBean.avatarUrl);
             },
           ),
           ListTile(

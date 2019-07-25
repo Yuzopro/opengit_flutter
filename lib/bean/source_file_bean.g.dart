@@ -8,15 +8,16 @@ part of 'source_file_bean.dart';
 
 SourceFileBean _$SourceFileBeanFromJson(Map<String, dynamic> json) {
   return SourceFileBean(
-      json['name'] as String,
-      json['path'] as String,
-      json['sha'] as String,
-      json['size'] as int,
-      json['url'] as String,
-      json['html_url'] as String,
-      json['git_url'] as String,
-      json['download_url'] as String,
-      json['type'] as String);
+    json['name'] as String,
+    json['path'] as String,
+    json['sha'] as String,
+    json['size'] as int,
+    json['url'] as String,
+    json['html_url'] as String,
+    json['git_url'] as String,
+    json['download_url'] as String,
+    json['type'] as String,
+  );
 }
 
 Map<String, dynamic> _$SourceFileBeanToJson(SourceFileBean instance) =>
@@ -29,5 +30,5 @@ Map<String, dynamic> _$SourceFileBeanToJson(SourceFileBean instance) =>
       'html_url': instance.htmlUrl,
       'git_url': instance.gitUrl,
       'download_url': instance.downloadUrl,
-      'type': instance.type
+      'type': instance.type,
     };

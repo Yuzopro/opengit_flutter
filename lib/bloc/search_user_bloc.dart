@@ -1,14 +1,14 @@
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/status/status.dart';
 
 class SearchUserBloc extends SearchBloc<UserBean> {
   SearchUserBloc() : super('users');
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_user;
+  PageType getPageType() {
+    return PageType.search_user;
   }
 
   @override

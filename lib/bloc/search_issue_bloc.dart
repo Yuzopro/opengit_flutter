@@ -1,14 +1,14 @@
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/status/status.dart';
 
 class SearchIssueBloc extends SearchBloc<IssueBean> {
   SearchIssueBloc() : super('issues');
 
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_issue;
+  PageType getPageType() {
+    return PageType.search_issue;
   }
 
   @override

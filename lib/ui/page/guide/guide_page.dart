@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/common/shared_prf_key.dart';
-import 'package:open_git/manager/shared_prf_manager.dart';
+import 'package:flutter_common_util/src/sp_util.dart';
 
 import 'guide_sections.dart';
 import 'guide_widgets.dart';
@@ -446,7 +446,7 @@ class _SnappingScrollPhysics extends ClampingScrollPhysics {
 
 class GuidePage extends StatefulWidget {
   GuidePage() {
-    SharedPrfManager.instance.saveString(
+    SpUtil.instance.putString(
         SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION, Config.SHOW_GUIDE_VERSION);
   }
 

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/base_list_bloc.dart';
-import 'package:open_git/bloc/bloc_provider.dart';
-import 'package:open_git/bean/loading_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/bloc/search_issue_bloc.dart';
 import 'package:open_git/bloc/search_repos_bloc.dart';
 import 'package:open_git/bloc/search_user_bloc.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/base/base_list_stateless_widget.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 import 'package:open_git/ui/widget/user_item_widget.dart';
@@ -158,8 +159,8 @@ abstract class _SearchItem<T, B extends BaseListBloc<T>>
 
 class _SearchReposItem extends _SearchItem<Repository, SearchReposBloc> {
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_repos;
+  PageType getPageType() {
+    return PageType.search_repos;
   }
 
   @override
@@ -170,8 +171,8 @@ class _SearchReposItem extends _SearchItem<Repository, SearchReposBloc> {
 
 class _SearchUserItem extends _SearchItem<UserBean, SearchUserBloc> {
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_user;
+  PageType getPageType() {
+    return PageType.search_user;
   }
 
   @override
@@ -182,8 +183,8 @@ class _SearchUserItem extends _SearchItem<UserBean, SearchUserBloc> {
 
 class _SearchIssueItem extends _SearchItem<IssueBean, SearchIssueBloc> {
   @override
-  ListPageType getListPageType() {
-    return ListPageType.search_issue;
+  PageType getPageType() {
+    return PageType.search_issue;
   }
 
   @override

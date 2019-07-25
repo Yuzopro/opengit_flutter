@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/event_payload_bean.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/date_util.dart';
 import 'package:open_git/util/event_util.dart';
-import 'package:open_git/util/image_util.dart';
 
 class EventItemWidget extends StatelessWidget {
   final EventBean item;
@@ -15,7 +14,7 @@ class EventItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String repoUser, repoName;
     if (item.repo.name.isNotEmpty && item.repo.name.contains("/")) {
-      List<String> repos = item.repo.name.split("/");
+      List<String> repos = TextUtil.split(item.repo.name, '/');
       repoUser = repos[0];
       repoName = repos[1];
     }
@@ -33,7 +32,8 @@ class EventItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             //头像
-            ImageUtil.getImageWidget(item.actor.avatarUrl ?? "", 36.0),
+            ImageUtil.getCircleNetworkImage(
+                item.actor.avatarUrl ?? "", 36.0, "image/ic_default_head.png"),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 8.0),
@@ -87,7 +87,7 @@ class EventItemWidget extends StatelessWidget {
     Padding createdAtWidget = Padding(
       padding: EdgeInsets.only(top: 6.0),
       child: Text(
-        DateUtil.getNewsTimeStr(createdAt),
+        DateUtil.getMultiDateStr(createdAt),
         style: TextStyle(color: Colors.grey, fontSize: 12.0),
       ),
     );
@@ -112,7 +112,8 @@ class EventItemWidget extends StatelessWidget {
 
         Row issueWidget = Row(
           children: <Widget>[
-            ImageUtil.getImageWidget(payload.issue.user.avatarUrl ?? "", 24.0),
+            ImageUtil.getCircleNetworkImage(payload.issue.user.avatarUrl ?? "", 24.0,
+                "image/ic_default_head.png"),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 3.0),

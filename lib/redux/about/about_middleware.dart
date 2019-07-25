@@ -1,12 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/redux/common_actions.dart';
-import 'package:open_git/status/status.dart';
-import 'package:open_git/util/toast_util.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:redux/redux.dart';
@@ -17,7 +15,7 @@ class AboutMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store store, action, NextDispatcher next) {
     next(action);
-    if (action is FetchAction && action.type == ListPageType.about) {
+    if (action is FetchVersionAction) {
       _fetchVersion(next);
     } else if (action is FetchUpdateAction) {
       _handleUpdate(next, action.context);
@@ -56,14 +54,14 @@ class AboutMiddleware extends MiddlewareClass<AppState> {
                 UpdateUtil.showUpdateDialog(context, bean.name, bean.body, url);
               } else {
                 next(ReceivedUpdateAction());
-                ToastUtil.showToast('已经是最新版本');
+                ToastUtil.showMessgae('已经是最新版本');
               }
             }
           });
         }
       } else {
         next(ReceivedUpdateAction());
-        ToastUtil.showToast('已经是最新版本');
+        ToastUtil.showMessgae('已经是最新版本');
       }
     }).catchError((_) {
       next(ErrorLoadingUpdateAction());
