@@ -5,7 +5,6 @@ import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 
 

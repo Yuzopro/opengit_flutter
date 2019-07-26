@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/manager/repos_manager.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CodeDetailPageWeb extends StatefulWidget {
@@ -36,12 +37,7 @@ class _CodeDetailPageState extends State<CodeDetailPageWeb> {
   Widget build(BuildContext context) {
     if (data == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.title,
-            style: YZConstant.normalTextWhite,
-          ),
-        ),
+        appBar:CommonUtil.getAppBar(widget.title),
         body: Container(
           alignment: Alignment.center,
           child: Center(
@@ -55,9 +51,7 @@ class _CodeDetailPageState extends State<CodeDetailPageWeb> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: CommonUtil.getAppBar(widget.title),
       body: WebView(
         initialUrl: data,
         javascriptMode: JavascriptMode.unrestricted,

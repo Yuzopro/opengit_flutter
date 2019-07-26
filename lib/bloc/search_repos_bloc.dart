@@ -32,6 +32,8 @@ class SearchReposBloc extends SearchBloc<Repository> {
             ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
         bean.data.add(repository);
       }
+    } else {
+      bean.isError = true;
     }
 
     sink.add(bean);

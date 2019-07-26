@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -26,12 +26,8 @@ class _SharePageState extends State<SharePage> {
     double qrSize = size - 80;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).currentlocal.share,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar:
+          CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.share),
       body: Center(
           child: DecoratedBox(
         decoration: BoxDecoration(
@@ -50,7 +46,7 @@ class _SharePageState extends State<SharePage> {
                     Image(
                         width: 32.0,
                         height: 32.0,
-                        image: AssetImage('image/ic_launcher.png')),
+                        image: AssetImage('assets/images/ic_launcher.png')),
                     Padding(
                       padding: EdgeInsets.only(left: 3.0),
                       child: Column(

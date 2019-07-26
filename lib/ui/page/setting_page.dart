@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 
 class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).currentlocal.setting,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar: CommonUtil.getAppBar(
+          AppLocalizations.of(context).currentlocal.setting),
       body: ListView(
         children: <Widget>[
           ListTile(

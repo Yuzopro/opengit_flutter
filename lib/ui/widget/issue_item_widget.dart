@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 
 class IssueItemWidget extends StatelessWidget {
   final IssueBean item;
@@ -11,27 +13,35 @@ class IssueItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
+        child: Container(
+          color: Color(YZColors.white),
+          margin: EdgeInsets.only(bottom: 8.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _getItemOwner(item.user.avatarUrl, item.user.login),
+              CommonUtil.getNameAndAvatarWidget(item.user.login, item.user.avatarUrl, context: context),
               //全称
-              Padding(
-                padding: EdgeInsets.only(top: 6.0, bottom: 6.0),
-                child: Text(
-                  _getReposFullName(item.repoUrl) ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                _getReposFullName(item.repoUrl) ?? "",
+                style: YZConstant.middleTextBold,
+              ),
+              SizedBox(
+                height: 5.0,
               ),
               //描述
-              Padding(
-                padding: EdgeInsets.only(bottom: 6.0),
-                child: Text(
-                  item.title,
-                  style: TextStyle(color: Colors.black54, fontSize: 12.0),
-                ),
+              Text(
+                item.title,
+                style: YZConstant.smallSubText,
+              ),
+              SizedBox(
+                height: 5.0,
               ),
               //底部数据
               Row(
@@ -47,11 +57,11 @@ class IssueItemWidget extends StatelessWidget {
                       Image(
                           width: 12.0,
                           height: 12.0,
-                          image: AssetImage('image/ic_comment.png')),
+                          image: AssetImage('assets/images/ic_comment.png')),
                       item.commentNum.toString()),
                   Text(
                     "#${item.number}",
-                    style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    style: YZConstant.minSubText,
                   ),
                 ],
               ),
@@ -73,29 +83,11 @@ class IssueItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 3.0),
             child: Text(
               count,
-              style: TextStyle(color: Colors.grey, fontSize: 12.0),
+              style: YZConstant.minSubText,
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _getItemOwner(String ownerHead, String ownerName) {
-    return Row(
-      children: <Widget>[
-        ImageUtil.getCircleNetworkImage(ownerHead, 18.0, "image/ic_default_head.png"),
-        Padding(
-          padding: EdgeInsets.only(left: 4.0),
-          child: Text(
-            ownerName,
-            style: TextStyle(
-                color: Colors.black54,
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ],
     );
   }
 

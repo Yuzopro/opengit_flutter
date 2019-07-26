@@ -52,6 +52,8 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
+      } else {
+        bean.isError = true;
       }
 
       sink.add(bean);

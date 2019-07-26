@@ -107,7 +107,7 @@ class EnString extends AppBaseString {
   String get author => 'Author';
 
   @override
-  String get other => 'Other';
+  String get other => 'Thanks';
 
   @override
   String get app_home_page => 'Home';

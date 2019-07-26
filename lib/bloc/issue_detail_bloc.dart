@@ -206,6 +206,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.comments.addAll(result);
+      } else {
+        bean.isError = true;
       }
 
       sink.add(bean);

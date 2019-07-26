@@ -52,7 +52,7 @@ const SectionDetail _home = SectionDetail(
 );
 
 const SectionDetail _homeImage = SectionDetail(
-  imageAsset: 'image/bg_guide_home.png',
+  imageAsset: 'assets/images/bg_guide_home.png',
 );
 
 const SectionDetail _reposDetail = SectionDetail(
@@ -60,7 +60,7 @@ const SectionDetail _reposDetail = SectionDetail(
 );
 
 const SectionDetail __reposDetailImage = SectionDetail(
-  imageAsset: 'image/bg_guide_repos_detail.png',
+  imageAsset: 'assets/images/bg_guide_repos_detail.png',
 );
 
 const SectionDetail _issueDetail = SectionDetail(
@@ -68,7 +68,7 @@ const SectionDetail _issueDetail = SectionDetail(
 );
 
 const SectionDetail _issueDetailImage = SectionDetail(
-  imageAsset: 'image/bg_guide_issue_detail.png',
+  imageAsset: 'assets/images/bg_guide_issue_detail.png',
 );
 
 const SectionDetail _theme = SectionDetail(
@@ -76,7 +76,7 @@ const SectionDetail _theme = SectionDetail(
 );
 
 const SectionDetail _themeImage = SectionDetail(
-  imageAsset: 'image/bg_guide_theme.png',
+  imageAsset: 'assets/images/bg_guide_theme.png',
 );
 
 const SectionDetail _experienceButton = SectionDetail(

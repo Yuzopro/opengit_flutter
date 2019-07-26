@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:redux/redux.dart';
 
 class AboutPage extends StatelessWidget {
@@ -21,20 +22,35 @@ class AboutPage extends StatelessWidget {
   }
 }
 
-class AboutPageContent extends StatelessWidget {
+class AboutPageContent extends StatefulWidget {
   final AboutPageViewModel viewModel;
 
   AboutPageContent(this.viewModel);
 
   @override
+  State<StatefulWidget> createState() {
+    return _AboutPageState();
+  }
+}
+
+class _AboutPageState extends State<AboutPageContent> {
+  @override
+  void initState() {
+    super.initState();
+    RedPointManager.instance.addState(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    RedPointManager.instance.removeState(this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).currentlocal.about,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar:
+          CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.about),
       body: Stack(
         children: <Widget>[
           Padding(
@@ -44,7 +60,7 @@ class AboutPageContent extends StatelessWidget {
                 Image(
                     width: 64.0,
                     height: 64.0,
-                    image: AssetImage('image/ic_launcher.png')),
+                    image: AssetImage('assets/images/ic_launcher.png')),
                 Text(
                   "OpenGit",
                   style: TextStyle(
@@ -53,7 +69,7 @@ class AboutPageContent extends StatelessWidget {
                       fontSize: 20.0),
                 ),
                 Text(
-                  "Version ${viewModel.version}",
+                  "Version ${widget.viewModel.version}",
                   style: TextStyle(color: Colors.black, fontSize: 16.0),
                 ),
                 Padding(
@@ -109,10 +125,23 @@ class AboutPageContent extends StatelessWidget {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: Text(
-                      AppLocalizations.of(context).currentlocal.update_title),
+                  title: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: <Widget>[
+                      Text(AppLocalizations.of(context)
+                          .currentlocal
+                          .update_title),
+                      Offstage(
+                        offstage: !RedPointManager.instance.isUpgrade,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: CommonUtil.getRedPoint(),
+                        ),
+                      ),
+                    ],
+                  ),
                   trailing: Icon(Icons.navigate_next),
-                  onTap: viewModel.onLoad,
+                  onTap: widget.viewModel.onLoad,
                 ),
                 Divider(
                   height: 0.3,
@@ -131,7 +160,7 @@ class AboutPageContent extends StatelessWidget {
             ),
           ),
           Offstage(
-            offstage: viewModel.status != LoadingStatus.loading,
+            offstage: widget.viewModel.status != LoadingStatus.loading,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

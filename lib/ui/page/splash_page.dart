@@ -46,7 +46,7 @@ class SplashPageContent extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                   child: Image(
-                    image: AssetImage('image/bg_splash_ad.png'),
+                    image: AssetImage('assets/images/bg_splash_ad.png'),
                     fit: BoxFit.cover,
                   ),
                   onTap: () {
@@ -89,7 +89,7 @@ class SplashPageContent extends StatelessWidget {
           Image(
             width: 64.0,
             height: 64.0,
-            image: AssetImage('image/ic_launcher.png'),
+            image: AssetImage('assets/images/ic_launcher.png'),
           ),
           SizedBox(
             height: 5.0,

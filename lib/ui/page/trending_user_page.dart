@@ -5,6 +5,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trending_user_bean.dart';
 import 'package:open_git/bloc/trending_user_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 
 class TrendingUserPage
     extends BaseListStatelessWidget<TrendingUserBean, TrendingUserBloc> {
@@ -33,7 +34,7 @@ class TrendingUserPage
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _getItemOwner(context, item.username, item.avatar),
+            CommonUtil.getNameAndAvatarWidget(item.name, item.avatar, context: context),
             //全称
             SizedBox(
               height: 5.0,
@@ -55,31 +56,6 @@ class TrendingUserPage
       ),
       onTap: () {
         NavigatorUtil.goReposDetail(context, item.username, item.repo.name);
-      },
-    );
-  }
-
-  Widget _getItemOwner(BuildContext context, String name, String head) {
-    return InkWell(
-      child: Row(
-        children: <Widget>[
-          ImageUtil.getCircleNetworkImage(
-              head, 24.0, "image/ic_default_head.png"),
-          SizedBox(
-            width: 6.0,
-          ),
-          SizedBox(
-            width: 200.0,
-            child: Text(
-              name,
-              maxLines: 1,
-              style: YZConstant.middleText,
-            ),
-          )
-        ],
-      ),
-      onTap: () {
-        NavigatorUtil.goUserProfile(context, name, head);
       },
     );
   }

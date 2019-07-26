@@ -29,6 +29,8 @@ class SearchUserBloc extends SearchBloc<UserBean> {
         UserBean user = UserBean.fromJson(dataItem);
         bean.data.add(user);
       }
+    } else {
+      bean.isError = true;
     }
 
     sink.add(bean);

@@ -53,6 +53,10 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         await ReposManager.instance.getReposDetail(reposOwner, reposName);
     bean.data.repos = repos;
 
+    if (repos == null) {
+      bean.isError = true;
+    }
+
     sink.add(bean);
 
     _fetchStarStatus();

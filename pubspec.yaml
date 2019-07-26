@@ -94,23 +94,25 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
   assets:
-    - image/ic_launcher.png
-    - image/ic_branch.png
-    - image/ic_default_head.png
-    - image/1f44d.png
-    - image/1f44e.png
-    - image/1f389.png
-    - image/1f440.png
-    - image/1f604.png
-    - image/1f615.png
-    - image/1f680.png
-    - image/2764.png
-    - image/ic_like.png
-    - image/ic_comment.png
-    - image/ic_star.png
-    - image/ic_issue.png
-    - image/bg_guide_home.png
-    - image/bg_guide_repos_detail.png
-    - image/bg_guide_issue_detail.png
-    - image/bg_guide_theme.png
-    - image/bg_splash_ad.png
+    - assets/data/language_colors.json
+
+    - assets/images/ic_launcher.png
+    - assets/images/ic_branch.png
+    - assets/images/ic_default_head.png
+    - assets/images/1f44d.png
+    - assets/images/1f44e.png
+    - assets/images/1f389.png
+    - assets/images/1f440.png
+    - assets/images/1f604.png
+    - assets/images/1f615.png
+    - assets/images/1f680.png
+    - assets/images/2764.png
+    - assets/images/ic_like.png
+    - assets/images/ic_comment.png
+    - assets/images/ic_star.png
+    - assets/images/ic_issue.png
+    - assets/images/bg_guide_home.png
+    - assets/images/bg_guide_repos_detail.png
+    - assets/images/bg_guide_issue_detail.png
+    - assets/images/bg_guide_theme.png
+    - assets/images/bg_splash_ad.png

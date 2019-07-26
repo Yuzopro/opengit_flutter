@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/redux/app_state.dart';
@@ -176,10 +177,7 @@ class SectionDetailView extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-              ),
+              style: YZConstant.normalTextWhite,
             ),
           ),
         ),

@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/util/common_util.dart';
 
 class TrendingDatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'DateRange',
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar: CommonUtil.getAppBar('DateRange'),
       body: ListView(
         children: <Widget>[
           ListTile(

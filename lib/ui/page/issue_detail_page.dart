@@ -7,6 +7,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 
@@ -40,6 +41,13 @@ class IssueDetailPage
   }
 
   @override
+  void openWebView(BuildContext context) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    NavigatorUtil.goWebView(
+        context, bloc.getTitle(), bloc.issueBean.htmlUrl);
+  }
+
+  @override
   bool isLoading(LoadingBean<IssueDetailBean> data) {
     return data != null ? data.isLoading : true;
   }
@@ -54,37 +62,40 @@ class IssueDetailPage
     if (data == null || data.data == null || data.data.issueBean == null) {
       return Container();
     }
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: InkWell(
-                  child: Text(data.data.issueBean.state),
+    return Container(
+      color: Color(YZColors.white),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: InkWell(
+                    child: Text(data.data.issueBean.state),
+                  ),
+                  flex: 1,
                 ),
-                flex: 1,
-              ),
-              Text("#${data.data.issueBean.number}"),
-            ],
+                Text("#${data.data.issueBean.number}"),
+              ],
+            ),
           ),
-        ),
-        Divider(
-          height: 0.3,
-        ),
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Text(
-            data.data.issueBean.title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          Divider(
+            height: 0.3,
           ),
-        ),
-        Divider(
-          height: 0.3,
-        ),
-        _getItemRow(context, data.data.issueBean, true),
-      ],
+          Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Text(
+              data.data.issueBean.title,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+          ),
+          Divider(
+            height: 8.0,
+          ),
+          _getItemRow(context, data.data.issueBean, true),
+        ],
+      ),
     );
   }
 
@@ -130,15 +141,17 @@ class IssueDetailPage
       listWidget.add(reactionWidget);
     }
 
-    Widget itemLine = Container(
-      height: 5.0,
-      color: Colors.grey[200],
-    );
-    listWidget.add(itemLine);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: listWidget,
+    return Container(
+      color: Color(YZColors.white),
+      margin: EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.symmetric(
+        horizontal: 12.0,
+        vertical: 8.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: listWidget,
+      ),
     );
   }
 
@@ -146,7 +159,7 @@ class IssueDetailPage
     List<Widget> userList = List();
     userList.add(
       ImageUtil.getCircleNetworkImage(
-          item.user.avatarUrl, 36.0, "image/ic_default_head.png"),
+          item.user.avatarUrl, 36.0, "assets/images/ic_default_head.png"),
     );
     userList.add(
       Expanded(
@@ -232,7 +245,7 @@ class IssueDetailPage
               (_Reaction reaction) => PopupMenuItem<String>(
                 value: reaction.type,
                 child:
-                    ImageUtil.getImage("image/${reaction.img}.png", 24.0, 24.0),
+                    ImageUtil.getImage("assets/images/${reaction.img}.png", 24.0, 24.0),
               ),
             )
             .toList(),
@@ -270,42 +283,42 @@ class IssueDetailPage
     if (item.reaction != null) {
       List<Widget> reactionWidget = List();
       if (item.reaction.like > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f44d.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f44d.png",
             item.reaction.like.toString(), item, "+1", isIssue));
       }
 
       if (item.reaction.noLike > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f44e.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f44e.png",
             item.reaction.noLike.toString(), item, "-1", isIssue));
       }
 
       if (item.reaction.laugh > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f604.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f604.png",
             item.reaction.laugh.toString(), item, "laugh", isIssue));
       }
 
       if (item.reaction.hooray > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f389.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f389.png",
             item.reaction.hooray.toString(), item, "hooray", isIssue));
       }
 
       if (item.reaction.confused > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f615.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f615.png",
             item.reaction.confused.toString(), item, "confused", isIssue));
       }
 
       if (item.reaction.heart > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/2764.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/2764.png",
             item.reaction.heart.toString(), item, "heart", isIssue));
       }
 
       if (item.reaction.rocket > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f680.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f680.png",
             item.reaction.rocket.toString(), item, "rocket", isIssue));
       }
 
       if (item.reaction.eyes > 0) {
-        reactionWidget.add(_getReactionItem(context, "image/1f440.png",
+        reactionWidget.add(_getReactionItem(context, "assets/images/1f440.png",
             item.reaction.eyes.toString(), item, "eyes", isIssue));
       }
 

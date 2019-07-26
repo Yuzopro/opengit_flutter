@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
+import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
@@ -31,6 +32,7 @@ class AboutMiddleware extends MiddlewareClass<AppState> {
 
   void _handleUpdate(NextDispatcher next, BuildContext context) {
     next(RequestingUpdateAction());
+    RedPointManager.instance.isUpgrade = false;
     ReposManager.instance
         .getReposReleases('Yuzopro', 'OpenGit_Flutter')
         .then((result) {

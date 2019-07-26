@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/push_event_commit_bean.dart';
 
@@ -96,7 +97,15 @@ class EventUtil {
         break;
       case "IssuesEvent":
         if (event.payload.issue != null) {
-          postfix = "打开了 issue #${event.payload.issue.commentNum} for";
+          String desc;
+          if (TextUtil.equals(event.payload.action, 'closed')) {
+            desc = '关闭了';
+          } else if (TextUtil.equals(event.payload.action, 'created')){
+            desc = '创建了';
+          } else {
+            desc = '打开了';
+          }
+          postfix = "$desc issue #${event.payload.issue.commentNum} for";
         }
         break;
       case "WatchEvent":
@@ -124,7 +133,7 @@ class EventUtil {
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: AssetImage('image/ic_comment.png'));
+            image: AssetImage('assets/images/ic_comment.png'));
         break;
       case "DeleteEvent":
         icon = Icon(
@@ -137,25 +146,25 @@ class EventUtil {
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: AssetImage('image/ic_branch.png'));
+            image: AssetImage('assets/images/ic_branch.png'));
         break;
       case "IssueCommentEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: AssetImage('image/ic_comment.png'));
+            image: AssetImage('assets/images/ic_comment.png'));
         break;
       case "IssuesEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: AssetImage('image/ic_issue.png'));
+            image: AssetImage('assets/images/ic_issue.png'));
         break;
       case "WatchEvent":
         icon = Image(
             width: 16.0,
             height: 16.0,
-            image: AssetImage('image/ic_star.png'));
+            image: AssetImage('assets/images/ic_star.png'));
         break;
       default:
         icon = Icon(

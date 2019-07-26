@@ -57,6 +57,8 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
       bean.data.clear();
       if (result != null) {
         bean.data.addAll(result);
+      } else {
+        bean.isError = true;
       }
       _sortListByLetter(bean.data);
       TrendingLanguageBean item = TrendingLanguageBean('', 'All code language', letter: 'A');

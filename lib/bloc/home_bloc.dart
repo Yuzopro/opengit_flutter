@@ -7,6 +7,7 @@ import 'package:open_git/bean/release_asset_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/juejin_manager.dart';
+import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
@@ -59,6 +60,8 @@ class HomeBloc extends BaseListBloc<Entrylist> {
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
+      } else {
+        bean.isError = true;
       }
 
       sink.add(bean);
@@ -83,6 +86,7 @@ class HomeBloc extends BaseListBloc<Entrylist> {
                 String serverVersion = bean.name;
                 int compare = UpdateUtil.compareVersion(version, serverVersion);
                 if (compare == -1) {
+                  RedPointManager.instance.isUpgrade = true;
                   String url = "";
                   if (bean.assets != null && bean.assets.length > 0) {
                     ReleaseAssetBean assetBean = bean.assets[0];

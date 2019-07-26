@@ -3,7 +3,6 @@ import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bloc/event_bloc.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/event_item_widget.dart';
 
 

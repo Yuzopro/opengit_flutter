@@ -37,6 +37,13 @@ class ReposDetailPage
   }
 
   @override
+  void openWebView(BuildContext context) {
+    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    NavigatorUtil.goWebView(
+        context, bloc.reposName, bloc.bean.data.repos.htmlUrl);
+  }
+
+  @override
   Widget getChild(BuildContext context, LoadingBean<ReposDetailBean> bean) {
     if (bean == null || bean.data.repos == null) {
       return Container();
@@ -94,8 +101,7 @@ class ReposDetailPage
           padding: EdgeInsets.all(12.0),
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
-          child:
-              Text(ReposUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
+          child: Text(ReposUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
         ),
         Divider(
           color: Colors.grey,
@@ -288,7 +294,7 @@ class ReposDetailPage
               Image(
                   width: 16.0,
                   height: 16.0,
-                  image: new AssetImage('image/ic_branch.png')),
+                  image: new AssetImage('assets/images/ic_branch.png')),
               Padding(
                 padding: EdgeInsets.only(left: 4.0),
                 child: new Text(

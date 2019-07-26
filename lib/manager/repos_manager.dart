@@ -1,23 +1,27 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
-import 'package:open_git/bean/trend_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_request.dart';
 import 'package:open_git/util/code_detail_util.dart';
 import 'package:open_git/util/repos_util.dart';
-import 'package:open_git/util/trending_util.dart';
 
 class ReposManager {
   factory ReposManager() => _getInstance();
 
   static ReposManager get instance => _getInstance();
   static ReposManager _instance;
+
+  Map<String, Color> _languageMap = new Map();
 
   ReposManager._internal();
 
@@ -26,6 +30,22 @@ class ReposManager {
       _instance = ReposManager._internal();
     }
     return _instance;
+  }
+
+  void initLanguageColors() {
+    rootBundle.loadString('assets/data/language_colors.json').then((value) {
+      Map map = json.decode(value);
+      map.forEach((key, value) {
+        String color = value['color'];
+        if (!TextUtil.isEmpty(color)) {
+          _languageMap.putIfAbsent(key, () => ColorUtil.str2Color(color));
+        }
+      });
+    });
+  }
+
+  Color getLanguageColor(String language) {
+    return _languageMap[language] ?? Colors.black;
   }
 
   Future<List<Repository>> getUserRepos(
@@ -124,23 +144,6 @@ class ReposManager {
         list.add(BranchBean.fromJson(dataItem));
       }
       return list;
-    }
-    return null;
-  }
-
-  getTrend(since, languageType) async {
-    String url = Api.getTrending(since, languageType);
-    final response = await HttpRequest().get(url);
-    if (response != null && response.data != null) {
-      var repos = TrendingUtil.htmlToRepo(response.data);
-      if (repos != null && repos.length > 0) {
-        List<TrendBean> list = List();
-        for (int i = 0; i < repos.length; i++) {
-          var dataItem = repos[i];
-          list.add(dataItem);
-        }
-        return list;
-      }
     }
     return null;
   }

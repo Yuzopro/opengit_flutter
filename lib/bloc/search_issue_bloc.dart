@@ -29,6 +29,8 @@ class SearchIssueBloc extends SearchBloc<IssueBean> {
         IssueBean issue = IssueBean.fromJson(dataItem);
         bean.data.add(issue);
       }
+    } else {
+      bean.isError = true;
     }
 
     sink.add(bean);

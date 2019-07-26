@@ -56,6 +56,8 @@ class TrendingReposBloc extends BaseListBloc<TrendingReposBean> {
       bean.data.clear();
       if (result != null) {
         bean.data.addAll(result);
+      } else {
+        bean.isError = true;
       }
       sink.add(bean);
     } catch (_) {}

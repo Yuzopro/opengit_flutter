@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/manager/issue_manager.dart';
+import 'package:open_git/util/common_util.dart';
 
 class MarkdownEditorPage extends StatefulWidget {
   final IssueBean issueBean;
@@ -45,13 +45,7 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: _getActions(),
-        title: Text(
-          _getTitle(),
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar: CommonUtil.getAppBar(_getTitle(), actions: _getActions()),
       body: Stack(
         children: <Widget>[
           _buildBody(context),

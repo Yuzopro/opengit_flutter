@@ -7,7 +7,6 @@ import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/manager/login_manager.dart';
-import 'package:open_git/status/status.dart';
 
 class ReactionPage
     extends BaseListStatelessWidget<ReactionDetailBean, ReactionBloc> {
@@ -37,7 +36,7 @@ class ReactionPage
 
     return ListTile(
       leading: ImageUtil.getCircleNetworkImage(
-          item.user.avatarUrl, 36.0, "image/ic_default_head.png"),
+          item.user.avatarUrl, 36.0, "assets/images/ic_default_head.png"),
       title: Text(item.user.login),
       subtitle: Text(DateUtil.getMultiDateStr(item.createdAt) +
           (isYou ? "(it's you)" : "")),

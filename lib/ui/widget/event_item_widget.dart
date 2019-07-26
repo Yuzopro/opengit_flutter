@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/event_payload_bean.dart';
@@ -26,14 +27,19 @@ class EventItemWidget extends StatelessWidget {
     _buildIssueWidget(columnWidgets, item.payload, repoName);
 
     return InkWell(
-      child: Padding(
-        padding: EdgeInsets.all(12.0),
+      child: Container(
+        color: Color(YZColors.white),
+        margin: EdgeInsets.only(bottom: 8.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 8.0,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             //头像
-            ImageUtil.getCircleNetworkImage(
-                item.actor.avatarUrl ?? "", 36.0, "image/ic_default_head.png"),
+            ImageUtil.getCircleNetworkImage(item.actor.avatarUrl ?? "", 36.0,
+                "assets/images/ic_default_head.png"),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 8.0),
@@ -112,8 +118,8 @@ class EventItemWidget extends StatelessWidget {
 
         Row issueWidget = Row(
           children: <Widget>[
-            ImageUtil.getCircleNetworkImage(payload.issue.user.avatarUrl ?? "", 24.0,
-                "image/ic_default_head.png"),
+            ImageUtil.getCircleNetworkImage(payload.issue.user.avatarUrl ?? "",
+                24.0, "assets/images/ic_default_head.png"),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 3.0),
@@ -127,7 +133,7 @@ class EventItemWidget extends StatelessWidget {
             Image(
                 width: 16.0,
                 height: 16.0,
-                image: AssetImage('image/ic_comment.png')),
+                image: AssetImage('assets/images/ic_comment.png')),
             Text(
               "${payload.issue.commentNum}",
               style: TextStyle(color: Colors.grey),

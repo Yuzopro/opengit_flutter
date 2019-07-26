@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:install_apk_plugin/install_apk_plugin.dart';
 import 'package:open_git/http/http_request.dart';
 import 'package:open_git/localizations/app_localizations.dart';
@@ -51,74 +52,76 @@ class UpdateUtil {
     double progress = 0;
 
     showDialog(
-        context: context,
-        builder: (context) =>
-            new StatefulBuilder(builder: (context, StateSetter setState) {
-              List<Widget> contentWidget = [];
-              List<Widget> actionWidget;
-              contentWidget.add(Text(content));
-              contentWidget.add(SizedBox(
-                height: 10.0,
-              ));
+      context: context,
+      builder: (context) =>
+          new StatefulBuilder(builder: (context, StateSetter setState) {
+        List<Widget> contentWidget = [];
+        List<Widget> actionWidget;
+        contentWidget.add(Text(content));
+        contentWidget.add(SizedBox(
+          height: 10.0,
+        ));
 
-              if (isDownload) {
-                contentWidget.add(LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: Colors.black,
-                ));
-              } else {
-                actionWidget = [
-                  FlatButton(
-                    child: Text(
-                        AppLocalizations.of(context).currentlocal.cancel,
-                        style: TextStyle(color: Colors.grey)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  FlatButton(
-                    child: Text(
-                      AppLocalizations.of(context).currentlocal.update,
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    onPressed: () {
-                      if (url != null && url.contains('.apk')) {
-                        _getLocalPath().then((appDir) {
-                          if (appDir == null) {
-                            return;
-                          }
-                          setState(() {
-                            isDownload = true;
-                          });
-                          String path = appDir.path + title + ".apk";
-                          HttpRequest().download(url, path, (received, total) {
-                            setState(() {
-                              progress = received / total;
-                              if (progress == 1) {
-                                Navigator.of(context).pop();
-                                InstallApkPlugin.installApk(path);
-                              } else {
-                                isDownload = true;
-                              }
-                            });
-                          });
-                        });
-                      }
-                    },
-                  ),
-                ];
-              }
+        if (isDownload) {
+          contentWidget.add(LinearProgressIndicator(
+            value: progress,
+            backgroundColor: Colors.black,
+          ));
+        } else {
+          actionWidget = [
+            FlatButton(
+              child: Text(
+                AppLocalizations.of(context).currentlocal.cancel,
+                style: YZConstant.smallSubText,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text(
+                AppLocalizations.of(context).currentlocal.update,
+                style: YZConstant.smallText,
+              ),
+              onPressed: () {
+                if (url != null && url.contains('.apk')) {
+                  _getLocalPath().then((appDir) {
+                    if (appDir == null) {
+                      return;
+                    }
+                    setState(() {
+                      isDownload = true;
+                    });
+                    String path = appDir.path + title + ".apk";
+                    HttpRequest().download(url, path, (received, total) {
+                      setState(() {
+                        progress = received / total;
+                        if (progress == 1) {
+                          Navigator.of(context).pop();
+                          InstallApkPlugin.installApk(path);
+                        } else {
+                          isDownload = true;
+                        }
+                      });
+                    });
+                  });
+                }
+              },
+            ),
+          ];
+        }
 
-              return new AlertDialog(
-                title: Text(title),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: contentWidget,
-                  ),
-                ),
-                actions: actionWidget,
-              );
-            }));
+        return new AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: contentWidget,
+            ),
+          ),
+          actions: actionWidget,
+        );
+      }),
+    );
   }
 
   static _getLocalPath() async {

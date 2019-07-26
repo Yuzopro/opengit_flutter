@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/issue_manager.dart';
+import 'package:open_git/util/common_util.dart';
 
 class EditIssuePage extends StatefulWidget {
   final IssueBean issueBean;
@@ -54,13 +55,9 @@ class _EditIssueState extends State<EditIssuePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: getActions(),
-        title: Text(
+      appBar: CommonUtil.getAppBar(
           AppLocalizations.of(context).currentlocal.edit_issue,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+          actions: getActions()),
       body: Stack(
         children: <Widget>[
           _buildBody(context),

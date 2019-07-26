@@ -31,45 +31,6 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
 
   @override
   Widget builderItem(BuildContext context, TrendingLanguageBean item) {
-//    TrendingLanguageBloc bloc = BlocProvider.of<TrendingLanguageBloc>(context);
-//
-//    List<Widget> children = new List();
-//    if (item.isShowLetter) {
-//      Widget _letterWidget = Container(
-//        alignment: Alignment.centerLeft,
-//        width: ScreenUtil.getScreenWidth(context),
-//        height: bloc.getLetterHeight(),
-//        padding: EdgeInsets.only(left: 12.0),
-//        color: Colors.black12,
-//        child: Text(
-//          item.letter,
-//          style: YZConstant.smallSubText,
-//        ),
-//      );
-//      children.add(_letterWidget);
-//    }
-//
-//    Widget _itemWidget = InkWell(
-//      child: Container(
-//        alignment: Alignment.centerLeft,
-//        width: ScreenUtil.getScreenWidth(context),
-//        height: bloc.getLetterHeight(),
-//        padding: EdgeInsets.only(left: 12.0),
-//        color: Color(YZColors.white),
-//        child: Text(
-//          item.name,
-//          style: YZConstant.smallText,
-//        ),
-//      ),
-//      onTap: () {
-//        Navigator.pop(context, item.name);
-//      },
-//    );
-//    children.add(_itemWidget);
-//
-//    return Column(
-//      children: children,
-//    );
     TrendingLanguageBloc bloc = BlocProvider.of<TrendingLanguageBloc>(context);
 
     String letter = item.letter;

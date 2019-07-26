@@ -34,7 +34,6 @@ import 'package:open_git/ui/page/splash_page.dart';
 import 'package:open_git/ui/page/theme_page.dart';
 import 'package:open_git/ui/page/timeline_detail_page.dart';
 import 'package:open_git/ui/page/timeline_page.dart';
-import 'package:open_git/ui/page/trend_page.dart';
 import 'package:open_git/ui/page/trending_page.dart';
 import 'package:open_git/ui/page/user_profile_page.dart';
 import 'package:redux/redux.dart';

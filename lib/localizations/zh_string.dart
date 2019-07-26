@@ -107,7 +107,7 @@ class ZhString extends AppBaseString {
   String get author => '作者';
 
   @override
-  String get other => '其他';
+  String get other => '鸣谢';
 
   @override
   String get app_home_page => '主页';

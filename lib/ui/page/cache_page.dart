@@ -4,6 +4,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/util/common_util.dart';
 
 class CachePage extends StatefulWidget {
   @override
@@ -33,12 +34,7 @@ class _CachePageState extends State<CachePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).currentlocal.cache,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar: CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.cache),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

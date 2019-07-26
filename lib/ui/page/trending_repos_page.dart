@@ -5,6 +5,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trending_repos_bean.dart';
 import 'package:open_git/bloc/trending_repos_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 
 class TrendingReposPage
     extends BaseListStatelessWidget<TrendingReposBean, TrendingReposBloc> {
@@ -46,8 +47,9 @@ class TrendingReposPage
           children: <Widget>[
             Row(
               children: <Widget>[
-                _getItemOwner(item.name, item.avatar),
-                _getItemLanguage(item),
+                CommonUtil.getNameAndAvatarWidget(item.name, item.avatar,
+                    context: context),
+                CommonUtil.getLanguageWidget(item.language),
               ],
             ),
             SizedBox(
@@ -72,54 +74,6 @@ class TrendingReposPage
     );
   }
 
-  Widget _getItemOwner(String name, String head) {
-    return Row(
-      children: <Widget>[
-        ImageUtil.getCircleNetworkImage(
-            head, 24.0, "image/ic_default_head.png"),
-        SizedBox(
-          width: 6.0,
-        ),
-        SizedBox(
-          width: 200.0,
-          child: Text(
-            name,
-            maxLines: 1,
-            style: YZConstant.middleText,
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _getItemLanguage(TrendingReposBean item) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(right: 12.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            ClipOval(
-              child: Container(
-                color: ColorUtil.str2Color(item.languageColor),
-                width: 10.0,
-                height: 10.0,
-              ),
-            ),
-            SizedBox(
-              width: 4.0,
-            ),
-            Text(
-              item.language ?? 'unkown',
-              style: YZConstant.middleText,
-            ),
-          ],
-        ),
-      ),
-      flex: 1,
-    );
-  }
-
   Widget _buildCurrentStarWidget(TrendingReposBean item) {
     return Padding(
       padding: EdgeInsets.only(right: 12.0),
@@ -128,7 +82,7 @@ class TrendingReposPage
           Image(
             width: 12.0,
             height: 12.0,
-            image: AssetImage('image/ic_star.png'),
+            image: AssetImage('assets/images/ic_star.png'),
           ),
           Text(
             '${item.currentPeriodStars.toString()} stars $since',
@@ -147,7 +101,7 @@ class TrendingReposPage
           Image(
             width: 12.0,
             height: 12.0,
-            image: AssetImage('image/ic_star.png'),
+            image: AssetImage('assets/images/ic_star.png'),
           ),
           Text(
             item.stars.toString(),
@@ -164,7 +118,7 @@ class TrendingReposPage
         Image(
           width: 12.0,
           height: 12.0,
-          image: AssetImage('image/ic_branch.png'),
+          image: AssetImage('assets/images/ic_branch.png'),
         ),
         Text(
           item.forks.toString(),
@@ -188,12 +142,12 @@ class TrendingReposPage
                 .map(
                   (BuiltBy url) => Padding(
                     padding: EdgeInsets.only(left: 2.0),
-                    child: ImageUtil.getCircleNetworkImage(
-                        url.avatar ?? "", 12.0, "image/ic_default_head.png"),
+                    child: ImageUtil.getCircleNetworkImage(url.avatar ?? "",
+                        12.0, "assets/images/ic_default_head.png"),
                   ),
                 )
                 .toList(),
-          )
+          ),
         ],
       ),
       flex: 1,

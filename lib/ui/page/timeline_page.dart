@@ -6,7 +6,6 @@ import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
 
 class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
   @override

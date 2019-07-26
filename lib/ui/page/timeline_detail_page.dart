@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/util/common_util.dart';
 
 class TimelineDetailPage extends StatelessWidget {
   final String title;
@@ -10,12 +10,7 @@ class TimelineDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          title,
-          style: YZConstant.normalTextWhite,
-        ),
-      ),
+      appBar: CommonUtil.getAppBar(title),
       body: Text(body),
     );
   }

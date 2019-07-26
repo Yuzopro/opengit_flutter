@@ -5,6 +5,7 @@ import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/app_state.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:open_git/util/locale_util.dart';
 import 'package:flutter_common_util/src/sp_util.dart';
 import 'package:redux/redux.dart';
@@ -16,12 +17,7 @@ class LanguagePage extends StatelessWidget {
       converter: _ViewModel.fromStore,
       builder: (context, vm) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              AppLocalizations.of(context).currentlocal.language,
-              style: YZConstant.normalTextWhite,
-            ),
-          ),
+          appBar: CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.language),
           body: ListView(
             children: <Widget>[
               ListTile(

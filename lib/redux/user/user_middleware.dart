@@ -7,6 +7,7 @@ import 'package:open_git/common/config.dart';
 import 'package:open_git/common/shared_prf_key.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/manager/login_manager.dart';
+import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/user/user_action.dart';
@@ -70,6 +71,8 @@ class UserMiddleware extends MiddlewareClass<AppState> {
         .getString(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
     next(InitCompleteAction(token, userBean, currentVersion != version));
+
+    ReposManager.instance.initLanguageColors();
   }
 
   void startCountdown(

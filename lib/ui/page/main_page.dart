@@ -10,16 +10,16 @@ import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_main_bloc.dart';
-import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
+import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/drawer_page.dart';
 import 'package:open_git/ui/page/event_page.dart';
 import 'package:open_git/ui/page/home_page.dart';
 import 'package:open_git/ui/page/issue_page.dart';
 import 'package:open_git/ui/page/repos_page.dart';
+import 'package:open_git/util/common_util.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -32,6 +32,8 @@ class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   static final String TAG = "MainPage";
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final PageController _pageController = PageController();
 
   TabController _tabController;
@@ -43,9 +45,13 @@ class _MainPageState extends State<MainPage>
   EventBloc _eventBloc;
   IssueBloc _issueBloc;
 
+  int _exitTime = 0;
+
   @override
   void initState() {
     super.initState();
+
+    RedPointManager.instance.addState(this);
 
     _tabController = new TabController(vsync: this, length: 4);
 
@@ -79,6 +85,7 @@ class _MainPageState extends State<MainPage>
         child: DefaultTabController(
           length: choices.length,
           child: Scaffold(
+            key: _scaffoldKey,
             drawer: Drawer(
               child: DrawerPage(
                 name: _userBean.login ?? "--",
@@ -89,15 +96,27 @@ class _MainPageState extends State<MainPage>
             appBar: AppBar(
               leading: Builder(
                 builder: (BuildContext context) {
-                  return IconButton(
-                    tooltip: 'Open Drawer',
-                    icon: ImageUtil.getCircleNetworkImage(
-                        _userBean.avatarUrl ?? "",
-                        24.0,
-                        "image/ic_default_head.png"),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
+                  return Stack(
+                    children: <Widget>[
+                      IconButton(
+                        tooltip: 'Open Drawer',
+                        icon: ImageUtil.getCircleNetworkImage(
+                            _userBean.avatarUrl ?? "",
+                            36.0,
+                            "assets/images/ic_default_head.png"),
+                        onPressed: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        },
+                      ),
+                      Offstage(
+                        offstage: !RedPointManager.instance.isUpgrade,
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          padding: EdgeInsets.only(top: 5.0, right: 10.0),
+                          child: CommonUtil.getRedPoint(),
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),
@@ -156,47 +175,30 @@ class _MainPageState extends State<MainPage>
           ),
         ),
         onWillPop: () {
-          return _handleExitApp(context);
+          return _exitApp();
         });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    RedPointManager.instance.removeState(this);
+    RedPointManager.instance.dispose();
     super.dispose();
   }
 
-  Future<bool> _handleExitApp(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text(
-                  AppLocalizations.of(context).currentlocal.dialog_exit_title),
-              content: Text(AppLocalizations.of(context)
-                  .currentlocal
-                  .dialog_exit_content),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(AppLocalizations.of(context).currentlocal.cancel,
-                      style: TextStyle(color: Colors.grey)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                FlatButton(
-                  child: Text(
-                    AppLocalizations.of(context).currentlocal.ok,
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  onPressed: () {
-                    CacheProvider provider = CacheProvider();
-                    provider.delete();
-
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ],
-            ));
+  Future<bool> _exitApp() {
+    if (_scaffoldKey.currentState.isDrawerOpen) {
+      Navigator.of(context).pop();
+      return Future.value(false);
+    } else if ((DateTime.now().millisecondsSinceEpoch - _exitTime) > 2000) {
+      ToastUtil.showMessgae('再按一次离开App');
+      _exitTime = DateTime.now().millisecondsSinceEpoch;
+      return Future.value(false);
+    } else {
+      Navigator.of(context).pop(true);
+      return Future.value(true);
+    }
   }
 }
 

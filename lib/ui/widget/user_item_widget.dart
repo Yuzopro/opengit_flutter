@@ -17,7 +17,7 @@ class UserItemWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             ImageUtil.getCircleNetworkImage(
-                item.avatarUrl, 36.0, "image/ic_default_head.png"),
+                item.avatarUrl, 36.0, "assets/images/ic_default_head.png"),
             Padding(
               padding: EdgeInsets.only(left: 4.0),
               child: Text(

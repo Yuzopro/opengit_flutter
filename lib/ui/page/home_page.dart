@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/util/common_util.dart';
 
 class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   static final String TAG = "HomePage";
@@ -52,7 +52,8 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  _getItemOwner(item.user.username, item.user.avatarLarge),
+                  CommonUtil.getNameAndAvatarWidget(
+                      item.user.username, item.user.avatarLarge),
                   _getItemTag(item.tags),
                 ],
               ),
@@ -75,10 +76,10 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
               //底部数据
               Row(
                 children: <Widget>[
-                  _getItemBottom(
-                      'image/ic_like.png', item.collectionCount.toString()),
-                  _getItemBottom(
-                      'image/ic_comment.png', item.commentsCount.toString()),
+                  _getItemBottom('assets/images/ic_like.png',
+                      item.collectionCount.toString()),
+                  _getItemBottom('assets/images/ic_comment.png',
+                      item.commentsCount.toString()),
                 ],
               ),
             ],
@@ -87,29 +88,6 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         onTap: () {
           NavigatorUtil.goWebView(context, item.title, item.originalUrl);
         });
-  }
-
-  Widget _getItemOwner(String name, String head) {
-    return Expanded(
-      child: Row(
-        children: <Widget>[
-          ImageUtil.getCircleNetworkImage(
-              head, 24.0, "image/ic_default_head.png"),
-          SizedBox(
-            width: 6.0,
-          ),
-          SizedBox(
-            width: 200.0,
-            child: Text(
-              name,
-              maxLines: 1,
-              style: YZConstant.middleText,
-            ),
-          )
-        ],
-      ),
-      flex: 1,
-    );
   }
 
   Widget _getItemBottom(String icon, String count) {
@@ -137,9 +115,17 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         tag += (tags[i].title + "\/");
       }
     }
-    return Text(
-      tag,
-      style: YZConstant.middleSubText,
+    return Expanded(
+      child: Container(
+        alignment: Alignment.centerRight,
+        child: Text(
+          tag,
+          style: YZConstant.smallSubText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      flex: 1,
     );
   }
 

@@ -67,6 +67,8 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
 
     if (result != null) {
       bean.data.addAll(result);
+    } else {
+      bean.isError = true;
     }
 
     sink.add(bean);

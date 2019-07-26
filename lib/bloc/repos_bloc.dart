@@ -11,8 +11,7 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   final String userName;
   final bool isStar;
 
-  ReposBloc(this.userName, {this.isStar}) {
-  }
+  ReposBloc(this.userName, {this.isStar}) {}
 
   bool _isInit = false;
 
@@ -37,8 +36,8 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   Future _fetchReposList() async {
     LogUtil.v('_fetchReposList', tag: TAG);
     try {
-      var result =
-          await ReposManager.instance.getUserRepos(userName, page, null, isStar);
+      var result = await ReposManager.instance
+          .getUserRepos(userName, page, null, isStar);
       if (bean.data == null) {
         bean.data = List();
       }
@@ -50,6 +49,8 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
       if (result != null) {
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
+      } else {
+        bean.isError = true;
       }
 
       sink.add(bean);
