@@ -29,6 +29,15 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchReposList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchReposList();
   }
@@ -47,6 +56,7 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

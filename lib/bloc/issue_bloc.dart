@@ -55,6 +55,15 @@ class IssueBloc extends BaseListBloc<IssueBean> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchIssueList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchIssueList();
   }
@@ -73,6 +82,7 @@ class IssueBloc extends BaseListBloc<IssueBean> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

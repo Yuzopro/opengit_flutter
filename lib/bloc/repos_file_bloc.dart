@@ -38,6 +38,15 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
     refreshStatusEvent();
   }
 
+  @override
+  void onReload() async {
+    _showLoading();
+    await _fetchSourceFile();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
   void fetchNextDir(String fileName) async {
     _showLoading();
     fileStack.add(fileName);
@@ -66,6 +75,7 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
     bean.data.clear();
 
     if (result != null) {
+      bean.isError = false;
       bean.data.addAll(result);
     } else {
       bean.isError = true;

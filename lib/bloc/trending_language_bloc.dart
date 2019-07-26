@@ -30,6 +30,16 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
     refreshStatusEvent();
   }
 
+  @override
+  void onReload() async {
+    _showLoading();
+    await _fetchLanguageList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+
   double getLetterHeight() {
     return 40.0;
   }
@@ -56,6 +66,7 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
       }
       bean.data.clear();
       if (result != null) {
+        bean.isError = false;
         bean.data.addAll(result);
       } else {
         bean.isError = true;

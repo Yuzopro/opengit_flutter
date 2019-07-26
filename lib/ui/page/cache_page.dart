@@ -19,8 +19,8 @@ class _CachePageState extends State<CachePage> {
   @override
   void initState() {
     super.initState();
-    int time = SpUtil.instance
-        .getInt(SharedPrfKey.SP_KEY_CACHE_TIME, defValue: 4);
+    int time =
+        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_CACHE_TIME, defValue: 4);
     _discreteValue = time.roundToDouble();
   }
 
@@ -34,13 +34,14 @@ class _CachePageState extends State<CachePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.cache),
+      appBar:
+          CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.cache),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
             Text(
-              '缓存时间最长为4小时，当应用退出时，所有缓存会被清空。缓存过期前可通过下拉刷新手动更新页面。',
+              '缓存时间最长为4小时，当应用退出时，所有缓存会被清空，缓存过期前可通过下拉刷新手动更新页面。',
               style: TextStyle(color: Colors.grey, fontSize: 12.0),
             ),
             SizedBox(

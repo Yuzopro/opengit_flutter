@@ -39,6 +39,15 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchReactions();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchReactions();
   }
@@ -73,6 +82,7 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

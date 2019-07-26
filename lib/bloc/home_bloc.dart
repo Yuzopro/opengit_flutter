@@ -41,6 +41,15 @@ class HomeBloc extends BaseListBloc<Entrylist> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchHomeList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchHomeList();
   }
@@ -58,6 +67,7 @@ class HomeBloc extends BaseListBloc<Entrylist> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

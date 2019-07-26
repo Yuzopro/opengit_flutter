@@ -32,6 +32,15 @@ class TrendingUserBloc extends BaseListBloc<TrendingUserBean> {
     refreshStatusEvent();
   }
 
+  @override
+  void onReload() async {
+    _showLoading();
+    await _fetchTrendList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
   void refreshData({String language, String since}) async {
     this.language = language ?? this.language;
     this.since = since ?? this.since;
@@ -55,6 +64,7 @@ class TrendingUserBloc extends BaseListBloc<TrendingUserBean> {
       }
       bean.data.clear();
       if (result != null) {
+        bean.isError = false;
         bean.data.addAll(result);
       } else {
         bean.isError = true;

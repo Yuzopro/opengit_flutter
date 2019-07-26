@@ -29,6 +29,15 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchFollowList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchFollowList();
   }
@@ -46,6 +55,7 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

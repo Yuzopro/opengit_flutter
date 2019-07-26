@@ -56,6 +56,16 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchIssueComment();
+    await _fetchIssueComments();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchIssueComments();
   }

@@ -21,6 +21,15 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _searchText();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   void initData(BuildContext context) {}
 
   void startSearch(String text) async {

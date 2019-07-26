@@ -4,7 +4,6 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/repos_manager.dart';
-import 'package:open_git/status/status.dart';
 
 class ReposTrendBloc extends BaseListBloc<Repository> {
   final String language;
@@ -19,6 +18,15 @@ class ReposTrendBloc extends BaseListBloc<Repository> {
     }
     _isInit = true;
 
+    _showLoading();
+    await _fetchTrendList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
+  void onReload() async {
     _showLoading();
     await _fetchTrendList();
     _hideLoading();
@@ -48,6 +56,7 @@ class ReposTrendBloc extends BaseListBloc<Repository> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {

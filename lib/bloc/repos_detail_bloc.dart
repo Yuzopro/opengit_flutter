@@ -44,6 +44,13 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchReposDetail();
+    _hideLoading();
+  }
+
+  @override
   Future getData() async {
     await _fetchReposDetail();
   }
@@ -55,6 +62,8 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
 
     if (repos == null) {
       bean.isError = true;
+    } else {
+      bean.isError = false;
     }
 
     sink.add(bean);

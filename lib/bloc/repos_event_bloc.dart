@@ -27,6 +27,15 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
   }
 
   @override
+  void onReload() async {
+    _showLoading();
+    await _fetchEventList();
+    _hideLoading();
+
+    refreshStatusEvent();
+  }
+
+  @override
   Future getData() async {
     await _fetchEventList();
   }
@@ -49,6 +58,7 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
 
       noMore = true;
       if (result != null) {
+        bean.isError = false;
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {
