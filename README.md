@@ -7,6 +7,14 @@
 
 [项目地址-OpenGit客户端](https://github.com/Yuzopro/OpenGit_Flutter)
 
+## 代码下载
+
+由于涉及到子工程，clone代码如下所示
+git clone --recursive https://github.com/Yuzopro/opengit_flutter.git
+git checkout -b master origin/master
+cd flutter_common_lib
+git checkout -b master origin/master
+
 ## 预览
 
 部分页面效果如下：

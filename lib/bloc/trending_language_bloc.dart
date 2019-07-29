@@ -12,9 +12,13 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
   Map<String, double> _letterOffsetMap = new Map();
 
   @override
-  PageType getPageType() {
-    return PageType.trending_language;
-  }
+  PageType getPageType() => PageType.trending_language;
+
+  double getLetterHeight() => 48.0;
+
+  double getItemHeight() => 56.0;
+
+  double getOffset(String letter) => _letterOffsetMap[letter];
 
   @override
   void initData(BuildContext context) async {
@@ -39,19 +43,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
     refreshStatusEvent();
   }
 
-
-  double getLetterHeight() {
-    return 40.0;
-  }
-
-  double getItemHeight() {
-    return 50.0;
-  }
-
-  double getOffset(String letter) {
-    return _letterOffsetMap[letter];
-  }
-
   @override
   Future getData() async {
     await _fetchLanguageList();
@@ -72,7 +63,8 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
         bean.isError = true;
       }
       _sortListByLetter(bean.data);
-      TrendingLanguageBean item = TrendingLanguageBean('', 'All code language', letter: 'A');
+      TrendingLanguageBean item =
+      TrendingLanguageBean('', 'All Code Language', letter: 'A');
       bean.data.insert(0, item);
       _setShowLetter(bean.data);
       _initListOffset(bean.data);
@@ -83,7 +75,7 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
   void _sortListByLetter(List<TrendingLanguageBean> list) {
     if (list == null || list.isEmpty) return;
     list.sort(
-      (a, b) {
+          (a, b) {
         if (a.letter == "@" || b.letter == "#") {
           return -1;
         } else if (a.letter == "#" || b.letter == "@") {

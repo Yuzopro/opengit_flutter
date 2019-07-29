@@ -9,25 +9,22 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
   static final String TAG = "TrendingLanguagePage";
 
   @override
-  PageType getPageType() {
-    return PageType.trending_language;
-  }
+  PageType getPageType() => PageType.trending_language;
 
   @override
-  String getTitle(BuildContext context) {
-    return 'Language';
-  }
+  String getTitle(BuildContext context) => 'Language';
 
   @override
-  bool isShowSideBar() {
-    return true;
-  }
+  bool isShowSideBar() => true;
 
   @override
   double getOffset(BuildContext context, String letter) {
     TrendingLanguageBloc bloc = BlocProvider.of<TrendingLanguageBloc>(context);
     return bloc.getOffset(letter);
   }
+
+  @override
+  bool isShowAppBarActions() => false;
 
   @override
   Widget builderItem(BuildContext context, TrendingLanguageBean item) {
