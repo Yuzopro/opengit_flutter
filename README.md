@@ -7,13 +7,19 @@
 
 [项目地址-OpenGit客户端](https://github.com/Yuzopro/OpenGit_Flutter)
 
-## 代码下载
+## 编译代码
 
-由于涉及到子工程，clone代码如下所示
-git clone --recursive https://github.com/Yuzopro/opengit_flutter.git
+由于涉及到子工程，clone代码如下所示 
+
+```git
+git clone --recursive https://github.com/Yuzopro/opengit_flutter.git 
+git checkout -b master origin/master 
+cd flutter_common_lib 
 git checkout -b master origin/master
-cd flutter_common_lib
-git checkout -b master origin/master
+cd ../
+flutter build apk
+flutter install
+```
 
 ## 预览
 
@@ -123,10 +129,11 @@ OpenGit主要是一个Github客户端。选择以Github客户端作为练手项�
 
 这里非常感觉下[恋猫de小郭](https://juejin.im/user/582aca2ba22b9d006b59ae68)，[GSYGithubAppFlutte](https://github.com/CarGuo/GSYGithubAppFlutter) 确实在我实践过程中提供了很大的帮助，在查阅相关api封装时，节省了不少的时间。
 
-### 架构
+### 设计模式
 
-OpenGit 1.1.0版本架构已采用BloC+Redux。
-详情可以参考文章[MVC、MVP、BloC、Redux四种架构在Flutter上的尝试](https://yuzopro.github.io/2019/07/13/MVC-MVP-BloC-Redux%E5%9B%9B%E7%A7%8D%E6%9E%B6%E6%9E%84%E5%9C%A8Flutter%E4%B8%8A%E7%9A%84%E5%B0%9D%E8%AF%95/)
+OpenGit最初设计模式主要采用mvp模式，因为自身是android开发，采用mvp上手比较快。不过在开发过程中发现mvp模式不太合适。例如在实现下拉刷新时，onRefresh方法必须要收到Future的返回类型，这种场景用mvp就不太合适。后面可能会进程重构，采用redux或者bloc。
+
+### 架构
 
 OpenGit主要是通过网络从github获取数据，然后再渲染UI。我们可以在逻辑上对业务代码简单分成两层：底层数据IO+上层UI渲染。
 
@@ -158,30 +165,25 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 | **package_info**           | **版本信息** |
 | **qr_flutter**             | **二维码生成** |
 | **permission_handler**     | **权限申请** |
-| **rxdart**                 | **rx框架用于BloC** |
-| **pull_to_refresh**        | **下拉listview** |
-| **fluttertoast**           | **toast提示** |
-| **webview_flutter**        | **webview加载** |
-| **url_launcher**           | **默认浏览器展示url** |
 
 ## Android版安装包：
 [点击下载](https://github.com/Yuzopro/OpenGit_Flutter/releases/download/1.1.0/opengit-release-1.1.0.apk)
 
 扫码下载
 
-![image](https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_3.png) 
+![image](https://upload-images.jianshu.io/upload_images/2012362-a8a305bfe7e79abf?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
 
 ## IOS需要自行下载代码运行。（效果是一致的）
 
 ## 项目环境
 
-    1. Flutter version 1.6.3
+    1. Flutter version 1.8.2
 
-    2. Dart version 2.3.2 (build 2.3.2-dev.0.0 e3edfd36b2)
+    2. Dart version 2.5.0 (build 2.5.0-dev.0.0 b5aeaa6796)
 
     3. Android SDK version 28.0.3
 
-    4. Android Studio version 3.4.2
+    4. Android Studio version 3.4
 
 ## TODO
 
@@ -202,6 +204,8 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 - [Flutter 实战](https://book.flutterchina.club/)
 
 - [Github Developer](https://developer.github.com/v3/)
+
+- [Github-trending-api](https://github.com/huchenme/github-trending-api)
 
 ## 关于作者
 
