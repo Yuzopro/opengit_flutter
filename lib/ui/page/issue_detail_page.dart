@@ -8,7 +8,6 @@ import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 
 class IssueDetailPage
@@ -43,8 +42,7 @@ class IssueDetailPage
   @override
   void openWebView(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    NavigatorUtil.goWebView(
-        context, bloc.getTitle(), bloc.issueBean.htmlUrl);
+    NavigatorUtil.goWebView(context, bloc.getTitle(), bloc.issueBean.htmlUrl);
   }
 
   @override
@@ -87,7 +85,8 @@ class IssueDetailPage
             padding: EdgeInsets.all(12.0),
             child: Text(
               data.data.issueBean.title,
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
           ),
           Divider(
@@ -169,9 +168,13 @@ class IssueDetailPage
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(item.user.login),
+              Text(
+                item.user.login,
+                style: YZConstant.smallText,
+              ),
               Text(
                 DateUtil.getMultiDateStr(item.createdAt),
+                style: YZConstant.smallText,
               ),
             ],
           ),
@@ -244,8 +247,8 @@ class IssueDetailPage
             .map(
               (_Reaction reaction) => PopupMenuItem<String>(
                 value: reaction.type,
-                child:
-                    ImageUtil.getImage("assets/images/${reaction.img}.png", 24.0, 24.0),
+                child: ImageUtil.getImage(
+                    "assets/images/${reaction.img}.png", 24.0, 24.0),
               ),
             )
             .toList(),
@@ -359,6 +362,25 @@ class IssueDetailPage
       ),
       width: 36.0,
       height: 56.0,
+    );
+  }
+
+  @override
+  Widget buildFloatingActionButton(BuildContext context) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    if (bloc.issueBean == null) {
+      return null;
+    }
+    return new FloatingActionButton(
+      onPressed: () {
+        bloc.enterCommentEditor(context, bloc.issueBean, true);
+      },
+      backgroundColor: Colors.black,
+      tooltip: 'add comment',
+      child: Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
     );
   }
 }

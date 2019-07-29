@@ -38,7 +38,7 @@ class IssueItemWidget extends StatelessWidget {
               //描述
               Text(
                 item.title,
-                style: YZConstant.smallSubText,
+                style: YZConstant.smallTextT65,
               ),
               SizedBox(
                 height: 5.0,

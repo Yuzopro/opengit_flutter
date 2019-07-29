@@ -27,7 +27,7 @@ dependencies:
   markdown: ^2.0.3
   flutter_markdown: ^0.2.0
   flutter_redux: ^0.5.3
-  fluro: ^1.5.0
+  fluro: ^1.5.1
   package_info: ^0.4.0+4
   qr_flutter: ^2.1.0+55
   permission_handler: ^3.1.0

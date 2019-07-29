@@ -14,20 +14,27 @@ class HttpRequest {
   static final String TAG = "HttpRequest";
 
   get(String url) async {
-    RequestBuilder requestBuilder = new RequestBuilder();
-    requestBuilder.method(HttpMethod.GET).url(url);
+    RequestBuilder requestBuilder = RequestBuilder()
+      ..method(HttpMethod.GET)
+      ..url(url);
+
     return await builder(requestBuilder);
   }
 
   post(String url, dynamic data) async {
-    RequestBuilder requestBuilder = new RequestBuilder();
-    requestBuilder.method(HttpMethod.POST).url(url).data(data);
+    RequestBuilder requestBuilder = RequestBuilder()
+      ..method(HttpMethod.POST)
+      ..url(url)
+      ..data(data);
+
     return await builder(requestBuilder);
   }
 
   delete(String url) async {
-    RequestBuilder requestBuilder = new RequestBuilder();
-    requestBuilder.method(HttpMethod.DELETE).url(url);
+    RequestBuilder requestBuilder = RequestBuilder()
+      ..method(HttpMethod.DELETE)
+      ..url(url);
+
     return await builder(requestBuilder);
   }
 

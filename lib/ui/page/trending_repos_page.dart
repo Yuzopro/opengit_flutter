@@ -57,7 +57,7 @@ class TrendingReposPage
             ),
             Text(
               item.description,
-              style: YZConstant.smallSubText,
+              style: YZConstant.smallTextT65,
             ),
             SizedBox(
               height: 5.0,

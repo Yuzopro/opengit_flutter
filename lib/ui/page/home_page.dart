@@ -71,7 +71,7 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
               //描述
               Text(
                 item.content,
-                style: YZConstant.smallSubText,
+                style: YZConstant.smallTextT65,
               ),
               //底部数据
               Row(

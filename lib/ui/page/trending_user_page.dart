@@ -49,7 +49,7 @@ class TrendingUserPage
             //描述
             Text(
               item.repo.description,
-              style: YZConstant.smallSubText,
+              style: YZConstant.smallTextT65,
             ),
           ],
         ),

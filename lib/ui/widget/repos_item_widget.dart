@@ -44,7 +44,7 @@ class ReposItemWidget extends StatelessWidget {
               //描述
               Text(
                 item.description,
-                style: YZConstant.smallSubText,
+                style: YZConstant.smallTextT65,
               ),
               //底部数据
               Row(
