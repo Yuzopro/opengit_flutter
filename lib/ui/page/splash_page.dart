@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/user/user_action.dart';
@@ -33,7 +34,7 @@ class SplashPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isLoad) {
       isLoad = true;
-      Observable.just(1).delay(Duration(milliseconds: 500)).listen((_) {
+      TimerUtil.delay(500, (_) {
         viewModel.onStartCountdown();
       });
     }

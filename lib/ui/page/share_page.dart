@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:package_info/package_info.dart';
@@ -22,7 +23,7 @@ class _SharePageState extends State<SharePage> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width - 100;
+    double size = ScreenUtil.getScreenWidth(context) - 100;
     double qrSize = size - 80;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,

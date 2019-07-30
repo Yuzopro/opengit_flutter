@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
@@ -61,20 +61,7 @@ class _EditIssueState extends State<EditIssuePage> {
       body: Stack(
         children: <Widget>[
           _buildBody(context),
-          Offstage(
-            offstage: !_isLoading,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.black54,
-              child: Center(
-                child: SpinKitCircle(
-                  color: Theme.of(context).primaryColor,
-                  size: 25.0,
-                ),
-              ),
-            ),
-          ),
+          CommonUtil.getLoading(context, _isLoading),
         ],
       ),
     );

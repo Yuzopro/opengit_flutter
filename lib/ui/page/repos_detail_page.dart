@@ -100,7 +100,7 @@ class ReposDetailPage
         Container(
           padding: EdgeInsets.all(12.0),
           alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
+          width: ScreenUtil.getScreenWidth(context),
           child: Text(ReposUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
         ),
         Divider(
@@ -177,7 +177,7 @@ class ReposDetailPage
 
   Widget _getClassifyTips(BuildContext context, String tips) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: ScreenUtil.getScreenWidth(context),
       padding: EdgeInsets.all(12.0),
       color: Colors.black12,
       child: Text(

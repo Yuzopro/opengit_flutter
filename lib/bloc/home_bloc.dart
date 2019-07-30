@@ -83,7 +83,7 @@ class HomeBloc extends BaseListBloc<Entrylist> {
   }
 
   void _checkUpgrade(BuildContext context) {
-    Observable.just(1).delay(Duration(milliseconds: 200)).listen((_) {
+    TimerUtil.delay(200, (_) {
       ReposManager.instance
           .getReposReleases('Yuzopro', 'OpenGit_Flutter')
           .then((result) {

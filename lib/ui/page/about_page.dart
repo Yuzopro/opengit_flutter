@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
@@ -159,20 +158,8 @@ class _AboutPageState extends State<AboutPageContent> {
               ],
             ),
           ),
-          Offstage(
-            offstage: widget.viewModel.status != LoadingStatus.loading,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.black54,
-              child: Center(
-                child: SpinKitCircle(
-                  color: Theme.of(context).primaryColor,
-                  size: 25.0,
-                ),
-              ),
-            ),
-          )
+          CommonUtil.getLoading(
+              context, widget.viewModel.status == LoadingStatus.loading),
         ],
       ),
     );

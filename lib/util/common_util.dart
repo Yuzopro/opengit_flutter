@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 
@@ -82,6 +83,23 @@ class CommonUtil {
         style: YZConstant.normalTextWhite,
       ),
       actions: actions,
+    );
+  }
+
+  static Widget getLoading(BuildContext context, bool isLoading) {
+    return Offstage(
+      offstage: !isLoading,
+      child: Container(
+        width: ScreenUtil.getScreenWidth(context),
+        height: ScreenUtil.getScreenHeight(context),
+        color: Colors.black54,
+        child: Center(
+          child: SpinKitCircle(
+            color: Theme.of(context).primaryColor,
+            size: 25.0,
+          ),
+        ),
+      ),
     );
   }
 

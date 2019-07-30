@@ -72,8 +72,7 @@ class LoginManager {
       _userBean = UserBean.fromJson(data);
     }
     if (isNeedCache) {
-      SpUtil.instance.putString(
-          SharedPrfKey.SP_KEY_USER_INFO, data != null ? jsonEncode(data) : '');
+      SpUtil.instance.putObject(SharedPrfKey.SP_KEY_USER_INFO, data);
     }
   }
 
@@ -84,8 +83,7 @@ class LoginManager {
   void setToken(String token, bool isNeedCache) {
     _token = token;
     if (isNeedCache) {
-      SpUtil.instance
-          .putString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
+      SpUtil.instance.putString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
     }
   }
 

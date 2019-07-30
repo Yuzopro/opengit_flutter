@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/login/login_action.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/util/common_util.dart';
 import 'package:redux/redux.dart';
 
 class LoginPage extends StatelessWidget {
@@ -49,36 +49,25 @@ class _LoginPageContentState extends State<LoginPageContent> {
         body: Stack(
       children: <Widget>[
         Form(
-            child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 22.0),
-          children: <Widget>[
-            SizedBox(
-              height: kToolbarHeight,
-            ),
-            _buildTitle(),
-            _buildTitleLine(),
-            SizedBox(height: 70.0),
-            _buildNameTextField(),
-            SizedBox(height: 30.0),
-            _buildPasswordTextField(context),
-            SizedBox(height: 60.0),
-            _buildLoginButton(context),
-          ],
-        )),
-        Offstage(
-          offstage: widget.viewModel.status != LoadingStatus.loading,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black54,
-            child: Center(
-              child: SpinKitCircle(
-                color: Theme.of(context).primaryColor,
-                size: 25.0,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 22.0),
+            children: <Widget>[
+              SizedBox(
+                height: kToolbarHeight,
               ),
-            ),
+              _buildTitle(),
+              _buildTitleLine(),
+              SizedBox(height: 70.0),
+              _buildNameTextField(),
+              SizedBox(height: 30.0),
+              _buildPasswordTextField(context),
+              SizedBox(height: 60.0),
+              _buildLoginButton(context),
+            ],
           ),
-        )
+        ),
+        CommonUtil.getLoading(
+            context, widget.viewModel.status == LoadingStatus.loading),
       ],
     ));
   }
@@ -116,8 +105,7 @@ class _LoginPageContentState extends State<LoginPageContent> {
               _obscureText = !_obscureText;
             });
           },
-          child:
-              Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+          child: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
         ),
       ),
       maxLines: 1,

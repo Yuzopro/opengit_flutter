@@ -84,7 +84,8 @@ class _TrendingPageState extends State<TrendingPage>
             }).toList(),
             onTap: (index) {
               _currentIndex = index;
-              _pageController.jumpTo(MediaQuery.of(context).size.width * index);
+              _pageController
+                  .jumpTo(ScreenUtil.getScreenWidth(context) * index);
               if (_isChange) {
                 _refreshData();
               }

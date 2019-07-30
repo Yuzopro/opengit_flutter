@@ -4,6 +4,7 @@ import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -110,7 +111,7 @@ class _SearchPageState extends State<SearchPage>
               onTap: (index) {
                 _index = index;
                 _pageController
-                    .jumpTo(MediaQuery.of(context).size.width * index);
+                    .jumpTo(ScreenUtil.getScreenWidth(context) * index);
               },
             ),
           ),

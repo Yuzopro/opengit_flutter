@@ -133,7 +133,7 @@ class _MainPageState extends State<MainPage>
                 }).toList(),
                 onTap: (index) {
                   _pageController
-                      .jumpTo(MediaQuery.of(context).size.width * index);
+                      .jumpTo(ScreenUtil.getScreenWidth(context) * index);
                 },
               ),
               actions: <Widget>[

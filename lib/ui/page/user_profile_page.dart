@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bloc/follow_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
 import 'package:open_git/bloc/following_bloc.dart';
@@ -134,7 +135,7 @@ class _UserProfileState extends State<UserProfilePage>
             );
           }).toList(),
           onTap: (index) {
-            _pageController.jumpTo(MediaQuery.of(context).size.width * index);
+            _pageController.jumpTo(ScreenUtil.getScreenWidth(context) * index);
           },
         ),
       ),

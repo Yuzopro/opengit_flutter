@@ -15,13 +15,10 @@ import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/util/locale_util.dart';
 import 'package:open_git/util/theme_util.dart';
-import 'package:open_git/util/timer_util.dart';
 import 'package:redux/redux.dart';
 
 class UserMiddleware extends MiddlewareClass<AppState> {
   static final String TAG = "UserMiddleware";
-
-  TimerUtil _timerUtil;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -30,7 +27,7 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     } else if (action is StartCountdownAction) {
       startCountdown(store, next, action.context);
     } else if (action is StopCountdownAction) {
-      _cancelTimer();
+      TimerUtil.cancelCountdown();
     } else {
       next(action);
     }
@@ -43,32 +40,28 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     await provider.delete();
 
     //主题
-    int theme =
-        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_THEME_COLOR);
+    int theme = SpUtil.instance.getInt(SharedPrfKey.SP_KEY_THEME_COLOR);
     if (theme != 0) {
-      Color color = new Color(theme);
+      Color color = Color(theme);
       next(RefreshThemeDataAction(AppTheme.changeTheme(color)));
     }
     //语言
-    int locale =
-        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
+    int locale = SpUtil.instance.getInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
     if (locale != 0) {
       next(RefreshLocalAction(LocaleUtil.changeLocale(store.state, locale)));
     }
     //用户信息
-    String token =
-        SpUtil.instance.getString(SharedPrfKey.SP_KEY_TOKEN);
+    String token = SpUtil.instance.getString(SharedPrfKey.SP_KEY_TOKEN);
     UserBean userBean = null;
-    var user =
-        SpUtil.instance.getObject(SharedPrfKey.SP_KEY_USER_INFO);
+    var user = SpUtil.instance.getObject(SharedPrfKey.SP_KEY_USER_INFO);
     if (user != null) {
       LoginManager.instance.setUserBean(user, false);
       userBean = UserBean.fromJson(user);
     }
     LoginManager.instance.setToken(token, false);
     //引导页
-    String version = SpUtil.instance
-        .getString(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
+    String version =
+        SpUtil.instance.getString(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
     next(InitCompleteAction(token, userBean, currentVersion != version));
 
@@ -77,18 +70,14 @@ class UserMiddleware extends MiddlewareClass<AppState> {
 
   void startCountdown(
       Store<AppState> store, NextDispatcher next, BuildContext context) {
-    _timerUtil = new TimerUtil(mTotalTime: 3 * 1000);
-    _timerUtil.setOnTimerTickCallback((int tick) {
-      double _tick = tick / 1000;
-      next(CountdownAction(_tick.toInt()));
-      if (_tick == 0) {
-        _cancelTimer();
+    TimerUtil.startCountdown(5, (int count) {
+      next(CountdownAction(count));
 
+      if (count == 0) {
         _jump(context, store.state.userState.status,
             store.state.userState.isGuide);
       }
     });
-    _timerUtil.startCountDown();
   }
 
   void _jump(BuildContext context, LoginStatus status, bool isShowGuide) {
@@ -98,13 +87,6 @@ class UserMiddleware extends MiddlewareClass<AppState> {
       NavigatorUtil.goMain(context);
     } else if (status == LoginStatus.error) {
       NavigatorUtil.goLogin(context);
-    }
-  }
-
-  void _cancelTimer() {
-    if (_timerUtil != null) {
-      _timerUtil.cancel();
-      _timerUtil = null;
     }
   }
 }
