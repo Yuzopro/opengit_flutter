@@ -20,11 +20,13 @@ class EventManager {
   getEventReceived(userName, page) async {
     String url = Api.getEventReceived(userName) + Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<EventBean> list = new List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        list.add(EventBean.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(EventBean.fromJson(dataItem));
+        }
       }
       return list;
     }
@@ -34,11 +36,29 @@ class EventManager {
   getEvent(userName, page) async {
     String url = Api.getEvent(userName) + Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<EventBean> list = new List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        list.add(EventBean.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(EventBean.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  getOrgEvent(userName, page) async {
+    String url = Api.getOrgEvent(userName) + Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<EventBean> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(EventBean.fromJson(dataItem));
+        }
       }
       return list;
     }

@@ -1,0 +1,4 @@
+const SMALL_IMAGE_SIZE = 18.0;
+const NORMAL_IMAGE_SIZE = 24.0;
+const BIG_IMAGE_SIZE = 36.0;
+const LARGE_IMAGE_SIZE = 48.0;

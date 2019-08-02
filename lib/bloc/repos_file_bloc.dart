@@ -31,36 +31,32 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchSourceFile();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchSourceFile();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
 
   void fetchNextDir(String fileName) async {
-    _showLoading();
+    showLoading();
     fileStack.add(fileName);
     await _fetchSourceFile();
-    _hideLoading();
+    hideLoading();
   }
 
   void fetchPreDir() async {
-    _showLoading();
+    showLoading();
     if (fileStack.length > 0) {
       fileStack.removeAt(fileStack.length - 1);
     }
     await _fetchSourceFile();
-    _hideLoading();
+    hideLoading();
   }
 
   Future _fetchSourceFile() async {
@@ -95,15 +91,5 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
       path += ("/" + fileStack[i]);
     }
     return path;
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

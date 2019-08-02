@@ -11,7 +11,7 @@ class FollowersBloc extends FollowBloc {
   }
 
   @override
-  fetchList(String userName, int page) async {
+  fetchList(int page) async {
     return await UserManager.instance.getUserFollower(userName, page);
   }
 }

@@ -12,6 +12,11 @@ class Api {
     return "${_BASE_URL}user";
   }
 
+  //用户基本资料
+  static getUserInfo(userName) {
+    return "${_BASE_URL}users/$userName";
+  }
+
   ///用户的仓库 get
   static userRepos(userName, sort) {
     sort ??= 'pushed';
@@ -171,6 +176,47 @@ class Api {
   //获取仓库release列表
   static getReposReleases(userName, repos) {
     return "${_BASE_URL}repos/$userName/$repos/releases?";
+  }
+
+  ///获取组织
+  static getOrgs(userName) {
+    return '${_BASE_URL}users/$userName/orgs?';
+  }
+
+  ///检查是否关注别人  get 204 true 404 false
+  static isFollow(userName) {
+    return '${_BASE_URL}user/following/$userName';
+  }
+
+  ///关注别人  put 204 true 404 false
+  static follow(userName) {
+    return '${_BASE_URL}user/following/$userName';
+  }
+
+  ///取消关注别人  delete 204 true 404 false
+  static unFollow(userName) {
+    return '${_BASE_URL}user/following/$userName';
+  }
+
+  ///获取组织详情
+  static getOrgProfile(String org) {
+    return '${_BASE_URL}orgs/$org';
+  }
+
+  ///组织的仓库 get
+  static getOrgRepos(orgName, sort) {
+    sort ??= 'pushed';
+    return "${_BASE_URL}orgs/$orgName/repos?sort=$sort";
+  }
+
+  //组织相关的事件信息 get
+  static getOrgEvent(orgName) {
+    return "${_BASE_URL}orgs/$orgName/events?";
+  }
+
+  ///组织成员
+  static getOrgMembers(orgName) {
+    return "${_BASE_URL}orgs/$orgName/members?";
   }
 
   static getJueJinApi(int page) {

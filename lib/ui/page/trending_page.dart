@@ -4,7 +4,7 @@ import 'package:flutter_base_ui/style/common_style.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bloc/trending_repos_bloc.dart';
 import 'package:open_git/bloc/trending_user_bloc.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/page/trending_repos_page.dart';
@@ -38,11 +38,9 @@ class _TrendingPageState extends State<TrendingPage>
   void initState() {
     super.initState();
 
-    _language =
-        SpUtil.instance.getString(SharedPrfKey.SP_KEY_TRENDING_LANGUAGE);
+    _language = SpUtil.instance.getString(SP_KEY_TRENDING_LANGUAGE);
 
-    _since = SpUtil.instance
-        .getString(SharedPrfKey.SP_KEY_TRENDING_DATE, defValue: 'daily');
+    _since = SpUtil.instance.getString(SP_KEY_TRENDING_DATE, defValue: 'daily');
 
     _tabController = new TabController(vsync: this, length: 2);
 
@@ -53,8 +51,8 @@ class _TrendingPageState extends State<TrendingPage>
   @override
   void dispose() {
     super.dispose();
-    SpUtil.instance.putString(SharedPrfKey.SP_KEY_TRENDING_LANGUAGE, _language);
-    SpUtil.instance.putString(SharedPrfKey.SP_KEY_TRENDING_DATE, _since);
+    SpUtil.instance.putString(SP_KEY_TRENDING_LANGUAGE, _language);
+    SpUtil.instance.putString(SP_KEY_TRENDING_DATE, _since);
   }
 
   @override

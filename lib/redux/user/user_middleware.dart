@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
@@ -40,20 +40,20 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     await provider.delete();
 
     //主题
-    int theme = SpUtil.instance.getInt(SharedPrfKey.SP_KEY_THEME_COLOR);
+    int theme = SpUtil.instance.getInt(SP_KEY_THEME_COLOR);
     if (theme != 0) {
       Color color = Color(theme);
       next(RefreshThemeDataAction(AppTheme.changeTheme(color)));
     }
     //语言
-    int locale = SpUtil.instance.getInt(SharedPrfKey.SP_KEY_LANGUAGE_COLOR);
+    int locale = SpUtil.instance.getInt(SP_KEY_LANGUAGE_COLOR);
     if (locale != 0) {
       next(RefreshLocalAction(LocaleUtil.changeLocale(store.state, locale)));
     }
     //用户信息
-    String token = SpUtil.instance.getString(SharedPrfKey.SP_KEY_TOKEN);
+    String token = SpUtil.instance.getString(SP_KEY_TOKEN);
     UserBean userBean = null;
-    var user = SpUtil.instance.getObject(SharedPrfKey.SP_KEY_USER_INFO);
+    var user = SpUtil.instance.getObject(SP_KEY_USER_INFO);
     if (user != null) {
       LoginManager.instance.setUserBean(user, false);
       userBean = UserBean.fromJson(user);
@@ -61,7 +61,7 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     LoginManager.instance.setToken(token, false);
     //引导页
     String version =
-        SpUtil.instance.getString(SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION);
+        SpUtil.instance.getString(SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
     next(InitCompleteAction(token, userBean, currentVersion != version));
 

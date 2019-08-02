@@ -19,18 +19,14 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchEventList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchEventList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -71,15 +67,5 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

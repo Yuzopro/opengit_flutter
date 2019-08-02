@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/common_util.dart';
 
 class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   static final String TAG = "HomePage";
@@ -40,71 +41,13 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   @override
   Widget builderItem(BuildContext context, Entrylist item) {
     return InkWell(
-        child: Container(
-          color: Color(YZColors.white),
-          margin: EdgeInsets.only(bottom: 8.0),
-          padding: EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 8.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  CommonUtil.getNameAndAvatarWidget(
-                      item.user.username, item.user.avatarLarge),
-                  _getItemTag(item.tags),
-                ],
-              ),
-              //全称
-              SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                item.title ?? "",
-                style: YZConstant.middleTextBold,
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              //描述
-              Text(
-                item.content,
-                style: YZConstant.smallTextT65,
-              ),
-              //底部数据
-              Row(
-                children: <Widget>[
-                  _getItemBottom('assets/images/ic_like.png',
-                      item.collectionCount.toString()),
-                  _getItemBottom('assets/images/ic_comment.png',
-                      item.commentsCount.toString()),
-                ],
-              ),
-            ],
-          ),
-        ),
-        onTap: () {
-          NavigatorUtil.goWebView(context, item.title, item.originalUrl);
-        });
-  }
-
-  Widget _getItemBottom(String icon, String count) {
-    return Padding(
-      padding: EdgeInsets.only(right: 12.0),
-      child: Row(
-        children: <Widget>[
-          Image(width: 12.0, height: 12.0, image: AssetImage(icon)),
-          SizedBox(
-            width: 4.0,
-          ),
-          Text(
-            count,
-            style: YZConstant.minSubText,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _postCard(context, item),
       ),
+      onTap: () {
+        NavigatorUtil.goWebView(context, item.title, item.originalUrl);
+      },
     );
   }
 
@@ -115,17 +58,11 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         tag += (tags[i].title + "\/");
       }
     }
-    return Expanded(
-      child: Container(
-        alignment: Alignment.centerRight,
-        child: Text(
-          tag,
-          style: YZConstant.smallSubText,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      flex: 1,
+    return Text(
+      tag,
+      style: YZConstant.smallSubText,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -180,4 +117,68 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
       },
     );
   }
+
+  Widget _postCard(BuildContext context, Entrylist item) {
+    return Card(
+      elevation: 2.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _profileColumn(context, item),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              item.title ?? '--',
+              style: YZConstant.middleTextBold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              TextUtil.isEmpty(item.content) ? '暂无描述' : item.content,
+              style: YZConstant.smallTextT65,
+            ),
+          ),
+          _actionColumn(item),
+        ],
+      ),
+    );
+  }
+
+  //column1
+  Widget _profileColumn(BuildContext context, Entrylist item) => Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      ImageUtil.getCircleNetworkImage(
+          item.user.avatarLarge, 36.0, ImagePath.image_default_head),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Text(
+            item.user.username ?? '--',
+            style: YZConstant.smallText,
+          ),
+        ),
+      ),
+      _getItemTag(item.tags),
+    ],
+  );
+
+  //column last
+  Widget _actionColumn(Entrylist item) => ButtonBar(
+    alignment: MainAxisAlignment.start,
+    children: <Widget>[
+      LabelIcon(
+        label: item.collectionCount.toString(),
+        image: 'assets/images/ic_like.png',
+      ),
+      LabelIcon(
+        label: item.collectionCount.toString(),
+        image: 'assets/images/ic_comment.png',
+      ),
+    ],
+  );
 }

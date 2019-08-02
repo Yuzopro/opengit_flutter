@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -44,33 +46,33 @@ class _DrawerPageState extends State<DrawerPage> {
       body: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(widget.name),
-            accountEmail: Text(widget.email),
+            accountName: Text(widget.name, style: YZConstant.normalTextWhite),
+            accountEmail: Text(widget.email, style: YZConstant.smallTextWhite),
             currentAccountPicture: GestureDetector(
               //用户头像
               onTap: () {
                 UserBean userBean = LoginManager.instance.getUserBean();
-                NavigatorUtil.goUserProfile(
-                    context, userBean.login, userBean.avatarUrl);
+                NavigatorUtil.goUserProfile(context, userBean.login);
               },
-              child: ImageUtil.getCircleNetworkImage(widget.headUrl ?? "", 48.0,
-                  "assets/images/ic_default_head.png"),
+              child: ImageUtil.getCircleNetworkImage(
+                  widget.headUrl ?? "", 48.0, ImagePath.image_default_head),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
-              NavigatorUtil.goUserProfile(
-                  context, userBean.login, userBean.avatarUrl);
+              NavigatorUtil.goUserProfile(context, userBean.login);
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).currentlocal.trend),
+            title: Text(AppLocalizations.of(context).currentlocal.trend,
+                style: YZConstant.middleText),
             leading: Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goTrend(context);
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).currentlocal.setting),
+            title: Text(AppLocalizations.of(context).currentlocal.setting,
+                style: YZConstant.middleText),
             leading: Icon(Icons.settings, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goSetting(context);
@@ -80,7 +82,8 @@ class _DrawerPageState extends State<DrawerPage> {
             title: Stack(
               alignment: Alignment.centerLeft,
               children: <Widget>[
-                Text(AppLocalizations.of(context).currentlocal.about),
+                Text(AppLocalizations.of(context).currentlocal.about,
+                    style: YZConstant.middleText),
                 Offstage(
                   offstage: !RedPointManager.instance.isUpgrade,
                   child: Container(
@@ -96,14 +99,16 @@ class _DrawerPageState extends State<DrawerPage> {
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).currentlocal.share),
+            title: Text(AppLocalizations.of(context).currentlocal.share,
+                style: YZConstant.middleText),
             leading: Icon(Icons.share, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goShare(context);
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).currentlocal.logout),
+            title: Text(AppLocalizations.of(context).currentlocal.logout,
+                style: YZConstant.middleText),
             leading: Icon(Icons.power_settings_new, color: Colors.grey),
             onTap: () {
               _handleLogoutApp(context);

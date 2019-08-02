@@ -13,7 +13,7 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
 
   FollowBloc(this.userName);
 
-  fetchList(String userName, int page);
+  fetchList(int page);
 
   void initData(BuildContext context) async {
     if (_isInit) {
@@ -21,18 +21,14 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchFollowList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchFollowList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -45,7 +41,7 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
   Future _fetchFollowList() async {
     LogUtil.v('_fetchFollowList', tag: TAG);
     try {
-      var result = await fetchList(userName, page);
+      var result = await fetchList(page);
       if (bean.data == null) {
         bean.data = List();
       }
@@ -68,15 +64,5 @@ abstract class FollowBloc extends BaseListBloc<UserBean> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

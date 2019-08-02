@@ -25,16 +25,14 @@ class IssueManager {
         Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
 
-//    final response = await HttpManager.doGet(url, {
-//      "Accept":
-//          'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview'
-//    });
-    if (response != null && response.data != null) {
+    if (response != null && response.result) {
       List<IssueBean> list = new List();
-      var items = response.data["items"];
-      if (items != null && items.length > 0) {
-        for (int i = 0; i < items.length; i++) {
-          list.add(IssueBean.fromJson(items[i]));
+      if (response.data != null) {
+        var items = response.data["items"];
+        if (items != null && items.length > 0) {
+          for (int i = 0; i < items.length; i++) {
+            list.add(IssueBean.fromJson(items[i]));
+          }
         }
       }
       return list;
@@ -49,14 +47,19 @@ class IssueManager {
     Map<String, dynamic> header = HashMap();
     header['Accept'] =
         'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
-    RequestBuilder builder = RequestBuilder();
-    builder.url(url).method(HttpMethod.GET).header(header);
+    RequestBuilder builder = RequestBuilder()
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.GET)
+      ..header(header);
     final response = await HttpRequest().builder(builder);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<IssueBean> list = new List();
-      int length = response.data.length;
-      for (int i = 0; i < length; i++) {
-        list.add(IssueBean.fromJson(response.data[i]));
+      if (response.data != null && response.data.length > 0) {
+        int length = response.data.length;
+        for (int i = 0; i < length; i++) {
+          list.add(IssueBean.fromJson(response.data[i]));
+        }
       }
       return list;
     }
@@ -74,7 +77,7 @@ class IssueManager {
 
   deleteIssueComment(repoUrl, comment_id) async {
     String url = Api.editComment(repoUrl, comment_id);
-    return await HttpRequest().delete(url);
+    return await HttpRequest().delete(url, isCache: false);
   }
 
   editIssueComment(repoUrl, issueNumber, comment) async {
@@ -85,10 +88,11 @@ class IssueManager {
         'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
     RequestBuilder builder = RequestBuilder();
     builder
-        .url(url)
-        .method(HttpMethod.PATCH)
-        .header(header)
-        .data({"body": comment});
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.PATCH)
+      ..header(header)
+      ..data({"body": comment});
     final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
@@ -109,10 +113,11 @@ class IssueManager {
 
     RequestBuilder builder = RequestBuilder();
     builder
-        .url(url)
-        .method(HttpMethod.POST)
-        .header(header)
-        .data({"content": comment});
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.POST)
+      ..header(header)
+      ..data({"content": comment});
     return await HttpRequest().builder(builder);
   }
 
@@ -123,7 +128,11 @@ class IssueManager {
     header['Accept'] =
         'application/vnd.github.echo-preview+json, application/vnd.github.squirrel-girl-preview+json';
     RequestBuilder builder = RequestBuilder();
-    builder.url(url).method(HttpMethod.DELETE).header(header);
+    builder
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.DELETE)
+      ..header(header);
     return await HttpRequest().builder(builder);
   }
 
@@ -140,13 +149,19 @@ class IssueManager {
     Map<String, dynamic> header = HashMap();
     header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
     RequestBuilder builder = RequestBuilder();
-    builder.url(url).method(HttpMethod.GET).header(header);
+    builder
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.GET)
+      ..header(header);
     final response = await HttpRequest().builder(builder);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<ReactionDetailBean> list = new List();
-      int length = response.data.length;
-      for (int i = 0; i < length; i++) {
-        list.add(ReactionDetailBean.fromJson(response.data[i]));
+      if (response.data != null && response.data.length > 0) {
+        int length = response.data.length;
+        for (int i = 0; i < length; i++) {
+          list.add(ReactionDetailBean.fromJson(response.data[i]));
+        }
       }
       return list;
     }
@@ -159,7 +174,11 @@ class IssueManager {
     Map<String, dynamic> header = HashMap();
     header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
     RequestBuilder builder = RequestBuilder();
-    builder.url(url).method(HttpMethod.GET).header(header);
+    builder
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.GET)
+      ..header(header);
     final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);
@@ -174,10 +193,11 @@ class IssueManager {
     header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
     RequestBuilder builder = RequestBuilder();
     builder
-        .url(url)
-        .method(HttpMethod.PATCH)
-        .header(header)
-        .data({"body": body, "title": title});
+      ..url(url)
+      ..isCache(false)
+      ..method(HttpMethod.PATCH)
+      ..header(header)
+      ..data({"body": body, "title": title});
     final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
       return IssueBean.fromJson(response.data);

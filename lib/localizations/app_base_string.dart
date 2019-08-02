@@ -41,4 +41,9 @@ abstract class AppBaseString {
   String disclaimer_;
   String cache;
   String developers;
+  String sign_tip_1;
+  String sign_tip_2;
+  String sign_up;
+  String sign_text;
+  String profile;
 }

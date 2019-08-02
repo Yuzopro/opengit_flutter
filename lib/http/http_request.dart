@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/http/response_result_data.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -13,9 +13,10 @@ import 'package:open_git/manager/login_manager.dart';
 class HttpRequest {
   static final String TAG = "HttpRequest";
 
-  get(String url) async {
+  get(String url, {bool isCache: true}) async {
     RequestBuilder requestBuilder = RequestBuilder()
       ..method(HttpMethod.GET)
+      ..isCache(isCache)
       ..url(url);
 
     return await builder(requestBuilder);
@@ -23,6 +24,7 @@ class HttpRequest {
 
   post(String url, dynamic data) async {
     RequestBuilder requestBuilder = RequestBuilder()
+      ..isCache(false)
       ..method(HttpMethod.POST)
       ..url(url)
       ..data(data);
@@ -30,9 +32,19 @@ class HttpRequest {
     return await builder(requestBuilder);
   }
 
-  delete(String url) async {
+  delete(String url, {bool isCache: true}) async {
     RequestBuilder requestBuilder = RequestBuilder()
       ..method(HttpMethod.DELETE)
+      ..isCache(isCache)
+      ..url(url);
+
+    return await builder(requestBuilder);
+  }
+
+  put(String url, {bool isCache: true}) async {
+    RequestBuilder requestBuilder = RequestBuilder()
+      ..method(HttpMethod.PUT)
+      ..isCache(isCache)
       ..url(url);
 
     return await builder(requestBuilder);
@@ -40,8 +52,7 @@ class HttpRequest {
 
   builder(RequestBuilder builder) async {
     if (builder.getCache()) {
-      int time =
-          SpUtil.instance.getInt(SharedPrfKey.SP_KEY_CACHE_TIME, defValue: 4);
+      int time = SpUtil.instance.getInt(SP_KEY_CACHE_TIME, defValue: 4);
       if (time > 0) {
         CacheProvider provider = CacheProvider();
         var result = await provider.query(builder.getUrl());

@@ -1,179 +1,218 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/push_event_commit_bean.dart';
 
 class EventUtil {
-  static getEventDes(EventBean event) {
-    String des;
-    switch (event.type) {
-      case "CommitCommentEvent":
+  static String getAction(EventBean model) {
+    String actionStr = '';
+    String repoName = model.repo.name;
+    if (model.repo.name.isNotEmpty && model.repo.name.contains("/")) {
+      List<String> repos = TextUtil.split(model.repo.name, '/');
+      repoName = repos[1];
+    }
+    String refType = model.payload != null ? model.payload.refType : '';
+    String action = model.payload != null ? model.payload.action : '';
+
+    switch (model.type) {
+      case 'CommitCommentEvent':
+        actionStr = 'Created comment on commit in $repoName';
         break;
-      case "CreateEvent":
+      case 'CreateEvent':
+        if (TextUtil.equals('repository', refType)) {
+          actionStr = 'Create repository $repoName';
+        } else if (TextUtil.equals('branch', refType)) {
+          actionStr = 'Create branch ${model.payload.ref} at $repoName';
+        } else if (TextUtil.equals('tag', refType)) {
+          actionStr = 'Create tag ${model.payload.ref} at $repoName';
+        }
         break;
-      case "DeleteEvent":
+      case 'DeleteEvent':
+        if (TextUtil.equals('branch', refType)) {
+          actionStr = 'Delete branch ${model.payload.ref} at $repoName';
+        } else if (TextUtil.equals('tag', refType)) {
+          actionStr = 'Delete tag ${model.payload.ref} at $repoName';
+        }
         break;
-      case "ForkEvent":
+      case 'ForkEvent':
+        String oriRepo = model.repo.name;
+        String newRepo = model.actor.login + "/" + repoName;
+        actionStr = 'Forked $oriRepo to $newRepo';
         break;
-      case "GollumEvent":
+      case 'GollumEvent':
+        actionStr = action + " a wiki page ";
         break;
-      case "InstallationEvent":
+
+      case 'InstallationEvent':
+        actionStr = action + " an GitHub App ";
         break;
-      case "InstallationRepositoriesEvent":
+      case 'InstallationRepositoriesEvent':
+        actionStr = action + " repository from an installation ";
         break;
-      case "IssueCommentEvent":
+      case 'IssueCommentEvent':
+        actionStr =
+            'Created comment on issue ${model.payload.issue.number} in $repoName';
         break;
-      case "IssuesEvent":
+      case 'IssuesEvent':
+        actionStr =
+            _getIssueEventStr(action, model.payload.issue.number, repoName);
         break;
-      case "MarketplacePurchaseEvent":
+      case 'MarketplacePurchaseEvent':
+        actionStr = action + " marketplace plan ";
         break;
-      case "MemberEvent":
+//      case 'MemberEvent':
+//        String memberEventStr = getMemberEventStr(action);
+//        actionStr = String.format(memberEventStr,
+//            model.getPayload().getMember().getLogin(), fullName);
+//        break;
+//      case 'OrgBlockEvent':
+//        String orgBlockEventStr;
+//        if (TextUtil.equals('blocked', action)) {
+//          orgBlockEventStr = 'Org '
+//        } else {
+//          orgBlockEventStr = getString(R.string.org_unblocked_user);
+//        }
+//        actionStr = String.format(
+//            orgBlockEventStr,
+//            model.getPayload().getOrganization().getLogin(),
+//            model.getPayload().getBlockedUser().getLogin());
+//        break;
+      case 'ProjectCardEvent':
+        actionStr = action + " a project ";
         break;
-      case "OrgBlockEvent":
+      case 'ProjectColumnEvent':
+        actionStr = action + " a project ";
         break;
-      case "ProjectCardEvent":
+      case 'ProjectEvent':
+        actionStr = action + " a project ";
         break;
-      case "ProjectColumnEvent":
+      case 'PublicEvent':
+        actionStr = 'Made $repoName public';
         break;
-      case "ProjectEvent":
+      case 'PullRequestEvent':
+        actionStr = action + " pull request " + repoName;
         break;
-      case "PublicEvent":
+      case 'PullRequestReviewEvent':
+        actionStr = _getPullRequestReviewEventStr(action, repoName);
         break;
-      case "PullRequestEvent":
+      case 'PullRequestReviewCommentEvent':
+        actionStr = _getPullRequestReviewCommentEventStr(action, repoName);
         break;
-      case "PullRequestReviewEvent":
+      case 'PushEvent':
+        String ref = model.payload.ref;
+        String branch = TextUtil.isEmpty(ref)
+            ? ''
+            : ref.substring(ref.lastIndexOf('/') + 1);
+        actionStr = 'Push to $branch at $repoName';
         break;
-      case "PullRequestReviewCommentEvent":
+      case 'ReleaseEvent':
+        actionStr =
+            'Published release ${model.payload.release.tagName} at $repoName';
         break;
-      case "PushEvent":
-        des = "";
-        int count = event.payload.commits.length;
+      case 'WatchEvent':
+        actionStr = 'Starred $repoName';
+        break;
+    }
+    return actionStr;
+  }
+
+  static String getDesc(EventBean model) {
+    String desc = '';
+    switch (model.type) {
+      case 'CommitCommentEvent':
+        desc = model.payload.comment.body;
+        break;
+      case 'IssueCommentEvent':
+        desc = model.payload.comment.body;
+        break;
+      case 'IssuesEvent':
+        desc = model.payload.issue.title;
+        break;
+      case 'PullRequestReviewCommentEvent':
+        desc = model.payload.comment.body;
+        break;
+      case 'PushEvent':
+        int count = model.payload.commits.length;
         int maxLines = 4;
         int max = count > maxLines ? maxLines - 1 : count;
 
         for (int i = 0; i < max; i++) {
-          PushEventCommitBean commit = event.payload.commits[i];
+          PushEventCommitBean commit = model.payload.commits[i];
           if (i != 0) {
-            des += ("\n");
+            desc += '\n';
           }
+
           String sha = commit.sha.substring(0, 7);
-          des += sha;
-          des += " ";
-          des += commit.message;
+          desc += sha;
+          desc += ' ';
+          desc += _getFirstLine(commit.message);
         }
         if (count > maxLines) {
-          des = des + "\n" + "...";
+          desc += '\n';
+          desc += '...';
         }
         break;
-      case "ReleaseEvent":
-        break;
-      case "WatchEvent":
-        break;
     }
-    return des;
+    return desc;
   }
 
-  static getTypeDesc(EventBean event) {
-    String postfix = "";
-    switch (event.type) {
-      case "CreateEvent":
-//        if (event.payload != null) {
-//          postfix += (event.payload.ref + " " + event.payload.refType + " in");
-//        }
-        postfix = "创建了";
-        break;
-      case "CommitCommentEvent":
-        postfix = "评论了";
-        break;
-      case "DeleteEvent":
-        postfix = "删除了";
-        break;
-      case "ForkEvent":
-        postfix = "fork了";
-        break;
-      case "IssueCommentEvent":
-        postfix = "评论了";
-        break;
-      case "IssuesEvent":
-        if (event.payload.issue != null) {
-          String desc;
-          if (TextUtil.equals(event.payload.action, 'closed')) {
-            desc = '关闭了';
-          } else if (TextUtil.equals(event.payload.action, 'created')){
-            desc = '创建了';
-          } else {
-            desc = '打开了';
-          }
-          postfix = "$desc issue #${event.payload.issue.commentNum} for";
-        }
-        break;
-      case "WatchEvent":
-        postfix = "star了";
-        break;
-      default:
-        postfix =
-            event.type.toLowerCase().replaceAll("event", "") + " $postfix";
-        break;
+  static String _getFirstLine(String str) {
+    if (str == null || !str.contains("\n")) {
+      return str;
     }
-    return postfix;
+    return str.substring(0, str.indexOf("\n"));
   }
 
-  static getTypeIcon(EventBean event) {
-    Widget icon = null;
-    switch (event.type) {
-      case "CreateEvent":
-        icon = Icon(
-          Icons.create,
-          color: Colors.grey,
-          size: 16.0,
-        );
-        break;
-      case "CommitCommentEvent":
-        icon = Image(
-            width: 16.0,
-            height: 16.0,
-            image: AssetImage('assets/images/ic_comment.png'));
-        break;
-      case "DeleteEvent":
-        icon = Icon(
-          Icons.delete,
-          color: Colors.grey,
-          size: 16.0,
-        );
-        break;
-      case "ForkEvent":
-        icon = Image(
-            width: 16.0,
-            height: 16.0,
-            image: AssetImage('assets/images/ic_branch.png'));
-        break;
-      case "IssueCommentEvent":
-        icon = Image(
-            width: 16.0,
-            height: 16.0,
-            image: AssetImage('assets/images/ic_comment.png'));
-        break;
-      case "IssuesEvent":
-        icon = Image(
-            width: 16.0,
-            height: 16.0,
-            image: AssetImage('assets/images/ic_issue.png'));
-        break;
-      case "WatchEvent":
-        icon = Image(
-            width: 16.0,
-            height: 16.0,
-            image: AssetImage('assets/images/ic_star.png'));
-        break;
+  static String _getPullRequestReviewCommentEventStr(
+      String action, String fullName) {
+    switch (action) {
+      case 'created':
+        return 'Created pull request review comment at $fullName';
+      case 'edited':
+        return 'Edited pull request review comment at $fullName';
+      case 'deleted':
+        return 'Deleted pull request review comment at $fullName';
       default:
-        icon = Icon(
-          Icons.sentiment_satisfied,
-          color: Colors.grey,
-          size: 16.0,
-        );
-        break;
+        return 'Created pull request review comment at $fullName';
     }
-    return icon;
+  }
+
+  static String _getPullRequestReviewEventStr(String action, String fullName) {
+    switch (action) {
+      case 'submitted':
+        return 'Submitted pull request review at $fullName';
+      case 'edited':
+        return 'Edited pull request review at $fullName';
+      case 'dismissed':
+        return 'Dismissed pull request review at $fullName';
+      default:
+        return 'Submitted pull request review at $fullName';
+    }
+  }
+
+  static String _getIssueEventStr(String action, int num, String fullName) {
+    switch (action) {
+      case 'assigned':
+        return 'Assigned issue $num in $fullName';
+      case 'unassigned':
+        return 'Unassigned issue $num in $fullName';
+      case 'labeled':
+        return 'Labeled issue $num in $fullName';
+      case 'unlabeled':
+        return 'Unlabeled issue $num in $fullName';
+      case 'opened':
+        return 'Opened issue $num in $fullName';
+      case 'edited':
+        return 'Edited issue $num in $fullName';
+      case 'milestoned':
+        return 'Milestoned issue $num in $fullName';
+      case 'demilestoned':
+        return 'Demilestoned issue $num in $fullName';
+      case 'closed':
+        return 'Closed issue $num in $fullName';
+      case 'reopened':
+        return 'Reopened issue $num in $fullName';
+      default:
+        return 'Assigned issue $num in $fullName';
+    }
   }
 }

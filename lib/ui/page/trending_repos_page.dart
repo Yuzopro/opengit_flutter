@@ -4,6 +4,8 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trending_repos_bean.dart';
 import 'package:open_git/bloc/trending_repos_bloc.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/common_util.dart';
 
@@ -27,46 +29,10 @@ class TrendingReposPage
 
   @override
   Widget builderItem(BuildContext context, TrendingReposBean item) {
-    List<Widget> _bottomViews = List();
-    _bottomViews.add(_buildCurrentStarWidget(item));
-    _bottomViews.add(_buildAllStarWidget(item));
-    _bottomViews.add(_buildForkWidget(item));
-    _bottomViews.add(_getBuiltByWidget(item));
-
     return InkWell(
-      child: Container(
-        color: Color(YZColors.white),
-        margin: EdgeInsets.only(bottom: 8.0),
-        padding: EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 8.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                CommonUtil.getNameAndAvatarWidget(item.name, item.avatar,
-                    context: context),
-                CommonUtil.getLanguageWidget(item.language),
-              ],
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text(
-              item.description,
-              style: YZConstant.smallTextT65,
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Row(
-              children: _bottomViews,
-            ),
-          ],
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _postCard(context, item),
       ),
       onTap: () {
         NavigatorUtil.goReposDetail(context, item.author, item.name);
@@ -74,83 +40,114 @@ class TrendingReposPage
     );
   }
 
-  Widget _buildCurrentStarWidget(TrendingReposBean item) {
-    return Padding(
-      padding: EdgeInsets.only(right: 12.0),
-      child: Row(
+  Widget _postCard(BuildContext context, TrendingReposBean item) =>
+      Card(
+        elevation: 2.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _profileColumn(context, item),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                item.name ?? "--",
+                style: YZConstant.middleTextBold,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                item.description,
+                style: YZConstant.smallTextT65,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '${item.currentPeriodStars.toString()} stars $since',
+                style: YZConstant.smallSubText,
+              ),
+            ),
+            _actionColumn(item),
+          ],
+        ),
+      );
+
+  Widget _profileColumn(BuildContext context, TrendingReposBean item) =>
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Image(
-            width: 12.0,
-            height: 12.0,
-            image: AssetImage('assets/images/ic_star.png'),
+          ImageUtil.getCircleNetworkImage(
+              item.avatar, 36.0, ImagePath.image_default_head),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                item.author,
+                style: YZConstant.smallText,
+              ),
+            ),
+          ),
+          ClipOval(
+            child: Container(
+              color: ReposManager.instance.getLanguageColor(item.language),
+              width: 8.0,
+              height: 8.0,
+            ),
+          ),
+          SizedBox(
+            width: 4.0,
           ),
           Text(
-            '${item.currentPeriodStars.toString()} stars $since',
-            style: YZConstant.minSubText,
+            item.language ?? 'Unkown',
+            style: YZConstant.smallSubText,
           ),
         ],
-      ),
-    );
-  }
+      );
 
-  Widget _buildAllStarWidget(TrendingReposBean item) {
-    return Padding(
-      padding: EdgeInsets.only(right: 12.0),
-      child: Row(
+  //column last
+  Widget _actionColumn(TrendingReposBean item) =>
+      ButtonBar(
+        alignment: MainAxisAlignment.start,
         children: <Widget>[
-          Image(
-            width: 12.0,
-            height: 12.0,
-            image: AssetImage('assets/images/ic_star.png'),
+          LabelIcon(
+            label: item.stars.toString(),
+            image: ImagePath.image_star,
           ),
-          Text(
-            item.stars.toString(),
-            style: YZConstant.minSubText,
+          LabelIcon(
+            label: item.forks.toString(),
+            image: ImagePath.image_fork,
           ),
+          _getBuiltByWidget(item),
         ],
-      ),
-    );
-  }
+      );
 
-  Widget _buildForkWidget(TrendingReposBean item) {
-    return Row(
-      children: <Widget>[
-        Image(
-          width: 12.0,
-          height: 12.0,
-          image: AssetImage('assets/images/ic_branch.png'),
-        ),
-        Text(
-          item.forks.toString(),
-          style: YZConstant.minSubText,
-        ),
-      ],
-    );
-  }
-
-  Widget _getBuiltByWidget(TrendingReposBean item) {
-    return Expanded(
-      child: Row(
+  Widget _getBuiltByWidget(TrendingReposBean item) =>
+      Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Text(
-            "Built by",
-            style: YZConstant.minSubText,
+            "built by",
+            style: YZConstant.smallSubText,
+          ),
+          SizedBox(
+            width: 5.0,
           ),
           Row(
             children: item.builtBy
                 .map(
-                  (BuiltBy url) => Padding(
+                  (BuiltBy url) =>
+                  Padding(
                     padding: EdgeInsets.only(left: 2.0),
                     child: ImageUtil.getCircleNetworkImage(url.avatar ?? "",
-                        12.0, "assets/images/ic_default_head.png"),
+                        14.0, ImagePath.image_default_head),
                   ),
-                )
+            )
                 .toList(),
           ),
         ],
-      ),
-      flex: 1,
-    );
-  }
+      );
 }

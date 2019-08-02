@@ -3,7 +3,7 @@ import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
-import 'package:open_git/status/status.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 
 class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
@@ -20,7 +20,35 @@ class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
 
   @override
   bool isShowAppBar() {
-    return false;
+    return type != PageType.repos;
+  }
+
+  @override
+  String getTitle(BuildContext context) {
+    String title;
+    if (type == PageType.repos_user_star) {
+      title = 'star项目';
+    } else {
+      title = '项目';
+    }
+    return title;
+  }
+
+  @override
+  bool isShowAppBarActions() {
+    return type != PageType.org_repos;
+  }
+
+  @override
+  void openWebView(BuildContext context) {
+    ReposBloc bloc = BlocProvider.of<ReposBloc>(context);
+    String url;
+    if (type == PageType.repos_user) {
+      url = 'https://github.com/${bloc.userName}?tab=repositories';
+    } else {
+      url = 'https://github.com/${bloc.userName}?tab=stars';
+    }
+    NavigatorUtil.goWebView(context, bloc.userName, url);
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
 import 'package:open_git/bloc/repos_detail_bloc.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
@@ -34,6 +35,11 @@ class ReposDetailPage
   @override
   bool isLoading(LoadingBean<ReposDetailBean> data) {
     return data != null ? data.isLoading : true;
+  }
+
+  @override
+  bool isShowAppBarActions() {
+    return true;
   }
 
   @override
@@ -294,7 +300,7 @@ class ReposDetailPage
               Image(
                   width: 16.0,
                   height: 16.0,
-                  image: new AssetImage('assets/images/ic_branch.png')),
+                  image: AssetImage(ImagePath.image_fork)),
               Padding(
                 padding: EdgeInsets.only(left: 4.0),
                 child: new Text(
@@ -319,7 +325,11 @@ class ReposDetailPage
                   )
                 ]
               : branchs.map<Widget>((branch) {
-                  return ListTile(title: Text(branch.name));
+                  return ListTile(
+                      title: Text(
+                    branch.name,
+                    style: YZConstant.middleText,
+                  ));
                 }).toList(),
           onExpansionChanged: (isOpen) {
             if (isOpen) {

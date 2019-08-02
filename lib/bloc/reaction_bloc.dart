@@ -31,18 +31,14 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchReactions();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchReactions();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -53,12 +49,12 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   }
 
   deleteReactions(BuildContext context, reactionId) async {
-    _showLoading();
+    showLoading();
     final response = await IssueManager.instance.deleteReactions(reactionId);
     if (response != null && response.result) {
       Navigator.pop(context, _refreshIssueBean(issueBean, content));
     }
-    _hideLoading();
+    hideLoading();
   }
 
   Future _fetchReactions() async {
@@ -116,15 +112,5 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
       issueBean.reaction.heart--;
     }
     return issueBean;
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

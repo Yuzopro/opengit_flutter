@@ -9,7 +9,7 @@ homepage: https://github.com/Yuzopro
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.2.0+4
+version: 1.3.0+5
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
@@ -110,14 +110,17 @@ flutter:
     - assets/images/ic_launcher.png
     - assets/images/ic_branch.png
     - assets/images/ic_default_head.png
-    - assets/images/1f44d.png
-    - assets/images/1f44e.png
-    - assets/images/1f389.png
-    - assets/images/1f440.png
-    - assets/images/1f604.png
-    - assets/images/1f615.png
-    - assets/images/1f680.png
-    - assets/images/2764.png
+    - assets/images/comment/1f44d.png
+    - assets/images/comment/1f44e.png
+    - assets/images/comment/1f389.png
+    - assets/images/comment/1f440.png
+    - assets/images/comment/1f604.png
+    - assets/images/comment/1f615.png
+    - assets/images/comment/1f680.png
+    - assets/images/comment/2764.png
+    - assets/images/comment/ic_comment_edit.png
+    - assets/images/comment/ic_comment_face.png
+    - assets/images/comment/ic_comment_menu.png
     - assets/images/ic_like.png
     - assets/images/ic_comment.png
     - assets/images/ic_star.png
@@ -127,3 +130,32 @@ flutter:
     - assets/images/bg_guide_issue_detail.png
     - assets/images/bg_guide_theme.png
     - assets/images/bg_splash_ad.png
+    - assets/images/ic_network_error.png
+    - assets/images/ic_no_data.png
+    - assets/images/ic_arrow_left_back.png
+    - assets/images/profile/ic_profile_blog.png
+    - assets/images/profile/ic_profile_company.png
+    - assets/images/profile/ic_profile_email.png
+    - assets/images/profile/ic_profile_location.png
+    - assets/images/profile/ic_profile_csdn.png
+    - assets/images/profile/ic_profile_juejin.png
+    - assets/images/profile/ic_profile_jianshu.png
+    - assets/images/profile/ic_profile_blog_small.png
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/montserrat/Montserrat-Italic.ttf
+          style: italic
+        - asset: assets/fonts/montserrat/Montserrat-Light.ttf
+          weight: 200
+        - asset: assets/fonts/montserrat/Montserrat-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/montserrat/Montserrat-Bold.ttf
+          weight: 700
+    - family: Icons
+      fonts:
+        - asset: assets/fonts/icons.ttf

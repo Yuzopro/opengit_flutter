@@ -24,18 +24,14 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchTimeline();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchTimeline();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -72,15 +68,5 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

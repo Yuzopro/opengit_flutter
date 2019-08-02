@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/common/url_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/common_util.dart';
@@ -12,55 +14,50 @@ class AuthorPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: new Text('Yuzo Blog'),
-            trailing: new Icon(Icons.navigate_next),
+            title: Text('Yuzo Blog', style: YZConstant.middleText),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(
-                  context, 'Yuzo Blog', 'https://yuzopro.github.io/');
+              NavigatorUtil.goWebView(context, 'Yuzo Blog', BLOG);
             },
           ),
           Divider(
             height: 0.3,
           ),
           ListTile(
-            title: new Text('Github'),
-            trailing: new Icon(Icons.navigate_next),
+            title: Text('Github', style: YZConstant.middleText),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(
-                  context, 'Github', 'https://github.com/yuzopro');
+              NavigatorUtil.goWebView(context, 'Github', GITHUB);
             },
           ),
           Divider(
             height: 0.3,
           ),
           ListTile(
-            title: new Text('掘金'),
-            trailing: new Icon(Icons.navigate_next),
+            title: Text('掘金', style: YZConstant.middleText),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(context, '掘金',
-                  'https://juejin.im/user/56ea9d7ca341310054a57b7c');
+              NavigatorUtil.goWebView(context, '掘金', JUEJIN);
             },
           ),
           Divider(
             height: 0.3,
           ),
           ListTile(
-            title: new Text('简书'),
-            trailing: new Icon(Icons.navigate_next),
+            title: Text('简书', style: YZConstant.middleText),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(
-                  context, '简书', 'https://www.jianshu.com/u/ef3cb65219d4');
+              NavigatorUtil.goWebView(context, '简书', JIANSHU);
             },
           ),
           Divider(
             height: 0.3,
           ),
           ListTile(
-            title: new Text('CSDN'),
-            trailing: new Icon(Icons.navigate_next),
+            title: Text('CSDN', style: YZConstant.middleText),
+            trailing: Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(
-                  context, 'CSDN', 'https://blog.csdn.net/Yuzopro');
+              NavigatorUtil.goWebView(context, 'CSDN', CSDN);
             },
           ),
           Divider(

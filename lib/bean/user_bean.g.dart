@@ -9,6 +9,7 @@ part of 'user_bean.dart';
 UserBean _$UserBeanFromJson(Map<String, dynamic> json) {
   return UserBean(
     json['login'] as String,
+    json['name'] as String,
     json['id'] as int,
     json['node_id'] as String,
     json['avatar_url'] as String,
@@ -46,11 +47,12 @@ UserBean _$UserBeanFromJson(Map<String, dynamic> json) {
     json['location'] as String,
     json['email'] as String,
     json['bio'] as String,
-  );
+  )..isFollow = json['isFollow'] as bool;
 }
 
 Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'login': instance.login,
+      'name': instance.name,
       'id': instance.id,
       'node_id': instance.nodeId,
       'avatar_url': instance.avatarUrl,
@@ -86,6 +88,7 @@ Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'location': instance.location,
       'email': instance.email,
       'bio': instance.bio,
+      'isFollow': instance.isFollow,
     };
 
 Plan _$PlanFromJson(Map<String, dynamic> json) {

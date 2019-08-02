@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/common_actions.dart';
 import 'package:open_git/redux/app_state.dart';
@@ -259,8 +259,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       onChangeTheme: (color) {
-        SpUtil.instance
-            .putInt(SharedPrfKey.SP_KEY_THEME_COLOR, color.value);
+        SpUtil.instance.putInt(SP_KEY_THEME_COLOR, color.value);
         store.dispatch(RefreshThemeDataAction(AppTheme.changeTheme(color)));
       },
     );

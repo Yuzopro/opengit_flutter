@@ -10,7 +10,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:flutter_common_util/src/sp_util.dart';
 
 import 'guide_sections.dart';
@@ -447,7 +447,7 @@ class _SnappingScrollPhysics extends ClampingScrollPhysics {
 class GuidePage extends StatefulWidget {
   GuidePage() {
     SpUtil.instance.putString(
-        SharedPrfKey.SP_KEY_SHOW_GUIDE_VERSION, Config.SHOW_GUIDE_VERSION);
+        SP_KEY_SHOW_GUIDE_VERSION, Config.SHOW_GUIDE_VERSION);
   }
 
   @override

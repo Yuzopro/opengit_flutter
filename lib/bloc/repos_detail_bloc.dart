@@ -1,19 +1,14 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_base_ui/bloc/base_bloc.dart';
-import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/status/status.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 
 class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   static final String TAG = 'ReposDetailBloc';
 
   final String reposOwner;
   final String reposName;
-
-  LoadingBean<ReposDetailBean> bean;
 
   bool _isInit = false;
 
@@ -38,16 +33,14 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchReposDetail();
-    _hideLoading();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchReposDetail();
-    _hideLoading();
+    hideLoading();
   }
 
   @override
@@ -137,18 +130,6 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     final response =
         await ReposManager.instance.getBranches(reposOwner, reposName);
     bean.data.branchs = response;
-    sink.add(bean);
-  }
-
-  void _showLoading() {
-    LogUtil.v('showLoading', tag: TAG);
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    LogUtil.v('hideLoading', tag: TAG);
-    bean.isLoading = false;
     sink.add(bean);
   }
 }

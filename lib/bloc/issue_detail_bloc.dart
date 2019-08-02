@@ -10,14 +10,11 @@ import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/status/status.dart';
 
 class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   static final String TAG = "IssueDetailBloc";
 
   IssueBean issueBean;
-
-  LoadingBean<IssueDetailBean> bean;
 
   bool _isInit = false;
 
@@ -47,20 +44,15 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchIssueComment();
-    await _fetchIssueComments();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchIssueComment();
     await _fetchIssueComments();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -103,7 +95,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   goEditIssue(BuildContext context) async {
     final result =
-        await NavigatorUtil.goEditIssue(context, issueBean);
+        await NavigatorUtil.goEditIssue(context, bean.data.issueBean);
     if (result == null) {
       return;
     }
@@ -129,7 +121,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   void deleteIssueComment(IssueBean item) async {
-    _showLoading();
+    showLoading();
     int comment_id = item.id;
     final response = await IssueManager.instance
         .deleteIssueComment(issueBean.repoUrl, comment_id);
@@ -137,13 +129,13 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       bean.data.comments.remove(item);
       sink.add(bean);
     }
-    _hideLoading();
+    hideLoading();
   }
 
   editReactions(IssueBean item, comment, isIssue) async {
-    _showLoading();
+    showLoading();
     await _queryIssueCommentReaction(item, comment, isIssue);
-    _hideLoading();
+    hideLoading();
   }
 
   _queryIssueCommentReaction(IssueBean item, comment, isIssue) async {
@@ -308,15 +300,5 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       bean.data.comments.insert(index, result);
       sink.add(bean);
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

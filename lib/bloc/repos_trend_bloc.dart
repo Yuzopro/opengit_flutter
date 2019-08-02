@@ -18,18 +18,14 @@ class ReposTrendBloc extends BaseListBloc<Repository> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchTrendList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchTrendList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -69,15 +65,5 @@ class ReposTrendBloc extends BaseListBloc<Repository> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

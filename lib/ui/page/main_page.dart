@@ -8,8 +8,10 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/event_bloc.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
+import 'package:open_git/bloc/received_event_bloc.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_main_bloc.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/red_point_manager.dart';
@@ -20,6 +22,7 @@ import 'package:open_git/ui/page/home_page.dart';
 import 'package:open_git/ui/page/issue_page.dart';
 import 'package:open_git/ui/page/repos_page.dart';
 import 'package:open_git/util/common_util.dart';
+import 'package:open_git/util/size_util.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -61,12 +64,14 @@ class _MainPageState extends State<MainPage>
 
     _homeBloc = HomeBloc();
     _reposBloc = ReposMainBloc(userName);
-    _eventBloc = EventBloc(userName);
+    _eventBloc = ReceivedEventBloc(userName);
     _issueBloc = IssueBloc(userName);
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeUtil.size = MediaQuery.of(context).size;
+
     final List<Choice> choices = List(4);
     choices[0] = Choice(
       title: AppLocalizations.of(context).currentlocal.home,
@@ -103,7 +108,7 @@ class _MainPageState extends State<MainPage>
                         icon: ImageUtil.getCircleNetworkImage(
                             _userBean.avatarUrl ?? "",
                             36.0,
-                            "assets/images/ic_default_head.png"),
+                            ImagePath.image_default_head),
                         onPressed: () {
                           _scaffoldKey.currentState.openDrawer();
                         },
@@ -160,7 +165,7 @@ class _MainPageState extends State<MainPage>
                   bloc: _reposBloc,
                 ),
                 BlocProvider<EventBloc>(
-                  child: EventPage(),
+                  child: EventPage(PageType.received_event),
                   bloc: _eventBloc,
                 ),
                 BlocProvider<IssueBloc>(

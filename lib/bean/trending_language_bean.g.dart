@@ -10,7 +10,8 @@ TrendingLanguageBean _$TrendingLanguageBeanFromJson(Map<String, dynamic> json) {
   return TrendingLanguageBean(
     json['id'] as String,
     json['name'] as String,
-  );
+    letter: json['letter'] as String,
+  )..isShowLetter = json['isShowLetter'] as bool;
 }
 
 Map<String, dynamic> _$TrendingLanguageBeanToJson(
@@ -18,4 +19,6 @@ Map<String, dynamic> _$TrendingLanguageBeanToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'letter': instance.letter,
+      'isShowLetter': instance.isShowLetter,
     };

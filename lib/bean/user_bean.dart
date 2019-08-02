@@ -7,6 +7,9 @@ class UserBean {
   @JsonKey(name: 'login')
   String login;
 
+  @JsonKey(name: 'name')
+  String name;
+
   @JsonKey(name: 'id')
   int id;
 
@@ -108,8 +111,11 @@ class UserBean {
   @JsonKey(name: 'bio')
   String bio;
 
+  bool isFollow;
+
   UserBean(
     this.login,
+    this.name,
     this.id,
     this.nodeId,
     this.avatarUrl,

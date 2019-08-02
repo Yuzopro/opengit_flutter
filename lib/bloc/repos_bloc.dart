@@ -9,9 +9,10 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   static final String TAG = "ReposBloc";
 
   final String userName;
-  final bool isStar;
 
-  ReposBloc(this.userName, {this.isStar}) {}
+  ReposBloc(this.userName);
+
+  fetchRepos(int page);
 
   bool _isInit = false;
 
@@ -21,18 +22,14 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchReposList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchReposList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -45,8 +42,7 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   Future _fetchReposList() async {
     LogUtil.v('_fetchReposList', tag: TAG);
     try {
-      var result = await ReposManager.instance
-          .getUserRepos(userName, page, null, isStar);
+      var result = await fetchRepos(page);
       if (bean.data == null) {
         bean.data = List();
       }
@@ -69,15 +65,5 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/util/common_util.dart';
 
-class MarkdownEditorPage extends StatefulWidget {
+class EditCommentPage extends StatefulWidget {
   final IssueBean issueBean;
   final String repoUrl;
   final bool isAdd;
 
-  MarkdownEditorPage(this.issueBean, this.repoUrl, this.isAdd);
+  EditCommentPage(this.issueBean, this.repoUrl, this.isAdd);
 
   @override
   State<StatefulWidget> createState() {
-    return _MarkdownEditorState();
+    return _EditCommentState();
   }
 }
 
-class _MarkdownEditorState extends State<MarkdownEditorPage> {
+class _EditCommentState extends State<EditCommentPage> {
   TextEditingController _controller;
-
-  _MarkdownEditorState();
 
   bool _isEnable = false;
 
@@ -77,6 +73,9 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
   Widget _buildBody(BuildContext context) {
     final form = ListView(
       children: <Widget>[
+        SizedBox(
+          height: 8.0,
+        ),
         _buildEditor(),
       ],
     );
@@ -88,9 +87,15 @@ class _MarkdownEditorState extends State<MarkdownEditorPage> {
   }
 
   Widget _buildEditor() {
-    return TextField(
+    return TextFormField(
       controller: _controller,
       autofocus: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        helperText: '支持Markdown语法',
+        labelText: '评论',
+      ),
+      maxLines: 5,
     );
   }
 

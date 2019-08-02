@@ -29,6 +29,16 @@ class AppRoutes {
   static final profile = '/main/profile';
   static final issue_detail = '/main/issue/detail';
   static final cache = '/main/setting/cache';
+  static final profile_repos = '/main/profile/repos';
+  static final profile_star_repos = '/main/profile/star_repos';
+  static final profile_follower = '/main/profile/follower';
+  static final profile_following = '/main/profile/following';
+  static final profile_org = '/main/profile/org';
+  static final profile_event = '/main/profile/event';
+  static final org_profile = '/main/org';
+  static final org_event = '/main/org/event';
+  static final org_repos = '/main/org/repos';
+  static final org_member = '/main/org/member';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -158,6 +168,56 @@ class AppRoutes {
     router.define(
       cache,
       handler: cacheHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_repos,
+      handler: profileReposHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_star_repos,
+      handler: profileStarReposHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_follower,
+      handler: profileFollowerHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_following,
+      handler: profileFollowingHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_org,
+      handler: profileOrgHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      profile_event,
+      handler: profileEventHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      org_profile,
+      handler: orgProfileHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      org_event,
+      handler: orgEventHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      org_repos,
+      handler: orgReposHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      org_member,
+      handler: orgMemberrHandler,
       transitionType: TransitionType.cupertino,
     );
   }

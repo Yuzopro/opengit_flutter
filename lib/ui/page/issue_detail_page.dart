@@ -7,31 +7,33 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/common/gradient_const.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/common/size_const.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
+import 'package:open_git/util/size_util.dart';
 
 class IssueDetailPage
     extends BaseStatelessWidget<LoadingBean<IssueDetailBean>, IssueDetailBloc> {
   final List<_Reaction> _reactionList = [
-    _Reaction("1f44d", "+1"),
-    _Reaction("1f44e", "-1"),
-    _Reaction("1f389", "hooray"),
-    _Reaction("1f440", "eyes"),
-    _Reaction("1f604", "laugh"),
-    _Reaction("1f615", "confused"),
-    _Reaction("1f680", "rocket"),
-    _Reaction("2764", "heart")
+    _Reaction('1f44d', '+1'),
+    _Reaction('1f44e', '-1'),
+    _Reaction('1f389', 'hooray'),
+    _Reaction('1f440', 'eyes'),
+    _Reaction('1f604', 'laugh'),
+    _Reaction('1f615', 'confused'),
+    _Reaction('1f680', 'rocket'),
+    _Reaction('2764', 'heart')
   ];
 
   final List<String> _commentList = [
-    "编辑",
-    "删除",
+    '编辑',
+    '删除',
   ];
 
   @override
-  PageType getPageType() {
-    return PageType.issue_detail;
-  }
+  PageType getPageType() => PageType.issue_detail;
 
   @override
   String getTitle(BuildContext context) {
@@ -40,61 +42,27 @@ class IssueDetailPage
   }
 
   @override
+  bool isShowAppBarActions() => true;
+
+  @override
   void openWebView(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     NavigatorUtil.goWebView(context, bloc.getTitle(), bloc.issueBean.htmlUrl);
   }
 
   @override
-  bool isLoading(LoadingBean<IssueDetailBean> data) {
-    return data != null ? data.isLoading : true;
-  }
-
-  @override
-  bool enablePullUp() {
-    return true;
-  }
+  bool isLoading(LoadingBean<IssueDetailBean> data) =>
+      data != null ? data.isLoading : true;
 
   @override
   Widget getHeader(BuildContext context, LoadingBean<IssueDetailBean> data) {
     if (data == null || data.data == null || data.data.issueBean == null) {
       return Container();
     }
-    return Container(
-      color: Color(YZColors.white),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: InkWell(
-                    child: Text(data.data.issueBean.state),
-                  ),
-                  flex: 1,
-                ),
-                Text("#${data.data.issueBean.number}"),
-              ],
-            ),
-          ),
-          Divider(
-            height: 0.3,
-          ),
-          Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-              data.data.issueBean.title,
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-            ),
-          ),
-          Divider(
-            height: 8.0,
-          ),
-          _getItemRow(context, data.data.issueBean, true),
-        ],
-      ),
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: _postHeadCard(context, data.data.issueBean, true),
     );
   }
 
@@ -110,258 +78,338 @@ class IssueDetailPage
   }
 
   @override
-  Widget buildItemBuilder(
-      BuildContext context, LoadingBean<IssueDetailBean> data, int index) {
+  Widget buildItemBuilder(BuildContext context,
+      LoadingBean<IssueDetailBean> data, int index) {
     IssueBean model = data.data.comments[index];
     return _getItemRow(context, model, false);
   }
 
   Widget _getItemRow(BuildContext context, IssueBean item, bool isIssue) {
-    List<Widget> listWidget = List();
-
-    Widget line = Divider(height: 0.3);
-
-    Widget userWidget = _getUserWidget(context, item, isIssue);
-    listWidget.add(userWidget);
-    listWidget.add(line);
-
-    listWidget.add(
-      Padding(
-        padding: EdgeInsets.all(12.0),
-        child: MarkdownWidget(
-          markdownData: item.body,
-        ),
-      ),
-    );
-
-    Widget reactionWidget = _getReactionWidget(context, item, isIssue);
-    if (reactionWidget != null) {
-      listWidget.add(line);
-      listWidget.add(reactionWidget);
+    if (isIssue) {
+      return _postHeadItem(context, item, isIssue);
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _postItemCard(context, item, isIssue),
+      );
     }
+  }
 
-    return Container(
-      color: Color(YZColors.white),
-      margin: EdgeInsets.only(top: 8.0),
-      padding: EdgeInsets.symmetric(
-        horizontal: 12.0,
-        vertical: 8.0,
-      ),
+  Widget _postHeadCard(BuildContext context, IssueBean item, bool isIssue) {
+    return Card(
+      elevation: 2.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: listWidget,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                _buildLabel(item.state),
+                Expanded(
+                  child: Container(),
+                ),
+                Text('#${item.number}')
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              item.title,
+              style: YZConstant.largeTextBold,
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          _getItemRow(context, item, true),
+        ],
       ),
     );
   }
 
-  Widget _getUserWidget(BuildContext context, IssueBean item, isIssue) {
-    List<Widget> userList = List();
-    userList.add(
-      ImageUtil.getCircleNetworkImage(
-          item.user.avatarUrl, 36.0, "assets/images/ic_default_head.png"),
-    );
-    userList.add(
-      Expanded(
-        child: Padding(
-          padding: EdgeInsets.only(left: 5.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                item.user.login,
-                style: YZConstant.smallText,
-              ),
-              Text(
-                DateUtil.getMultiDateStr(item.createdAt),
-                style: YZConstant.smallText,
-              ),
-            ],
-          ),
+  Widget _buildLabel(String state) {
+    return Container(
+      width: 56,
+      height: 30,
+      decoration: BoxDecoration(
+        gradient: BUTTON_BACKGROUND,
+        borderRadius: BorderRadius.circular(28.0),
+      ),
+      child: Center(
+        child: Text(
+          state,
+          style: YZConstant.smallTextWhite,
         ),
-        flex: 1,
       ),
     );
-    userList.add(
-      _getReactionMenu(
-          context,
-          item,
-          Icon(
-            Icons.sentiment_satisfied,
-            color: Colors.grey,
+  }
+
+  Widget _postCard(BuildContext context, IssueBean item, bool isIssue) {
+
+  }
+
+  Widget _postHeadItem(BuildContext context, IssueBean item, bool isIssue) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _profileColumn(context, item, isIssue),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: MarkdownWidget(
+            markdownData: item.body,
           ),
-          _reactionList,
-          isIssue),
+        ),
+        _reactionColumn(context, item, isIssue),
+      ],
+    );
+  }
+
+  Widget _postItemCard(BuildContext context, IssueBean item, bool isIssue) {
+    return Card(
+      elevation: 2.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _profileColumn(context, item, isIssue),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: MarkdownWidget(
+              markdownData: item.body,
+            ),
+          ),
+          _reactionColumn(context, item, isIssue),
+        ],
+      ),
+    );
+  }
+
+  Widget _profileColumn(BuildContext context, IssueBean item, bool isIssue) {
+    List<Widget> profileList = [];
+    profileList.add(_buildAvatar(item));
+    profileList.add(_buildNameAndDate(item));
+    profileList.add(_buildReactionMenu(context, item, isIssue));
+    profileList.add(
+      SizedBox(
+        width: 10.0,
+      ),
     );
 
+    Widget lastMenu = _buildLastMenu(context, item, isIssue);
+    if (lastMenu != null) {
+      profileList.add(lastMenu);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: profileList,
+    );
+  }
+
+  Widget _buildAvatar(IssueBean item) {
+    return ImageUtil.getCircleNetworkImage(
+        item.user.avatarUrl, 36.0, ImagePath.image_default_head);
+  }
+
+  Widget _buildNameAndDate(IssueBean item) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              item.user.login,
+              style: YZConstant.smallText,
+            ),
+            Text(
+              DateUtil.getMultiDateStr(item.createdAt),
+              style: YZConstant.smallSubText,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildReactionMenu(BuildContext context, IssueBean item, isIssue) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    return PopupMenuButton<String>(
+      onSelected: (text) {
+        bloc.editReactions(item, text, isIssue);
+      },
+      child: ImageUtil.getImage(
+          ImagePath.image_comment_face, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+      itemBuilder: (BuildContext context) =>
+          _reactionList
+              .map(
+                (_Reaction reaction) =>
+                PopupMenuItem<String>(
+                  value: reaction.type,
+                  child: ImageUtil.getImage(
+                      'assets/images/comment/${reaction.img}.png',
+                      NORMAL_IMAGE_SIZE,
+                      NORMAL_IMAGE_SIZE),
+                ),
+          )
+              .toList(),
+    );
+  }
+
+  Widget _buildLastMenu(BuildContext context, IssueBean item, isIssue) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     if (bloc.isEditAndDeleteEnable(item)) {
       if (isIssue) {
-        userList.add(
-          Padding(
-            padding: EdgeInsets.only(left: 5.0),
-            child: InkWell(
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  bloc.goEditIssue(context);
-                }),
-          ),
-        );
+        return _buildEditAction(context);
       } else {
-        userList.add(
-          _getCommentMenu(
-              context,
-              item,
-              Icon(
-                Icons.more_horiz,
-                color: Colors.grey,
-              ),
-              _commentList),
-        );
-      }
-    }
-
-    return Container(
-      height: 56.0,
-      padding: EdgeInsets.only(left: 12.0, right: 12.0),
-      child: Row(
-        children: userList,
-      ),
-    );
-  }
-
-  Widget _getReactionMenu(BuildContext context, IssueBean item, Widget child,
-      List<_Reaction> list, isIssue) {
-    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    return Padding(
-      padding: EdgeInsets.only(left: 5.0),
-      child: PopupMenuButton<String>(
-        onSelected: (text) {
-          bloc.editReactions(item, text, isIssue);
-        },
-        child: child,
-        itemBuilder: (BuildContext context) => list
-            .map(
-              (_Reaction reaction) => PopupMenuItem<String>(
-                value: reaction.type,
-                child: ImageUtil.getImage(
-                    "assets/images/${reaction.img}.png", 24.0, 24.0),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _getCommentMenu(
-      BuildContext context, IssueBean item, Widget child, List<String> list) {
-    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    return Padding(
-      padding: EdgeInsets.only(left: 5.0),
-      child: PopupMenuButton<String>(
-        onSelected: (text) {
-          if (text == _commentList[0]) {
-            bloc.enterCommentEditor(context, item, false);
-          } else {
-            bloc.deleteIssueComment(item);
-          }
-        },
-        child: child,
-        itemBuilder: (BuildContext context) => list
-            .map(
-              (String text) => PopupMenuItem<String>(
-                value: text,
-                child: Text(text),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _getReactionWidget(BuildContext context, IssueBean item, isIssue) {
-    if (item.reaction != null) {
-      List<Widget> reactionWidget = List();
-      if (item.reaction.like > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f44d.png",
-            item.reaction.like.toString(), item, "+1", isIssue));
-      }
-
-      if (item.reaction.noLike > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f44e.png",
-            item.reaction.noLike.toString(), item, "-1", isIssue));
-      }
-
-      if (item.reaction.laugh > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f604.png",
-            item.reaction.laugh.toString(), item, "laugh", isIssue));
-      }
-
-      if (item.reaction.hooray > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f389.png",
-            item.reaction.hooray.toString(), item, "hooray", isIssue));
-      }
-
-      if (item.reaction.confused > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f615.png",
-            item.reaction.confused.toString(), item, "confused", isIssue));
-      }
-
-      if (item.reaction.heart > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/2764.png",
-            item.reaction.heart.toString(), item, "heart", isIssue));
-      }
-
-      if (item.reaction.rocket > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f680.png",
-            item.reaction.rocket.toString(), item, "rocket", isIssue));
-      }
-
-      if (item.reaction.eyes > 0) {
-        reactionWidget.add(_getReactionItem(context, "assets/images/1f440.png",
-            item.reaction.eyes.toString(), item, "eyes", isIssue));
-      }
-
-      if (reactionWidget.length > 0) {
-        return Container(
-          height: 56.0,
-          padding: EdgeInsets.only(left: 12.0, right: 12.0),
-          child: Row(
-            children: reactionWidget,
-          ),
-        );
+        return _buildCommentMenu(context, item);
       }
     }
     return null;
   }
 
-  Widget _getReactionItem(BuildContext context, String img, String count,
-      IssueBean item, content, isIssue) {
-    return Container(
-      child: InkWell(
-        onTap: () {
-          IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-          bloc.goDeleteReaction(context, item, content, isIssue);
+  Widget _buildEditAction(BuildContext context) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    return InkWell(
+      child: ImageUtil.getImage(
+          ImagePath.image_comment_edit, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+      onTap: () {
+        bloc.goEditIssue(context);
+      },
+    );
+  }
+
+  Widget _buildCommentMenu(BuildContext context, IssueBean item) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+
+    return PopupMenuButton<String>(
+      onSelected: (text) {
+        if (text == _commentList[0]) {
+          bloc.enterCommentEditor(context, item, false);
+        } else {
+          bloc.deleteIssueComment(item);
+        }
+      },
+      child: ImageUtil.getImage(
+          ImagePath.image_comment_menu, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+      itemBuilder: (BuildContext context) =>
+          _commentList
+              .map(
+                (String text) =>
+                PopupMenuItem<String>(
+                  value: text,
+                  child: Text(text),
+                ),
+          )
+              .toList(),
+    );
+  }
+
+  Widget _reactionColumn(BuildContext context, IssueBean item, isIssue) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+
+    List<Widget> reactionWidget = List();
+    if (item.reaction.like > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.like.toString(),
+        image: ImagePath.image_comment_like,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, '+1', isIssue);
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ImageUtil.getImage(img, 12.0, 12.0),
-            Padding(
-              padding: EdgeInsets.only(left: 2.0),
-              child: Text(
-                count,
-                style: TextStyle(fontSize: 10.0),
-              ),
-            ),
-          ],
-        ),
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.noLike > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.noLike.toString(),
+        image: ImagePath.image_comment_no_like,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, '-1', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.laugh > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.laugh.toString(),
+        image: ImagePath.image_comment_laugh,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'laugh', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.hooray > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.hooray.toString(),
+        image: ImagePath.image_comment_hooray,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'hooray', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.confused > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.confused.toString(),
+        image: ImagePath.image_comment_confused,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'confused', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.heart > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.heart.toString(),
+        image: ImagePath.image_comment_heart,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'heart', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.rocket > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.rocket.toString(),
+        image: ImagePath.image_comment_rocket,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'rocket', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    if (item.reaction.eyes > 0) {
+      Widget widget = LabelIcon(
+        label: item.reaction.eyes.toString(),
+        image: ImagePath.image_comment_eyes,
+        onPressed: () {
+          bloc.goDeleteReaction(context, item, 'eyes', isIssue);
+        },
+      );
+      reactionWidget.add(widget);
+    }
+
+    return Container(
+      constraints: BoxConstraints.expand(height: SizeUtil.getAxisY(56)),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: reactionWidget,
       ),
-      width: 36.0,
-      height: 56.0,
     );
   }
 

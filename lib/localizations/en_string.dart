@@ -126,4 +126,19 @@ class EnString extends AppBaseString {
 
   @override
   String get developers => 'developers';
+
+  @override
+  String get sign_tip_1 => 'WELCOME BACK!';
+
+  @override
+  String get sign_tip_2 => 'Log in\nto continue.';
+
+  @override
+  String get sign_up => 'Sign Up';
+
+  @override
+  String get sign_text => 'Don\'t have an account?';
+
+  @override
+  String get profile => 'Profile';
 }

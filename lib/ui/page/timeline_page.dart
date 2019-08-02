@@ -16,8 +16,8 @@ class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
   @override
   Widget builderItem(BuildContext context, ReleaseBean item) {
     return ListTile(
-      title: Text(item.name),
-      subtitle: Text(DateUtil.getMultiDateStr(item.createdAt)),
+      title: Text(item.name, style: YZConstant.middleText),
+      subtitle: Text(DateUtil.getMultiDateStr(item.createdAt), style: YZConstant.smallText),
       onTap: () {
         NavigatorUtil.goTimelineDetail(context, item.name, item.body);
       },

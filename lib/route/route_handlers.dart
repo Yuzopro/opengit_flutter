@@ -3,12 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/issue_bean.dart';
+import 'package:open_git/bloc/event_bloc.dart';
+import 'package:open_git/bloc/follow_bloc.dart';
+import 'package:open_git/bloc/followers_bloc.dart';
+import 'package:open_git/bloc/following_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/bloc/org_bloc.dart';
+import 'package:open_git/bloc/org_event_bloc.dart';
+import 'package:open_git/bloc/org_member_bloc.dart';
+import 'package:open_git/bloc/org_profile_bloc.dart';
+import 'package:open_git/bloc/org_repos_bloc.dart';
+import 'package:open_git/bloc/profile_bloc.dart';
+import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_detail_bloc.dart';
 import 'package:open_git/bloc/repos_event_bloc.dart';
 import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/bloc/repos_trend_bloc.dart';
+import 'package:open_git/bloc/repos_user_bloc.dart';
+import 'package:open_git/bloc/repos_user_star_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
+import 'package:open_git/bloc/user_event_bloc.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/fluro_convert_util.dart';
 import 'package:open_git/route/navigator_util.dart';
@@ -16,16 +30,22 @@ import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/about_page.dart';
 import 'package:open_git/ui/page/author_page.dart';
 import 'package:open_git/ui/page/cache_page.dart';
+import 'package:open_git/ui/page/event_page.dart';
 import 'package:open_git/ui/page/guide/guide_page.dart';
 import 'package:open_git/ui/page/issue_detail_page.dart';
 import 'package:open_git/ui/page/language_page.dart';
-import 'package:open_git/ui/page/login_page.dart';
+import 'package:open_git/ui/page/login/login_page.dart';
 import 'package:open_git/ui/page/main_page.dart';
 import 'package:open_git/ui/page/other_page.dart';
+import 'package:open_git/ui/page/profile/org_profile_page.dart';
+import 'package:open_git/ui/page/profile/user_follow_page.dart';
+import 'package:open_git/ui/page/profile/user_org_page.dart';
+import 'package:open_git/ui/page/profile/user_profile_page.dart';
 import 'package:open_git/ui/page/repos_code_detail_page.dart';
 import 'package:open_git/ui/page/repos_detail_page.dart';
 import 'package:open_git/ui/page/repos_event_page.dart';
 import 'package:open_git/ui/page/repos_file_page.dart';
+import 'package:open_git/ui/page/repos_page.dart';
 import 'package:open_git/ui/page/repos_trend_page.dart';
 import 'package:open_git/ui/page/search_page.dart';
 import 'package:open_git/ui/page/setting_page.dart';
@@ -35,7 +55,6 @@ import 'package:open_git/ui/page/theme_page.dart';
 import 'package:open_git/ui/page/timeline_detail_page.dart';
 import 'package:open_git/ui/page/timeline_page.dart';
 import 'package:open_git/ui/page/trending_page.dart';
-import 'package:open_git/ui/page/user_profile_page.dart';
 import 'package:redux/redux.dart';
 
 var splashHandler = Handler(
@@ -210,9 +229,11 @@ var otherHandler = Handler(
 var profileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = params["name"]?.first;
-  String avatar = params["avatar"]?.first;
 
-  return UserProfilePage(name, avatar);
+  return BlocProvider<ProfileBloc>(
+    child: UserProfilePage(),
+    bloc: ProfileBloc(name),
+  );
 });
 
 var issueDetailHandler = Handler(
@@ -228,4 +249,104 @@ var issueDetailHandler = Handler(
 var cacheHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return CachePage();
+});
+
+var profileReposHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<ReposBloc>(
+    child: ReposPage(PageType.repos_user),
+    bloc: ReposUserBloc(name),
+  );
+});
+
+var profileStarReposHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<ReposBloc>(
+    child: ReposPage(PageType.repos_user_star),
+    bloc: ReposUserStarBloc(name),
+  );
+});
+
+var profileFollowerHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<FollowBloc>(
+    child: FollowPage(PageType.followers),
+    bloc: FollowersBloc(name),
+  );
+});
+
+var profileFollowingHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<FollowBloc>(
+    child: FollowPage(PageType.following),
+    bloc: FollowingBloc(name),
+  );
+});
+
+var profileOrgHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<OrgBloc>(
+    child: OrgPage(),
+    bloc: OrgBloc(name),
+  );
+});
+
+var profileEventHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<EventBloc>(
+    child: EventPage(PageType.user_event),
+    bloc: UserEventBloc(name),
+  );
+});
+
+var orgProfileHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<OrgProfileBloc>(
+    child: OrgProfilePage(),
+    bloc: OrgProfileBloc(name),
+  );
+});
+
+var orgEventHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<EventBloc>(
+    child: EventPage(PageType.org_event),
+    bloc: OrgEventBloc(name),
+  );
+});
+
+var orgReposHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<ReposBloc>(
+    child: ReposPage(PageType.org_repos),
+    bloc: ReposOrgBloc(name),
+  );
+});
+
+var orgMemberrHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = params["name"]?.first;
+
+  return BlocProvider<FollowBloc>(
+    child: FollowPage(PageType.org_member),
+    bloc: OrgMemberBloc(name),
+  );
 });

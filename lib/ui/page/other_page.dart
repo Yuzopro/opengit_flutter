@@ -8,11 +8,12 @@ class OtherPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.other),
+      appBar:
+          CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.other),
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: new Text('Github API'),
+            title: new Text('Github API', style: YZConstant.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(
@@ -23,7 +24,7 @@ class OtherPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: new Text('界面参考Gitme'),
+            title: new Text('界面参考Gitme', style: YZConstant.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(
@@ -34,11 +35,12 @@ class OtherPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: new Text('Github Trending API'),
+            title:
+                new Text('Github Trending API', style: YZConstant.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
-              NavigatorUtil.goWebView(
-                  context, 'Github Trending API', 'https://github.com/huchenme/github-trending-api');
+              NavigatorUtil.goWebView(context, 'Github Trending API',
+                  'https://github.com/huchenme/github-trending-api');
             },
           ),
           Divider(

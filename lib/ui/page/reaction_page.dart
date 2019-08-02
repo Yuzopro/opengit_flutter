@@ -6,6 +6,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/manager/login_manager.dart';
 
 class ReactionPage
@@ -36,10 +37,10 @@ class ReactionPage
 
     return ListTile(
       leading: ImageUtil.getCircleNetworkImage(
-          item.user.avatarUrl, 36.0, "assets/images/ic_default_head.png"),
+          item.user.avatarUrl, 36.0, ImagePath.image_default_head),
       title: Text(item.user.login),
       subtitle: Text(DateUtil.getMultiDateStr(item.createdAt) +
-          (isYou ? "(it's you)" : "")),
+          (isYou ? "(it's you)" : ""), style: YZConstant.middleText),
       trailing: isYou
           ? InkWell(
               child: Icon(

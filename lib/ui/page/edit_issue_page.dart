@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/issue_manager.dart';
@@ -28,6 +27,7 @@ class _EditIssueState extends State<EditIssuePage> {
   @override
   void initState() {
     super.initState();
+    LogUtil.v(widget.issueBean);
     _titleController = TextEditingController.fromValue(
         TextEditingValue(text: widget.issueBean.title));
     _bodyController = TextEditingController.fromValue(
@@ -84,9 +84,13 @@ class _EditIssueState extends State<EditIssuePage> {
   Widget _buildBody(BuildContext context) {
     final form = ListView(
       children: <Widget>[
-        Text(AppLocalizations.of(context).currentlocal.edit_issue_title),
+        SizedBox(
+          height: 8.0,
+        ),
         _buildTitleWidget(),
-        Text(AppLocalizations.of(context).currentlocal.edit_issue_desc),
+        SizedBox(
+          height: 8.0,
+        ),
         _buildBodyWidget(),
       ],
     );
@@ -98,16 +102,27 @@ class _EditIssueState extends State<EditIssuePage> {
   }
 
   Widget _buildTitleWidget() {
-    return TextField(
+    return TextFormField(
       controller: _titleController,
       autofocus: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: AppLocalizations.of(context).currentlocal.edit_issue_title,
+      ),
+      maxLines: 1,
     );
   }
 
   Widget _buildBodyWidget() {
-    return TextField(
+    return TextFormField(
       controller: _bodyController,
       autofocus: false,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        helperText: '支持Markdown语法',
+        labelText: AppLocalizations.of(context).currentlocal.edit_issue_desc,
+      ),
+      maxLines: 5,
     );
   }
 

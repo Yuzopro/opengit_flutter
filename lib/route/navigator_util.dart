@@ -6,9 +6,9 @@ import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/bloc/trending_language_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
+import 'package:open_git/ui/page/edit_comment_page.dart';
 import 'package:open_git/ui/page/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue_detail_page.dart';
-import 'package:open_git/ui/page/markdown_editor_page.dart';
 import 'package:open_git/ui/page/reaction_page.dart';
 import 'package:open_git/ui/page/trending_date_page.dart';
 import 'package:open_git/ui/page/trending_language_page.dart';
@@ -77,11 +77,9 @@ class NavigatorUtil {
   }
 
   //用户资料
-  static goUserProfile(BuildContext context, name, avatar) {
+  static goUserProfile(BuildContext context, name) {
     Application.router.navigateTo(
-        context,
-        AppRoutes.profile +
-            "?name=${FluroConvertUtil.encode(name)}&avatar=${FluroConvertUtil.encode(avatar)}");
+        context, AppRoutes.profile + "?name=${FluroConvertUtil.encode(name)}");
   }
 
   //查看源码文件目录
@@ -129,7 +127,7 @@ class NavigatorUtil {
     return Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => MarkdownEditorPage(
+        builder: (context) => EditCommentPage(
           issueBean,
           repoUrl,
           isAdd,
@@ -236,6 +234,7 @@ class NavigatorUtil {
     Application.router.navigateTo(context, AppRoutes.cache);
   }
 
+  //趋势周期
   static goTrendingDate(BuildContext context) async {
     return Navigator.push(
       context,
@@ -245,6 +244,7 @@ class NavigatorUtil {
     );
   }
 
+  //趋势语言
   static goTrendingLanguage(BuildContext context) async {
     return Navigator.push(
       context,
@@ -255,5 +255,67 @@ class NavigatorUtil {
         ),
       ),
     );
+  }
+
+  //资料项目
+  static goProfileRepos(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.profile_repos + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //资料star项目
+  static goProfileStarRepos(BuildContext context, name) {
+    Application.router.navigateTo(
+        context,
+        AppRoutes.profile_star_repos +
+            "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //资料关注我的
+  static goProfileFollower(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.profile_follower + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //资料我关注的
+  static goProfileFollowing(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.profile_following + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //资料组织
+  static goProfileOrg(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.profile_org + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //资料动态
+  static goProfileEvent(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.profile_event + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //组织资料
+  static goOrgProfile(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.org_profile + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //组织动态
+  static goOrgEvent(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.org_event + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //组织项目
+  static goOrgRepos(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.org_repos + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //组织成员
+  static goOrgMember(BuildContext context, name) {
+    Application.router.navigateTo(context,
+        AppRoutes.org_member + "?name=${FluroConvertUtil.encode(name)}");
   }
 }

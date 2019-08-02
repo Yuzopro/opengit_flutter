@@ -31,20 +31,16 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchHomeList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
 
     _checkUpgrade(context);
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchHomeList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -113,15 +109,5 @@ class HomeBloc extends BaseListBloc<Entrylist> {
         }
       }).catchError((_) {});
     });
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

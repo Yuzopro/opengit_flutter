@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/common/url_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:package_info/package_info.dart';
@@ -47,7 +49,7 @@ class _SharePageState extends State<SharePage> {
                     Image(
                         width: 32.0,
                         height: 32.0,
-                        image: AssetImage('assets/images/ic_launcher.png')),
+                        image: AssetImage(ImagePath.image_app)),
                     Padding(
                       padding: EdgeInsets.only(left: 3.0),
                       child: Column(
@@ -66,8 +68,7 @@ class _SharePageState extends State<SharePage> {
                 ),
               ),
               QrImage(
-                  data:
-                      "https://yuzopro.github.io/portfolio/work/opengit-flutter.html",
+                  data: OPEN_GIT_HOME,
                   size: qrSize,
                   onError: (ex) {
                     print("[QR] ERROR - $ex");

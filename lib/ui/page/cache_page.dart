@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/util/common_util.dart';
@@ -19,15 +19,13 @@ class _CachePageState extends State<CachePage> {
   @override
   void initState() {
     super.initState();
-    int time =
-        SpUtil.instance.getInt(SharedPrfKey.SP_KEY_CACHE_TIME, defValue: 4);
+    int time = SpUtil.instance.getInt(SP_KEY_CACHE_TIME, defValue: 4);
     _discreteValue = time.roundToDouble();
   }
 
   @override
   void dispose() {
-    SpUtil.instance
-        .putInt(SharedPrfKey.SP_KEY_CACHE_TIME, _discreteValue.round());
+    SpUtil.instance.putInt(SP_KEY_CACHE_TIME, _discreteValue.round());
     super.dispose();
   }
 

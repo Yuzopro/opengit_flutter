@@ -4,17 +4,17 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/manager/event_manager.dart';
 
-class EventBloc extends BaseListBloc<EventBean> {
+abstract class EventBloc extends BaseListBloc<EventBean> {
   static final String TAG = "EventBloc";
 
   final String userName;
 
-  EventBloc(this.userName) {
-  }
+  EventBloc(this.userName);
 
   bool _isInit = false;
+
+  fetchEvent(int page);
 
   void initData(BuildContext context) async {
     if (_isInit) {
@@ -22,23 +22,14 @@ class EventBloc extends BaseListBloc<EventBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchEventList();
-    _hideLoading();
-
-    refreshStatusEvent();
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.event;
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchEventList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -51,7 +42,7 @@ class EventBloc extends BaseListBloc<EventBean> {
   Future _fetchEventList() async {
     LogUtil.v('_fetchEventList', tag: TAG);
     try {
-      var result = await EventManager.instance.getEventReceived(userName, page);
+      var result = await fetchEvent(page);
       if (bean.data == null) {
         bean.data = List();
       }
@@ -74,15 +65,5 @@ class EventBloc extends BaseListBloc<EventBean> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

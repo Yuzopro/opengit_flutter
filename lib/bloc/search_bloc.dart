@@ -9,9 +9,7 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
   final String type;
   String searchText;
 
-  SearchBloc(this.type) {
-    LogUtil.v(type, tag: TAG);
-  }
+  SearchBloc(this.type);
 
   void dealResult(result);
 
@@ -22,9 +20,9 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _searchText();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -34,9 +32,9 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
 
   void startSearch(String text) async {
     searchText = text;
-    _showLoading();
+    showLoading();
     await _searchText();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -47,15 +45,5 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
     if (response != null && response.result) {
       dealResult(response.data);
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

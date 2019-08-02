@@ -32,11 +32,7 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchIssueList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   refreshData({String q, String state, String sort, String order}) async {
@@ -47,18 +43,14 @@ class IssueBloc extends BaseListBloc<IssueBean> {
 
     page = 1;
 
-    _showLoading();
-    await _fetchIssueList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchIssueList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -95,15 +87,5 @@ class IssueBloc extends BaseListBloc<IssueBean> {
         page--;
       }
     }
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

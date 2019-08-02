@@ -27,18 +27,14 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
     }
     _isInit = true;
 
-    _showLoading();
-    await _fetchLanguageList();
-    _hideLoading();
-
-    refreshStatusEvent();
+    onReload();
   }
 
   @override
   void onReload() async {
-    _showLoading();
+    showLoading();
     await _fetchLanguageList();
-    _hideLoading();
+    hideLoading();
 
     refreshStatusEvent();
   }
@@ -116,15 +112,5 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
         offset = offset + getItemHeight();
       }
     });
-  }
-
-  void _showLoading() {
-    bean.isLoading = true;
-    sink.add(bean);
-  }
-
-  void _hideLoading() {
-    bean.isLoading = false;
-    sink.add(bean);
   }
 }

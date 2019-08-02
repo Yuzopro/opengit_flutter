@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/common/url_const.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/user/user_action.dart';
 import 'package:open_git/route/navigator_util.dart';
@@ -90,7 +92,7 @@ class SplashPageContent extends StatelessWidget {
           Image(
             width: 64.0,
             height: 64.0,
-            image: AssetImage('assets/images/ic_launcher.png'),
+            image: AssetImage(ImagePath.image_app),
           ),
           SizedBox(
             height: 5.0,
@@ -109,8 +111,7 @@ class SplashPageContent extends StatelessWidget {
 
   void _gotoAd(BuildContext context) {
     viewModel.onStopCountdown();
-    NavigatorUtil.goWebViewForAd(
-        context, 'Yuzo Blog', 'https://yuzopro.github.io/');
+    NavigatorUtil.goWebViewForAd(context, 'Yuzo Blog', BLOG);
   }
 
   void _jump(BuildContext context) {

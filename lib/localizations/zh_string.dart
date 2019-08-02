@@ -126,4 +126,19 @@ class ZhString extends AppBaseString {
 
   @override
   String get developers => '用户';
+
+  @override
+  String get sign_tip_1 => '欢迎回来!';
+
+  @override
+  String get sign_tip_2 => '请完成登录操作';
+
+  @override
+  String get sign_up => '注册';
+
+  @override
+  String get sign_text => '是否存在账号？';
+
+  @override
+  String get profile => '用户资料';
 }

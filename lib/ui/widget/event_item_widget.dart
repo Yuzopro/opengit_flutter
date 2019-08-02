@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/event_bean.dart';
-import 'package:open_git/bean/event_payload_bean.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/event_util.dart';
 
@@ -13,149 +13,80 @@ class EventItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String repoUser, repoName;
-    if (item.repo.name.isNotEmpty && item.repo.name.contains("/")) {
-      List<String> repos = TextUtil.split(item.repo.name, '/');
-      repoUser = repos[0];
-      repoName = repos[1];
-    }
-
-    List<Widget> columnWidgets = [];
-    _buildTitleWidget(columnWidgets, item, repoName);
-    _buildDescWidget(columnWidgets, item);
-    _buildCreatedAtWidget(columnWidgets, item.createdAt);
-    _buildIssueWidget(columnWidgets, item.payload, repoName);
-
     return InkWell(
-      child: Container(
-        color: Color(YZColors.white),
-        margin: EdgeInsets.only(bottom: 8.0),
-        padding: EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 8.0,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            //头像
-            ImageUtil.getCircleNetworkImage(item.actor.avatarUrl ?? "", 36.0,
-                "assets/images/ic_default_head.png"),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: columnWidgets,
-                ),
-              ),
-              flex: 1,
-            ),
-            EventUtil.getTypeIcon(item),
-          ],
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: _postCard(context),
       ),
       onTap: () {
         if (item.payload != null && item.payload.issue != null) {
           NavigatorUtil.goIssueDetail(context, item.payload.issue);
         } else if (item.repo != null && item.repo.name != null) {
+          String repoUser, repoName;
+          if (item.repo.name.isNotEmpty && item.repo.name.contains("/")) {
+            List<String> repos = TextUtil.split(item.repo.name, '/');
+            repoUser = repos[0];
+            repoName = repos[1];
+          }
           NavigatorUtil.goReposDetail(context, repoUser, repoName);
         }
       },
     );
   }
 
-  void _buildTitleWidget(List<Widget> column, EventBean item, repoName) {
-    String type = EventUtil.getTypeDesc(item);
-
-    Text title = Text.rich(
-      TextSpan(children: [
-        TextSpan(
-            text: item.actor.login,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-        TextSpan(text: " $type ", style: TextStyle(color: Colors.grey)),
-        TextSpan(
-            text: repoName ?? item.repo.name,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-      ]),
-    );
-    column.add(title);
-  }
-
-  void _buildDescWidget(List<Widget> column, EventBean item) {
-    String desc = EventUtil.getEventDes(item);
-    if (desc != null && desc.isNotEmpty) {
-      column.add(Text(desc, style: TextStyle(color: Colors.black87)));
-    }
-  }
-
-  void _buildCreatedAtWidget(List<Widget> column, createdAt) {
-    Padding createdAtWidget = Padding(
-      padding: EdgeInsets.only(top: 6.0),
-      child: Text(
-        DateUtil.getMultiDateStr(createdAt),
-        style: TextStyle(color: Colors.grey, fontSize: 12.0),
+  Widget _postCard(BuildContext context) {
+    return Card(
+      elevation: 2.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _profileColumn(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              EventUtil.getAction(item) ?? "--",
+              style: YZConstant.middleTextBold,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              EventUtil.getDesc(item) ?? "--",
+              style: YZConstant.smallTextT65,
+            ),
+          ),
+        ],
       ),
     );
-    column.add(createdAtWidget);
   }
 
-  void _buildIssueWidget(
-      List<Widget> column, EventPayloadBean payload, repoName) {
-    if (payload == null) {
-      return;
-    }
-    if (payload.issue != null) {
-      if (payload.comment != null) {
-        Padding commentWidget = Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: Text(
-            payload.comment.body,
-            style: TextStyle(color: Colors.grey),
+  //column1
+  Widget _profileColumn(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          InkWell(
+            child: ImageUtil.getCircleNetworkImage(
+                item.actor.avatarUrl, 36.0, ImagePath.image_default_head),
+            onTap: () {
+              NavigatorUtil.goUserProfile(context, item.actor.login);
+            },
           ),
-        );
-        column.add(commentWidget);
-
-        Row issueWidget = Row(
-          children: <Widget>[
-            ImageUtil.getCircleNetworkImage(payload.issue.user.avatarUrl ?? "",
-                24.0, "assets/images/ic_default_head.png"),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 3.0),
-                child: Text(
-                  repoName + " #${payload.issue.number}",
-                  style: TextStyle(color: Colors.grey),
-                ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                item.actor.login,
+                style: YZConstant.smallText,
               ),
-              flex: 1,
             ),
-            Image(
-                width: 16.0,
-                height: 16.0,
-                image: AssetImage('assets/images/ic_comment.png')),
-            Text(
-              "${payload.issue.commentNum}",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        );
-        Container issueContainer = Container(
-          padding: EdgeInsets.all(6.0),
-          color: Colors.grey[350],
-          child: issueWidget,
-        );
-        column.add(issueContainer);
-      } else {
-        Padding issueWidget = Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: Text(
-            payload.issue.title,
-            style: TextStyle(color: Colors.grey),
           ),
-        );
-        column.add(issueWidget);
-      }
-    }
-  }
+          Text(
+            DateUtil.getMultiDateStr(item.createdAt),
+            style: YZConstant.smallSubText,
+          ),
+        ],
+      );
 }

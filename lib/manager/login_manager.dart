@@ -4,7 +4,7 @@ import 'package:flutter_common_util/src/sp_util.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/common/shared_prf_key.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/credentials.dart';
 import 'package:open_git/http/http_request.dart';
@@ -52,7 +52,8 @@ class LoginManager {
   }
 
   getMyUserInfo() async {
-    final response = await HttpRequest().get(Api.getMyUserInfo());
+    final response =
+        await HttpRequest().get(Api.getMyUserInfo(), isCache: false);
     if (response != null && response.data != null) {
       LoginManager.instance.setUserBean(response.data, true);
       return UserBean.fromJson(response.data);
@@ -72,7 +73,7 @@ class LoginManager {
       _userBean = UserBean.fromJson(data);
     }
     if (isNeedCache) {
-      SpUtil.instance.putObject(SharedPrfKey.SP_KEY_USER_INFO, data);
+      SpUtil.instance.putObject(SP_KEY_USER_INFO, data);
     }
   }
 
@@ -83,7 +84,7 @@ class LoginManager {
   void setToken(String token, bool isNeedCache) {
     _token = token;
     if (isNeedCache) {
-      SpUtil.instance.putString(SharedPrfKey.SP_KEY_TOKEN, token ?? "");
+      SpUtil.instance.putString(SP_KEY_TOKEN, token ?? "");
     }
   }
 

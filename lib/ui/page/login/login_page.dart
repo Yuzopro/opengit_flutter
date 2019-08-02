@@ -5,6 +5,7 @@ import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/login/login_action.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/page/login/sign_page.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:redux/redux.dart';
 
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
     return StoreConnector<AppState, LoginPageViewModel>(
       distinct: true,
       converter: (store) => LoginPageViewModel.fromStore(store, context),
-      builder: (_, viewModel) => LoginPageContent(viewModel),
+      builder: (_, viewModel) => SignPage(viewModel),
     );
   }
 }

@@ -58,14 +58,37 @@ class ReposManager {
     }
     url += Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<Repository> list = new List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        Repository repository = Repository.fromJson(dataItem);
-        repository.description =
-            ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
-        list.add(repository);
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          Repository repository = Repository.fromJson(dataItem);
+          repository.description =
+              ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+          list.add(repository);
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  Future<List<Repository>> getOrgRepos(
+      String userName, int page, String sort) async {
+    String url = Api.getOrgRepos(userName, sort);
+    url += Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<Repository> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          Repository repository = Repository.fromJson(dataItem);
+          repository.description =
+              ReposUtil.getGitHubEmojHtml(repository.description ?? "暂无描述");
+          list.add(repository);
+        }
       }
       return list;
     }
@@ -123,11 +146,13 @@ class ReposManager {
     String url = Api.getReposEvents(reposOwner, reposName) +
         Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<EventBean> list = List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        list.add(EventBean.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(EventBean.fromJson(dataItem));
+        }
       }
       return list;
     }
@@ -137,11 +162,13 @@ class ReposManager {
   getBranches(reposOwner, reposName) async {
     String url = Api.getBranches(reposOwner, reposName);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<BranchBean> list = List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        list.add(BranchBean.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(BranchBean.fromJson(dataItem));
+        }
       }
       return list;
     }
@@ -151,12 +178,14 @@ class ReposManager {
   getLanguages(language, page) async {
     String url = Api.getLanguages(language + Api.getPageParams("&", page));
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<Repository> list = List();
-      var items = response.data["items"];
-      for (int i = 0; i < items.length; i++) {
-        var dataItem = items[i];
-        list.add(Repository.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        var items = response.data["items"];
+        for (int i = 0; i < items.length; i++) {
+          var dataItem = items[i];
+          list.add(Repository.fromJson(dataItem));
+        }
       }
       return list;
     }
@@ -166,20 +195,22 @@ class ReposManager {
   getReposFileDir(userName, reposName, {path = '', branch}) async {
     String url = Api.reposDataDir(userName, reposName, path, branch);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
-      List<SourceFileBean> dirs = List();
-      List<SourceFileBean> files = List();
-      for (int i = 0; i < response.data.length; i++) {
-        SourceFileBean file = SourceFileBean.fromJson(response.data[i]);
-        if (file.type == "file") {
-          files.add(file);
-        } else {
-          dirs.add(file);
-        }
-      }
+    if (response != null && response.result) {
       List<SourceFileBean> list = List();
-      list.addAll(dirs);
-      list.addAll(files);
+      if (response.data != null && response.data.length > 0) {
+        List<SourceFileBean> dirs = List();
+        List<SourceFileBean> files = List();
+        for (int i = 0; i < response.data.length; i++) {
+          SourceFileBean file = SourceFileBean.fromJson(response.data[i]);
+          if (file.type == "file") {
+            files.add(file);
+          } else {
+            dirs.add(file);
+          }
+        }
+        list.addAll(dirs);
+        list.addAll(files);
+      }
       return list;
     }
     return null;
@@ -210,11 +241,13 @@ class ReposManager {
     String url =
         Api.getReposReleases(userName, repos) + Api.getPageParams("&", page);
     final response = await HttpRequest().get(url);
-    if (response != null && response.data != null && response.data.length > 0) {
+    if (response != null && response.result) {
       List<ReleaseBean> list = List();
-      for (int i = 0; i < response.data.length; i++) {
-        var dataItem = response.data[i];
-        list.add(ReleaseBean.fromJson(dataItem));
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(ReleaseBean.fromJson(dataItem));
+        }
       }
       return list;
     }

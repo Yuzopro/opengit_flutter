@@ -32,6 +32,17 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
+
+    //Android dependency 'androidx.core:core' has different version
+    // for the compile (1.0.0) and runtime (1.0.2) classpath
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'androidx.core' &&
+                    !details.requested.name.contains('androidx')) {
+                details.useVersion "1.0.2"
+            }
+        }
+    }
 }
 task clean(type: Delete) {
     delete rootProject.buildDir

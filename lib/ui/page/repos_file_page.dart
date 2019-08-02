@@ -52,7 +52,7 @@ class ReposFilePage
       BuildContext context, LoadingBean<List<SourceFileBean>> data) {
     ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
     return ListTile(
-      title: Text(bloc.getHeaderPath()),
+      title: Text(bloc.getHeaderPath(), style: YZConstant.middleText),
     );
   }
 
@@ -60,7 +60,7 @@ class ReposFilePage
   Widget builderItem(BuildContext context, SourceFileBean item) {
     return ListTile(
       leading: Icon(item.type == "file" ? Icons.attach_file : Icons.folder),
-      title: Text(item.name),
+      title: Text(item.name, style: YZConstant.middleText),
       subtitle:
           item.type == "file" ? Text(FileUtil.formatFileSize(item.size)) : null,
       onTap: () {

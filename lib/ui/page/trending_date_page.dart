@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/util/common_util.dart';
 
 class TrendingDatePage extends StatelessWidget {
@@ -9,19 +10,19 @@ class TrendingDatePage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('daily'),
+            title: Text('daily', style: YZConstant.middleText),
             onTap: () {
               Navigator.pop(context, 'daily');
             },
           ),
           ListTile(
-            title: Text('weekly'),
+            title: Text('weekly', style: YZConstant.middleText),
             onTap: () {
               Navigator.pop(context, 'weekly');
             },
           ),
           ListTile(
-            title: Text('monthly'),
+            title: Text('monthly', style: YZConstant.middleText),
             onTap: () {
               Navigator.pop(context, 'monthly');
             },

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/common/url_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
@@ -59,7 +62,7 @@ class _AboutPageState extends State<AboutPageContent> {
                 Image(
                     width: 64.0,
                     height: 64.0,
-                    image: AssetImage('assets/images/ic_launcher.png')),
+                    image: AssetImage(ImagePath.image_app)),
                 Text(
                   "OpenGit",
                   style: TextStyle(
@@ -78,35 +81,37 @@ class _AboutPageState extends State<AboutPageContent> {
                   ),
                 ),
                 ListTile(
-                  title: Text('Github'),
+                  title: Text('Github', style: YZConstant.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
-                    NavigatorUtil.goWebView(context, 'Github',
-                        'https://github.com/Yuzopro/OpenGit_Flutter');
+                    NavigatorUtil.goWebView(
+                        context, 'OpenGit', OPEN_GIT_GITHUB);
                   },
                 ),
-                Divider(
-                  height: 0.3,
-                ),
-                ListTile(
-                  title: Text(AppLocalizations.of(context).currentlocal.author),
-                  trailing: Icon(Icons.navigate_next),
-                  onTap: () {
-                    NavigatorUtil.goAuthor(context);
-                  },
-                ),
+//                Divider(
+//                  height: 0.3,
+//                ),
+//                ListTile(
+//                  title: Text(AppLocalizations.of(context).currentlocal.author,
+//                      style: YZConstant.middleText),
+//                  trailing: Icon(Icons.navigate_next),
+//                  onTap: () {
+//                    NavigatorUtil.goAuthor(context);
+//                  },
+//                ),
                 Divider(
                   height: 0.3,
                 ),
                 ListTile(
                   title: Text(
-                      AppLocalizations.of(context).currentlocal.app_home_page),
+                      AppLocalizations.of(context).currentlocal.app_home_page,
+                      style: YZConstant.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goWebView(
                         context,
                         AppLocalizations.of(context).currentlocal.app_home_page,
-                        'https://yuzopro.github.io/portfolio/work/opengit-flutter.html');
+                        OPEN_GIT_HOME);
                   },
                 ),
                 Divider(
@@ -114,7 +119,8 @@ class _AboutPageState extends State<AboutPageContent> {
                 ),
                 ListTile(
                   title: Text(
-                      AppLocalizations.of(context).currentlocal.introduction),
+                      AppLocalizations.of(context).currentlocal.introduction,
+                      style: YZConstant.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goTimeline(context);
@@ -127,9 +133,11 @@ class _AboutPageState extends State<AboutPageContent> {
                   title: Stack(
                     alignment: Alignment.centerLeft,
                     children: <Widget>[
-                      Text(AppLocalizations.of(context)
-                          .currentlocal
-                          .update_title),
+                      Text(
+                          AppLocalizations.of(context)
+                              .currentlocal
+                              .update_title,
+                          style: YZConstant.middleText),
                       Offstage(
                         offstage: !RedPointManager.instance.isUpgrade,
                         child: Container(
@@ -146,7 +154,8 @@ class _AboutPageState extends State<AboutPageContent> {
                   height: 0.3,
                 ),
                 ListTile(
-                  title: Text(AppLocalizations.of(context).currentlocal.other),
+                  title: Text(AppLocalizations.of(context).currentlocal.other,
+                      style: YZConstant.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goOther(context);

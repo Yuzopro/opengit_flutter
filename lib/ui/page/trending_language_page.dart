@@ -24,9 +24,6 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
   }
 
   @override
-  bool isShowAppBarActions() => false;
-
-  @override
   Widget builderItem(BuildContext context, TrendingLanguageBean item) {
     TrendingLanguageBloc bloc = BlocProvider.of<TrendingLanguageBloc>(context);
 
