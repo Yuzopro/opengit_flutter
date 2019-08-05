@@ -14,6 +14,7 @@ import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 import 'package:open_git/util/size_util.dart';
 
+///https://api.github.com/repos/DylanZhuang/CircleImageView/issues/1/events
 class IssueDetailPage
     extends BaseStatelessWidget<LoadingBean<IssueDetailBean>, IssueDetailBloc> {
   final List<_Reaction> _reactionList = [
@@ -48,6 +49,12 @@ class IssueDetailPage
   void openWebView(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     NavigatorUtil.goWebView(context, bloc.getTitle(), bloc.issueBean.htmlUrl);
+  }
+
+  @override
+  String getShareText(BuildContext context) {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    return bloc.issueBean.htmlUrl;
   }
 
   @override
@@ -144,10 +151,6 @@ class IssueDetailPage
         ),
       ),
     );
-  }
-
-  Widget _postCard(BuildContext context, IssueBean item, bool isIssue) {
-
   }
 
   Widget _postHeadItem(BuildContext context, IssueBean item, bool isIssue) {
@@ -313,6 +316,9 @@ class IssueDetailPage
   }
 
   Widget _reactionColumn(BuildContext context, IssueBean item, isIssue) {
+    if (item == null || item.reaction == null) {
+      return Container();
+    }
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
 
     List<Widget> reactionWidget = List();

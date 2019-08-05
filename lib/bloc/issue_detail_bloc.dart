@@ -9,6 +9,7 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/manager/login_manager.dart';
+import 'package:open_git/manager/user_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
@@ -79,18 +80,27 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
         issueBean.user.login == null) {
       return false;
     }
-    UserBean userBean = LoginManager.instance.getUserBean();
+
     String authorName = _getRepoAuthorName(issueBean.repoUrl);
-    if (userBean != null && userBean.login == authorName) {
+    if (UserManager.instance.isYou(authorName)) {
+      return true;
+    } else if (UserManager.instance.isYou(item.user.login)) {
       return true;
     }
-    if (userBean != null && userBean.login == issueBean.user.login) {
-      return true;
-    }
-    if (userBean != null && userBean.login == item.user.login) {
-      return true;
-    }
+
     return false;
+//
+//    UserBean userBean = LoginManager.instance.getUserBean();
+//    if (userBean != null && userBean.login == authorName) {
+//      return true;
+//    }
+//    if (userBean != null && userBean.login == issueBean.user.login) {
+//      return true;
+//    }
+//    if (userBean != null && userBean.login == item.user.login) {
+//      return true;
+//    }
+//    return false;
   }
 
   goEditIssue(BuildContext context) async {

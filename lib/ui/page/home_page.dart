@@ -148,7 +148,6 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
     );
   }
 
-  //column1
   Widget _profileColumn(BuildContext context, Entrylist item) => Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: <Widget>[
@@ -167,7 +166,6 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
     ],
   );
 
-  //column last
   Widget _actionColumn(Entrylist item) => ButtonBar(
     alignment: MainAxisAlignment.start,
     children: <Widget>[
@@ -176,7 +174,7 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
         image: 'assets/images/ic_like.png',
       ),
       LabelIcon(
-        label: item.collectionCount.toString(),
+        label: item.commentsCount.toString(),
         image: 'assets/images/ic_comment.png',
       ),
     ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/common/image_path.dart';
 import 'package:open_git/common/url_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -15,7 +17,7 @@ class SharePage extends StatefulWidget {
 }
 
 class _SharePageState extends State<SharePage> {
-  String _version = "";
+  String _version = '';
 
   @override
   void initState() {
@@ -29,8 +31,9 @@ class _SharePageState extends State<SharePage> {
     double qrSize = size - 80;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      appBar:
-          CommonUtil.getAppBar(AppLocalizations.of(context).currentlocal.share),
+      appBar: CommonUtil.getAppBar(
+          AppLocalizations.of(context).currentlocal.share,
+          actions: _getAction(context)),
       body: Center(
           child: DecoratedBox(
         decoration: BoxDecoration(
@@ -71,7 +74,7 @@ class _SharePageState extends State<SharePage> {
                   data: OPEN_GIT_HOME,
                   size: qrSize,
                   onError: (ex) {
-                    print("[QR] ERROR - $ex");
+                    print('[QR] ERROR - $ex');
                   }),
               Text(AppLocalizations.of(context).currentlocal.download_app_tips,
                   style: TextStyle(color: Colors.grey, fontSize: 12.0)),
@@ -82,12 +85,70 @@ class _SharePageState extends State<SharePage> {
     );
   }
 
+  List<Widget> _getAction(BuildContext context) {
+    return [
+      PopupMenuButton(
+        padding: const EdgeInsets.all(0.0),
+        onSelected: (value) {
+          _onPopSelected(context, value);
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+          _getPopupMenuItem('browser', Icons.language, '浏览器打开'),
+          _getPopupMenuItem('share', Icons.share, '分享'),
+        ],
+      )
+    ];
+  }
+
+  PopupMenuItem _getPopupMenuItem(String value, IconData icon, String title) {
+    return PopupMenuItem<String>(
+      value: value,
+      child: ListTile(
+        contentPadding: EdgeInsets.all(0.0),
+        dense: false,
+        title: Container(
+          alignment: Alignment.center,
+          child: Row(
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Color(YZColors.mainTextColor),
+                size: 22.0,
+              ),
+              SizedBox(
+                width: 5.0,
+              ),
+              Text(
+                title,
+                style: YZConstant.middleText,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   _getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if (packageInfo != null) {
       setState(() {
         _version = packageInfo.version;
       });
+    }
+  }
+
+  void _onPopSelected(BuildContext context, String value) {
+    switch (value) {
+      case 'browser':
+        NavigatorUtil.goWebView(
+            context,
+            AppLocalizations.of(context).currentlocal.app_home_page,
+            OPEN_GIT_HOME);
+        break;
+      case 'share':
+        ShareUtil.share(OPEN_GIT_HOME);
+        break;
     }
   }
 }

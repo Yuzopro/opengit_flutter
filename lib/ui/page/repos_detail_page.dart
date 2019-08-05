@@ -50,6 +50,12 @@ class ReposDetailPage
   }
 
   @override
+  String getShareText(BuildContext context) {
+    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    return bloc.bean.data.repos.htmlUrl;
+  }
+
+  @override
   Widget getChild(BuildContext context, LoadingBean<ReposDetailBean> bean) {
     if (bean == null || bean.data.repos == null) {
       return Container();

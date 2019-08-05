@@ -129,7 +129,6 @@ class _MainPageState extends State<MainPage>
               title: TabBar(
                 controller: _tabController,
                 labelPadding: EdgeInsets.all(8.0),
-                isScrollable: true,
                 indicatorColor: Colors.white,
                 tabs: choices.map((Choice choice) {
                   return Tab(
@@ -155,6 +154,7 @@ class _MainPageState extends State<MainPage>
             //点击issue tab，动态 tab也会触发加载数据，并且立即销毁
             body: PageView(
               controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 BlocProvider<HomeBloc>(
                   child: HomePage(),

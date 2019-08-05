@@ -83,15 +83,15 @@ class IssueManager {
   editIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.editComment(repoUrl, issueNumber);
 
-    Map<String, dynamic> header = HashMap();
-    header['Accept'] =
-        'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
+//    Map<String, dynamic> header = HashMap();
+//    header['Accept'] =
+//        'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
     RequestBuilder builder = RequestBuilder();
     builder
       ..url(url)
       ..isCache(false)
       ..method(HttpMethod.PATCH)
-      ..header(header)
+//      ..header(header)
       ..data({"body": comment});
     final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {

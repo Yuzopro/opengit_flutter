@@ -112,7 +112,8 @@ flutter install
     3. 修改登录UI；
     4. 修改用户资料UI;
     5. 增加组织相关逻辑；
-    6. 增加字体montserrat
+    6. 增加字体montserrat;
+    7. 增加分享功能;
 
 ## 学习历程
 

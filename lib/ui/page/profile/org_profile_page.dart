@@ -50,6 +50,12 @@ class OrgProfilePage
   }
 
   @override
+  String getShareText(BuildContext context) {
+    OrgProfileBloc bloc = BlocProvider.of<OrgProfileBloc>(context);
+    return bloc.bean.data.htmlUrl;
+  }
+
+  @override
   Widget getChild(BuildContext context, LoadingBean<OrgBean> bean) {
     if (bean == null || bean.data == null) {
       return Container();

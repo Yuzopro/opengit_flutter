@@ -56,6 +56,12 @@ class UserProfilePage
   }
 
   @override
+  String getShareText(BuildContext context) {
+    ProfileBloc bloc = BlocProvider.of<ProfileBloc>(context);
+    return bloc.bean.data.htmlUrl;
+  }
+
+  @override
   Widget getChild(BuildContext context, LoadingBean<UserBean> bean) {
     if (bean == null || bean.data == null) {
       return Container();
@@ -263,7 +269,7 @@ class UserProfilePage
   }
 
   Widget _bottomBar(BuildContext context, name) {
-    if (UserManager.instance.isYou(name)) {
+    if (UserManager.instance.isYou('Yuzopro')) {
       return Row(
         children: <Widget>[
           _bottomItemBar(

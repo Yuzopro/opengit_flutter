@@ -52,6 +52,18 @@ class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
   }
 
   @override
+  String getShareText(BuildContext context) {
+    ReposBloc bloc = BlocProvider.of<ReposBloc>(context);
+    String url;
+    if (type == PageType.repos_user) {
+      url = 'https://github.com/${bloc.userName}?tab=repositories';
+    } else {
+      url = 'https://github.com/${bloc.userName}?tab=stars';
+    }
+    return url;
+  }
+
+  @override
   Widget builderItem(BuildContext context, Repository item) {
     return ReposItemWidget(item);
   }

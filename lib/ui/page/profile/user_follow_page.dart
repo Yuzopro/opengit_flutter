@@ -47,6 +47,18 @@ class FollowPage extends BaseListStatelessWidget<UserBean, FollowBloc> {
   }
 
   @override
+  String getShareText(BuildContext context) {
+    FollowBloc bloc = BlocProvider.of<FollowBloc>(context);
+    String url;
+    if (type == PageType.followers) {
+      url = 'https://github.com/${bloc.userName}?tab=followers';
+    } else {
+      url = 'https://github.com/${bloc.userName}?tab=following';
+    }
+    return url;
+  }
+
+  @override
   Widget builderItem(BuildContext context, UserBean item) {
     return UserItemWidget(item);
   }

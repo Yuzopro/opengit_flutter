@@ -107,7 +107,7 @@ class HttpRequest {
         LogUtil.v(
             'load data from network and success, url is ' + builder.getUrl(),
             tag: TAG);
-//        LogUtil.v(response.data.toString(), tag: TAG);
+        LogUtil.v(response.data);
         return ResponseResultData(response.data, true, response.statusCode);
       } else {
         LogUtil.v(
@@ -117,8 +117,8 @@ class HttpRequest {
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
-      LogUtil.v(
-          'load data from network and exception, url is ' + builder.getUrl(),
+      ToastUtil.showMessgae(e.toString());
+      LogUtil.v('load data from network and exception, e is ' + e.toString(),
           tag: TAG);
       return ResponseResultData(null, false, -2);
     }
