@@ -46,6 +46,8 @@ dependencies:
   sqflite: ^1.1.6
   # 文件管理
   path_provider: ^0.5.0+1
+  # 颜色选择器
+  flutter_colorpicker: ^0.2.6
   flutter_localizations:
     sdk: flutter
 
@@ -141,6 +143,7 @@ flutter:
     - assets/images/profile/ic_profile_juejin.png
     - assets/images/profile/ic_profile_jianshu.png
     - assets/images/profile/ic_profile_blog_small.png
+    - assets/images/issue/ic_issue_label.png
 
   fonts:
     - family: Montserrat

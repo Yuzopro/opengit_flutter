@@ -269,7 +269,7 @@ class UserProfilePage
   }
 
   Widget _bottomBar(BuildContext context, name) {
-    if (UserManager.instance.isYou('Yuzopro')) {
+    if (TextUtil.equals('Yuzopro', name)) {
       return Row(
         children: <Widget>[
           _bottomItemBar(

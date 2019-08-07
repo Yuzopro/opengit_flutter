@@ -4,14 +4,14 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 
-abstract class FollowBloc extends BaseListBloc<UserBean> {
+abstract class UserBloc extends BaseListBloc<UserBean> {
   static final String TAG = "FollowBloc";
 
   final String userName;
 
   bool _isInit = false;
 
-  FollowBloc(this.userName);
+  UserBloc(this.userName);
 
   fetchList(int page);
 

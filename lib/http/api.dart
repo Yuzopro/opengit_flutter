@@ -91,8 +91,11 @@ class Api {
   }
 
   //获取用户问题列表
-  static getIssue(q, state, sort, order, userName) {
-    return "${_BASE_URL}search/issues?q=$q:$userName+state:$state&sort=$sort&order=$order";
+//  static getIssue(q, state, sort, order, userName) {
+//    return "${_BASE_URL}search/issues?q=$q:$userName+state:$state&sort=$sort&order=$order";
+//  }
+  static getIssue(filter, state, sort, direction) {
+    return '${_BASE_URL}issues?since=2000-01-01T00:00:00Z&filter=$filter&state=$state&sort=$sort&direction=$direction';
   }
 
   //获取语言类型star列表
@@ -217,6 +220,36 @@ class Api {
   ///组织成员
   static getOrgMembers(orgName) {
     return "${_BASE_URL}orgs/$orgName/members?";
+  }
+
+  //标签
+  static getLabel(owner, repo) {
+    return '${_BASE_URL}repos/$owner/$repo/labels?';
+  }
+
+  //删除标签 delete
+  static deleteLabel(owner, repo, labelName) {
+    return '${_BASE_URL}repos/$owner/$repo/labels/$labelName';
+  }
+
+  //创建标签 post
+  static createLabel(owner, repo) {
+    return '${_BASE_URL}repos/$owner/$repo/labels';
+  }
+
+  //更新标签 patch
+  static updateLabel(owner, repo, currentName) {
+    return '${_BASE_URL}repos/$owner/$repo/labels/$currentName';
+  }
+
+  //删除某个问题的标签 delete
+  static deleteIssueLabel(owner, repo, issueNumber, labelName) {
+    return '${_BASE_URL}repos/$owner/$repo/issues/$issueNumber/labels/$labelName';
+  }
+
+  //添加某个问题的标签 post
+  static addIssueLabel(owner, repo, issueNumber) {
+    return '${_BASE_URL}repos/$owner/$repo/issues/$issueNumber/labels';
   }
 
   static getJueJinApi(int page) {

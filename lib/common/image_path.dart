@@ -6,6 +6,8 @@ class ImagePath {
   static const String image_issue = '$_image_path/ic_issue.png';
   static const String image_fork = '$_image_path/ic_branch.png';
   static const String image_arrow_left = '$_image_path/ic_arrow_left_back.png';
+  static const String image_comment = '$_image_path/ic_comment.png';
+  static const String image_like = '$_image_path/ic_like.png';
 
   static const String _image_comment_path = '$_image_path/comment';
   static const String image_comment_like = '$_image_comment_path/1f44d.png';
@@ -41,4 +43,8 @@ class ImagePath {
       '$_image_profile_path/ic_profile_juejin.png';
   static const String image_profile_blog_small =
       '$_image_profile_path/ic_profile_blog_small.png';
+
+  static const String _image_issue_path = '$_image_path/issue';
+  static const String image_issue_label =
+      '$_image_issue_path/ic_issue_label.png';
 }

@@ -149,34 +149,34 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   }
 
   Widget _profileColumn(BuildContext context, Entrylist item) => Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: <Widget>[
-      ImageUtil.getCircleNetworkImage(
-          item.user.avatarLarge, 36.0, ImagePath.image_default_head),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Text(
-            item.user.username ?? '--',
-            style: YZConstant.smallText,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          ImageUtil.getCircleNetworkImage(
+              item.user.avatarLarge, 36.0, ImagePath.image_default_head),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                item.user.username ?? '--',
+                style: YZConstant.smallText,
+              ),
+            ),
           ),
-        ),
-      ),
-      _getItemTag(item.tags),
-    ],
-  );
+          _getItemTag(item.tags),
+        ],
+      );
 
   Widget _actionColumn(Entrylist item) => ButtonBar(
-    alignment: MainAxisAlignment.start,
-    children: <Widget>[
-      LabelIcon(
-        label: item.collectionCount.toString(),
-        image: 'assets/images/ic_like.png',
-      ),
-      LabelIcon(
-        label: item.commentsCount.toString(),
-        image: 'assets/images/ic_comment.png',
-      ),
-    ],
-  );
+        alignment: MainAxisAlignment.start,
+        children: <Widget>[
+          LabelIcon(
+            label: item.collectionCount.toString(),
+            image: ImagePath.image_like,
+          ),
+          LabelIcon(
+            label: item.commentsCount.toString(),
+            image: ImagePath.image_comment,
+          ),
+        ],
+      );
 }

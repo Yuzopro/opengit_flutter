@@ -50,6 +50,16 @@ class HttpRequest {
     return await builder(requestBuilder);
   }
 
+  patch(String url, dynamic data) async {
+    RequestBuilder requestBuilder = RequestBuilder()
+      ..isCache(false)
+      ..method(HttpMethod.PATCH)
+      ..url(url)
+      ..data(data);
+
+    return await builder(requestBuilder);
+  }
+
   builder(RequestBuilder builder) async {
     if (builder.getCache()) {
       int time = SpUtil.instance.getInt(SP_KEY_CACHE_TIME, defValue: 4);
@@ -88,6 +98,7 @@ class HttpRequest {
     );
 
     String url = builder.getUrl();
+//    LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
 
     Dio _dio = Dio();
     //开始请求
@@ -107,7 +118,7 @@ class HttpRequest {
         LogUtil.v(
             'load data from network and success, url is ' + builder.getUrl(),
             tag: TAG);
-        LogUtil.v(response.data);
+//        LogUtil.v(response.data);
         return ResponseResultData(response.data, true, response.statusCode);
       } else {
         LogUtil.v(

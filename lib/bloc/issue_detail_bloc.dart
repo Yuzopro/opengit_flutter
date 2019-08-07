@@ -4,6 +4,7 @@ import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
+import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
@@ -71,6 +72,15 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     return "$title # ${issueBean.number}";
   }
 
+  void updateLabels() {
+    List<Labels> labels = IssueManager.instance.getLabels();
+    if (labels == null || labels.isEmpty) {
+      return;
+    }
+    bean.data.issueBean.labels = labels;
+    sink.add(bean);
+  }
+
   bool isEditAndDeleteEnable(IssueBean item) {
     if (item == null ||
         item.user == null ||
@@ -89,18 +99,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     }
 
     return false;
-//
-//    UserBean userBean = LoginManager.instance.getUserBean();
-//    if (userBean != null && userBean.login == authorName) {
-//      return true;
-//    }
-//    if (userBean != null && userBean.login == issueBean.user.login) {
-//      return true;
-//    }
-//    if (userBean != null && userBean.login == item.user.login) {
-//      return true;
-//    }
-//    return false;
   }
 
   goEditIssue(BuildContext context) async {

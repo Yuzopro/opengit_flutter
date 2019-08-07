@@ -117,6 +117,39 @@ class UserManager {
     return null;
   }
 
+  Future<List<UserBean>> getContributors(
+      String contributorUrl, int page) async {
+    String url = contributorUrl + '?' + Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<UserBean> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(UserBean.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  Future<List<UserBean>> getStargazers(String stargazerUrl, int page) async {
+    String url = stargazerUrl + '?' + Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url, isCache: false);
+    if (response != null && response.result) {
+      List<UserBean> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(UserBean.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
   bool isYou(String userName) {
     UserBean userBean = LoginManager.instance.getUserBean();
     if (userBean != null && TextUtil.equals(userBean.login, userName)) {

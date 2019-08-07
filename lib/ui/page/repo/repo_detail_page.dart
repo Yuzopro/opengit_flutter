@@ -14,7 +14,7 @@ import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 import 'package:open_git/util/repos_util.dart';
 
-class ReposDetailPage
+class RepoDetailPage
     extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, ReposDetailBloc> {
   @override
   PageType getPageType() {
@@ -65,13 +65,13 @@ class ReposDetailPage
       children: <Widget>[
         _getHeaderWidget(context, bean.data.repos, bean.data.starStatus,
             bean.data.watchStatus, bloc),
-        _getClassifyTips(context, "互动"),
+        _getClassifyTips(context, '互动'),
         _getInteractWidget(bean.data.repos),
-        _getClassifyTips(context, "详情"),
+        _getClassifyTips(context, '详情'),
         _getDetailWidget(context, bean.data.repos, bloc),
-        _getClassifyTips(context, "分支"),
+        _getClassifyTips(context, '分支'),
         _getBranchWidget(context, bean.data.repos, bean.data.branchs, bloc),
-        _getClassifyTips(context, "文档"),
+        _getClassifyTips(context, '文档'),
         getDocumentWidget(bean.data.readme, bloc),
       ],
     );
@@ -95,13 +95,16 @@ class ReposDetailPage
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           repos.fullName,
-                          style: new TextStyle(fontWeight: FontWeight.bold),
+                          style: YZConstant.middleTextBold,
                           maxLines: 2,
                         ),
                       )),
                     ],
                   )),
-              Text(FileUtil.formatFileSize(repos.size * 1024)),
+              Text(
+                FileUtil.formatFileSize(repos.size * 1024),
+                style: YZConstant.middleText,
+              ),
             ],
           ),
         ),
@@ -113,7 +116,10 @@ class ReposDetailPage
           padding: EdgeInsets.all(12.0),
           alignment: Alignment.center,
           width: ScreenUtil.getScreenWidth(context),
-          child: Text(ReposUtil.getGitHubEmojHtml(repos.description ?? "暂无描述")),
+          child: Text(
+            ReposUtil.getGitHubEmojHtml(repos.description ?? '暂无描述'),
+            style: YZConstant.middleText,
+          ),
         ),
         Divider(
           color: Colors.grey,
@@ -132,7 +138,7 @@ class ReposDetailPage
         children: <Widget>[
           _getStarAndWatchItem(
             starStatus == ReposStatus.active ? Icons.star_border : Icons.star,
-            starStatus == ReposStatus.active ? "Unstar" : "Star",
+            starStatus == ReposStatus.active ? 'Unstar' : 'Star',
             starStatus,
             () {
               bloc.changeStarStatus();
@@ -143,7 +149,7 @@ class ReposDetailPage
             watchStatus == ReposStatus.active
                 ? Icons.visibility_off
                 : Icons.visibility,
-            watchStatus == ReposStatus.active ? "Unwatch" : "watch",
+            watchStatus == ReposStatus.active ? 'Unwatch' : 'watch',
             watchStatus,
             () {
               bloc.changeWatchStatus();
@@ -168,17 +174,18 @@ class ReposDetailPage
                       height: 15.0,
                       child: CircularProgressIndicator(
                           strokeWidth: 2.0,
-                          valueColor: AlwaysStoppedAnimation(Colors.grey)),
+                          valueColor: AlwaysStoppedAnimation(
+                              Color(YZColors.subTextColor))),
                     )
-                  : Icon(iconData, color: Colors.blue),
+                  : Icon(iconData, color: Color(YZColors.mainTextColor)),
               Padding(
                 padding: EdgeInsets.only(left: 4.0),
                 child: new Text(
                   text,
-                  style: new TextStyle(
+                  style: TextStyle(
                       color: status == ReposStatus.loading
-                          ? Colors.grey
-                          : Colors.blue),
+                          ? Color(YZColors.subTextColor)
+                          : Color(YZColors.mainTextColor)),
                 ),
               ),
             ],
@@ -191,10 +198,10 @@ class ReposDetailPage
     return Container(
       width: ScreenUtil.getScreenWidth(context),
       padding: EdgeInsets.all(12.0),
-      color: Colors.black12,
+      color: Color(YZColors.subLightTextColor),
       child: Text(
         tips,
-        style: TextStyle(color: Colors.grey),
+        style: YZConstant.middleText,
       ),
     );
   }
@@ -204,10 +211,10 @@ class ReposDetailPage
       padding: EdgeInsets.all(12.0),
       child: Row(
         children: <Widget>[
-          _getInteractItem(repos.stargazersCount, "stars"),
-          _getInteractItem(repos.openIssuesCount, "issues"),
-          _getInteractItem(repos.forksCount, "forks"),
-          _getInteractItem(repos.subscribersCount, "watchers"),
+          _getInteractItem(repos.stargazersCount, 'stars'),
+          _getInteractItem(repos.openIssuesCount, 'issues'),
+          _getInteractItem(repos.forksCount, 'forks'),
+          _getInteractItem(repos.subscribersCount, 'watchers'),
         ],
       ),
     );
@@ -218,31 +225,33 @@ class ReposDetailPage
       child: Column(
         children: <Widget>[
           Text(
-            count.toString() ?? "0",
-            style: new TextStyle(color: Colors.blue, fontSize: 18.0),
+            count.toString() ?? '0',
+            style: YZConstant.smallText,
           ),
           Text(
             text,
-            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+            style: YZConstant.smallSubText,
           ),
         ],
       ),
-      flex: 1,
     );
   }
 
   Widget _getDetailWidget(
-      BuildContext context, Repository repos, ReposDetailBloc bloc) {
+    BuildContext context,
+    Repository repos,
+    ReposDetailBloc bloc,
+  ) {
     return new Column(
       children: <Widget>[
-        _getDetailItem(Icons.language, "语言", repos.language, true, () {
+        _getDetailItem(Icons.language, '语言', repos.language, true, () {
           NavigatorUtil.goReposLanguage(context, repos.language);
         }),
         Divider(
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.alarm, "动态", "", true, () {
+        _getDetailItem(Icons.alarm, '动态', '', true, () {
           NavigatorUtil.goReposDynamic(
               context, bloc.reposOwner, bloc.reposName);
         }),
@@ -250,8 +259,22 @@ class ReposDetailPage
           color: Colors.grey,
           height: 0.3,
         ),
-        _getDetailItem(Icons.perm_identity, "许可",
-            repos.license != null ? repos.license.name : "", false, null),
+        _getDetailItem(Icons.person, 'Contributors', '', true, () {
+          NavigatorUtil.goRepoContributor(context, repos.contributors_url);
+        }),
+        Divider(
+          color: Colors.grey,
+          height: 0.3,
+        ),
+        _getDetailItem(Icons.visibility, 'Stargazers', '', true, () {
+          NavigatorUtil.goRepoStargazer(context, repos.stargazers_url);
+        }),
+        Divider(
+          color: Colors.grey,
+          height: 0.3,
+        ),
+        _getDetailItem(Icons.perm_identity, '许可',
+            repos.license != null ? repos.license.name : '', false, null),
       ],
     );
   }
@@ -281,14 +304,15 @@ class ReposDetailPage
             Row(
               children: <Widget>[
                 Text(
-                  trailText ?? "",
-                  style: TextStyle(color: Colors.grey),
+                  trailText ?? '',
+                  style: YZConstant.smallText,
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 4.0),
                   child: isShowTralIcon
-                      ? Icon(Icons.navigate_next, color: Colors.grey)
-                      : Text(""),
+                      ? Icon(Icons.navigate_next,
+                          color: Color(YZColors.mainTextColor))
+                      : Text(''),
                 )
               ],
             )
@@ -311,7 +335,7 @@ class ReposDetailPage
                 padding: EdgeInsets.only(left: 4.0),
                 child: new Text(
                   repos.defaultBranch,
-                  style: TextStyle(color: Colors.grey),
+                  style: YZConstant.middleText,
                 ),
               )
             ],
@@ -347,7 +371,7 @@ class ReposDetailPage
           alignment: Alignment.centerLeft,
           height: 56.0,
           padding: EdgeInsets.all(12.0),
-          child: Text("最后一次提交于" + DateUtil.getMultiDateStr(repos.pushedAt)),
+          child: Text('最后一次提交于' + DateUtil.getMultiDateStr(repos.pushedAt)),
         ),
         Divider(
           color: Colors.grey,
@@ -361,7 +385,7 @@ class ReposDetailPage
                 NavigatorUtil.goReposSourceFile(
                     context, bloc.reposOwner, bloc.reposName);
               },
-              child: Text("查看源码")),
+              child: Text('查看源码')),
         ),
       ],
     );
@@ -378,8 +402,8 @@ class ReposDetailPage
           Padding(
             padding: EdgeInsets.only(left: 4.0),
             child: new Text(
-              "README.md",
-              style: TextStyle(color: Colors.grey),
+              'README.md',
+              style: YZConstant.middleText,
             ),
           )
         ],

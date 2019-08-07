@@ -87,7 +87,11 @@ class IssueItemWidget extends StatelessWidget {
         children: <Widget>[
           LabelIcon(
             label: item.commentNum.toString(),
-            image: 'assets/images/ic_comment.png',
+            image: ImagePath.image_comment,
+          ),
+          LabelIcon(
+            label: item.labels != null ? item.labels.length.toString() : '0',
+            image: ImagePath.image_issue_label,
           ),
           Text(
             "#${item.number}",

@@ -1,7 +1,9 @@
 import 'dart:collection';
 
 import 'package:open_git/bean/issue_bean.dart';
+import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
+import 'package:open_git/common/url_const.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_request.dart';
 
@@ -13,6 +15,8 @@ class IssueManager {
 
   IssueManager._internal();
 
+  List<Labels> _labels;
+
   static IssueManager _getInstance() {
     if (_instance == null) {
       _instance = new IssueManager._internal();
@@ -20,19 +24,25 @@ class IssueManager {
     return _instance;
   }
 
-  getIssue(q, state, sort, order, userName, page) async {
-    String url = Api.getIssue(q, state, sort, order, userName) +
-        Api.getPageParams("&", page);
-    final response = await HttpRequest().get(url);
+  void setLabels(List<Labels> labels) {
+    this._labels = labels;
+  }
 
+  List<Labels> getLabels() {
+    return _labels;
+  }
+
+  getIssue(filter, state, sort, direction, page) async {
+    String url = Api.getIssue(filter, state, sort, direction) +
+        Api.getPageParams("&", page);
+
+    final response = await HttpRequest().get(url);
     if (response != null && response.result) {
       List<IssueBean> list = new List();
-      if (response.data != null) {
-        var items = response.data["items"];
-        if (items != null && items.length > 0) {
-          for (int i = 0; i < items.length; i++) {
-            list.add(IssueBean.fromJson(items[i]));
-          }
+      if (response.data != null && response.data.length > 0) {
+        int length = response.data.length;
+        for (int i = 0; i < length; i++) {
+          list.add(IssueBean.fromJson(response.data[i]));
         }
       }
       return list;
@@ -67,6 +77,8 @@ class IssueManager {
   }
 
   addIssueComment(repoUrl, issueNumber, comment) async {
+    comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+
     String url = Api.addIssueComment(repoUrl, issueNumber);
     final response = await HttpRequest().post(url, {"body": comment});
     if (response != null && response.data != null) {
@@ -83,15 +95,13 @@ class IssueManager {
   editIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.editComment(repoUrl, issueNumber);
 
-//    Map<String, dynamic> header = HashMap();
-//    header['Accept'] =
-//        'application/vnd.github.html, application/vnd.github.VERSION.raw,application/vnd.github.squirrel-girl-preview';
+    comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+
     RequestBuilder builder = RequestBuilder();
     builder
       ..url(url)
       ..isCache(false)
       ..method(HttpMethod.PATCH)
-//      ..header(header)
       ..data({"body": comment});
     final response = await HttpRequest().builder(builder);
     if (response != null && response.data != null) {
@@ -189,6 +199,8 @@ class IssueManager {
   editIssue(repoUrl, number, title, body) async {
     String url = Api.getSingleIssue(repoUrl, number);
 
+    body += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+
     Map<String, dynamic> header = HashMap();
     header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';
     RequestBuilder builder = RequestBuilder();
@@ -203,5 +215,65 @@ class IssueManager {
       return IssueBean.fromJson(response.data);
     }
     return null;
+  }
+
+  getLabel(owner, repo, page) async {
+    String url = Api.getLabel(owner, repo) + Api.getPageParams("&", page);
+
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<Labels> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        int length = response.data.length;
+        for (int i = 0; i < length; i++) {
+          list.add(Labels.fromJson(response.data[i]));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  createLabel(owner, repo, name, color, desc) async {
+    String url = Api.createLabel(owner, repo);
+
+    Map<String, dynamic> data = new HashMap();
+    data['name'] = name;
+    data['color'] = color;
+    data['description'] = desc;
+
+    return await HttpRequest().post(url, data);
+  }
+
+  deleteLabel(owner, repo, name) async {
+    String url = Api.deleteLabel(owner, repo, name);
+
+    return await HttpRequest().delete(url, isCache: false);
+  }
+
+  updateLabel(owner, repo, currentName, name, color, desc) async {
+    String url = Api.updateLabel(owner, repo, currentName);
+
+    Map<String, dynamic> data = new HashMap();
+    data['name'] = name;
+    data['color'] = color;
+    data['description'] = desc;
+
+    return await HttpRequest().patch(url, data);
+  }
+
+  addIssueLabel(owner, repo, issueNumber, name) async {
+    String url = Api.addIssueLabel(owner, repo, issueNumber);
+
+    Map<String, dynamic> data = new HashMap();
+    data['labels'] = [name];
+
+    return await HttpRequest().post(url, data);
+  }
+
+  deleteIssueLabel(owner, repo, issueNumber, name) async {
+    String url = Api.deleteIssueLabel(owner, repo, issueNumber, name);
+
+    return await HttpRequest().delete(url);
   }
 }

@@ -4,21 +4,21 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/manager/issue_manager.dart';
 
 class IssueBloc extends BaseListBloc<IssueBean> {
-  static final String TAG = "IssueBloc";
+  static final String TAG = 'IssueBloc';
 
-  final String userName;
-  String q, state, sort, order;
+  String filter, state, sort, direction;
 
   bool _isInit = false;
 
-  IssueBloc(this.userName) {
-    q = "involves";
-    state = "open";
-    sort = "created";
-    order = "asc";
+  IssueBloc() {
+    filter = SpUtil.instance.getString(SP_KEY_ISSUE_FILTER, defValue: 'assigned');
+    state = SpUtil.instance.getString(SP_KEY_ISSUE_STATE, defValue: 'open');
+    sort = SpUtil.instance.getString(SP_KEY_ISSUE_SORT, defValue: 'created');
+    direction = SpUtil.instance.getString(SP_KEY_ISSUE_DIRECTION, defValue: 'desc');
   }
 
   @override
@@ -35,11 +35,12 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     onReload();
   }
 
-  refreshData({String q, String state, String sort, String order}) async {
-    this.q = q ?? this.q;
+  refreshData(
+      {String filter, String state, String sort, String direction}) async {
+    this.filter = filter ?? this.filter;
     this.state = state ?? this.state;
     this.sort = sort ?? this.sort;
-    this.order = order ?? this.order;
+    this.direction = direction ?? this.direction;
 
     page = 1;
 
@@ -64,7 +65,7 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     LogUtil.v('_fetchIssueList', tag: TAG);
     try {
       var result = await IssueManager.instance
-          .getIssue(q, state, sort, order, userName, page);
+          .getIssue(filter, state, sort, direction, page);
       if (bean.data == null) {
         bean.data = List();
       }

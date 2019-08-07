@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/user_bean.dart';
-import 'package:open_git/bloc/follow_bloc.dart';
+import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/user_item_widget.dart';
 
-class FollowPage extends BaseListStatelessWidget<UserBean, FollowBloc> {
+class UserPage extends BaseListStatelessWidget<UserBean, UserBloc> {
   final PageType type;
 
-  FollowPage(this.type);
+  UserPage(this.type);
 
   @override
   String getTitle(BuildContext context) {
@@ -20,6 +20,10 @@ class FollowPage extends BaseListStatelessWidget<UserBean, FollowBloc> {
       title = '我关注的';
     } else if (type == PageType.org_member) {
       title = '成员';
+    } else if (type == PageType.repo_contributors) {
+      title = 'Contributors';
+    } else if (type == PageType.repo_stargazers) {
+      title = 'Stargazers';
     }
     return title;
   }
@@ -36,7 +40,7 @@ class FollowPage extends BaseListStatelessWidget<UserBean, FollowBloc> {
 
   @override
   void openWebView(BuildContext context) {
-    FollowBloc bloc = BlocProvider.of<FollowBloc>(context);
+    UserBloc bloc = BlocProvider.of<UserBloc>(context);
     String url;
     if (type == PageType.followers) {
       url = 'https://github.com/${bloc.userName}?tab=followers';
@@ -48,7 +52,7 @@ class FollowPage extends BaseListStatelessWidget<UserBean, FollowBloc> {
 
   @override
   String getShareText(BuildContext context) {
-    FollowBloc bloc = BlocProvider.of<FollowBloc>(context);
+    UserBloc bloc = BlocProvider.of<UserBloc>(context);
     String url;
     if (type == PageType.followers) {
       url = 'https://github.com/${bloc.userName}?tab=followers';

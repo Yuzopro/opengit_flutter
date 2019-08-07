@@ -55,6 +55,8 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
         : RepositoryPermissions.fromJson(
             json['permissions'] as Map<String, dynamic>),
     (json['topics'] as List)?.map((e) => e as String)?.toList(),
+    json['stargazers_url'] as String,
+    json['contributors_url'] as String,
   )..allIssueCount = json['allIssueCount'] as int;
 }
 

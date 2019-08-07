@@ -27,7 +27,6 @@ class _EditIssueState extends State<EditIssuePage> {
   @override
   void initState() {
     super.initState();
-    LogUtil.v(widget.issueBean);
     _titleController = TextEditingController.fromValue(
         TextEditingValue(text: widget.issueBean.title));
     _bodyController = TextEditingController.fromValue(

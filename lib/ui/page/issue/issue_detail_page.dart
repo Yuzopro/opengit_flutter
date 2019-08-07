@@ -6,6 +6,7 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
+import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/common/gradient_const.dart';
 import 'package:open_git/common/image_path.dart';
@@ -62,6 +63,11 @@ class IssueDetailPage
       data != null ? data.isLoading : true;
 
   @override
+  bool isShowEmpty(LoadingBean<IssueDetailBean> data) {
+    return data == null || data.data == null || data.data.issueBean == null;
+  }
+
+  @override
   Widget getHeader(BuildContext context, LoadingBean<IssueDetailBean> data) {
     if (data == null || data.data == null || data.data.issueBean == null) {
       return Container();
@@ -85,8 +91,8 @@ class IssueDetailPage
   }
 
   @override
-  Widget buildItemBuilder(BuildContext context,
-      LoadingBean<IssueDetailBean> data, int index) {
+  Widget buildItemBuilder(
+      BuildContext context, LoadingBean<IssueDetailBean> data, int index) {
     IssueBean model = data.data.comments[index];
     return _getItemRow(context, model, false);
   }
@@ -112,7 +118,7 @@ class IssueDetailPage
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: <Widget>[
-                _buildLabel(item.state),
+                _buildState(item.state),
                 Expanded(
                   child: Container(),
                 ),
@@ -131,12 +137,13 @@ class IssueDetailPage
             height: 8.0,
           ),
           _getItemRow(context, item, true),
+          _buildLabel(item),
         ],
       ),
     );
   }
 
-  Widget _buildLabel(String state) {
+  Widget _buildState(String state) {
     return Container(
       width: 56,
       height: 30,
@@ -154,21 +161,27 @@ class IssueDetailPage
   }
 
   Widget _postHeadItem(BuildContext context, IssueBean item, bool isIssue) {
+    List<Widget> _reactions = [];
+
+    _reactions.add(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: _profileColumn(context, item, isIssue),
+    ));
+
+    _reactions.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: MarkdownWidget(
+        markdownData: item.body,
+      ),
+    ));
+
+    if (item != null && item.reaction == null) {
+      _reactions.add(_reactionColumn(context, item, isIssue));
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: _profileColumn(context, item, isIssue),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: MarkdownWidget(
-            markdownData: item.body,
-          ),
-        ),
-        _reactionColumn(context, item, isIssue),
-      ],
+      children: _reactions,
     );
   }
 
@@ -250,19 +263,17 @@ class IssueDetailPage
       },
       child: ImageUtil.getImage(
           ImagePath.image_comment_face, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
-      itemBuilder: (BuildContext context) =>
-          _reactionList
-              .map(
-                (_Reaction reaction) =>
-                PopupMenuItem<String>(
-                  value: reaction.type,
-                  child: ImageUtil.getImage(
-                      'assets/images/comment/${reaction.img}.png',
-                      NORMAL_IMAGE_SIZE,
-                      NORMAL_IMAGE_SIZE),
-                ),
+      itemBuilder: (BuildContext context) => _reactionList
+          .map(
+            (_Reaction reaction) => PopupMenuItem<String>(
+              value: reaction.type,
+              child: ImageUtil.getImage(
+                  'assets/images/comment/${reaction.img}.png',
+                  NORMAL_IMAGE_SIZE,
+                  NORMAL_IMAGE_SIZE),
+            ),
           )
-              .toList(),
+          .toList(),
     );
   }
 
@@ -302,16 +313,14 @@ class IssueDetailPage
       },
       child: ImageUtil.getImage(
           ImagePath.image_comment_menu, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
-      itemBuilder: (BuildContext context) =>
-          _commentList
-              .map(
-                (String text) =>
-                PopupMenuItem<String>(
-                  value: text,
-                  child: Text(text),
-                ),
+      itemBuilder: (BuildContext context) => _commentList
+          .map(
+            (String text) => PopupMenuItem<String>(
+              value: text,
+              child: Text(text),
+            ),
           )
-              .toList(),
+          .toList(),
     );
   }
 
@@ -436,6 +445,61 @@ class IssueDetailPage
         color: Colors.white,
       ),
     );
+  }
+
+  List<Widget> getAction(BuildContext context) {
+    if (!isShowAppBarActions()) {
+      return null;
+    }
+    return [
+      PopupMenuButton(
+        padding: const EdgeInsets.all(0.0),
+        onSelected: (value) {
+          onPopSelected(context, value);
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+          getPopupMenuItem('browser', Icons.language, '浏览器打开'),
+          getPopupMenuItem('share', Icons.share, '分享'),
+          getPopupMenuItem('label', Icons.label, '标签'),
+        ],
+      )
+    ];
+  }
+
+  void onPopSelected(BuildContext context, String value) async {
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    switch (value) {
+      case "label":
+        String repoUrl = bloc.issueBean.repoUrl;
+        LogUtil.v(repoUrl);
+        String title = (repoUrl.isNotEmpty && repoUrl.contains("/"))
+            ? repoUrl.substring(repoUrl.lastIndexOf("/") + 1)
+            : "";
+        await NavigatorUtil.goLabel(context, title, bloc.issueBean.labels, bloc.issueBean.number);
+        bloc.updateLabels();
+        break;
+      default:
+        super.onPopSelected(context, value);
+        break;
+    }
+  }
+
+  Widget _buildLabel(IssueBean item) {
+    final List<Widget> chips = item?.labels.map<Widget>((Labels labels) {
+      return Chip(
+        key: ValueKey<Labels>(labels),
+        backgroundColor: ColorUtil.str2Color(labels.color),
+        label: Text(labels.name),
+      );
+    }).toList();
+
+    return Wrap(
+        children: chips.map<Widget>((Widget chip) {
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: chip,
+      );
+    }).toList());
   }
 }
 

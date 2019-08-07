@@ -39,6 +39,9 @@ class AppRoutes {
   static final org_event = '/main/org/event';
   static final org_repos = '/main/org/repos';
   static final org_member = '/main/org/member';
+  static final issue_label = '/main/issue/label';
+  static final repo_contributor = '/main/repo/contributor';
+  static final repo_stargazer = '/main/repo/stargazer';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -217,7 +220,22 @@ class AppRoutes {
     );
     router.define(
       org_member,
-      handler: orgMemberrHandler,
+      handler: orgMemberHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      issue_label,
+      handler: issueLabelHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_contributor,
+      handler: repoContributorHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_stargazer,
+      handler: repoStargazerHandler,
       transitionType: TransitionType.cupertino,
     );
   }

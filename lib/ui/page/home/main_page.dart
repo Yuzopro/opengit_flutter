@@ -16,11 +16,11 @@ import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/ui/page/drawer_page.dart';
-import 'package:open_git/ui/page/event_page.dart';
-import 'package:open_git/ui/page/home_page.dart';
-import 'package:open_git/ui/page/issue_page.dart';
-import 'package:open_git/ui/page/repos_page.dart';
+import 'package:open_git/ui/page/home/drawer_page.dart';
+import 'package:open_git/ui/page/home/event_page.dart';
+import 'package:open_git/ui/page/home/home_page.dart';
+import 'package:open_git/ui/page/home/issue_page.dart';
+import 'package:open_git/ui/page/home/repos_page.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:open_git/util/size_util.dart';
 
@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage>
     _homeBloc = HomeBloc();
     _reposBloc = ReposMainBloc(userName);
     _eventBloc = ReceivedEventBloc(userName);
-    _issueBloc = IssueBloc(userName);
+    _issueBloc = IssueBloc();
   }
 
   @override

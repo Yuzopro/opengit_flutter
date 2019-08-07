@@ -1,13 +1,17 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/issue_bean.dart';
+import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/event_bloc.dart';
-import 'package:open_git/bloc/follow_bloc.dart';
+import 'package:open_git/bloc/stargazer_bloc.dart';
+import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
 import 'package:open_git/bloc/following_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/bloc/label_bloc.dart';
 import 'package:open_git/bloc/org_bloc.dart';
 import 'package:open_git/bloc/org_event_bloc.dart';
 import 'package:open_git/bloc/org_member_bloc.dart';
@@ -27,34 +31,35 @@ import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/fluro_convert_util.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
-import 'package:open_git/ui/page/about_page.dart';
-import 'package:open_git/ui/page/author_page.dart';
-import 'package:open_git/ui/page/cache_page.dart';
-import 'package:open_git/ui/page/event_page.dart';
+import 'package:open_git/ui/page/other/about_page.dart';
+import 'package:open_git/ui/page/other/author_page.dart';
+import 'package:open_git/ui/page/other/cache_page.dart';
+import 'package:open_git/ui/page/home/event_page.dart';
 import 'package:open_git/ui/page/guide/guide_page.dart';
-import 'package:open_git/ui/page/issue_detail_page.dart';
-import 'package:open_git/ui/page/language_page.dart';
+import 'package:open_git/ui/page/issue/label_page.dart';
+import 'package:open_git/ui/page/issue/issue_detail_page.dart';
+import 'package:open_git/ui/page/other/language_page.dart';
 import 'package:open_git/ui/page/login/login_page.dart';
-import 'package:open_git/ui/page/main_page.dart';
-import 'package:open_git/ui/page/other_page.dart';
+import 'package:open_git/ui/page/home/main_page.dart';
+import 'package:open_git/ui/page/other/other_page.dart';
 import 'package:open_git/ui/page/profile/org_profile_page.dart';
-import 'package:open_git/ui/page/profile/user_follow_page.dart';
+import 'package:open_git/ui/page/profile/user_page.dart';
 import 'package:open_git/ui/page/profile/user_org_page.dart';
 import 'package:open_git/ui/page/profile/user_profile_page.dart';
-import 'package:open_git/ui/page/repos_code_detail_page.dart';
-import 'package:open_git/ui/page/repos_detail_page.dart';
-import 'package:open_git/ui/page/repos_event_page.dart';
-import 'package:open_git/ui/page/repos_file_page.dart';
-import 'package:open_git/ui/page/repos_page.dart';
-import 'package:open_git/ui/page/repos_trend_page.dart';
-import 'package:open_git/ui/page/search_page.dart';
-import 'package:open_git/ui/page/setting_page.dart';
-import 'package:open_git/ui/page/share_page.dart';
-import 'package:open_git/ui/page/splash_page.dart';
-import 'package:open_git/ui/page/theme_page.dart';
-import 'package:open_git/ui/page/timeline_detail_page.dart';
-import 'package:open_git/ui/page/timeline_page.dart';
-import 'package:open_git/ui/page/trending_page.dart';
+import 'package:open_git/ui/page/repo/repo_code_detail_page.dart';
+import 'package:open_git/ui/page/repo/repo_detail_page.dart';
+import 'package:open_git/ui/page/repo/repo_event_page.dart';
+import 'package:open_git/ui/page/repo/repo_file_page.dart';
+import 'package:open_git/ui/page/home/repos_page.dart';
+import 'package:open_git/ui/page/repo/repo_trend_page.dart';
+import 'package:open_git/ui/page/home/search_page.dart';
+import 'package:open_git/ui/page/other/setting_page.dart';
+import 'package:open_git/ui/page/other/share_page.dart';
+import 'package:open_git/ui/page/guide/splash_page.dart';
+import 'package:open_git/ui/page/other/theme_page.dart';
+import 'package:open_git/ui/page/other/timeline_detail_page.dart';
+import 'package:open_git/ui/page/other/timeline_page.dart';
+import 'package:open_git/ui/page/trending/trending_page.dart';
 import 'package:redux/redux.dart';
 
 var splashHandler = Handler(
@@ -155,7 +160,7 @@ var reposDetailHandler = Handler(
   String reposOwner = params["reposOwner"]?.first;
   String reposName = params["reposName"]?.first;
   return BlocProvider<ReposDetailBloc>(
-    child: ReposDetailPage(),
+    child: RepoDetailPage(),
     bloc: ReposDetailBloc(reposOwner, reposName),
   );
 });
@@ -166,7 +171,7 @@ var reposEventHandler = Handler(
   String reposName = params["reposName"]?.first;
 
   return BlocProvider<ReposEventBloc>(
-    child: ReposEventPage(),
+    child: RepoEventPage(),
     bloc: ReposEventBloc(reposOwner, reposName),
   );
 });
@@ -176,7 +181,7 @@ var reposTrendHandler = Handler(
   String language = params["language"]?.first;
 
   return BlocProvider<ReposTrendBloc>(
-    child: ReposTrendPage(),
+    child: RepoTrendPage(),
     bloc: ReposTrendBloc(language),
   );
 });
@@ -187,7 +192,7 @@ var reposFileHandler = Handler(
   String reposName = params["reposName"]?.first;
 
   return BlocProvider<ReposFileBloc>(
-    child: ReposFilePage(),
+    child: RepoFilePage(),
     bloc: ReposFileBloc(reposOwner, reposName),
   );
 });
@@ -275,8 +280,8 @@ var profileFollowerHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = params["name"]?.first;
 
-  return BlocProvider<FollowBloc>(
-    child: FollowPage(PageType.followers),
+  return BlocProvider<UserBloc>(
+    child: UserPage(PageType.followers),
     bloc: FollowersBloc(name),
   );
 });
@@ -285,8 +290,8 @@ var profileFollowingHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = params["name"]?.first;
 
-  return BlocProvider<FollowBloc>(
-    child: FollowPage(PageType.following),
+  return BlocProvider<UserBloc>(
+    child: UserPage(PageType.following),
     bloc: FollowingBloc(name),
   );
 });
@@ -341,12 +346,45 @@ var orgReposHandler = Handler(
   );
 });
 
-var orgMemberrHandler = Handler(
+var orgMemberHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = params["name"]?.first;
 
-  return BlocProvider<FollowBloc>(
-    child: FollowPage(PageType.org_member),
+  return BlocProvider<UserBloc>(
+    child: UserPage(PageType.org_member),
     bloc: OrgMemberBloc(name),
+  );
+});
+
+var issueLabelHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//  String name = params["name"]?.first;
+//  String repo = FluroConvertUtil.fluroCnParamsDecode(params["repo"]?.first);
+//
+//  LogUtil.v('333 $repo');
+//
+//  return BlocProvider<LabelBloc>(
+//    child: LabelPage(),
+//    bloc: LabelBloc(name, repo),
+//  );
+});
+
+var repoContributorHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = params["url"]?.first;
+
+  return BlocProvider<UserBloc>(
+    child: UserPage(PageType.repo_contributors),
+    bloc: ContributorBloc(url),
+  );
+});
+
+var repoStargazerHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = params["url"]?.first;
+
+  return BlocProvider<UserBloc>(
+    child: UserPage(PageType.repo_stargazers),
+    bloc: StargazerBloc(url),
   );
 });

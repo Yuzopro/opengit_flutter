@@ -7,10 +7,9 @@ import 'package:open_git/bloc/trending_user_bloc.dart';
 import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/ui/page/trending_repos_page.dart';
-import 'package:open_git/ui/page/trending_user_page.dart';
-
-import 'main_page.dart';
+import 'package:open_git/ui/page/home/main_page.dart';
+import 'package:open_git/ui/page/trending/trending_repos_page.dart';
+import 'package:open_git/ui/page/trending/trending_user_page.dart';
 
 class TrendingPage extends StatefulWidget {
   @override

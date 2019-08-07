@@ -8,7 +8,7 @@ import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 
-class ReposFilePage
+class RepoFilePage
     extends BaseListStatelessWidget<SourceFileBean, ReposFileBloc> {
   @override
   String getTitle(BuildContext context) {

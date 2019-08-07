@@ -6,7 +6,7 @@ import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bloc/repos_event_bloc.dart';
 import 'package:open_git/ui/widget/event_item_widget.dart';
 
-class ReposEventPage
+class RepoEventPage
     extends BaseListStatelessWidget<EventBean, ReposEventBloc> {
   @override
   String getTitle(BuildContext context) {

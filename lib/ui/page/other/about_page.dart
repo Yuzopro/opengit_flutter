@@ -88,17 +88,17 @@ class _AboutPageState extends State<AboutPageContent> {
                         context, 'OpenGit', OPEN_GIT_GITHUB);
                   },
                 ),
-//                Divider(
-//                  height: 0.3,
-//                ),
-//                ListTile(
-//                  title: Text(AppLocalizations.of(context).currentlocal.author,
-//                      style: YZConstant.middleText),
-//                  trailing: Icon(Icons.navigate_next),
-//                  onTap: () {
-//                    NavigatorUtil.goAuthor(context);
-//                  },
-//                ),
+                Divider(
+                  height: 0.3,
+                ),
+                ListTile(
+                  title: Text(AppLocalizations.of(context).currentlocal.author,
+                      style: YZConstant.middleText),
+                  trailing: Icon(Icons.navigate_next),
+                  onTap: () {
+                    NavigatorUtil.goUserProfile(context, 'Yuzopro');
+                  },
+                ),
                 Divider(
                   height: 0.3,
                 ),

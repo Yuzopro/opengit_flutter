@@ -1,17 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/bean/label_bean.dart';
+import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
+import 'package:open_git/bloc/label_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
+import 'package:open_git/bloc/stargazer_bloc.dart';
 import 'package:open_git/bloc/trending_language_bloc.dart';
+import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/routes.dart';
-import 'package:open_git/ui/page/edit_comment_page.dart';
-import 'package:open_git/ui/page/edit_issue_page.dart';
-import 'package:open_git/ui/page/issue_detail_page.dart';
-import 'package:open_git/ui/page/reaction_page.dart';
-import 'package:open_git/ui/page/trending_date_page.dart';
-import 'package:open_git/ui/page/trending_language_page.dart';
+import 'package:open_git/ui/page/issue/edit_comment_page.dart';
+import 'package:open_git/ui/page/issue/edit_issue_page.dart';
+import 'package:open_git/ui/page/issue/edit_label_page.dart';
+import 'package:open_git/ui/page/issue/issue_detail_page.dart';
+import 'package:open_git/ui/page/issue/label_page.dart';
+import 'package:open_git/ui/page/issue/reaction_page.dart';
+import 'package:open_git/ui/page/profile/user_page.dart';
+import 'package:open_git/ui/page/trending/trending_date_page.dart';
+import 'package:open_git/ui/page/trending/trending_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'fluro_convert_util.dart';
@@ -317,5 +326,58 @@ class NavigatorUtil {
   static goOrgMember(BuildContext context, name) {
     Application.router.navigateTo(context,
         AppRoutes.org_member + "?name=${FluroConvertUtil.encode(name)}");
+  }
+
+  //标签
+  static goLabel(
+      BuildContext context, repo, List<Labels> labels, issueNum) async {
+    LabelBloc bloc = LabelBloc(repo, labels, issueNum);
+
+    return Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<LabelBloc>(
+          child: LabelPage(),
+          bloc: bloc,
+        ),
+      ),
+    );
+  }
+
+  //组织成员
+  static goEditLabel(BuildContext context, Labels label, String repo) async {
+    return Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => EditLabelPage(
+          item: label,
+          repo: repo,
+        ),
+      ),
+    );
+  }
+
+  static goRepoContributor(BuildContext context, url) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<UserBloc>(
+          child: UserPage(PageType.repo_contributors),
+          bloc: ContributorBloc(url),
+        ),
+      ),
+    );
+  }
+
+  static goRepoStargazer(BuildContext context, url) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<UserBloc>(
+          child: UserPage(PageType.repo_stargazers),
+          bloc: StargazerBloc(url),
+        ),
+      ),
+    );
   }
 }
