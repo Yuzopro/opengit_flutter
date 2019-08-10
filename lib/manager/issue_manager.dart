@@ -50,6 +50,23 @@ class IssueManager {
     return null;
   }
 
+  getRepoIssues(owner, repo, page) async {
+    String url = Api.getRepoIssues(owner, repo) + Api.getPageParams("&", page);
+
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<IssueBean> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        int length = response.data.length;
+        for (int i = 0; i < length; i++) {
+          list.add(IssueBean.fromJson(response.data[i]));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
   getIssueComment(repoUrl, issueNumber, page) async {
     String url = Api.getIssueComment(repoUrl, issueNumber) +
         Api.getPageParams("&", page);

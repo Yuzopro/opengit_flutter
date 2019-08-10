@@ -1,20 +1,25 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:open_git/bean/repos_bean.dart';
+import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/manager/issue_manager.dart';
 
-abstract class ReposBloc extends BaseListBloc<Repository> {
-  static final String TAG = "ReposBloc";
+class RepoIssueBloc extends BaseListBloc<IssueBean> {
+  static final String TAG = "RepoIssueBloc";
 
-  final String userName;
-
-  ReposBloc(this.userName);
-
-  fetchRepos(int page);
+  final String owner, repo;
 
   bool _isInit = false;
 
+  RepoIssueBloc(this.owner, this.repo);
+
+  @override
+  PageType getPageType() {
+    return PageType.repo_issue;
+  }
+
+  @override
   void initData(BuildContext context) {
     if (_isInit) {
       return;
@@ -27,7 +32,7 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
   @override
   void onReload() async {
     showLoading();
-    await _fetchReposList();
+    await _fetchIssueList();
     hideLoading();
 
     refreshStatusEvent();
@@ -35,13 +40,13 @@ abstract class ReposBloc extends BaseListBloc<Repository> {
 
   @override
   Future getData() async {
-    await _fetchReposList();
+    await _fetchIssueList();
   }
 
-  Future _fetchReposList() async {
-    LogUtil.v('_fetchReposList', tag: TAG);
+  Future _fetchIssueList() async {
+    LogUtil.v('_fetchIssueList', tag: TAG);
     try {
-      var result = await fetchRepos(page);
+      var result = await IssueManager.instance.getRepoIssues(owner, repo, page);
       if (bean.data == null) {
         bean.data = List();
       }

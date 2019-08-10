@@ -83,7 +83,7 @@ Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'disk_usage': instance.diskUsage,
       'collaborators': instance.collaborators,
       'two_factor_authentication': instance.twoFactorAuthentication,
-      'plan': instance.plan,
+      'plan': instance.plan.toJson,
       'company': instance.company,
       'location': instance.location,
       'email': instance.email,

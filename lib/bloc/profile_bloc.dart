@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/user_manager.dart';
 
 class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {

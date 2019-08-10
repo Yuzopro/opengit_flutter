@@ -1,17 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/event_bloc.dart';
-import 'package:open_git/bloc/stargazer_bloc.dart';
-import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
 import 'package:open_git/bloc/following_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
-import 'package:open_git/bloc/label_bloc.dart';
 import 'package:open_git/bloc/org_bloc.dart';
 import 'package:open_git/bloc/org_event_bloc.dart';
 import 'package:open_git/bloc/org_member_bloc.dart';
@@ -25,40 +21,44 @@ import 'package:open_git/bloc/repos_file_bloc.dart';
 import 'package:open_git/bloc/repos_trend_bloc.dart';
 import 'package:open_git/bloc/repos_user_bloc.dart';
 import 'package:open_git/bloc/repos_user_star_bloc.dart';
+import 'package:open_git/bloc/stargazer_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
+import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/bloc/user_event_bloc.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/fluro_convert_util.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
+import 'package:open_git/ui/page/guide/guide_page.dart';
+import 'package:open_git/ui/page/guide/splash_page.dart';
+import 'package:open_git/ui/page/home/event_page.dart';
+import 'package:open_git/ui/page/home/main_page.dart';
+import 'package:open_git/ui/page/home/repos_page.dart';
+import 'package:open_git/ui/page/home/search_page.dart';
+import 'package:open_git/ui/page/issue/issue_detail_page.dart';
+import 'package:open_git/ui/page/login/login_page.dart';
 import 'package:open_git/ui/page/other/about_page.dart';
 import 'package:open_git/ui/page/other/author_page.dart';
 import 'package:open_git/ui/page/other/cache_page.dart';
-import 'package:open_git/ui/page/home/event_page.dart';
-import 'package:open_git/ui/page/guide/guide_page.dart';
-import 'package:open_git/ui/page/issue/label_page.dart';
-import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/other/language_page.dart';
-import 'package:open_git/ui/page/login/login_page.dart';
-import 'package:open_git/ui/page/home/main_page.dart';
 import 'package:open_git/ui/page/other/other_page.dart';
+import 'package:open_git/ui/page/other/setting_page.dart';
+import 'package:open_git/ui/page/other/share_page.dart';
+import 'package:open_git/ui/page/other/theme_page.dart';
+import 'package:open_git/ui/page/other/timeline_detail_page.dart';
+import 'package:open_git/ui/page/other/timeline_page.dart';
+import 'package:open_git/ui/page/profile/follower_page.dart';
+import 'package:open_git/ui/page/profile/following_page.dart';
+import 'package:open_git/ui/page/profile/org_member_page.dart';
 import 'package:open_git/ui/page/profile/org_profile_page.dart';
-import 'package:open_git/ui/page/profile/user_page.dart';
 import 'package:open_git/ui/page/profile/user_org_page.dart';
+import 'package:open_git/ui/page/profile/user_page.dart';
 import 'package:open_git/ui/page/profile/user_profile_page.dart';
 import 'package:open_git/ui/page/repo/repo_code_detail_page.dart';
 import 'package:open_git/ui/page/repo/repo_detail_page.dart';
 import 'package:open_git/ui/page/repo/repo_event_page.dart';
 import 'package:open_git/ui/page/repo/repo_file_page.dart';
-import 'package:open_git/ui/page/home/repos_page.dart';
 import 'package:open_git/ui/page/repo/repo_trend_page.dart';
-import 'package:open_git/ui/page/home/search_page.dart';
-import 'package:open_git/ui/page/other/setting_page.dart';
-import 'package:open_git/ui/page/other/share_page.dart';
-import 'package:open_git/ui/page/guide/splash_page.dart';
-import 'package:open_git/ui/page/other/theme_page.dart';
-import 'package:open_git/ui/page/other/timeline_detail_page.dart';
-import 'package:open_git/ui/page/other/timeline_page.dart';
 import 'package:open_git/ui/page/trending/trending_page.dart';
 import 'package:redux/redux.dart';
 
@@ -190,10 +190,11 @@ var reposFileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String reposOwner = params["reposOwner"]?.first;
   String reposName = params["reposName"]?.first;
+  String branch = params["branch"]?.first;
 
   return BlocProvider<ReposFileBloc>(
     child: RepoFilePage(),
-    bloc: ReposFileBloc(reposOwner, reposName),
+    bloc: ReposFileBloc(reposOwner, reposName, branch),
   );
 });
 
@@ -281,7 +282,7 @@ var profileFollowerHandler = Handler(
   String name = params["name"]?.first;
 
   return BlocProvider<UserBloc>(
-    child: UserPage(PageType.followers),
+    child: FollowerPage(),
     bloc: FollowersBloc(name),
   );
 });
@@ -291,7 +292,7 @@ var profileFollowingHandler = Handler(
   String name = params["name"]?.first;
 
   return BlocProvider<UserBloc>(
-    child: UserPage(PageType.following),
+    child: FollowingPage(),
     bloc: FollowingBloc(name),
   );
 });
@@ -351,7 +352,7 @@ var orgMemberHandler = Handler(
   String name = params["name"]?.first;
 
   return BlocProvider<UserBloc>(
-    child: UserPage(PageType.org_member),
+    child: OrgMemberPage(),
     bloc: OrgMemberBloc(name),
   );
 });
@@ -368,23 +369,22 @@ var issueLabelHandler = Handler(
 //    bloc: LabelBloc(name, repo),
 //  );
 });
-
-var repoContributorHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String url = params["url"]?.first;
-
-  return BlocProvider<UserBloc>(
-    child: UserPage(PageType.repo_contributors),
-    bloc: ContributorBloc(url),
-  );
-});
-
-var repoStargazerHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String url = params["url"]?.first;
-
-  return BlocProvider<UserBloc>(
-    child: UserPage(PageType.repo_stargazers),
-    bloc: StargazerBloc(url),
-  );
-});
+//var repoContributorHandler = Handler(
+//    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//  String url = params["url"]?.first;
+//
+//  return BlocProvider<UserBloc>(
+//    child: UserPage(PageType.repo_contributors),
+//    bloc: ContributorBloc(url),
+//  );
+//});
+//
+//var repoStargazerHandler = Handler(
+//    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//  String url = params["url"]?.first;
+//
+//  return BlocProvider<UserBloc>(
+//    child: UserPage(PageType.repo_stargazers),
+//    bloc: StargazerBloc(url),
+//  );
+//});

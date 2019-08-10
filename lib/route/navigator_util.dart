@@ -7,7 +7,10 @@ import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/label_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
+import 'package:open_git/bloc/repo_fork_bloc.dart';
+import 'package:open_git/bloc/repo_issue_bloc.dart';
 import 'package:open_git/bloc/stargazer_bloc.dart';
+import 'package:open_git/bloc/subscriber_bloc.dart';
 import 'package:open_git/bloc/trending_language_bloc.dart';
 import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/route/application.dart';
@@ -18,7 +21,12 @@ import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
 import 'package:open_git/ui/page/issue/reaction_page.dart';
-import 'package:open_git/ui/page/profile/user_page.dart';
+import 'package:open_git/ui/page/profile/edit_profile_page.dart';
+import 'package:open_git/ui/page/repo/contributor_page.dart';
+import 'package:open_git/ui/page/repo/repo_fork_page.dart';
+import 'package:open_git/ui/page/repo/repo_issue_page.dart';
+import 'package:open_git/ui/page/repo/stargazer_page.dart';
+import 'package:open_git/ui/page/repo/subscriber_page.dart';
 import 'package:open_git/ui/page/trending/trending_date_page.dart';
 import 'package:open_git/ui/page/trending/trending_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -92,11 +100,14 @@ class NavigatorUtil {
   }
 
   //查看源码文件目录
-  static goReposSourceFile(BuildContext context, reposOwner, reposName) {
+  static goReposSourceFile(
+      BuildContext context, reposOwner, reposName, branch) {
     Application.router.navigateTo(
         context,
         AppRoutes.repos_file +
-            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
+            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}"
+                "&reposName=${FluroConvertUtil.encode(reposName)}"
+                "&branch=${FluroConvertUtil.encode(branch)}");
   }
 
   //查看源码
@@ -362,7 +373,7 @@ class NavigatorUtil {
       context,
       CupertinoPageRoute(
         builder: (context) => BlocProvider<UserBloc>(
-          child: UserPage(PageType.repo_contributors),
+          child: ContributorPage(),
           bloc: ContributorBloc(url),
         ),
       ),
@@ -374,9 +385,54 @@ class NavigatorUtil {
       context,
       CupertinoPageRoute(
         builder: (context) => BlocProvider<UserBloc>(
-          child: UserPage(PageType.repo_stargazers),
+          child: StargazerPage(),
           bloc: StargazerBloc(url),
         ),
+      ),
+    );
+  }
+
+  static goRepoSubscriber(BuildContext context, url) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<UserBloc>(
+          child: SubscriberPage(),
+          bloc: SubscriberBloc(url),
+        ),
+      ),
+    );
+  }
+
+  static goRepoIssue(BuildContext context, owner, repo) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<RepoIssueBloc>(
+          child: RepoIssuePage(),
+          bloc: RepoIssueBloc(owner, repo),
+        ),
+      ),
+    );
+  }
+
+  static goRepoFork(BuildContext context, owner, repo) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<UserBloc>(
+          child: RepoForkPage(),
+          bloc: RepoForkBloc(owner, repo),
+        ),
+      ),
+    );
+  }
+
+  static goEditProfile(BuildContext context) async {
+    await Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => EditProfilePage(),
       ),
     );
   }

@@ -20,6 +20,8 @@ class Repository {
 
   String contributors_url;
 
+  String subscribers_url;
+
   @JsonKey(name: "html_url")
   String htmlUrl;
 
@@ -132,6 +134,7 @@ class Repository {
     this.topics,
     this.stargazers_url,
     this.contributors_url,
+    this.subscribers_url,
   );
 
   /// A necessary factory constructor for creating a new User instance

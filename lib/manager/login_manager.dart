@@ -55,7 +55,7 @@ class LoginManager {
     final response =
         await HttpRequest().get(Api.getMyUserInfo(), isCache: false);
     if (response != null && response.data != null) {
-      LoginManager.instance.setUserBean(response.data, true);
+      setUserBean(response.data, true);
       return UserBean.fromJson(response.data);
     }
     return null;

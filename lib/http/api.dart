@@ -52,6 +52,16 @@ class Api {
     return "${_BASE_URL}networks/$reposOwner/$reposName/events?";
   }
 
+  //获取仓库issue
+  static getRepoIssues(owner, repo) {
+    return '${_BASE_URL}repos/$owner/$repo/issues?';
+  }
+
+  //获取仓库fork
+  static getRepoForks(owner, repo) {
+    return '${_BASE_URL}repos/$owner/$repo/forks?';
+  }
+
   //仓库分支
   static getBranches(reposOwner, reposName) {
     return "${_BASE_URL}repos/$reposOwner/$reposName/branches";

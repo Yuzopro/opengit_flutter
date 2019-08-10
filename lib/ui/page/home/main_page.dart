@@ -92,11 +92,7 @@ class _MainPageState extends State<MainPage>
           child: Scaffold(
             key: _scaffoldKey,
             drawer: Drawer(
-              child: DrawerPage(
-                name: _userBean.login ?? "--",
-                email: _userBean.email ?? "--",
-                headUrl: _userBean.avatarUrl ?? "",
-              ),
+              child: DrawerPage(),
             ),
             appBar: AppBar(
               leading: Builder(

@@ -128,7 +128,7 @@ class HttpRequest {
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
-      ToastUtil.showMessgae(e.toString());
+//      ToastUtil.showMessgae(e.toString());
       LogUtil.v('load data from network and exception, e is ' + e.toString(),
           tag: TAG);
       return ResponseResultData(null, false, -2);

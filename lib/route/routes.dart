@@ -228,15 +228,15 @@ class AppRoutes {
       handler: issueLabelHandler,
       transitionType: TransitionType.cupertino,
     );
-    router.define(
-      repo_contributor,
-      handler: repoContributorHandler,
-      transitionType: TransitionType.cupertino,
-    );
-    router.define(
-      repo_stargazer,
-      handler: repoStargazerHandler,
-      transitionType: TransitionType.cupertino,
-    );
+//    router.define(
+//      repo_contributor,
+//      handler: repoContributorHandler,
+//      transitionType: TransitionType.cupertino,
+//    );
+//    router.define(
+//      repo_stargazer,
+//      handler: repoStargazerHandler,
+//      transitionType: TransitionType.cupertino,
+//    );
   }
 }

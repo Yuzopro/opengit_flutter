@@ -10,6 +10,7 @@ import 'package:open_git/bean/event_bean.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/source_file_bean.dart';
+import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_request.dart';
 import 'package:open_git/util/code_detail_util.dart';
@@ -121,7 +122,7 @@ class ReposManager {
   doReposStarAction(reposOwner, reposName, bool isEnable) async {
     String url = Api.getReposStar(reposOwner, reposName);
     RequestBuilder builder = new RequestBuilder();
-    builder.url(url);
+    builder.url(url).isCache(false);
     if (isEnable) {
       builder.method(HttpMethod.DELETE);
     } else {
@@ -133,7 +134,7 @@ class ReposManager {
   doReposWatcherAction(reposOwner, reposName, bool isEnable) async {
     String url = Api.getReposWatcher(reposOwner, reposName);
     RequestBuilder builder = new RequestBuilder();
-    builder.url(url);
+    builder.url(url).isCache(false);
     if (isEnable) {
       builder.method(HttpMethod.DELETE);
     } else {
@@ -247,6 +248,22 @@ class ReposManager {
         for (int i = 0; i < response.data.length; i++) {
           var dataItem = response.data[i];
           list.add(ReleaseBean.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  getRepoForks(owner, repo, page) async {
+    String url = Api.getRepoForks(owner, repo) + Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url);
+    if (response != null && response.result) {
+      List<UserBean> list = List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(Repository.fromJson(dataItem).owner);
         }
       }
       return list;

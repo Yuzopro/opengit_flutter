@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/org_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -72,6 +74,9 @@ class UserManager {
     final response =
         await HttpRequest().get(Api.getUserInfo(userName), isCache: false);
     if (response != null && response.data != null) {
+      if (UserManager.instance.isYou(userName)) {
+        LoginManager.instance.setUserBean(response.data, true);
+      }
       return UserBean.fromJson(response.data);
     }
     return null;
@@ -148,6 +153,36 @@ class UserManager {
       return list;
     }
     return null;
+  }
+
+  Future<List<UserBean>> getSubscribers(String subscriberUrl, int page) async {
+    String url = subscriberUrl + '?' + Api.getPageParams("&", page);
+    final response = await HttpRequest().get(url, isCache: false);
+    if (response != null && response.result) {
+      List<UserBean> list = new List();
+      if (response.data != null && response.data.length > 0) {
+        for (int i = 0; i < response.data.length; i++) {
+          var dataItem = response.data[i];
+          list.add(UserBean.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
+  }
+
+  updateProfile(name, email, blog, company, location, bio) async {
+    String url = Api.getMyUserInfo();
+
+    Map<String, dynamic> data = new HashMap();
+    data['name'] = name;
+    data['email'] = email;
+    data['blog'] = blog;
+    data['company'] = company;
+    data['location'] = location;
+    data['bio'] = bio;
+
+    return await HttpRequest().patch(url, data);
   }
 
   bool isYou(String userName) {

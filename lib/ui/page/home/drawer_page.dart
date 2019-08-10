@@ -4,6 +4,7 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/image_path.dart';
+import 'package:open_git/common/size_const.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -17,9 +18,7 @@ import 'package:redux/redux.dart';
 class DrawerPage extends StatefulWidget {
   static final String TAG = "DrawerPage";
 
-  final String name, email, headUrl;
-
-  DrawerPage({this.name, this.email, this.headUrl});
+  DrawerPage();
 
   @override
   State<StatefulWidget> createState() {
@@ -28,10 +27,13 @@ class DrawerPage extends StatefulWidget {
 }
 
 class _DrawerPageState extends State<DrawerPage> {
+  UserBean _userBean;
+
   @override
   void initState() {
     super.initState();
     RedPointManager.instance.addState(this);
+    _userBean = LoginManager.instance.getUserBean();
   }
 
   @override
@@ -46,21 +48,35 @@ class _DrawerPageState extends State<DrawerPage> {
       body: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(widget.name, style: YZConstant.normalTextWhite),
-            accountEmail: Text(widget.email, style: YZConstant.smallTextWhite),
-            currentAccountPicture: GestureDetector(
+            accountName: Text(_userBean.name ?? _userBean.login ?? '',
+                style: YZConstant.normalTextWhite),
+            accountEmail:
+                Text(_userBean.email, style: YZConstant.smallTextWhite),
+            currentAccountPicture: InkWell(
               //用户头像
               onTap: () {
                 UserBean userBean = LoginManager.instance.getUserBean();
                 NavigatorUtil.goUserProfile(context, userBean.login);
               },
-              child: ImageUtil.getCircleNetworkImage(
-                  widget.headUrl ?? "", 48.0, ImagePath.image_default_head),
+              child: ImageUtil.getCircleNetworkImage(_userBean.avatarUrl ?? "",
+                  LARGE_IMAGE_SIZE, ImagePath.image_default_head),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
               NavigatorUtil.goUserProfile(context, userBean.login);
             },
+            otherAccountsPictures: <Widget>[
+              InkWell(
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                  size: NORMAL_IMAGE_SIZE,
+                ),
+                onTap: () {
+                  _goEditProfile();
+                },
+              ),
+            ],
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.trend,
@@ -153,5 +169,12 @@ class _DrawerPageState extends State<DrawerPage> {
         ],
       ),
     );
+  }
+
+  void _goEditProfile() async {
+    await NavigatorUtil.goEditProfile(context);
+    setState(() {
+      _userBean = LoginManager.instance.getUserBean();
+    });
   }
 }

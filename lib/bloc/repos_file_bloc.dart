@@ -5,12 +5,12 @@ import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/manager/repos_manager.dart';
 
 class ReposFileBloc extends BaseListBloc<SourceFileBean> {
-  final String reposOwner, reposName;
+  final String reposOwner, reposName, branch;
   List<String> fileStack;
 
   bool _isInit = false;
 
-  ReposFileBloc(this.reposOwner, this.reposName) {
+  ReposFileBloc(this.reposOwner, this.reposName, this.branch) {
     fileStack = [];
   }
 
@@ -62,7 +62,7 @@ class ReposFileBloc extends BaseListBloc<SourceFileBean> {
   Future _fetchSourceFile() async {
     String path = _getPath();
     final result = await ReposManager.instance
-        .getReposFileDir(reposOwner, reposName, path: path);
+        .getReposFileDir(reposOwner, reposName, path: path, branch: branch);
 
     if (bean.data == null) {
       bean.data = List();
