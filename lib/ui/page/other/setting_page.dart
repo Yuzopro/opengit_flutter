@@ -15,7 +15,7 @@ class SettingPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.color_lens),
             title: Text(AppLocalizations.of(context).currentlocal.theme,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goTheme(context);
@@ -24,7 +24,7 @@ class SettingPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.language),
             title: Text(AppLocalizations.of(context).currentlocal.language,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goLanguage(context);
@@ -33,7 +33,7 @@ class SettingPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.cached),
             title: Text(AppLocalizations.of(context).currentlocal.cache,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goCache(context);

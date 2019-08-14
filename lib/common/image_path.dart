@@ -47,4 +47,10 @@ class ImagePath {
   static const String _image_issue_path = '$_image_path/issue';
   static const String image_issue_label =
       '$_image_issue_path/ic_issue_label.png';
+
+  static const String _image_guide_path = '$_image_path/guide';
+  static const String image_guide_1 = '$_image_guide_path/bg_guide_home.png';
+  static const String image_guide_2 = '$_image_guide_path/bg_guide_repo_detail.png';
+  static const String image_guide_3 = '$_image_guide_path/bg_guide_issue_detail.png';
+  static const String image_guide_4 = '$_image_guide_path/bg_guide_theme.png';
 }

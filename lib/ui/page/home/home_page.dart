@@ -54,13 +54,16 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   Widget _getItemTag(List<Tags> tags) {
     String tag = "";
     if (tags != null && tags.length > 0) {
+      if (tags.length > 2) {
+        tags.length = 2;
+      }
       for (int i = 0; i < tags.length; i++) {
         tag += (tags[i].title + "\/");
       }
     }
     return Text(
       tag,
-      style: YZConstant.smallSubText,
+      style: YZStyle.smallSubText,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -132,14 +135,14 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               item.title ?? '--',
-              style: YZConstant.middleTextBold,
+              style: YZStyle.middleTextBold,
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               TextUtil.isEmpty(item.content) ? '暂无描述' : item.content,
-              style: YZConstant.smallTextT65,
+              style: YZStyle.smallTextT65,
             ),
           ),
           _actionColumn(item),
@@ -158,7 +161,7 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 item.user.username ?? '--',
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
             ),
           ),

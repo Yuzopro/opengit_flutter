@@ -127,10 +127,10 @@ flutter:
     - assets/images/ic_comment.png
     - assets/images/ic_star.png
     - assets/images/ic_issue.png
-    - assets/images/bg_guide_home.png
-    - assets/images/bg_guide_repos_detail.png
-    - assets/images/bg_guide_issue_detail.png
-    - assets/images/bg_guide_theme.png
+    - assets/images/guide/bg_guide_home.png
+    - assets/images/guide/bg_guide_repo_detail.png
+    - assets/images/guide/bg_guide_issue_detail.png
+    - assets/images/guide/bg_guide_theme.png
     - assets/images/bg_splash_ad.png
     - assets/images/ic_network_error.png
     - assets/images/ic_no_data.png

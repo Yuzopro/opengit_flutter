@@ -141,9 +141,7 @@ class SectionDetailView extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           detail.title,
-          style: TextStyle(
-            fontSize: 24.0,
-          ),
+          style: YZStyle.normalText,
         ),
       );
     }
@@ -177,7 +175,7 @@ class SectionDetailView extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               title,
-              style: YZConstant.normalTextWhite,
+              style: YZStyle.middleTextWhite,
             ),
           ),
         ),

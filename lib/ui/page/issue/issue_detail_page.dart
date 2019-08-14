@@ -10,7 +10,7 @@ import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/common/gradient_const.dart';
 import 'package:open_git/common/image_path.dart';
-import 'package:open_git/common/size_const.dart';
+import 'package:open_git/manager/user_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 import 'package:open_git/util/size_util.dart';
@@ -130,7 +130,7 @@ class IssueDetailPage
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               item.title,
-              style: YZConstant.largeTextBold,
+              style: YZStyle.largeTextBold,
             ),
           ),
           SizedBox(
@@ -154,7 +154,7 @@ class IssueDetailPage
       child: Center(
         child: Text(
           state,
-          style: YZConstant.smallTextWhite,
+          style: YZStyle.smallTextWhite,
         ),
       ),
     );
@@ -243,11 +243,11 @@ class IssueDetailPage
           children: <Widget>[
             Text(
               item.user.login,
-              style: YZConstant.smallText,
+              style: YZStyle.smallText,
             ),
             Text(
               DateUtil.getMultiDateStr(item.createdAt),
-              style: YZConstant.smallSubText,
+              style: YZStyle.smallSubText,
             )
           ],
         ),
@@ -262,15 +262,15 @@ class IssueDetailPage
         bloc.editReactions(item, text, isIssue);
       },
       child: ImageUtil.getImage(
-          ImagePath.image_comment_face, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+          ImagePath.image_comment_face, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       itemBuilder: (BuildContext context) => _reactionList
           .map(
             (_Reaction reaction) => PopupMenuItem<String>(
               value: reaction.type,
               child: ImageUtil.getImage(
                   'assets/images/comment/${reaction.img}.png',
-                  NORMAL_IMAGE_SIZE,
-                  NORMAL_IMAGE_SIZE),
+                  YZSize.NORMAL_IMAGE_SIZE,
+                  YZSize.NORMAL_IMAGE_SIZE),
             ),
           )
           .toList(),
@@ -293,7 +293,7 @@ class IssueDetailPage
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     return InkWell(
       child: ImageUtil.getImage(
-          ImagePath.image_comment_edit, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+          ImagePath.image_comment_edit, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       onTap: () {
         bloc.goEditIssue(context);
       },
@@ -312,7 +312,7 @@ class IssueDetailPage
         }
       },
       child: ImageUtil.getImage(
-          ImagePath.image_comment_menu, NORMAL_IMAGE_SIZE, NORMAL_IMAGE_SIZE),
+          ImagePath.image_comment_menu, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       itemBuilder: (BuildContext context) => _commentList
           .map(
             (String text) => PopupMenuItem<String>(
@@ -451,19 +451,26 @@ class IssueDetailPage
     if (!isShowAppBarActions()) {
       return null;
     }
-    return [
-      PopupMenuButton(
-        padding: const EdgeInsets.all(0.0),
-        onSelected: (value) {
-          onPopSelected(context, value);
-        },
-        itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-          getPopupMenuItem('browser', Icons.language, '浏览器打开'),
-          getPopupMenuItem('share', Icons.share, '分享'),
-          getPopupMenuItem('label', Icons.label, '标签'),
-        ],
-      )
-    ];
+
+    IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
+    String authorName = bloc.getRepoAuthorName();
+    if (UserManager.instance.isYou(authorName)) {
+      return [
+        PopupMenuButton(
+          padding: const EdgeInsets.all(0.0),
+          onSelected: (value) {
+            onPopSelected(context, value);
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+            getPopupMenuItem('browser', Icons.language, '浏览器打开'),
+            getPopupMenuItem('share', Icons.share, '分享'),
+            getPopupMenuItem('label', Icons.label, '标签'),
+          ],
+        )
+      ];
+    } else {
+      return super.getAction(context);
+    }
   }
 
   void onPopSelected(BuildContext context, String value) async {
@@ -475,7 +482,8 @@ class IssueDetailPage
         String title = (repoUrl.isNotEmpty && repoUrl.contains("/"))
             ? repoUrl.substring(repoUrl.lastIndexOf("/") + 1)
             : "";
-        await NavigatorUtil.goLabel(context, title, bloc.issueBean.labels, bloc.issueBean.number);
+        await NavigatorUtil.goLabel(
+            context, title, bloc.issueBean.labels, bloc.issueBean.number);
         bloc.updateLabels();
         break;
       default:

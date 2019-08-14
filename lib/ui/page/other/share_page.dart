@@ -112,7 +112,7 @@ class _SharePageState extends State<SharePage> {
             children: <Widget>[
               Icon(
                 icon,
-                color: Color(YZColors.mainTextColor),
+                color: Color(YZColors.textColor),
                 size: 22.0,
               ),
               SizedBox(
@@ -120,7 +120,7 @@ class _SharePageState extends State<SharePage> {
               ),
               Text(
                 title,
-                style: YZConstant.middleText,
+                style: YZStyle.middleText,
               )
             ],
           ),

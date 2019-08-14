@@ -81,7 +81,7 @@ class LabelPage extends BaseListStatelessWidget<Labels, LabelBloc> {
       _list.add(
         Text(
           item.description,
-          style: YZConstant.smallSubText,
+          style: YZStyle.smallSubText,
         ),
       );
     }
@@ -99,7 +99,7 @@ class LabelPage extends BaseListStatelessWidget<Labels, LabelBloc> {
         ),
         Switch(
           value: isSelectItem(context, item),
-          activeColor: Color(YZColors.mainTextColor),
+          activeColor: Color(YZColors.textColor),
           onChanged: (isSelected) {
             LogUtil.v(isSelected);
             LabelBloc bloc = BlocProvider.of<LabelBloc>(context);

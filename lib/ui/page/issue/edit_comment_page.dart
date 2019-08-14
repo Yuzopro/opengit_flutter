@@ -87,7 +87,7 @@ class _EditCommentState extends State<EditCommentPage> {
   }
 
   Widget _buildEditor() {
-    return TextFormField(
+    return TextField(
       controller: _controller,
       autofocus: true,
       decoration: InputDecoration(

@@ -98,7 +98,7 @@ class HttpRequest {
     );
 
     String url = builder.getUrl();
-//    LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
+    LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
 
     Dio _dio = Dio();
     //开始请求

@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
@@ -94,7 +95,9 @@ class IssueManager {
   }
 
   addIssueComment(repoUrl, issueNumber, comment) async {
-    comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    if (!TextUtil.contains(comment, '[From OpenGit Android]($OPEN_GIT_HOME)')) {
+      comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    }
 
     String url = Api.addIssueComment(repoUrl, issueNumber);
     final response = await HttpRequest().post(url, {"body": comment});
@@ -112,7 +115,9 @@ class IssueManager {
   editIssueComment(repoUrl, issueNumber, comment) async {
     String url = Api.editComment(repoUrl, issueNumber);
 
-    comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    if (!TextUtil.contains(comment, '[From OpenGit Android]($OPEN_GIT_HOME)')) {
+      comment += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    }
 
     RequestBuilder builder = RequestBuilder();
     builder
@@ -216,7 +221,9 @@ class IssueManager {
   editIssue(repoUrl, number, title, body) async {
     String url = Api.getSingleIssue(repoUrl, number);
 
-    body += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    if (!TextUtil.contains(body, '[From OpenGit Android]($OPEN_GIT_HOME)')) {
+      body += '\n[From OpenGit Android]($OPEN_GIT_HOME)';
+    }
 
     Map<String, dynamic> header = HashMap();
     header['Accept'] = 'application/vnd.github.squirrel-girl-preview+json';

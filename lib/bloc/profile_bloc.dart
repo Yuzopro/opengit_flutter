@@ -65,7 +65,7 @@ class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
   }
 
   Future _fetchFollow() async {
-    if (!UserManager.instance.isYou(name)) {
+    if (!UserManager.instance.isYou(name) && bean.data != null) {
       final response = await UserManager.instance.isFollow(name);
       bool isFollow = false;
       if (response != null && response.result) {

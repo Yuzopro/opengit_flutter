@@ -11,7 +11,6 @@ import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/util/update_util.dart';
 import 'package:package_info/package_info.dart';
-import 'package:rxdart/rxdart.dart';
 
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";

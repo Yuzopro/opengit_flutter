@@ -48,14 +48,14 @@ class TrendingUserPage
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 item.repo.name ?? "--",
-                style: YZConstant.middleTextBold,
+                style: YZStyle.middleTextBold,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 item.repo.description,
-                style: YZConstant.smallTextT65,
+                style: YZStyle.smallTextT65,
               ),
             ),
           ],
@@ -73,7 +73,7 @@ class TrendingUserPage
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 item.name,
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
             ),
           ),

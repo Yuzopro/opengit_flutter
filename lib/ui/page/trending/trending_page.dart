@@ -135,7 +135,7 @@ class _TrendingPageState extends State<TrendingPage>
             children: <Widget>[
               Icon(
                 Icons.text_rotate_vertical,
-                color: Color(YZColors.mainTextColor),
+                color: Color(YZColors.textColor),
                 size: 22.0,
               ),
               SizedBox(
@@ -143,7 +143,7 @@ class _TrendingPageState extends State<TrendingPage>
               ),
               Text(
                 'Language ${TextUtil.isEmpty(_language) ? 'all' : _language}',
-                style: YZConstant.middleText,
+                style: YZStyle.middleText,
               )
             ],
           ),
@@ -164,7 +164,7 @@ class _TrendingPageState extends State<TrendingPage>
             children: <Widget>[
               Icon(
                 Icons.date_range,
-                color: Color(YZColors.mainTextColor),
+                color: Color(YZColors.textColor),
                 size: 22.0,
               ),
               SizedBox(
@@ -172,7 +172,7 @@ class _TrendingPageState extends State<TrendingPage>
               ),
               Text(
                 'Date Range $_since',
-                style: YZConstant.middleText,
+                style: YZStyle.middleText,
               )
             ],
           ),

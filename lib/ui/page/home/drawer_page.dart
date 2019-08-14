@@ -4,7 +4,6 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/image_path.dart';
-import 'package:open_git/common/size_const.dart';
 import 'package:open_git/db/cache_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -49,9 +48,9 @@ class _DrawerPageState extends State<DrawerPage> {
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountName: Text(_userBean.name ?? _userBean.login ?? '',
-                style: YZConstant.normalTextWhite),
+                style: YZStyle.normalTextWhite),
             accountEmail:
-                Text(_userBean.email, style: YZConstant.smallTextWhite),
+                Text(_userBean.email, style: YZStyle.smallTextWhite),
             currentAccountPicture: InkWell(
               //用户头像
               onTap: () {
@@ -59,7 +58,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 NavigatorUtil.goUserProfile(context, userBean.login);
               },
               child: ImageUtil.getCircleNetworkImage(_userBean.avatarUrl ?? "",
-                  LARGE_IMAGE_SIZE, ImagePath.image_default_head),
+                  YZSize.LARGE_IMAGE_SIZE, ImagePath.image_default_head),
             ),
             onDetailsPressed: () {
               UserBean userBean = LoginManager.instance.getUserBean();
@@ -70,7 +69,7 @@ class _DrawerPageState extends State<DrawerPage> {
                 child: Icon(
                   Icons.edit,
                   color: Colors.white,
-                  size: NORMAL_IMAGE_SIZE,
+                  size: YZSize.NORMAL_IMAGE_SIZE,
                 ),
                 onTap: () {
                   _goEditProfile();
@@ -80,7 +79,7 @@ class _DrawerPageState extends State<DrawerPage> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.trend,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             leading: Icon(Icons.trending_up, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goTrend(context);
@@ -88,7 +87,7 @@ class _DrawerPageState extends State<DrawerPage> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.setting,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             leading: Icon(Icons.settings, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goSetting(context);
@@ -99,7 +98,7 @@ class _DrawerPageState extends State<DrawerPage> {
               alignment: Alignment.centerLeft,
               children: <Widget>[
                 Text(AppLocalizations.of(context).currentlocal.about,
-                    style: YZConstant.middleText),
+                    style: YZStyle.middleText),
                 Offstage(
                   offstage: !RedPointManager.instance.isUpgrade,
                   child: Container(
@@ -116,7 +115,7 @@ class _DrawerPageState extends State<DrawerPage> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.share,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             leading: Icon(Icons.share, color: Colors.grey),
             onTap: () {
               NavigatorUtil.goShare(context);
@@ -124,7 +123,7 @@ class _DrawerPageState extends State<DrawerPage> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.logout,
-                style: YZConstant.middleText),
+                style: YZStyle.middleText),
             leading: Icon(Icons.power_settings_new, color: Colors.grey),
             onTap: () {
               _handleLogoutApp(context);

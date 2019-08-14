@@ -77,7 +77,7 @@ class _CachePageState extends State<CachePage> {
         child: RaisedButton(
           child: Text(
             '清除缓存',
-            style: YZConstant.normalTextWhite,
+            style: YZStyle.normalTextWhite,
           ),
           color: Colors.black,
           onPressed: _clearCache,

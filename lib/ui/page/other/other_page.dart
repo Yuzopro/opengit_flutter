@@ -13,7 +13,7 @@ class OtherPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: new Text('Github API', style: YZConstant.middleText),
+            title: new Text('Github API', style: YZStyle.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(
@@ -24,7 +24,7 @@ class OtherPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: new Text('界面参考Gitme', style: YZConstant.middleText),
+            title: new Text('界面参考Gitme', style: YZStyle.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(
@@ -36,7 +36,7 @@ class OtherPage extends StatelessWidget {
           ),
           ListTile(
             title:
-                new Text('Github Trending API', style: YZConstant.middleText),
+                new Text('Github Trending API', style: YZStyle.middleText),
             trailing: new Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, 'Github Trending API',

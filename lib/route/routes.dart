@@ -16,11 +16,13 @@ class AppRoutes {
   static final timeline = '/main/about/timeline';
   static final timeline_detail = '/main/about/timeline/detail';
   static final trend = '/main/trend';
-  static final repos_detail = '/main/repos/detail';
-  static final repos_event = '/main/repos/event';
-  static final repos_trend = '/main/repos/trend';
-  static final repos_file = '/main/repos/file';
-  static final repos_code = '/main/repos/code';
+  static final trend_date = '/main/trend/date';
+  static final trend_language = '/main/trend/language';
+  static final repo_detail = '/main/repos/detail';
+  static final repo_event = '/main/repos/event';
+  static final repo_trend = '/main/repos/trend';
+  static final repo_file = '/main/repos/file';
+  static final repo_code = '/main/repos/code';
   static final photo_view = '/main/photo/view';
   static final search = '/main/searct';
   static final reaction = '/main/issue/reaction';
@@ -28,6 +30,7 @@ class AppRoutes {
   static final other = '/main/other';
   static final profile = '/main/profile';
   static final issue_detail = '/main/issue/detail';
+  static final edit_issue = '/main/edit/issue';
   static final cache = '/main/setting/cache';
   static final profile_repos = '/main/profile/repos';
   static final profile_star_repos = '/main/profile/star_repos';
@@ -42,6 +45,12 @@ class AppRoutes {
   static final issue_label = '/main/issue/label';
   static final repo_contributor = '/main/repo/contributor';
   static final repo_stargazer = '/main/repo/stargazer';
+  static final repo_subscriber = '/main/repo/subscriber';
+  static final repo_issue = '/main/repo/issue';
+  static final repo_fork = '/main/repo/fork';
+  static final edit_profile = '/main/edit/profile';
+  static final edit_issue_comment = '/main/edit/comment';
+  static final edit_issue_reaction = '/main/edit/reaction';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
@@ -114,27 +123,27 @@ class AppRoutes {
       transitionType: TransitionType.cupertino,
     );
     router.define(
-      repos_detail,
+      repo_detail,
       handler: reposDetailHandler,
       transitionType: TransitionType.cupertino,
     );
     router.define(
-      repos_event,
+      repo_event,
       handler: reposEventHandler,
       transitionType: TransitionType.cupertino,
     );
     router.define(
-      repos_trend,
+      repo_trend,
       handler: reposTrendHandler,
       transitionType: TransitionType.cupertino,
     );
     router.define(
-      repos_file,
+      repo_file,
       handler: reposFileHandler,
       transitionType: TransitionType.cupertino,
     );
     router.define(
-      repos_code,
+      repo_code,
       handler: reposCodeHandler,
       transitionType: TransitionType.cupertino,
     );
@@ -228,15 +237,60 @@ class AppRoutes {
       handler: issueLabelHandler,
       transitionType: TransitionType.cupertino,
     );
-//    router.define(
-//      repo_contributor,
-//      handler: repoContributorHandler,
-//      transitionType: TransitionType.cupertino,
-//    );
-//    router.define(
-//      repo_stargazer,
-//      handler: repoStargazerHandler,
-//      transitionType: TransitionType.cupertino,
-//    );
+    router.define(
+      repo_contributor,
+      handler: repoContributorHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_stargazer,
+      handler: repoStargazerHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_subscriber,
+      handler: repoSubscriberHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_issue,
+      handler: repoIssueHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_fork,
+      handler: repoForkHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      trend_date,
+      handler: trendDateHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      trend_language,
+      handler: trendLanguageHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      edit_profile,
+      handler: editProfileHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      edit_issue,
+      handler: editIssueHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      edit_issue_comment,
+      handler: editCommentHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      edit_issue_reaction,
+      handler: editReactionHandler,
+      transitionType: TransitionType.cupertino,
+    );
   }
 }

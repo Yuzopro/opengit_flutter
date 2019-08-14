@@ -67,12 +67,12 @@ class _SignPageState extends State<SignPage> {
                       ),
                       Text(
                         AppLocalizations.of(context).currentlocal.sign_tip_1,
-                        style: YZConstant.largeTextBold,
+                        style: YZStyle.largeTextBold,
                       ),
                       SizedBox(height: 30),
                       Text(
                         AppLocalizations.of(context).currentlocal.sign_tip_2,
-                        style: YZConstant.largeLargeText,
+                        style: YZStyle.largeLargeText,
                       ),
                       SizedBox(
                         height: 50,
@@ -148,7 +148,7 @@ class _SignPageState extends State<SignPage> {
                   children: <Widget>[
                     Text(
                       AppLocalizations.of(context).currentlocal.sign_text,
-                      style: YZConstant.smallText,
+                      style: YZStyle.smallText,
                     ),
                     SizedBox(
                       width: 5,
@@ -162,7 +162,7 @@ class _SignPageState extends State<SignPage> {
                       },
                       child: Text(
                         AppLocalizations.of(context).currentlocal.sign_up,
-                        style: YZConstant.smallText
+                        style: YZStyle.smallText
                             .copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
@@ -198,7 +198,7 @@ class _SignPageState extends State<SignPage> {
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(
-            fontSize: YZConstant.smallTextSize,
+            fontSize: YZStyle.smallTextSize,
             fontFamily: YZFonts.montserrat_font_family,
             fontWeight: FontWeight.w400,
             letterSpacing: 1,

@@ -14,7 +14,7 @@ class AuthorPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Yuzo Blog', style: YZConstant.middleText),
+            title: Text('Yuzo Blog', style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, 'Yuzo Blog', BLOG);
@@ -24,7 +24,7 @@ class AuthorPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: Text('Github', style: YZConstant.middleText),
+            title: Text('Github', style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, 'Github', GITHUB);
@@ -34,7 +34,7 @@ class AuthorPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: Text('掘金', style: YZConstant.middleText),
+            title: Text('掘金', style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, '掘金', JUEJIN);
@@ -44,7 +44,7 @@ class AuthorPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: Text('简书', style: YZConstant.middleText),
+            title: Text('简书', style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, '简书', JIANSHU);
@@ -54,7 +54,7 @@ class AuthorPage extends StatelessWidget {
             height: 0.3,
           ),
           ListTile(
-            title: Text('CSDN', style: YZConstant.middleText),
+            title: Text('CSDN', style: YZStyle.middleText),
             trailing: Icon(Icons.navigate_next),
             onTap: () {
               NavigatorUtil.goWebView(context, 'CSDN', CSDN);

@@ -1,9 +1,14 @@
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 
 class CodeDetailUtil {
+  static const String primaryLightValueString = "#42464b";
+  static const String miWhiteString = "#F4F5F6";
+  static const String actionBlueString = "#267aff";
+  static const String webBackgroundColorString = "#282a36";
+  static const String whiteString = '#FFFFFF';
+  
   static generateCode2HTml(String mdData,
-      {String backgroundColor = YZColors.miWhiteString,
+      {String backgroundColor = miWhiteString,
       String lang = 'java',
       userBR = true}) {
     String currentData = (mdData != null && mdData.indexOf("<code>") == -1)
@@ -24,7 +29,7 @@ class CodeDetailUtil {
   }
 
   static generateHtml(String mdData,
-      {String backgroundColor = YZColors.webDraculaBackgroundColorString,
+      {String backgroundColor = webBackgroundColorString,
       userBR = true}) {
     if (mdData == null) {
       return "";
@@ -88,7 +93,7 @@ class CodeDetailUtil {
 
     return generateCodeHtml(mdDataCode, false,
         backgroundColor: backgroundColor,
-        actionColor: YZColors.actionBlueString,
+        actionColor: actionBlueString,
         userBR: userBR);
   }
 
@@ -96,8 +101,8 @@ class CodeDetailUtil {
    * style for mdHTml
    */
   static generateCodeHtml(mdHTML, wrap,
-      {backgroundColor = YZColors.white,
-      String actionColor = YZColors.actionBlueString,
+      {backgroundColor = whiteString,
+      String actionColor = actionBlueString,
       userBR = true}) {
     return "<html>\n" +
         "<head>\n" +
@@ -126,7 +131,7 @@ class CodeDetailUtil {
         "}" +
         "thead, tr {" +
         "background:" +
-        YZColors.miWhiteString +
+        miWhiteString +
         ";}" +
         "td, th {" +
         "padding: 5px 10px;" +
@@ -134,31 +139,31 @@ class CodeDetailUtil {
         "direction:hor" +
         "}" +
         ".highlight {overflow: scroll; background: " +
-        YZColors.miWhiteString +
+        miWhiteString +
         "}" +
         "tr:nth-child(even) {" +
         "background:" +
-        YZColors.primaryLightValueString +
+        primaryLightValueString +
         ";" +
         "color:" +
-        YZColors.miWhiteString +
+        miWhiteString +
         ";" +
         "}" +
         "tr:nth-child(odd) {" +
         "background: " +
-        YZColors.miWhiteString +
+        miWhiteString +
         ";" +
         "color:" +
-        YZColors.primaryLightValueString +
+        primaryLightValueString +
         ";" +
         "}" +
         "th {" +
         "font-size: 14px;" +
         "color:" +
-        YZColors.miWhiteString +
+        miWhiteString +
         ";" +
         "background:" +
-        YZColors.primaryLightValueString +
+        primaryLightValueString +
         ";" +
         "}" +
         "</style>" +
@@ -274,10 +279,10 @@ class CodeDetailUtil {
         lang = defaultLang;
       }
       if ('markdown' == lang) {
-        return generateHtml(res.data, backgroundColor: YZColors.miWhiteString);
+        return generateHtml(res.data, backgroundColor: miWhiteString);
       } else {
         return generateCode2HTml(res.data,
-            backgroundColor: YZColors.webDraculaBackgroundColorString,
+            backgroundColor: webBackgroundColorString,
             lang: lang);
       }
     } else {

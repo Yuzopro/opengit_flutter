@@ -101,7 +101,7 @@ class _EditIssueState extends State<EditIssuePage> {
   }
 
   Widget _buildTitleWidget() {
-    return TextFormField(
+    return TextField(
       controller: _titleController,
       autofocus: true,
       decoration: InputDecoration(
@@ -113,7 +113,7 @@ class _EditIssueState extends State<EditIssuePage> {
   }
 
   Widget _buildBodyWidget() {
-    return TextFormField(
+    return TextField(
       controller: _bodyController,
       autofocus: false,
       decoration: InputDecoration(

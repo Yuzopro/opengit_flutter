@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/bloc/base_bloc.dart';
 import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
@@ -91,7 +92,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       return false;
     }
 
-    String authorName = _getRepoAuthorName(issueBean.repoUrl);
+    String authorName = getRepoAuthorName();
     if (UserManager.instance.isYou(authorName)) {
       return true;
     } else if (UserManager.instance.isYou(item.user.login)) {
@@ -112,7 +113,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   enterCommentEditor(BuildContext context, IssueBean item, bool isAdd) async {
-    final result = await NavigatorUtil.goMarkdownEditor(
+    final result = await NavigatorUtil.goEditIssueComment(
         context, item, issueBean.repoUrl, isAdd);
     if (isAdd) {
       _addSuccess(result);
@@ -234,7 +235,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     bean.data.issueBean = result;
   }
 
-  String _getRepoAuthorName(String repoUrl) {
+  String getRepoAuthorName() {
+    String repoUrl = issueBean.repoUrl;
     return (repoUrl.isNotEmpty && repoUrl.contains("repos/"))
         ? repoUrl.substring(
             repoUrl.lastIndexOf("repos/") + 6, repoUrl.lastIndexOf("/"))

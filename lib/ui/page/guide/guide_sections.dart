@@ -5,6 +5,7 @@
 // Raw data for the animation demo.
 
 import 'package:flutter/material.dart';
+import 'package:open_git/common/image_path.dart';
 
 const Color _mariner = Color(0xFF3B5F8F);
 const Color _mediumPurple = Color(0xFF8266D4);
@@ -52,7 +53,7 @@ const SectionDetail _home = SectionDetail(
 );
 
 const SectionDetail _homeImage = SectionDetail(
-  imageAsset: 'assets/images/bg_guide_home.png',
+  imageAsset: ImagePath.image_guide_1,
 );
 
 const SectionDetail _reposDetail = SectionDetail(
@@ -60,7 +61,7 @@ const SectionDetail _reposDetail = SectionDetail(
 );
 
 const SectionDetail __reposDetailImage = SectionDetail(
-  imageAsset: 'assets/images/bg_guide_repos_detail.png',
+  imageAsset: ImagePath.image_guide_2,
 );
 
 const SectionDetail _issueDetail = SectionDetail(
@@ -68,7 +69,7 @@ const SectionDetail _issueDetail = SectionDetail(
 );
 
 const SectionDetail _issueDetailImage = SectionDetail(
-  imageAsset: 'assets/images/bg_guide_issue_detail.png',
+  imageAsset: ImagePath.image_guide_3,
 );
 
 const SectionDetail _theme = SectionDetail(
@@ -76,7 +77,7 @@ const SectionDetail _theme = SectionDetail(
 );
 
 const SectionDetail _themeImage = SectionDetail(
-  imageAsset: 'assets/images/bg_guide_theme.png',
+  imageAsset: ImagePath.image_guide_4,
 );
 
 const SectionDetail _experienceButton = SectionDetail(

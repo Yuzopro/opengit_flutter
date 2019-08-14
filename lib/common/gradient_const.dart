@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:open_git/common/color_const.dart';
 
 LinearGradient SIGNUP_CARD_BACKGROUND = LinearGradient(
   tileMode: TileMode.clamp,
@@ -15,5 +14,5 @@ LinearGradient BUTTON_BACKGROUND = LinearGradient(
   begin: FractionalOffset.centerLeft,
   end: FractionalOffset.centerRight,
   stops: [0.1, 1.0],
-  colors: BOTTOM_COLORS,
+  colors: [Color(0xFF303030), Color(0xFFBDBDBD)],
 );

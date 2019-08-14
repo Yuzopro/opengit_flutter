@@ -7,7 +7,6 @@ import 'package:open_git/bloc/trending_repos_bloc.dart';
 import 'package:open_git/common/image_path.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
-import 'package:open_git/util/common_util.dart';
 
 class TrendingReposPage
     extends BaseListStatelessWidget<TrendingReposBean, TrendingReposBloc> {
@@ -54,21 +53,21 @@ class TrendingReposPage
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 item.name ?? "--",
-                style: YZConstant.middleTextBold,
+                style: YZStyle.middleTextBold,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 item.description,
-                style: YZConstant.smallTextT65,
+                style: YZStyle.smallTextT65,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '${item.currentPeriodStars.toString()} stars $since',
-                style: YZConstant.smallSubText,
+                style: YZStyle.smallSubText,
               ),
             ),
             _actionColumn(item),
@@ -87,7 +86,7 @@ class TrendingReposPage
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 item.author,
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
             ),
           ),
@@ -103,7 +102,7 @@ class TrendingReposPage
           ),
           Text(
             item.language ?? 'Unkown',
-            style: YZConstant.smallSubText,
+            style: YZStyle.smallSubText,
           ),
         ],
       );
@@ -131,7 +130,7 @@ class TrendingReposPage
         children: <Widget>[
           Text(
             "built by",
-            style: YZConstant.smallSubText,
+            style: YZStyle.smallSubText,
           ),
           SizedBox(
             width: 5.0,

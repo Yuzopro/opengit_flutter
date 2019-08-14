@@ -103,7 +103,7 @@ class RepoDetailPage
         Expanded(
           child: Row(
             children: <Widget>[
-              Icon(Icons.book, color: Color(YZColors.mainTextColor)),
+              Icon(Icons.book, color: Color(YZColors.textColor)),
               SizedBox(
                 width: 5.0,
               ),
@@ -113,7 +113,7 @@ class RepoDetailPage
         ),
         Text(
           FileUtil.formatFileSize(repo.size * 1024),
-          style: YZConstant.middleText,
+          style: YZStyle.middleText,
         )
       ],
     );
@@ -127,13 +127,13 @@ class RepoDetailPage
             repo.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: YZConstant.middleTextBold,
+            style: YZStyle.middleTextBold,
           ),
           Text(
             repo.parent.fullName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: YZConstant.smallSubText,
+            style: YZStyle.smallSubText,
           ),
         ],
       );
@@ -142,7 +142,7 @@ class RepoDetailPage
         repo.name,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: YZConstant.middleTextBold,
+        style: YZStyle.middleTextBold,
       );
     }
   }
@@ -150,7 +150,7 @@ class RepoDetailPage
   Widget _buildDesc(Repository repo) {
     return Text(
       ReposUtil.getGitHubEmojHtml(repo.description ?? '暂无描述'),
-      style: YZConstant.middleText,
+      style: YZStyle.middleText,
     );
   }
 
@@ -279,7 +279,7 @@ class RepoDetailPage
           ExpansionTile(
             title: Text(
               '默认分支 ${repo.defaultBranch}',
-              style: YZConstant.middleText,
+              style: YZStyle.middleText,
             ),
             children:
                 _buildBranchChildren(context, branches, repo.defaultBranch),
@@ -318,7 +318,7 @@ class RepoDetailPage
         Padding(
           padding: EdgeInsets.all(8.0),
           child: SpinKitCircle(
-            color: Color(YZColors.mainTextColor),
+            color: Color(YZColors.textColor),
             size: 25.0,
           ),
         ),
@@ -329,8 +329,8 @@ class RepoDetailPage
           title: Text(
             branch.name,
             style: TextUtil.equals(branch.name, defaultBranch)
-                ? YZConstant.middleSubText
-                : YZConstant.middleText,
+                ? YZStyle.middleSubText
+                : YZStyle.middleText,
           ),
           onTap: TextUtil.equals(branch.name, defaultBranch)
               ? null
@@ -362,14 +362,14 @@ class RepoDetailPage
           children: <Widget>[
             Icon(
               Icons.chrome_reader_mode,
-              color: Color(YZColors.mainTextColor),
+              color: Color(YZColors.textColor),
             ),
             SizedBox(
               width: 8.0,
             ),
             Text(
               'README.md',
-              style: YZConstant.middleText,
+              style: YZStyle.middleText,
             ),
           ],
         ),
@@ -389,7 +389,7 @@ class RepoDetailPage
         Padding(
           padding: EdgeInsets.all(8.0),
           child: SpinKitCircle(
-            color: Color(YZColors.mainTextColor),
+            color: Color(YZColors.textColor),
             size: 25.0,
           ),
         ),
@@ -442,7 +442,7 @@ class RepoDetailPage
     } else {
       return Icon(
         iconData,
-        color: Color(YZColors.mainTextColor),
+        color: Color(YZColors.textColor),
       );
     }
   }
@@ -451,7 +451,7 @@ class RepoDetailPage
     if (status == ReposStatus.loading) {
       return YZColors.subTextColor;
     } else {
-      return YZColors.mainTextColor;
+      return YZColors.textColor;
     }
   }
 
@@ -462,11 +462,11 @@ class RepoDetailPage
           children: <Widget>[
             Text(
               count.toString() ?? '0',
-              style: YZConstant.middleTextBold,
+              style: YZStyle.middleTextBold,
             ),
             Text(
               text,
-              style: YZConstant.middleText,
+              style: YZStyle.middleText,
             ),
           ],
         ),
@@ -488,14 +488,14 @@ class RepoDetailPage
                 children: <Widget>[
                   Icon(
                     iconData,
-                    color: Color(YZColors.mainTextColor),
+                    color: Color(YZColors.textColor),
                   ),
                   SizedBox(
                     width: 8.0,
                   ),
                   Text(
                     text,
-                    style: YZConstant.middleText,
+                    style: YZStyle.middleText,
                   ),
                 ],
               ),
@@ -504,7 +504,7 @@ class RepoDetailPage
               children: <Widget>[
                 Text(
                   trailText ?? '',
-                  style: YZConstant.smallText,
+                  style: YZStyle.smallText,
                 ),
                 SizedBox(
                   width: 8.0,
@@ -521,7 +521,7 @@ class RepoDetailPage
 
   Widget _buildTrail(bool isShowTrail) {
     return isShowTrail
-        ? Icon(Icons.navigate_next, color: Color(YZColors.mainTextColor))
+        ? Icon(Icons.navigate_next, color: Color(YZColors.textColor))
         : Text('');
   }
 

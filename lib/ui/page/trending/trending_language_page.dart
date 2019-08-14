@@ -39,7 +39,7 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
           child: ListTile(
             title: Text(
               item.name,
-              style: YZConstant.smallText,
+              style: YZStyle.smallText,
             ),
             onTap: () {
               Navigator.pop(context, item.name);
@@ -61,7 +61,7 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
       child: Text(
         '$letter',
         softWrap: false,
-        style: YZConstant.smallSubText,
+        style: YZStyle.smallSubText,
       ),
     );
   }

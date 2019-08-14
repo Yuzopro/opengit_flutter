@@ -10,19 +10,19 @@ class TrendingDatePage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('daily', style: YZConstant.middleText),
+            title: Text('daily', style: YZStyle.middleText),
             onTap: () {
               Navigator.pop(context, 'daily');
             },
           ),
           ListTile(
-            title: Text('weekly', style: YZConstant.middleText),
+            title: Text('weekly', style: YZStyle.middleText),
             onTap: () {
               Navigator.pop(context, 'weekly');
             },
           ),
           ListTile(
-            title: Text('monthly', style: YZConstant.middleText),
+            title: Text('monthly', style: YZStyle.middleText),
             onTap: () {
               Navigator.pop(context, 'monthly');
             },

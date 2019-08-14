@@ -97,13 +97,13 @@ class _EditProfileState extends State<EditProfilePage> {
       Padding(
         padding: EdgeInsets.all(8.0),
         child: TextFormField(
-          style: YZConstant.middleText,
+          style: YZStyle.middleText,
           controller: controller,
           decoration: InputDecoration(
             labelText: labelText,
-            labelStyle: YZConstant.middleSubText,
+            labelStyle: YZStyle.middleSubText,
             hintText: hintText,
-            hintStyle: YZConstant.middleSubText,
+            hintStyle: YZStyle.middleSubText,
             prefixIcon: Icon(iconData),
             border: InputBorder.none,
           ),

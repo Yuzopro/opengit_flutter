@@ -86,7 +86,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
             children: <Widget>[
               Text(
                 text,
-                style: YZConstant.minSubText,
+                style: YZStyle.minSubText,
               ),
               Icon(
                 Icons.arrow_drop_down,
@@ -119,7 +119,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
 
   Color _getMenuSelectColor(String text, String value) {
     if (text == value) {
-      return Color(YZColors.mainTextColor);
+      return Color(YZColors.textColor);
     }
     return Color(YZColors.subTextColor);
   }

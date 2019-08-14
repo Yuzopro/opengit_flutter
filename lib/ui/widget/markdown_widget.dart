@@ -33,64 +33,51 @@ class MarkdownWidget extends StatelessWidget {
                 color: Color(YZColors.subTextColor),
                 border: Border.all(
                     color: Color(YZColors.subTextColor), width: 0.3)),
-            blockquote: YZConstant.smallTextWhite);
+            blockquote: YZStyle.smallTextWhite);
   }
 
   _getStyleSheetDark(BuildContext context) {
     return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
-      p: YZConstant.smallTextWhite,
-      h1: YZConstant.largeLargeTextWhite,
-      h2: YZConstant.largeTextWhiteBold,
-      h3: YZConstant.normalTextMitWhiteBold,
-      h4: YZConstant.middleTextWhite,
-      h5: YZConstant.smallTextWhite,
-      h6: YZConstant.smallTextWhite,
+      p: YZStyle.smallTextWhite,
+      h1: YZStyle.largeLargeTextWhite,
+      h2: YZStyle.largeTextWhiteBold,
+      h3: YZStyle.normalTextMitWhiteBold,
+      h4: YZStyle.middleTextWhite,
+      h5: YZStyle.smallTextWhite,
+      h6: YZStyle.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
-      strong: YZConstant.middleTextWhiteBold,
-      code: YZConstant.smallSubText,
+      strong: YZStyle.middleTextWhiteBold,
+      code: YZStyle.smallSubText,
     );
   }
 
   _getStyleSheetWhite(BuildContext context) {
     return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
-      p: YZConstant.smallText,
-      h1: YZConstant.largeLargeText,
-      h2: YZConstant.largeTextBold,
-      h3: YZConstant.normalTextBold,
-      h4: YZConstant.middleText,
-      h5: YZConstant.smallText,
-      h6: YZConstant.smallText,
-      strong: YZConstant.middleTextBold,
-      code: YZConstant.smallSubText,
+      p: YZStyle.smallText,
+      h1: YZStyle.largeLargeText,
+      h2: YZStyle.largeTextBold,
+      h3: YZStyle.normalTextBold,
+      h4: YZStyle.middleText,
+      h5: YZStyle.smallText,
+      h6: YZStyle.smallText,
+      strong: YZStyle.middleTextBold,
+      code: YZStyle.smallSubText,
     );
   }
 
   _getStyleSheetTheme(BuildContext context) {
     return _getCommonSheet(context, Color.fromRGBO(40, 44, 52, 1.00)).copyWith(
-      p: YZConstant.smallTextWhite,
-      h1: YZConstant.largeLargeTextWhite,
-      h2: YZConstant.largeTextWhiteBold,
-      h3: YZConstant.normalTextMitWhiteBold,
-      h4: YZConstant.middleTextWhite,
-      h5: YZConstant.smallTextWhite,
-      h6: YZConstant.smallTextWhite,
+      p: YZStyle.smallTextWhite,
+      h1: YZStyle.largeLargeTextWhite,
+      h2: YZStyle.largeTextWhiteBold,
+      h3: YZStyle.normalTextMitWhiteBold,
+      h4: YZStyle.middleTextWhite,
+      h5: YZStyle.smallTextWhite,
+      h6: YZStyle.smallTextWhite,
       em: const TextStyle(fontStyle: FontStyle.italic),
-      strong: YZConstant.middleTextWhiteBold,
-      code: YZConstant.smallSubText,
+      strong: YZStyle.middleTextWhiteBold,
+      code: YZStyle.smallSubText,
     );
-  }
-
-  _getBackgroundColor(context) {
-    Color background = Color(YZColors.white);
-    switch (style) {
-      case DARK_LIGHT:
-        background = Color(YZColors.primaryLightValue);
-        break;
-      case DARK_THEME:
-        background = Theme.of(context).primaryColor;
-        break;
-    }
-    return background;
   }
 
   _getStyle(BuildContext context) {

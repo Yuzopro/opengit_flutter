@@ -32,7 +32,7 @@ class ReactionPage
           item.user.avatarUrl, 36.0, ImagePath.image_default_head),
       title: Text(item.user.login + (isYou ? " (it's you)" : "")),
       subtitle: Text(DateUtil.getMultiDateStr(item.createdAt),
-          style: YZConstant.middleText),
+          style: YZStyle.middleText),
       trailing: isYou
           ? InkWell(
               child: Icon(

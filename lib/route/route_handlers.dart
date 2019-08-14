@@ -14,6 +14,9 @@ import 'package:open_git/bloc/org_member_bloc.dart';
 import 'package:open_git/bloc/org_profile_bloc.dart';
 import 'package:open_git/bloc/org_repos_bloc.dart';
 import 'package:open_git/bloc/profile_bloc.dart';
+import 'package:open_git/bloc/reaction_bloc.dart';
+import 'package:open_git/bloc/repo_fork_bloc.dart';
+import 'package:open_git/bloc/repo_issue_bloc.dart';
 import 'package:open_git/bloc/repos_bloc.dart';
 import 'package:open_git/bloc/repos_detail_bloc.dart';
 import 'package:open_git/bloc/repos_event_bloc.dart';
@@ -22,11 +25,13 @@ import 'package:open_git/bloc/repos_trend_bloc.dart';
 import 'package:open_git/bloc/repos_user_bloc.dart';
 import 'package:open_git/bloc/repos_user_star_bloc.dart';
 import 'package:open_git/bloc/stargazer_bloc.dart';
+import 'package:open_git/bloc/subscriber_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
+import 'package:open_git/bloc/trending_language_bloc.dart';
 import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/bloc/user_event_bloc.dart';
 import 'package:open_git/redux/app_state.dart';
-import 'package:open_git/route/fluro_convert_util.dart';
+import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/page/guide/guide_page.dart';
@@ -35,7 +40,10 @@ import 'package:open_git/ui/page/home/event_page.dart';
 import 'package:open_git/ui/page/home/main_page.dart';
 import 'package:open_git/ui/page/home/repos_page.dart';
 import 'package:open_git/ui/page/home/search_page.dart';
+import 'package:open_git/ui/page/issue/edit_comment_page.dart';
+import 'package:open_git/ui/page/issue/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
+import 'package:open_git/ui/page/issue/reaction_page.dart';
 import 'package:open_git/ui/page/login/login_page.dart';
 import 'package:open_git/ui/page/other/about_page.dart';
 import 'package:open_git/ui/page/other/author_page.dart';
@@ -47,18 +55,25 @@ import 'package:open_git/ui/page/other/share_page.dart';
 import 'package:open_git/ui/page/other/theme_page.dart';
 import 'package:open_git/ui/page/other/timeline_detail_page.dart';
 import 'package:open_git/ui/page/other/timeline_page.dart';
+import 'package:open_git/ui/page/profile/edit_profile_page.dart';
 import 'package:open_git/ui/page/profile/follower_page.dart';
 import 'package:open_git/ui/page/profile/following_page.dart';
 import 'package:open_git/ui/page/profile/org_member_page.dart';
 import 'package:open_git/ui/page/profile/org_profile_page.dart';
 import 'package:open_git/ui/page/profile/user_org_page.dart';
-import 'package:open_git/ui/page/profile/user_page.dart';
 import 'package:open_git/ui/page/profile/user_profile_page.dart';
+import 'package:open_git/ui/page/repo/contributor_page.dart';
 import 'package:open_git/ui/page/repo/repo_code_detail_page.dart';
 import 'package:open_git/ui/page/repo/repo_detail_page.dart';
 import 'package:open_git/ui/page/repo/repo_event_page.dart';
 import 'package:open_git/ui/page/repo/repo_file_page.dart';
+import 'package:open_git/ui/page/repo/repo_fork_page.dart';
+import 'package:open_git/ui/page/repo/repo_issue_page.dart';
 import 'package:open_git/ui/page/repo/repo_trend_page.dart';
+import 'package:open_git/ui/page/repo/stargazer_page.dart';
+import 'package:open_git/ui/page/repo/subscriber_page.dart';
+import 'package:open_git/ui/page/trending/trending_date_page.dart';
+import 'package:open_git/ui/page/trending/trending_language_page.dart';
 import 'package:open_git/ui/page/trending/trending_page.dart';
 import 'package:redux/redux.dart';
 
@@ -99,9 +114,9 @@ var languageHandler = Handler(
 
 var webviewHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String title = params["title"]?.first;
-  String url = params["url"]?.first;
-  String isAd = params["isAd"]?.first;
+  String title = FluroUtil.decode(params["title"]?.first);
+  String url = FluroUtil.decode(params["url"]?.first);
+  String isAd = FluroUtil.decode(params["isAd"]?.first);
 
   return WebViewPage(
     title: title,
@@ -142,8 +157,8 @@ var timelineHandler = Handler(
 
 var timelineDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String title = params["title"]?.first;
-  String body = params["body"]?.first;
+  String title = FluroUtil.decode(params["title"]?.first);
+  String body = FluroUtil.decode(params["body"]?.first);
   return TimelineDetailPage(
     title: title,
     body: body,
@@ -157,8 +172,8 @@ var trendHandler = Handler(
 
 var reposDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String reposOwner = params["reposOwner"]?.first;
-  String reposName = params["reposName"]?.first;
+  String reposOwner = FluroUtil.decode(params["reposOwner"]?.first);
+  String reposName = FluroUtil.decode(params["reposName"]?.first);
   return BlocProvider<ReposDetailBloc>(
     child: RepoDetailPage(),
     bloc: ReposDetailBloc(reposOwner, reposName),
@@ -167,8 +182,8 @@ var reposDetailHandler = Handler(
 
 var reposEventHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String reposOwner = params["reposOwner"]?.first;
-  String reposName = params["reposName"]?.first;
+  String reposOwner = FluroUtil.decode(params["reposOwner"]?.first);
+  String reposName = FluroUtil.decode(params["reposName"]?.first);
 
   return BlocProvider<ReposEventBloc>(
     child: RepoEventPage(),
@@ -178,7 +193,7 @@ var reposEventHandler = Handler(
 
 var reposTrendHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String language = params["language"]?.first;
+  String language = FluroUtil.decode(params["language"]?.first);
 
   return BlocProvider<ReposTrendBloc>(
     child: RepoTrendPage(),
@@ -188,9 +203,9 @@ var reposTrendHandler = Handler(
 
 var reposFileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String reposOwner = params["reposOwner"]?.first;
-  String reposName = params["reposName"]?.first;
-  String branch = params["branch"]?.first;
+  String reposOwner = FluroUtil.decode(params["reposOwner"]?.first);
+  String reposName = FluroUtil.decode(params["reposName"]?.first);
+  String branch = FluroUtil.decode(params["branch"]?.first);
 
   return BlocProvider<ReposFileBloc>(
     child: RepoFilePage(),
@@ -200,8 +215,8 @@ var reposFileHandler = Handler(
 
 var reposCodeHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String title = params["title"]?.first;
-  String url = params["url"]?.first;
+  String title = FluroUtil.decode(params["title"]?.first);
+  String url = FluroUtil.decode(params["url"]?.first);
 
   return CodeDetailPageWeb(
     title: title,
@@ -211,8 +226,8 @@ var reposCodeHandler = Handler(
 
 var photoViewHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String title = params["title"]?.first;
-  String url = params["url"]?.first;
+  String title = FluroUtil.decode(params["title"]?.first);
+  String url = FluroUtil.decode(params["url"]?.first);
 
   return PhotoViewPage(title, url);
 });
@@ -234,7 +249,7 @@ var otherHandler = Handler(
 
 var profileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<ProfileBloc>(
     child: UserProfilePage(),
@@ -245,7 +260,7 @@ var profileHandler = Handler(
 var issueDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   IssueDetailBloc bloc = IssueDetailBloc(
-      IssueBean.fromJson(FluroConvertUtil.string2Map(params["issue"]?.first)));
+      IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)));
   return BlocProvider<IssueDetailBloc>(
     child: IssueDetailPage(),
     bloc: bloc,
@@ -259,7 +274,7 @@ var cacheHandler = Handler(
 
 var profileReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<ReposBloc>(
     child: ReposPage(PageType.repos_user),
@@ -269,7 +284,7 @@ var profileReposHandler = Handler(
 
 var profileStarReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<ReposBloc>(
     child: ReposPage(PageType.repos_user_star),
@@ -279,7 +294,7 @@ var profileStarReposHandler = Handler(
 
 var profileFollowerHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<UserBloc>(
     child: FollowerPage(),
@@ -289,7 +304,7 @@ var profileFollowerHandler = Handler(
 
 var profileFollowingHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<UserBloc>(
     child: FollowingPage(),
@@ -299,7 +314,7 @@ var profileFollowingHandler = Handler(
 
 var profileOrgHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<OrgBloc>(
     child: OrgPage(),
@@ -309,7 +324,7 @@ var profileOrgHandler = Handler(
 
 var profileEventHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<EventBloc>(
     child: EventPage(PageType.user_event),
@@ -319,7 +334,7 @@ var profileEventHandler = Handler(
 
 var orgProfileHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<OrgProfileBloc>(
     child: OrgProfilePage(),
@@ -329,7 +344,7 @@ var orgProfileHandler = Handler(
 
 var orgEventHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<EventBloc>(
     child: EventPage(PageType.org_event),
@@ -339,7 +354,7 @@ var orgEventHandler = Handler(
 
 var orgReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<ReposBloc>(
     child: ReposPage(PageType.org_repos),
@@ -349,7 +364,7 @@ var orgReposHandler = Handler(
 
 var orgMemberHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  String name = params["name"]?.first;
+  String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<UserBloc>(
     child: OrgMemberPage(),
@@ -369,22 +384,104 @@ var issueLabelHandler = Handler(
 //    bloc: LabelBloc(name, repo),
 //  );
 });
-//var repoContributorHandler = Handler(
-//    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-//  String url = params["url"]?.first;
-//
-//  return BlocProvider<UserBloc>(
-//    child: UserPage(PageType.repo_contributors),
-//    bloc: ContributorBloc(url),
-//  );
-//});
-//
-//var repoStargazerHandler = Handler(
-//    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-//  String url = params["url"]?.first;
-//
-//  return BlocProvider<UserBloc>(
-//    child: UserPage(PageType.repo_stargazers),
-//    bloc: StargazerBloc(url),
-//  );
-//});
+var repoContributorHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = FluroUtil.decode(params["url"]?.first);
+
+  return BlocProvider<UserBloc>(
+    child: ContributorPage(),
+    bloc: ContributorBloc(url),
+  );
+});
+
+var repoStargazerHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = FluroUtil.decode(params["url"]?.first);
+
+  return BlocProvider<UserBloc>(
+    child: StargazerPage(),
+    bloc: StargazerBloc(url),
+  );
+});
+
+var repoSubscriberHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = FluroUtil.decode(params["url"]?.first);
+
+  return BlocProvider<UserBloc>(
+    child: SubscriberPage(),
+    bloc: SubscriberBloc(url),
+  );
+});
+
+var repoIssueHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String owner = FluroUtil.decode(params["owner"]?.first);
+  String repo = FluroUtil.decode(params["repo"]?.first);
+
+  return BlocProvider<RepoIssueBloc>(
+    child: RepoIssuePage(),
+    bloc: RepoIssueBloc(owner, repo),
+  );
+});
+
+var repoForkHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String owner = FluroUtil.decode(params["owner"]?.first);
+  String repo = FluroUtil.decode(params["repo"]?.first);
+
+  return BlocProvider<UserBloc>(
+    child: RepoForkPage(),
+    bloc: RepoForkBloc(owner, repo),
+  );
+});
+
+var trendDateHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return TrendingDatePage();
+});
+
+var trendLanguageHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return BlocProvider<TrendingLanguageBloc>(
+    child: TrendingLanguagePage(),
+    bloc: TrendingLanguageBloc(),
+  );
+});
+
+var editProfileHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return EditProfilePage();
+});
+
+var editIssueHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return EditIssuePage(
+    issueBean: IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)),
+  );
+});
+
+var editCommentHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return EditCommentPage(
+    IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)),
+    FluroUtil.decode(params["url"]?.first),
+    FluroUtil.string2Bool(params["isAdd"]?.first),
+  );
+});
+
+var editReactionHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  IssueBean issueBean =
+      IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first));
+  String url = FluroUtil.decode(params["url"]?.first);
+  String content = FluroUtil.decode(params["content"]?.first);
+  bool isIssue = FluroUtil.string2Bool(params["isIssue"]?.first);
+
+  ReactionBloc bloc = ReactionBloc(issueBean, url, content, isIssue);
+
+  return BlocProvider<ReactionBloc>(
+    child: ReactionPage(),
+    bloc: bloc,
+  );
+});

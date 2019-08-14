@@ -227,7 +227,7 @@ class ThemePage extends StatelessWidget {
                 centerTitle: true,
                 title: Text(
                   AppLocalizations.of(context).currentlocal.theme,
-                  style: YZConstant.normalTextWhite,
+                  style: YZStyle.normalTextWhite,
                 ),
                 bottom: TabBar(
                   isScrollable: true,

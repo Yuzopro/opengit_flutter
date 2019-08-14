@@ -5,7 +5,6 @@ import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/profile_bloc.dart';
 import 'package:open_git/common/gradient_const.dart';
 import 'package:open_git/common/image_path.dart';
-import 'package:open_git/common/size_const.dart';
 import 'package:open_git/common/url_const.dart';
 import 'package:open_git/manager/user_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
@@ -93,11 +92,11 @@ class UserProfilePage
                       SizedBox(height: 20.0),
                       Text(
                         bean.data.name ?? bean.data.login,
-                        style: YZConstant.largeLargeText,
+                        style: YZStyle.largeLargeText,
                       ),
                       Text(
                         bean.data.bio ?? '暂无简介',
-                        style: YZConstant.largeText,
+                        style: YZStyle.largeText,
                       ),
                     ],
                   ),
@@ -177,7 +176,7 @@ class UserProfilePage
           child: Center(
             child: Text(
               bean.isFollow ? '取消关注' : '关注',
-              style: YZConstant.largeTextWhite,
+              style: YZStyle.largeTextWhite,
             ),
           ),
         ),
@@ -190,12 +189,12 @@ class UserProfilePage
     if (!TextUtil.isEmpty(num)) {
       children.add(Text(
         num,
-        style: YZConstant.normalTextWhite,
+        style: YZStyle.normalTextWhite,
       ));
     }
     children.add(Text(
       txt,
-      style: YZConstant.middleTextWhite,
+      style: YZStyle.middleTextWhite,
     ));
 
     return InkWell(
@@ -315,12 +314,12 @@ class UserProfilePage
             children: <Widget>[
               Text(
                 text,
-                style: YZConstant.normalText,
+                style: YZStyle.normalText,
               ),
               SizedBox(
                 height: 8.0,
               ),
-              ImageUtil.getImage(image, BIG_IMAGE_SIZE, BIG_IMAGE_SIZE)
+              ImageUtil.getImage(image, YZSize.BIG_IMAGE_SIZE, YZSize.BIG_IMAGE_SIZE)
             ],
           ),
         ),

@@ -81,7 +81,7 @@ class _AboutPageState extends State<AboutPageContent> {
                   ),
                 ),
                 ListTile(
-                  title: Text('Github', style: YZConstant.middleText),
+                  title: Text('Github', style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goWebView(
@@ -93,7 +93,7 @@ class _AboutPageState extends State<AboutPageContent> {
                 ),
                 ListTile(
                   title: Text(AppLocalizations.of(context).currentlocal.author,
-                      style: YZConstant.middleText),
+                      style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goUserProfile(context, 'Yuzopro');
@@ -105,7 +105,7 @@ class _AboutPageState extends State<AboutPageContent> {
                 ListTile(
                   title: Text(
                       AppLocalizations.of(context).currentlocal.app_home_page,
-                      style: YZConstant.middleText),
+                      style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goWebView(
@@ -120,7 +120,7 @@ class _AboutPageState extends State<AboutPageContent> {
                 ListTile(
                   title: Text(
                       AppLocalizations.of(context).currentlocal.introduction,
-                      style: YZConstant.middleText),
+                      style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goTimeline(context);
@@ -137,7 +137,7 @@ class _AboutPageState extends State<AboutPageContent> {
                           AppLocalizations.of(context)
                               .currentlocal
                               .update_title,
-                          style: YZConstant.middleText),
+                          style: YZStyle.middleText),
                       Offstage(
                         offstage: !RedPointManager.instance.isUpgrade,
                         child: Container(
@@ -155,7 +155,7 @@ class _AboutPageState extends State<AboutPageContent> {
                 ),
                 ListTile(
                   title: Text(AppLocalizations.of(context).currentlocal.other,
-                      style: YZConstant.middleText),
+                      style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     NavigatorUtil.goOther(context);

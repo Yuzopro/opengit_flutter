@@ -3,7 +3,7 @@ class Config {
   static const CLIENT_ID = "e7296dc864677f8c7ddb";
   static const CLIENT_SECRET = "37bee0f576c29767a17d69a40830d7c243115fd0";
 
-  static const SHOW_GUIDE_VERSION = '1.2.0';
+  static const SHOW_GUIDE_VERSION = '1.3.0';
 
   static const disclaimerText1 = '本APP属于个人的非赢利性开源项目，以供开源社区使用，凡本APP转载的所有的文章 、'
       '图片、音频、视频文件等资料的版权归版权所有人所有，本APP采用的非本站原创文章及'

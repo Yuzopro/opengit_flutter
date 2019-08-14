@@ -22,7 +22,7 @@ class CommonUtil {
       centerTitle: true,
       title: Text(
         title,
-        style: YZConstant.normalTextWhite,
+        style: YZStyle.normalTextWhite,
       ),
       actions: actions,
     );

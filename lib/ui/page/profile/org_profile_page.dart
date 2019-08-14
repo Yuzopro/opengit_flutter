@@ -87,11 +87,11 @@ class OrgProfilePage
                       SizedBox(height: 20.0),
                       Text(
                         bean.data.name ?? bean.data.login,
-                        style: YZConstant.largeLargeText,
+                        style: YZStyle.largeLargeText,
                       ),
                       Text(
                         bean.data.description ?? '暂无描述',
-                        style: YZConstant.largeText,
+                        style: YZStyle.largeText,
                       ),
                     ],
                   ),
@@ -140,12 +140,12 @@ class OrgProfilePage
     if (!TextUtil.isEmpty(num)) {
       children.add(Text(
         num,
-        style: YZConstant.normalTextWhite,
+        style: YZStyle.normalTextWhite,
       ));
     }
     children.add(Text(
       txt,
-      style: YZConstant.middleTextWhite,
+      style: YZStyle.middleTextWhite,
     ));
 
     return InkWell(

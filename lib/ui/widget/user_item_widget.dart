@@ -43,7 +43,7 @@ class UserItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 item.login,
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
             ),
           ),

@@ -2,36 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
+import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
-import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/label_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
-import 'package:open_git/bloc/repo_fork_bloc.dart';
-import 'package:open_git/bloc/repo_issue_bloc.dart';
-import 'package:open_git/bloc/stargazer_bloc.dart';
-import 'package:open_git/bloc/subscriber_bloc.dart';
-import 'package:open_git/bloc/trending_language_bloc.dart';
-import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/route/application.dart';
+import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/routes.dart';
-import 'package:open_git/ui/page/issue/edit_comment_page.dart';
 import 'package:open_git/ui/page/issue/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
 import 'package:open_git/ui/page/issue/reaction_page.dart';
-import 'package:open_git/ui/page/profile/edit_profile_page.dart';
-import 'package:open_git/ui/page/repo/contributor_page.dart';
-import 'package:open_git/ui/page/repo/repo_fork_page.dart';
-import 'package:open_git/ui/page/repo/repo_issue_page.dart';
-import 'package:open_git/ui/page/repo/stargazer_page.dart';
-import 'package:open_git/ui/page/repo/subscriber_page.dart';
-import 'package:open_git/ui/page/trending/trending_date_page.dart';
-import 'package:open_git/ui/page/trending/trending_language_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'fluro_convert_util.dart';
 
 class NavigatorUtil {
   //主页
@@ -66,10 +51,11 @@ class NavigatorUtil {
 
   //仓库详情
   static goReposDetail(BuildContext context, reposOwner, reposName) {
+    String owner = FluroUtil.encode(reposOwner);
+    String repo = FluroUtil.encode(reposName);
+
     Application.router.navigateTo(
-        context,
-        AppRoutes.repos_detail +
-            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
+        context, AppRoutes.repo_detail + "?reposOwner=$owner&reposName=$repo");
   }
 
   //趋势
@@ -79,24 +65,22 @@ class NavigatorUtil {
 
   //仓库语言按star排名
   static goReposLanguage(BuildContext context, language) {
-    Application.router.navigateTo(
-        context,
-        AppRoutes.repos_trend +
-            "?language=${FluroConvertUtil.encode(language)}");
+    Application.router.navigateTo(context,
+        AppRoutes.repo_trend + "?language=${FluroUtil.encode(language)}");
   }
 
   //仓库动态
   static goReposDynamic(BuildContext context, reposOwner, reposName) {
     Application.router.navigateTo(
         context,
-        AppRoutes.repos_event +
-            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}&reposName=${FluroConvertUtil.encode(reposName)}");
+        AppRoutes.repo_event +
+            "?reposOwner=${FluroUtil.encode(reposOwner)}&reposName=${FluroUtil.encode(reposName)}");
   }
 
   //用户资料
   static goUserProfile(BuildContext context, name) {
     Application.router.navigateTo(
-        context, AppRoutes.profile + "?name=${FluroConvertUtil.encode(name)}");
+        context, AppRoutes.profile + "?name=${FluroUtil.encode(name)}");
   }
 
   //查看源码文件目录
@@ -104,18 +88,18 @@ class NavigatorUtil {
       BuildContext context, reposOwner, reposName, branch) {
     Application.router.navigateTo(
         context,
-        AppRoutes.repos_file +
-            "?reposOwner=${FluroConvertUtil.encode(reposOwner)}"
-                "&reposName=${FluroConvertUtil.encode(reposName)}"
-                "&branch=${FluroConvertUtil.encode(branch)}");
+        AppRoutes.repo_file +
+            "?reposOwner=${FluroUtil.encode(reposOwner)}"
+                "&reposName=${FluroUtil.encode(reposName)}"
+                "&branch=${FluroUtil.encode(branch)}");
   }
 
   //查看源码
   static goReposSourceCode(BuildContext context, title, url) {
     Application.router.navigateTo(
         context,
-        AppRoutes.repos_code +
-            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
+        AppRoutes.repo_code +
+            "?title=${FluroUtil.encode(title)}&url=${FluroUtil.encode(url)}");
   }
 
   //搜索
@@ -124,8 +108,9 @@ class NavigatorUtil {
   }
 
   //问题详情
-  static goIssueDetail(BuildContext context, issueBean) {
-//    String issue = FluroConvertUtil.object2String(issueBean.toJson);
+  static goIssueDetail(BuildContext context, IssueBean issueBean) {
+    //用fluro路由实现，当键盘状态改变时，会导致页面的刷新
+//    String issue = FluroUtil.object2String(issueBean.toJson);
 //    Application.router
 //        .navigateTo(context, AppRoutes.issue_detail + "?issue=$issue");
 
@@ -142,23 +127,29 @@ class NavigatorUtil {
   }
 
   //评论编辑页
-  static goMarkdownEditor(
-      BuildContext context, issueBean, repoUrl, isAdd) async {
-    return Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => EditCommentPage(
-          issueBean,
-          repoUrl,
-          isAdd,
-        ),
-      ),
-    );
+  static goEditIssueComment(
+      BuildContext context, IssueBean issueBean, repoUrl, isAdd) async {
+    String issue = FluroUtil.object2String(issueBean.toJson);
+    String url = FluroUtil.encode(repoUrl);
+    String isAddStr = FluroUtil.encode(isAdd.toString());
+
+    return Application.router.navigateTo(
+        context,
+        AppRoutes.edit_issue_comment +
+            "?issue=$issue&url=$url&isAdd=$isAddStr");
   }
 
   //评论编辑页
-  static goDeleteReaction(
-      BuildContext context, issueBean, repoUrl, content, isIssue) async {
+  static goDeleteReaction(BuildContext context, IssueBean issueBean, repoUrl,
+      content, isIssue) async {
+//    String issue = FluroUtil.object2String(issueBean.toJson);
+//    String url = FluroUtil.encode(repoUrl);
+//    String isIssueStr = FluroUtil.encode(isIssue.toString());
+//
+//    return Application.router.navigateTo(
+//        context,
+//        AppRoutes.edit_issue_reaction +
+//            "?issue=$issue&url=$url&content=${FluroUtil.encode(content)}&isIssue=$isIssueStr");
     ReactionBloc bloc = ReactionBloc(issueBean, repoUrl, content, isIssue);
     return Navigator.push(
       context,
@@ -172,7 +163,7 @@ class NavigatorUtil {
   }
 
   //问题编辑页
-  static goEditIssue(BuildContext context, issueBean) {
+  static goEditIssue(BuildContext context, IssueBean issueBean) {
     return Navigator.push(
       context,
       CupertinoPageRoute(
@@ -181,6 +172,10 @@ class NavigatorUtil {
         ),
       ),
     );
+//    String issue = FluroUtil.object2String(issueBean.toJson);
+//
+//    return Application.router
+//        .navigateTo(context, AppRoutes.edit_issue + "?issue=$issue");
   }
 
   //主题页
@@ -198,14 +193,14 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.webview +
-            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
+            "?title=${FluroUtil.encode(title)}&url=${FluroUtil.encode(url)}");
   }
 
   static goWebViewForAd(BuildContext context, title, url) {
     Application.router.navigateTo(
         context,
         AppRoutes.webview +
-            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}&isAd=${FluroConvertUtil.encode(true.toString())}",
+            "?title=${FluroUtil.encode(title)}&url=${FluroUtil.encode(url)}&isAd=${FluroUtil.encode(true.toString())}",
         replace: true);
   }
 
@@ -219,7 +214,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.timeline_detail +
-            "?title=${FluroConvertUtil.encode(title)}&body=${FluroConvertUtil.encode(body)}");
+            "?title=${FluroUtil.encode(title)}&body=${FluroUtil.encode(body)}");
   }
 
   //查看图片
@@ -227,7 +222,7 @@ class NavigatorUtil {
     Application.router.navigateTo(
         context,
         AppRoutes.photo_view +
-            "?title=${FluroConvertUtil.encode(title)}&url=${FluroConvertUtil.encode(url)}");
+            "?title=${FluroUtil.encode(title)}&url=${FluroUtil.encode(url)}");
   }
 
   //作者
@@ -256,87 +251,72 @@ class NavigatorUtil {
 
   //趋势周期
   static goTrendingDate(BuildContext context) async {
-    return Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => TrendingDatePage(),
-      ),
-    );
+    return Application.router.navigateTo(context, AppRoutes.trend_date);
   }
 
   //趋势语言
   static goTrendingLanguage(BuildContext context) async {
-    return Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<TrendingLanguageBloc>(
-          child: TrendingLanguagePage(),
-          bloc: TrendingLanguageBloc(),
-        ),
-      ),
-    );
+    return Application.router.navigateTo(context, AppRoutes.trend_language);
   }
 
   //资料项目
   static goProfileRepos(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.profile_repos + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.profile_repos + "?name=${FluroUtil.encode(name)}");
   }
 
   //资料star项目
   static goProfileStarRepos(BuildContext context, name) {
-    Application.router.navigateTo(
-        context,
-        AppRoutes.profile_star_repos +
-            "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(context,
+        AppRoutes.profile_star_repos + "?name=${FluroUtil.encode(name)}");
   }
 
   //资料关注我的
   static goProfileFollower(BuildContext context, name) {
     Application.router.navigateTo(context,
-        AppRoutes.profile_follower + "?name=${FluroConvertUtil.encode(name)}");
+        AppRoutes.profile_follower + "?name=${FluroUtil.encode(name)}");
   }
 
   //资料我关注的
   static goProfileFollowing(BuildContext context, name) {
     Application.router.navigateTo(context,
-        AppRoutes.profile_following + "?name=${FluroConvertUtil.encode(name)}");
+        AppRoutes.profile_following + "?name=${FluroUtil.encode(name)}");
   }
 
   //资料组织
   static goProfileOrg(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.profile_org + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.profile_org + "?name=${FluroUtil.encode(name)}");
   }
 
   //资料动态
   static goProfileEvent(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.profile_event + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.profile_event + "?name=${FluroUtil.encode(name)}");
   }
 
   //组织资料
   static goOrgProfile(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.org_profile + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.org_profile + "?name=${FluroUtil.encode(name)}");
   }
 
   //组织动态
   static goOrgEvent(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.org_event + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.org_event + "?name=${FluroUtil.encode(name)}");
   }
 
   //组织项目
   static goOrgRepos(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.org_repos + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.org_repos + "?name=${FluroUtil.encode(name)}");
   }
 
   //组织成员
   static goOrgMember(BuildContext context, name) {
-    Application.router.navigateTo(context,
-        AppRoutes.org_member + "?name=${FluroConvertUtil.encode(name)}");
+    Application.router.navigateTo(
+        context, AppRoutes.org_member + "?name=${FluroUtil.encode(name)}");
   }
 
   //标签
@@ -355,7 +335,7 @@ class NavigatorUtil {
     );
   }
 
-  //组织成员
+  //编辑标签
   static goEditLabel(BuildContext context, Labels label, String repo) async {
     return Navigator.push(
       context,
@@ -369,71 +349,35 @@ class NavigatorUtil {
   }
 
   static goRepoContributor(BuildContext context, url) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<UserBloc>(
-          child: ContributorPage(),
-          bloc: ContributorBloc(url),
-        ),
-      ),
-    );
+    Application.router.navigateTo(
+        context, AppRoutes.repo_contributor + "?url=${FluroUtil.encode(url)}");
   }
 
   static goRepoStargazer(BuildContext context, url) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<UserBloc>(
-          child: StargazerPage(),
-          bloc: StargazerBloc(url),
-        ),
-      ),
-    );
+    Application.router.navigateTo(
+        context, AppRoutes.repo_stargazer + "?url=${FluroUtil.encode(url)}");
   }
 
   static goRepoSubscriber(BuildContext context, url) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<UserBloc>(
-          child: SubscriberPage(),
-          bloc: SubscriberBloc(url),
-        ),
-      ),
-    );
+    Application.router.navigateTo(
+        context, AppRoutes.repo_subscriber + "?url=${FluroUtil.encode(url)}");
   }
 
   static goRepoIssue(BuildContext context, owner, repo) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<RepoIssueBloc>(
-          child: RepoIssuePage(),
-          bloc: RepoIssueBloc(owner, repo),
-        ),
-      ),
-    );
+    Application.router.navigateTo(
+        context,
+        AppRoutes.repo_issue +
+            "?owner=${FluroUtil.encode(owner)}&repo=${FluroUtil.encode(repo)}");
   }
 
   static goRepoFork(BuildContext context, owner, repo) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<UserBloc>(
-          child: RepoForkPage(),
-          bloc: RepoForkBloc(owner, repo),
-        ),
-      ),
-    );
+    Application.router.navigateTo(
+        context,
+        AppRoutes.repo_fork +
+            "?owner=${FluroUtil.encode(owner)}&repo=${FluroUtil.encode(repo)}");
   }
 
   static goEditProfile(BuildContext context) async {
-    await Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => EditProfilePage(),
-      ),
-    );
+    return Application.router.navigateTo(context, AppRoutes.edit_profile);
   }
 }

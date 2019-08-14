@@ -22,21 +22,21 @@ class LanguagePage extends StatelessWidget {
           body: ListView(
             children: <Widget>[
               ListTile(
-                title: Text('跟随系统', style: YZConstant.middleText),
+                title: Text('跟随系统', style: YZStyle.middleText),
                 trailing: Icon(Icons.navigate_next),
                 onTap: () {
                   vm.onChangeLanguage(0);
                 },
               ),
               ListTile(
-                title: Text('简体中文', style: YZConstant.middleText),
+                title: Text('简体中文', style: YZStyle.middleText),
                 trailing: Icon(Icons.navigate_next),
                 onTap: () {
                   vm.onChangeLanguage(1);
                 },
               ),
               ListTile(
-                title: Text('English', style: YZConstant.middleText),
+                title: Text('English', style: YZStyle.middleText),
                 trailing: Icon(Icons.navigate_next),
                 onTap: () {
                   vm.onChangeLanguage(2);

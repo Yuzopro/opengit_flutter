@@ -47,7 +47,7 @@ class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               item.description,
-              style: YZConstant.smallTextT65,
+              style: YZStyle.smallTextT65,
             ),
           ),
         ],
@@ -65,7 +65,7 @@ class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
                 item.login,
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
             ),
           ),

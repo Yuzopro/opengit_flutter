@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/reaction_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
+import 'package:open_git/route/fluro_util.dart';
 
 part 'issue_bean.g.dart';
 

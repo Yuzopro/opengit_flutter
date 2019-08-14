@@ -72,7 +72,7 @@ class UpdateUtil {
             FlatButton(
               child: Text(
                 AppLocalizations.of(context).currentlocal.cancel,
-                style: YZConstant.smallSubText,
+                style: YZStyle.smallSubText,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -81,7 +81,7 @@ class UpdateUtil {
             FlatButton(
               child: Text(
                 AppLocalizations.of(context).currentlocal.update,
-                style: YZConstant.smallText,
+                style: YZStyle.smallText,
               ),
               onPressed: () {
                 if (url != null && url.contains('.apk')) {

@@ -81,7 +81,7 @@ class _LoginPageContentState extends State<LoginPageContent> {
         child: RaisedButton(
           child: Text(
             AppLocalizations.of(context).currentlocal.login,
-            style: YZConstant.normalTextWhite,
+            style: YZStyle.normalTextWhite,
           ),
           color: Colors.black,
           onPressed: _isValidLogin()
