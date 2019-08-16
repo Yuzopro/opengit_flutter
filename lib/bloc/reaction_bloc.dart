@@ -11,13 +11,12 @@ import 'package:open_git/manager/issue_manager.dart';
 class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   static final String TAG = "ReactionBloc";
 
-  final IssueBean issueBean;
-  final String reposUrl, content;
+  final String reposUrl, content, id;
   final bool isIssue;
 
   bool _isInit = false;
 
-  ReactionBloc(this.issueBean, this.reposUrl, this.content, this.isIssue);
+  ReactionBloc(this.reposUrl, this.content, this.isIssue, this.id);
 
   @override
   PageType getPageType() {
@@ -52,7 +51,7 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
     showLoading();
     final response = await IssueManager.instance.deleteReactions(reactionId);
     if (response != null && response.result) {
-      Navigator.pop(context, _refreshIssueBean(issueBean, content));
+      Navigator.pop(context, content);
     }
     hideLoading();
   }
@@ -60,13 +59,6 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   Future _fetchReactions() async {
     LogUtil.v('_fetchReactions', tag: TAG);
     try {
-      int id;
-      if (isIssue) {
-        id = issueBean.number;
-      } else {
-        id = issueBean.id;
-      }
-
       var result = await IssueManager.instance
           .getCommentReactions(reposUrl, id, content, page, isIssue);
       if (bean.data == null) {
@@ -91,26 +83,5 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
         page--;
       }
     }
-  }
-
-  IssueBean _refreshIssueBean(IssueBean issueBean, String comment) {
-    if ("+1" == comment) {
-      issueBean.reaction.like--;
-    } else if ("-1" == comment) {
-      issueBean.reaction.noLike--;
-    } else if ("hooray" == comment) {
-      issueBean.reaction.hooray--;
-    } else if ("eyes" == comment) {
-      issueBean.reaction.eyes--;
-    } else if ("laugh" == comment) {
-      issueBean.reaction.laugh--;
-    } else if ("confused" == comment) {
-      issueBean.reaction.confused--;
-    } else if ("rocket" == comment) {
-      issueBean.reaction.rocket--;
-    } else if ("heart" == comment) {
-      issueBean.reaction.heart--;
-    }
-    return issueBean;
   }
 }

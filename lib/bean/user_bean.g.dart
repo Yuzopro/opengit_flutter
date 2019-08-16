@@ -40,9 +40,9 @@ UserBean _$UserBeanFromJson(Map<String, dynamic> json) {
     json['disk_usage'] as int,
     json['collaborators'] as int,
     json['two_factor_authentication'] as bool,
-    json['plan'] == null
-        ? null
-        : Plan.fromJson(json['plan'] as Map<String, dynamic>),
+//    json['plan'] == null
+//        ? null
+//        : Plan.fromJson(json['plan'] as Map<String, dynamic>),
     json['company'] as String,
     json['location'] as String,
     json['email'] as String,
@@ -83,7 +83,7 @@ Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'disk_usage': instance.diskUsage,
       'collaborators': instance.collaborators,
       'two_factor_authentication': instance.twoFactorAuthentication,
-      'plan': instance.plan?.toJson,
+//      'plan': instance.plan,
       'company': instance.company,
       'location': instance.location,
       'email': instance.email,
@@ -91,18 +91,18 @@ Map<String, dynamic> _$UserBeanToJson(UserBean instance) => <String, dynamic>{
       'isFollow': instance.isFollow,
     };
 
-Plan _$PlanFromJson(Map<String, dynamic> json) {
-  return Plan(
-    json['name'] as String,
-    json['space'] as int,
-    json['collaborators'] as int,
-    json['private_repos'] as int,
-  );
-}
+//Plan _$PlanFromJson(Map<String, dynamic> json) {
+//  return Plan(
+//    json['name'] as String,
+//    json['space'] as int,
+//    json['collaborators'] as int,
+//    json['private_repos'] as int,
+//  );
+//}
 
-Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
-      'name': instance.name,
-      'space': instance.space,
-      'collaborators': instance.collaborators,
-      'private_repos': instance.privateRepos,
-    };
+//Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
+//      'name': instance.name,
+//      'space': instance.space,
+//      'collaborators': instance.collaborators,
+//      'private_repos': instance.privateRepos,
+//    };

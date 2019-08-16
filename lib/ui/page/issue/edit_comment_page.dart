@@ -4,11 +4,11 @@ import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/util/common_util.dart';
 
 class EditCommentPage extends StatefulWidget {
-  final IssueBean issueBean;
-  final String repoUrl;
+//  final IssueBean issueBean;
+  final String repoUrl, body, id;
   final bool isAdd;
 
-  EditCommentPage(this.issueBean, this.repoUrl, this.isAdd);
+  EditCommentPage(this.body, this.repoUrl, this.isAdd, this.id);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,10 +27,9 @@ class _EditCommentState extends State<EditCommentPage> {
   void initState() {
     super.initState();
     _controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.isAdd ? "" : widget.issueBean.body));
+        TextEditingValue(text: widget.isAdd ? "" : widget.body));
     _controller.addListener(() {
-      if (_controller.text.toString() ==
-          (widget.isAdd ? "" : widget.issueBean.body)) {
+      if (_controller.text.toString() == (widget.isAdd ? "" : widget.body)) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -104,10 +103,10 @@ class _EditCommentState extends State<EditCommentPage> {
     _showLoading();
     if (!widget.isAdd) {
       result = await IssueManager.instance.editIssueComment(
-          widget.repoUrl, widget.issueBean.id, _controller.text.toString());
+          widget.repoUrl, widget.id, _controller.text.toString());
     } else {
       result = await IssueManager.instance.addIssueComment(
-          widget.repoUrl, widget.issueBean.number, _controller.text.toString());
+          widget.repoUrl, widget.id, _controller.text.toString());
     }
     _hideLoading();
     if (result != null) {

@@ -44,6 +44,7 @@ Map<String, dynamic> _$OrgBeanToJson(OrgBean instance) => <String, dynamic>{
       'id': instance.id,
       'node_id': instance.nodeId,
       'url': instance.url,
+      'company': instance.company,
       'repos_url': instance.reposUrl,
       'events_url': instance.eventsUrl,
       'hooks_url': instance.hooksUrl,

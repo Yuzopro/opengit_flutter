@@ -100,8 +100,8 @@ class UserBean {
   @JsonKey(name: 'two_factor_authentication')
   bool twoFactorAuthentication;
 
-  @JsonKey(name: 'plan')
-  Plan plan;
+//  @JsonKey(name: 'plan')
+//  Plan plan;
   @JsonKey(name: 'company')
   String company;
   @JsonKey(name: 'location')
@@ -146,7 +146,7 @@ class UserBean {
     this.diskUsage,
     this.collaborators,
     this.twoFactorAuthentication,
-    this.plan,
+//    this.plan,
     this.company,
     this.location,
     this.email,
@@ -157,36 +157,31 @@ class UserBean {
       _$UserBeanFromJson(srcJson);
 
   get toJson => _$UserBeanToJson(this);
-
-  @override
-  String toString() {
-    return 'UserBean{login: $login, type: $type, siteAdmin: $siteAdmin}';
-  }
 }
 
-@JsonSerializable()
-class Plan {
-  @JsonKey(name: 'name')
-  String name;
-
-  @JsonKey(name: 'space')
-  int space;
-
-  @JsonKey(name: 'collaborators')
-  int collaborators;
-
-  @JsonKey(name: 'private_repos')
-  int privateRepos;
-
-  Plan(
-    this.name,
-    this.space,
-    this.collaborators,
-    this.privateRepos,
-  );
-
-  factory Plan.fromJson(Map<String, dynamic> srcJson) =>
-      _$PlanFromJson(srcJson);
-
-  get toJson => _$PlanToJson(this);
-}
+//@JsonSerializable()
+//class Plan {
+//  @JsonKey(name: 'name')
+//  String name;
+//
+//  @JsonKey(name: 'space')
+//  int space;
+//
+//  @JsonKey(name: 'collaborators')
+//  int collaborators;
+//
+//  @JsonKey(name: 'private_repos')
+//  int privateRepos;
+//
+//  Plan(
+//    this.name,
+//    this.space,
+//    this.collaborators,
+//    this.privateRepos,
+//  );
+//
+//  factory Plan.fromJson(Map<String, dynamic> srcJson) =>
+//      _$PlanFromJson(srcJson);
+//
+//  get toJson => _$PlanToJson(this);
+//}

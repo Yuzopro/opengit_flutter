@@ -64,7 +64,8 @@ class IssueBean {
 
   get toJson => _$IssueBeanToJson(this);
 
+  @override
   String toString() {
-    return 'IssueBean{number: $number, title: $title, commentNum: $commentNum, body: $body, user: $user}';
+    return 'IssueBean{title: $title, body: $body, reaction: $reaction}';
   }
 }

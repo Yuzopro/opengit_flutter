@@ -46,5 +46,4 @@ class ReactionBean extends Object {
   String toString() {
     return 'ReactionBean{totalCount: $totalCount, like: $like, noLike: $noLike, laugh: $laugh, hooray: $hooray, confused: $confused, heart: $heart, rocket: $rocket, eyes: $eyes}';
   }
-
 }

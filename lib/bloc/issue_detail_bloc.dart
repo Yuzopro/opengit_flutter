@@ -2,10 +2,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/bloc/base_bloc.dart';
 import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/issue_detail_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
+import 'package:open_git/bean/reaction_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
@@ -17,11 +17,11 @@ import 'package:open_git/route/navigator_util.dart';
 class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   static final String TAG = "IssueDetailBloc";
 
-  IssueBean issueBean;
+  final String url, num;
 
   bool _isInit = false;
 
-  IssueDetailBloc(this.issueBean) {
+  IssueDetailBloc(this.url, this.num) {
     bean = LoadingBean(isLoading: false, data: IssueDetailBean(comments: []));
   }
 
@@ -66,11 +66,10 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   String getTitle() {
-    String repoUrl = issueBean.repoUrl;
-    String title = (repoUrl.isNotEmpty && repoUrl.contains("/"))
-        ? repoUrl.substring(repoUrl.lastIndexOf("/") + 1)
+    String title = (url.isNotEmpty && url.contains("/"))
+        ? url.substring(url.lastIndexOf("/") + 1)
         : "";
-    return "$title # ${issueBean.number}";
+    return "$title # $num";
   }
 
   void updateLabels() {
@@ -86,9 +85,9 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     if (item == null ||
         item.user == null ||
         item.user.login == null ||
-        issueBean == null ||
-        issueBean.user == null ||
-        issueBean.user.login == null) {
+        bean.data.issueBean == null ||
+        bean.data.issueBean.user == null ||
+        bean.data.issueBean.user.login == null) {
       return false;
     }
 
@@ -113,8 +112,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   enterCommentEditor(BuildContext context, IssueBean item, bool isAdd) async {
-    final result = await NavigatorUtil.goEditIssueComment(
-        context, item, issueBean.repoUrl, isAdd);
+    final result =
+        await NavigatorUtil.goEditIssueComment(context, item, url, isAdd);
     if (isAdd) {
       _addSuccess(result);
     } else {
@@ -124,16 +123,19 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   goDeleteReaction(
       BuildContext context, IssueBean item, content, isIssue) async {
+    int id = isIssue ? item.number : item.id;
     final result = await NavigatorUtil.goDeleteReaction(
-        context, item, issueBean.repoUrl, content, isIssue);
-    _editSuccess(result);
+        context, url, content, isIssue, id);
+    if (result != null) {
+      _subtractionIssueBean(item, result);
+    }
   }
 
   void deleteIssueComment(IssueBean item) async {
     showLoading();
     int comment_id = item.id;
-    final response = await IssueManager.instance
-        .deleteIssueComment(issueBean.repoUrl, comment_id);
+    final response =
+        await IssueManager.instance.deleteIssueComment(url, comment_id);
     if (response != null && response.result) {
       bean.data.comments.remove(item);
       sink.add(bean);
@@ -155,7 +157,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       id = item.id;
     }
     final response = await IssueManager.instance
-        .getCommentReactions(issueBean.repoUrl, id, comment, 1, isIssue);
+        .getCommentReactions(url, id, comment, 1, isIssue);
     ReactionDetailBean findReaction = null;
     if (response != null) {
       UserBean userBean = LoginManager.instance.getUserBean();
@@ -185,8 +187,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     } else {
       id = item.id;
     }
-    final response = await IssueManager.instance
-        .editReactions(issueBean.repoUrl, id, comment, isIssue);
+    final response =
+        await IssueManager.instance.editReactions(url, id, comment, isIssue);
     if (response != null && response.result) {
       _addIssueBean(item, comment);
       sink.add(bean);
@@ -205,7 +207,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   Future _fetchIssueComments() async {
     try {
       var result = await IssueManager.instance
-          .getIssueComment(issueBean.repoUrl, issueBean.number, page);
+          .getIssueComment(url, num, page);
       if (bean.data == null) {
         bean.data.comments = List();
       }
@@ -230,13 +232,13 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   void _fetchIssueComment() async {
-    IssueBean result = await IssueManager.instance
-        .getSingleIssue(issueBean.repoUrl, issueBean.number);
+    IssueBean result =
+        await IssueManager.instance.getSingleIssue(url, num);
     bean.data.issueBean = result;
   }
 
   String getRepoAuthorName() {
-    String repoUrl = issueBean.repoUrl;
+    String repoUrl = url;
     return (repoUrl.isNotEmpty && repoUrl.contains("repos/"))
         ? repoUrl.substring(
             repoUrl.lastIndexOf("repos/") + 6, repoUrl.lastIndexOf("/"))
@@ -265,6 +267,9 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   IssueBean _addIssueBean(IssueBean issueBean, String comment) {
+    if (issueBean.reaction == null) {
+      issueBean.reaction = ReactionBean('', 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    }
     if ("+1" == comment) {
       issueBean.reaction.like++;
     } else if ("-1" == comment) {

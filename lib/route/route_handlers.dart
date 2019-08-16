@@ -2,12 +2,10 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bloc/contributor_bloc.dart';
 import 'package:open_git/bloc/event_bloc.dart';
 import 'package:open_git/bloc/followers_bloc.dart';
 import 'package:open_git/bloc/following_bloc.dart';
-import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/org_bloc.dart';
 import 'package:open_git/bloc/org_event_bloc.dart';
 import 'package:open_git/bloc/org_member_bloc.dart';
@@ -42,7 +40,6 @@ import 'package:open_git/ui/page/home/repos_page.dart';
 import 'package:open_git/ui/page/home/search_page.dart';
 import 'package:open_git/ui/page/issue/edit_comment_page.dart';
 import 'package:open_git/ui/page/issue/edit_issue_page.dart';
-import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/reaction_page.dart';
 import 'package:open_git/ui/page/login/login_page.dart';
 import 'package:open_git/ui/page/other/about_page.dart';
@@ -100,6 +97,7 @@ var loginHandler = Handler(
 var settingHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return SettingPage();
+//    return CanvasDemo();
 });
 
 var themeHandler = Handler(
@@ -259,12 +257,12 @@ var profileHandler = Handler(
 
 var issueDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  IssueDetailBloc bloc = IssueDetailBloc(
-      IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)));
-  return BlocProvider<IssueDetailBloc>(
-    child: IssueDetailPage(),
-    bloc: bloc,
-  );
+//  IssueDetailBloc bloc = IssueDetailBloc(
+//      IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)));
+//  return BlocProvider<IssueDetailBloc>(
+//    child: IssueDetailPage(),
+//    bloc: bloc,
+//  );
 });
 
 var cacheHandler = Handler(
@@ -377,8 +375,6 @@ var issueLabelHandler = Handler(
 //  String name = params["name"]?.first;
 //  String repo = FluroConvertUtil.fluroCnParamsDecode(params["repo"]?.first);
 //
-//  LogUtil.v('333 $repo');
-//
 //  return BlocProvider<LabelBloc>(
 //    child: LabelPage(),
 //    bloc: LabelBloc(name, repo),
@@ -456,30 +452,37 @@ var editProfileHandler = Handler(
 
 var editIssueHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String title = FluroUtil.decode(params["title"]?.first);
+  String body = FluroUtil.decode(params["body"]?.first);
+  String url = FluroUtil.decode(params["url"]?.first);
+  String num = FluroUtil.decode(params["num"]?.first);
+
   return EditIssuePage(
-    issueBean: IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)),
+    title: title,
+    body: body,
+    url: url,
+    num: num,
   );
 });
 
 var editCommentHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return EditCommentPage(
-    IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first)),
-    FluroUtil.decode(params["url"]?.first),
-    FluroUtil.string2Bool(params["isAdd"]?.first),
-  );
+  String body = FluroUtil.decode(params["body"]?.first);
+  String url = FluroUtil.decode(params["url"]?.first);
+  bool isAdd = FluroUtil.string2Bool(params["isAdd"]?.first);
+  String id = FluroUtil.decode(params["id"]?.first);
+
+  return EditCommentPage(body, url, isAdd, id);
 });
 
 var editReactionHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  IssueBean issueBean =
-      IssueBean.fromJson(FluroUtil.string2Map(params["issue"]?.first));
   String url = FluroUtil.decode(params["url"]?.first);
   String content = FluroUtil.decode(params["content"]?.first);
   bool isIssue = FluroUtil.string2Bool(params["isIssue"]?.first);
+  String id = FluroUtil.decode(params["id"]?.first);
 
-  ReactionBloc bloc = ReactionBloc(issueBean, url, content, isIssue);
-
+  ReactionBloc bloc = ReactionBloc(url, content, isIssue, id);
   return BlocProvider<ReactionBloc>(
     child: ReactionPage(),
     bloc: bloc,

@@ -49,13 +49,14 @@ class IssueDetailPage
   @override
   void openWebView(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    NavigatorUtil.goWebView(context, bloc.getTitle(), bloc.issueBean.htmlUrl);
+    NavigatorUtil.goWebView(
+        context, bloc.getTitle(), bloc.bean.data?.issueBean?.htmlUrl);
   }
 
   @override
   String getShareText(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    return bloc.issueBean.htmlUrl;
+    return bloc.bean.data?.issueBean?.htmlUrl;
   }
 
   @override
@@ -175,7 +176,7 @@ class IssueDetailPage
       ),
     ));
 
-    if (item != null && item.reaction == null) {
+    if (item != null && item.reaction != null) {
       _reactions.add(_reactionColumn(context, item, isIssue));
     }
 
@@ -261,8 +262,8 @@ class IssueDetailPage
       onSelected: (text) {
         bloc.editReactions(item, text, isIssue);
       },
-      child: ImageUtil.getImage(
-          ImagePath.image_comment_face, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
+      child: ImageUtil.getImage(ImagePath.image_comment_face,
+          YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       itemBuilder: (BuildContext context) => _reactionList
           .map(
             (_Reaction reaction) => PopupMenuItem<String>(
@@ -292,8 +293,8 @@ class IssueDetailPage
   Widget _buildEditAction(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     return InkWell(
-      child: ImageUtil.getImage(
-          ImagePath.image_comment_edit, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
+      child: ImageUtil.getImage(ImagePath.image_comment_edit,
+          YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       onTap: () {
         bloc.goEditIssue(context);
       },
@@ -311,8 +312,8 @@ class IssueDetailPage
           bloc.deleteIssueComment(item);
         }
       },
-      child: ImageUtil.getImage(
-          ImagePath.image_comment_menu, YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
+      child: ImageUtil.getImage(ImagePath.image_comment_menu,
+          YZSize.NORMAL_IMAGE_SIZE, YZSize.NORMAL_IMAGE_SIZE),
       itemBuilder: (BuildContext context) => _commentList
           .map(
             (String text) => PopupMenuItem<String>(
@@ -431,12 +432,12 @@ class IssueDetailPage
   @override
   Widget buildFloatingActionButton(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
-    if (bloc.issueBean == null) {
+    if (bloc.bean.data.issueBean == null) {
       return null;
     }
     return new FloatingActionButton(
       onPressed: () {
-        bloc.enterCommentEditor(context, bloc.issueBean, true);
+        bloc.enterCommentEditor(context, bloc.bean.data.issueBean, true);
       },
       backgroundColor: Colors.black,
       tooltip: 'add comment',
@@ -477,13 +478,13 @@ class IssueDetailPage
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     switch (value) {
       case "label":
-        String repoUrl = bloc.issueBean.repoUrl;
+        String repoUrl = bloc.url;
         LogUtil.v(repoUrl);
         String title = (repoUrl.isNotEmpty && repoUrl.contains("/"))
             ? repoUrl.substring(repoUrl.lastIndexOf("/") + 1)
             : "";
         await NavigatorUtil.goLabel(
-            context, title, bloc.issueBean.labels, bloc.issueBean.number);
+            context, title, bloc.bean.data?.issueBean?.labels, bloc.num);
         bloc.updateLabels();
         break;
       default:

@@ -2,20 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/label_bloc.dart';
-import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/routes.dart';
-import 'package:open_git/ui/page/issue/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
-import 'package:open_git/ui/page/issue/reaction_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavigatorUtil {
@@ -114,7 +110,8 @@ class NavigatorUtil {
 //    Application.router
 //        .navigateTo(context, AppRoutes.issue_detail + "?issue=$issue");
 
-    IssueDetailBloc bloc = IssueDetailBloc(issueBean);
+    IssueDetailBloc bloc = IssueDetailBloc(
+        issueBean.repoUrl, issueBean.number.toString());
     Navigator.push(
       context,
       CupertinoPageRoute(
@@ -129,53 +126,39 @@ class NavigatorUtil {
   //评论编辑页
   static goEditIssueComment(
       BuildContext context, IssueBean issueBean, repoUrl, isAdd) async {
-    String issue = FluroUtil.object2String(issueBean.toJson);
+    String body = FluroUtil.encode(issueBean.body);
     String url = FluroUtil.encode(repoUrl);
     String isAddStr = FluroUtil.encode(isAdd.toString());
+    int id = isAdd ? issueBean.number : issueBean.id;
 
     return Application.router.navigateTo(
         context,
         AppRoutes.edit_issue_comment +
-            "?issue=$issue&url=$url&isAdd=$isAddStr");
+            "?url=$url&body=$body&id=${FluroUtil.encode(id.toString())}&isAdd=$isAddStr");
   }
 
   //评论编辑页
-  static goDeleteReaction(BuildContext context, IssueBean issueBean, repoUrl,
-      content, isIssue) async {
-//    String issue = FluroUtil.object2String(issueBean.toJson);
-//    String url = FluroUtil.encode(repoUrl);
-//    String isIssueStr = FluroUtil.encode(isIssue.toString());
-//
-//    return Application.router.navigateTo(
-//        context,
-//        AppRoutes.edit_issue_reaction +
-//            "?issue=$issue&url=$url&content=${FluroUtil.encode(content)}&isIssue=$isIssueStr");
-    ReactionBloc bloc = ReactionBloc(issueBean, repoUrl, content, isIssue);
-    return Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => BlocProvider<ReactionBloc>(
-          child: ReactionPage(),
-          bloc: bloc,
-        ),
-      ),
-    );
+  static goDeleteReaction(
+      BuildContext context, repoUrl, content, isIssue, int id) async {
+    String url = FluroUtil.encode(repoUrl);
+    String idStr = FluroUtil.encode(id.toString());
+    String isIssueStr = FluroUtil.encode(isIssue.toString());
+
+    return Application.router.navigateTo(
+        context,
+        AppRoutes.edit_issue_reaction +
+            "?url=$url&content=${FluroUtil.encode(content)}&isIssue=$isIssueStr&id=$idStr");
   }
 
   //问题编辑页
   static goEditIssue(BuildContext context, IssueBean issueBean) {
-    return Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) => EditIssuePage(
-          issueBean: issueBean,
-        ),
-      ),
-    );
-//    String issue = FluroUtil.object2String(issueBean.toJson);
-//
-//    return Application.router
-//        .navigateTo(context, AppRoutes.edit_issue + "?issue=$issue");
+    String title = FluroUtil.encode(issueBean.title);
+    String body = FluroUtil.encode(issueBean.body);
+    String url = FluroUtil.encode(issueBean.repoUrl);
+    String num = FluroUtil.encode(issueBean.number.toString());
+
+    return Application.router.navigateTo(context,
+        AppRoutes.edit_issue + "?title=$title&body=$body&url=$url&num=$num");
   }
 
   //主题页

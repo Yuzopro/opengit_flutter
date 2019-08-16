@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/util/common_util.dart';
 
 class EditIssuePage extends StatefulWidget {
-  final IssueBean issueBean;
+  final String title, body, url, num;
 
-  const EditIssuePage({Key key, this.issueBean}) : super(key: key);
+  const EditIssuePage({Key key, this.title, this.body, this.url, this.num})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,13 +26,13 @@ class _EditIssueState extends State<EditIssuePage> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController.fromValue(
-        TextEditingValue(text: widget.issueBean.title));
-    _bodyController = TextEditingController.fromValue(
-        TextEditingValue(text: widget.issueBean.body));
+    _titleController =
+        TextEditingController.fromValue(TextEditingValue(text: widget.title));
+    _bodyController =
+        TextEditingController.fromValue(TextEditingValue(text: widget.body));
 
     _titleController.addListener(() {
-      if (_titleController.text.toString() == widget.issueBean.title) {
+      if (_titleController.text.toString() == widget.title) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -42,7 +41,7 @@ class _EditIssueState extends State<EditIssuePage> {
     });
 
     _bodyController.addListener(() {
-      if (_bodyController.text.toString() == widget.issueBean.body) {
+      if (_bodyController.text.toString() == widget.body) {
         _isEnable = false;
       } else {
         _isEnable = true;
@@ -127,11 +126,8 @@ class _EditIssueState extends State<EditIssuePage> {
 
   _editIssue() async {
     _showLoading();
-    final result = await IssueManager.instance.editIssue(
-        widget.issueBean.repoUrl,
-        widget.issueBean.number,
-        _titleController.text.toString(),
-        _bodyController.text.toString());
+    final result = await IssueManager.instance.editIssue(widget.url, widget.num,
+        _titleController.text.toString(), _bodyController.text.toString());
     _hideLoading();
     if (result != null) {
       Navigator.pop(context, result);

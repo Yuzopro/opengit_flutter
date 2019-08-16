@@ -112,9 +112,11 @@ class HttpRequest {
 
       if (response.statusCode >= HttpStatus.ok &&
           response.statusCode < HttpStatus.multipleChoices) {
-        CacheProvider provider = CacheProvider();
-        provider.insert(
-            url, jsonEncode(response.data), DateTime.now().toIso8601String());
+        if (builder._isCache) {
+          CacheProvider provider = CacheProvider();
+          provider.insert(
+              url, jsonEncode(response.data), DateTime.now().toIso8601String());
+        }
         LogUtil.v(
             'load data from network and success, url is ' + builder.getUrl(),
             tag: TAG);
