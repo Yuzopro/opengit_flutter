@@ -36,6 +36,7 @@ class UserMiddleware extends MiddlewareClass<AppState> {
   Future<Null> _init(Store<AppState> store, NextDispatcher next) async {
     await SpUtil.instance.init();
 
+    //初始化数据库，并进行删除操作
     CacheProvider provider = CacheProvider();
     await provider.delete();
 
@@ -64,7 +65,7 @@ class UserMiddleware extends MiddlewareClass<AppState> {
         SpUtil.instance.getString(SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
     next(InitCompleteAction(token, userBean, currentVersion != version));
-
+    //初始化本地数据
     ReposManager.instance.initLanguageColors();
   }
 

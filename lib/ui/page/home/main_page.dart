@@ -9,8 +9,8 @@ import 'package:open_git/bloc/event_bloc.dart';
 import 'package:open_git/bloc/home_bloc.dart';
 import 'package:open_git/bloc/issue_bloc.dart';
 import 'package:open_git/bloc/received_event_bloc.dart';
-import 'package:open_git/bloc/repos_bloc.dart';
-import 'package:open_git/bloc/repos_main_bloc.dart';
+import 'package:open_git/bloc/repo_bloc.dart';
+import 'package:open_git/bloc/repo_main_bloc.dart';
 import 'package:open_git/common/image_path.dart';
 import 'package:open_git/localizations/app_localizations.dart';
 import 'package:open_git/manager/login_manager.dart';
@@ -20,7 +20,7 @@ import 'package:open_git/ui/page/home/drawer_page.dart';
 import 'package:open_git/ui/page/home/event_page.dart';
 import 'package:open_git/ui/page/home/home_page.dart';
 import 'package:open_git/ui/page/home/issue_page.dart';
-import 'package:open_git/ui/page/home/repos_page.dart';
+import 'package:open_git/ui/page/home/repo_page.dart';
 import 'package:open_git/util/common_util.dart';
 import 'package:open_git/util/size_util.dart';
 
@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage>
   UserBean _userBean;
 
   HomeBloc _homeBloc;
-  ReposBloc _reposBloc;
+  RepoBloc _reposBloc;
   EventBloc _eventBloc;
   IssueBloc _issueBloc;
 
@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage>
     String userName = _userBean != null ? _userBean.login : "";
 
     _homeBloc = HomeBloc();
-    _reposBloc = ReposMainBloc(userName);
+    _reposBloc = RepoMainBloc(userName);
     _eventBloc = ReceivedEventBloc(userName);
     _issueBloc = IssueBloc();
   }
@@ -156,8 +156,8 @@ class _MainPageState extends State<MainPage>
                   child: HomePage(),
                   bloc: _homeBloc,
                 ),
-                BlocProvider<ReposBloc>(
-                  child: ReposPage(PageType.repos),
+                BlocProvider<RepoBloc>(
+                  child: RepoPage(PageType.repos),
                   bloc: _reposBloc,
                 ),
                 BlocProvider<EventBloc>(

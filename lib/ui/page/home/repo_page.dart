@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
-import 'package:open_git/bloc/repos_bloc.dart';
+import 'package:open_git/bloc/repo_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 
-class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
+class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
   static final String TAG = "ReposPage";
 
   final PageType type;
 
-  ReposPage(this.type);
+  RepoPage(this.type);
 
   @override
   PageType getPageType() {
@@ -41,7 +41,7 @@ class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
 
   @override
   void openWebView(BuildContext context) {
-    ReposBloc bloc = BlocProvider.of<ReposBloc>(context);
+    RepoBloc bloc = BlocProvider.of<RepoBloc>(context);
     String url;
     if (type == PageType.repos_user) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';
@@ -53,7 +53,7 @@ class ReposPage extends BaseListStatelessWidget<Repository, ReposBloc> {
 
   @override
   String getShareText(BuildContext context) {
-    ReposBloc bloc = BlocProvider.of<ReposBloc>(context);
+    RepoBloc bloc = BlocProvider.of<RepoBloc>(context);
     String url;
     if (type == PageType.repos_user) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';

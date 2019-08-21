@@ -10,18 +10,18 @@ import 'package:open_git/bloc/org_bloc.dart';
 import 'package:open_git/bloc/org_event_bloc.dart';
 import 'package:open_git/bloc/org_member_bloc.dart';
 import 'package:open_git/bloc/org_profile_bloc.dart';
-import 'package:open_git/bloc/org_repos_bloc.dart';
+import 'package:open_git/bloc/org_repo_bloc.dart';
 import 'package:open_git/bloc/profile_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
 import 'package:open_git/bloc/repo_fork_bloc.dart';
 import 'package:open_git/bloc/repo_issue_bloc.dart';
-import 'package:open_git/bloc/repos_bloc.dart';
-import 'package:open_git/bloc/repos_detail_bloc.dart';
-import 'package:open_git/bloc/repos_event_bloc.dart';
-import 'package:open_git/bloc/repos_file_bloc.dart';
-import 'package:open_git/bloc/repos_trend_bloc.dart';
-import 'package:open_git/bloc/repos_user_bloc.dart';
-import 'package:open_git/bloc/repos_user_star_bloc.dart';
+import 'package:open_git/bloc/repo_bloc.dart';
+import 'package:open_git/bloc/repo_detail_bloc.dart';
+import 'package:open_git/bloc/repo_event_bloc.dart';
+import 'package:open_git/bloc/repo_file_bloc.dart';
+import 'package:open_git/bloc/repo_trend_bloc.dart';
+import 'package:open_git/bloc/repo_user_bloc.dart';
+import 'package:open_git/bloc/repo_user_star_bloc.dart';
 import 'package:open_git/bloc/stargazer_bloc.dart';
 import 'package:open_git/bloc/subscriber_bloc.dart';
 import 'package:open_git/bloc/timeline_bloc.dart';
@@ -36,7 +36,7 @@ import 'package:open_git/ui/page/guide/guide_page.dart';
 import 'package:open_git/ui/page/guide/splash_page.dart';
 import 'package:open_git/ui/page/home/event_page.dart';
 import 'package:open_git/ui/page/home/main_page.dart';
-import 'package:open_git/ui/page/home/repos_page.dart';
+import 'package:open_git/ui/page/home/repo_page.dart';
 import 'package:open_git/ui/page/home/search_page.dart';
 import 'package:open_git/ui/page/issue/edit_comment_page.dart';
 import 'package:open_git/ui/page/issue/edit_issue_page.dart';
@@ -172,9 +172,9 @@ var reposDetailHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String reposOwner = FluroUtil.decode(params["reposOwner"]?.first);
   String reposName = FluroUtil.decode(params["reposName"]?.first);
-  return BlocProvider<ReposDetailBloc>(
+  return BlocProvider<RepoDetailBloc>(
     child: RepoDetailPage(),
-    bloc: ReposDetailBloc(reposOwner, reposName),
+    bloc: RepoDetailBloc(reposOwner, reposName),
   );
 });
 
@@ -183,9 +183,9 @@ var reposEventHandler = Handler(
   String reposOwner = FluroUtil.decode(params["reposOwner"]?.first);
   String reposName = FluroUtil.decode(params["reposName"]?.first);
 
-  return BlocProvider<ReposEventBloc>(
+  return BlocProvider<RepoEventBloc>(
     child: RepoEventPage(),
-    bloc: ReposEventBloc(reposOwner, reposName),
+    bloc: RepoEventBloc(reposOwner, reposName),
   );
 });
 
@@ -193,9 +193,9 @@ var reposTrendHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String language = FluroUtil.decode(params["language"]?.first);
 
-  return BlocProvider<ReposTrendBloc>(
+  return BlocProvider<RepoTrendBloc>(
     child: RepoTrendPage(),
-    bloc: ReposTrendBloc(language),
+    bloc: RepoTrendBloc(language),
   );
 });
 
@@ -205,9 +205,9 @@ var reposFileHandler = Handler(
   String reposName = FluroUtil.decode(params["reposName"]?.first);
   String branch = FluroUtil.decode(params["branch"]?.first);
 
-  return BlocProvider<ReposFileBloc>(
+  return BlocProvider<RepoFileBloc>(
     child: RepoFilePage(),
-    bloc: ReposFileBloc(reposOwner, reposName, branch),
+    bloc: RepoFileBloc(reposOwner, reposName, branch),
   );
 });
 
@@ -274,9 +274,9 @@ var profileReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = FluroUtil.decode(params["name"]?.first);
 
-  return BlocProvider<ReposBloc>(
-    child: ReposPage(PageType.repos_user),
-    bloc: ReposUserBloc(name),
+  return BlocProvider<RepoBloc>(
+    child: RepoPage(PageType.repos_user),
+    bloc: RepoUserBloc(name),
   );
 });
 
@@ -284,9 +284,9 @@ var profileStarReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = FluroUtil.decode(params["name"]?.first);
 
-  return BlocProvider<ReposBloc>(
-    child: ReposPage(PageType.repos_user_star),
-    bloc: ReposUserStarBloc(name),
+  return BlocProvider<RepoBloc>(
+    child: RepoPage(PageType.repos_user_star),
+    bloc: RepoUserStarBloc(name),
   );
 });
 
@@ -354,9 +354,9 @@ var orgReposHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   String name = FluroUtil.decode(params["name"]?.first);
 
-  return BlocProvider<ReposBloc>(
-    child: ReposPage(PageType.org_repos),
-    bloc: ReposOrgBloc(name),
+  return BlocProvider<RepoBloc>(
+    child: RepoPage(PageType.org_repos),
+    bloc: RepoOrgBloc(name),
   );
 });
 

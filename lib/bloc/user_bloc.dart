@@ -27,7 +27,7 @@ abstract class UserBloc extends BaseListBloc<UserBean> {
   @override
   void onReload() async {
     showLoading();
-    await _fetchFollowList();
+    await _fetchUserList();
     hideLoading();
 
     refreshStatusEvent();
@@ -35,11 +35,11 @@ abstract class UserBloc extends BaseListBloc<UserBean> {
 
   @override
   Future getData() async {
-    await _fetchFollowList();
+    await _fetchUserList();
   }
 
-  Future _fetchFollowList() async {
-    LogUtil.v('_fetchFollowList', tag: TAG);
+  Future _fetchUserList() async {
+    LogUtil.v('_fetchUserList', tag: TAG);
     try {
       var result = await fetchList(page);
       if (bean.data == null) {

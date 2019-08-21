@@ -4,14 +4,14 @@ import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trending_repos_bean.dart';
 import 'package:open_git/manager/trending_manager.dart';
 
-class TrendingReposBloc extends BaseListBloc<TrendingReposBean> {
+class TrendingRepoBloc extends BaseListBloc<TrendingReposBean> {
   static final String TAG = "TrendingReposBloc";
 
   String language, since;
 
   bool _isInit = false;
 
-  TrendingReposBloc(this.language, this.since);
+  TrendingRepoBloc(this.language, this.since);
 
   @override
   PageType getPageType() {

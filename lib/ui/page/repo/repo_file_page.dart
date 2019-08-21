@@ -5,14 +5,14 @@ import 'package:flutter_base_ui/bloc/loading_bean.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/source_file_bean.dart';
-import 'package:open_git/bloc/repos_file_bloc.dart';
+import 'package:open_git/bloc/repo_file_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class RepoFilePage
-    extends BaseListStatelessWidget<SourceFileBean, ReposFileBloc> {
+    extends BaseListStatelessWidget<SourceFileBean, RepoFileBloc> {
   @override
   String getTitle(BuildContext context) {
-    ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
+    RepoFileBloc bloc = BlocProvider.of<RepoFileBloc>(context);
     return bloc.reposName;
   }
 
@@ -21,7 +21,7 @@ class RepoFilePage
     return WillPopScope(
       child: super.build(context),
       onWillPop: () {
-        ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
+        RepoFileBloc bloc = BlocProvider.of<RepoFileBloc>(context);
         int length = bloc.fileStack.length;
         if (length > 0) {
           bloc.fetchPreDir();
@@ -50,7 +50,7 @@ class RepoFilePage
   @override
   Widget getHeader(
       BuildContext context, LoadingBean<List<SourceFileBean>> data) {
-    ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
+    RepoFileBloc bloc = BlocProvider.of<RepoFileBloc>(context);
     return ListTile(
       title: Text(bloc.getHeaderPath(), style: YZStyle.middleText),
     );
@@ -72,13 +72,12 @@ class RepoFilePage
   void _onItemClick(BuildContext context, SourceFileBean item) {
     bool isImage = ImageUtil.isImage(item.name);
     if (item.type == "dir") {
-      ReposFileBloc bloc = BlocProvider.of<ReposFileBloc>(context);
+      RepoFileBloc bloc = BlocProvider.of<RepoFileBloc>(context);
       bloc.fetchNextDir(item.name);
     } else if (isImage) {
       NavigatorUtil.goPhotoView(context, item.name, item.htmlUrl + "?raw=true");
     } else {
-      NavigatorUtil.goReposSourceCode(context, item.name,
-          ImageUtil.isImage(item.url) ? item.downloadUrl : item.url);
+      NavigatorUtil.goReposSourceCode(context, item.name, item.url);
     }
   }
 }

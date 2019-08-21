@@ -3,13 +3,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/trending_repos_bean.dart';
-import 'package:open_git/bloc/trending_repos_bloc.dart';
+import 'package:open_git/bloc/trending_repo_bloc.dart';
 import 'package:open_git/common/image_path.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class TrendingReposPage
-    extends BaseListStatelessWidget<TrendingReposBean, TrendingReposBloc> {
+    extends BaseListStatelessWidget<TrendingReposBean, TrendingRepoBloc> {
   static final String TAG = "TrendingReposPage";
 
   final String since;

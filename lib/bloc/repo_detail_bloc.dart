@@ -4,7 +4,7 @@ import 'package:open_git/bean/repos_detail_bean.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/status/status.dart';
 
-class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
+class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   static final String TAG = 'ReposDetailBloc';
 
   final String reposOwner;
@@ -12,7 +12,7 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
 
   bool _isInit = false;
 
-  ReposDetailBloc(this.reposOwner, this.reposName) {
+  RepoDetailBloc(this.reposOwner, this.reposName) {
     bean = LoadingBean(
         isLoading: false,
         data: ReposDetailBean(
@@ -126,7 +126,7 @@ class ReposDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     sink.add(bean);
   }
 
-  void fetchBranchs() async {
+  void fetchBranches() async {
     final response =
         await ReposManager.instance.getBranches(reposOwner, reposName);
     bean.data.branchs = response;

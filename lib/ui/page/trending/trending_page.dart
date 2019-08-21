@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_base_ui/style/common_style.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
-import 'package:open_git/bloc/trending_repos_bloc.dart';
+import 'package:open_git/bloc/trending_repo_bloc.dart';
 import 'package:open_git/bloc/trending_user_bloc.dart';
 import 'package:open_git/common/sp_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
@@ -26,7 +26,7 @@ class _TrendingPageState extends State<TrendingPage>
 
   String _language, _since;
 
-  TrendingReposBloc _reposBloc;
+  TrendingRepoBloc _reposBloc;
   TrendingUserBloc _userBloc;
 
   int _currentIndex = 0;
@@ -43,7 +43,7 @@ class _TrendingPageState extends State<TrendingPage>
 
     _tabController = new TabController(vsync: this, length: 2);
 
-    _reposBloc = TrendingReposBloc(_language, _since);
+    _reposBloc = TrendingRepoBloc(_language, _since);
     _userBloc = TrendingUserBloc(_language, _since);
   }
 
@@ -102,7 +102,7 @@ class _TrendingPageState extends State<TrendingPage>
         body: PageView(
           controller: _pageController,
           children: <Widget>[
-            BlocProvider<TrendingReposBloc>(
+            BlocProvider<TrendingRepoBloc>(
               child: TrendingReposPage(_since),
               bloc: _reposBloc,
             ),

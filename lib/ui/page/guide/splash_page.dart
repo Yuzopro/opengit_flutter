@@ -8,7 +8,6 @@ import 'package:open_git/redux/user/user_action.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:redux/redux.dart';
-import 'package:rxdart/rxdart.dart';
 
 class SplashPage extends StatelessWidget {
   @override

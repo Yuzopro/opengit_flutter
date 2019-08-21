@@ -5,10 +5,10 @@ import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/repos_manager.dart';
 
-class ReposTrendBloc extends BaseListBloc<Repository> {
+class RepoTrendBloc extends BaseListBloc<Repository> {
   final String language;
 
-  ReposTrendBloc(this.language);
+  RepoTrendBloc(this.language);
 
   bool _isInit = false;
 

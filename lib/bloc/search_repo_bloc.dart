@@ -4,8 +4,8 @@ import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/util/repos_util.dart';
 
-class SearchReposBloc extends SearchBloc<Repository> {
-  SearchReposBloc() : super('repositories');
+class SearchRepoBloc extends SearchBloc<Repository> {
+  SearchRepoBloc() : super('repositories');
 
   @override
   PageType getPageType() {

@@ -8,14 +8,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:open_git/bean/branch_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
-import 'package:open_git/bloc/repos_detail_bloc.dart';
+import 'package:open_git/bloc/repo_detail_bloc.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/markdown_widget.dart';
 import 'package:open_git/util/repos_util.dart';
 
 class RepoDetailPage
-    extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, ReposDetailBloc> {
+    extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, RepoDetailBloc> {
   @override
   PageType getPageType() {
     return PageType.repos_detail;
@@ -23,7 +23,7 @@ class RepoDetailPage
 
   @override
   String getTitle(BuildContext context) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
     return bloc.reposName;
   }
 
@@ -44,14 +44,14 @@ class RepoDetailPage
 
   @override
   void openWebView(BuildContext context) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
     NavigatorUtil.goWebView(
         context, bloc.reposName, bloc.bean.data.repos.htmlUrl);
   }
 
   @override
   String getShareText(BuildContext context) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
     return bloc.bean.data.repos.htmlUrl;
   }
 
@@ -183,7 +183,7 @@ class RepoDetailPage
 
   Widget _buildStarAndWatch(
       BuildContext context, ReposStatus starStatus, ReposStatus watchStatus) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
 
     return Row(
       children: <Widget>[
@@ -237,7 +237,7 @@ class RepoDetailPage
   }
 
   Widget _buildOtherCard(BuildContext context, Repository repo) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
 
     return Card(
       elevation: 2,
@@ -270,7 +270,7 @@ class RepoDetailPage
 
   Widget _buildBranchCard(
       BuildContext context, Repository repo, List<BranchBean> branches) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
 
     return Card(
       elevation: 2,
@@ -285,7 +285,7 @@ class RepoDetailPage
                 _buildBranchChildren(context, branches, repo.defaultBranch),
             onExpansionChanged: (isOpen) {
               if (isOpen) {
-                bloc.fetchBranchs();
+                bloc.fetchBranches();
               }
             },
           ),
@@ -335,8 +335,8 @@ class RepoDetailPage
           onTap: TextUtil.equals(branch.name, defaultBranch)
               ? null
               : () {
-                  ReposDetailBloc bloc =
-                      BlocProvider.of<ReposDetailBloc>(context);
+                  RepoDetailBloc bloc =
+                      BlocProvider.of<RepoDetailBloc>(context);
                   NavigatorUtil.goReposSourceFile(
                       context, bloc.reposOwner, bloc.reposName, branch.name);
                 },
@@ -353,7 +353,7 @@ class RepoDetailPage
   }
 
   Widget _buildReadmeCard(BuildContext context, String readme) {
-    ReposDetailBloc bloc = BlocProvider.of<ReposDetailBloc>(context);
+    RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
 
     return Card(
       elevation: 2,

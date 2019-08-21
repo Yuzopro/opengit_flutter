@@ -10,7 +10,7 @@ import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/bloc/search_issue_bloc.dart';
-import 'package:open_git/bloc/search_repos_bloc.dart';
+import 'package:open_git/bloc/search_repo_bloc.dart';
 import 'package:open_git/bloc/search_user_bloc.dart';
 import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
@@ -48,7 +48,7 @@ class _SearchPageState extends State<SearchPage>
     super.initState();
 
     _blocList = [
-      SearchReposBloc(),
+      SearchRepoBloc(),
       SearchUserBloc(),
       SearchIssueBloc(),
     ];
@@ -118,7 +118,7 @@ class _SearchPageState extends State<SearchPage>
           body: PageView(
             controller: _pageController,
             children: <Widget>[
-              BlocProvider<SearchReposBloc>(
+              BlocProvider<SearchRepoBloc>(
                 child: _SearchReposItem(),
                 bloc: _blocList[0],
               ),
@@ -158,7 +158,7 @@ abstract class _SearchItem<T, B extends BaseListBloc<T>>
   }
 }
 
-class _SearchReposItem extends _SearchItem<Repository, SearchReposBloc> {
+class _SearchReposItem extends _SearchItem<Repository, SearchRepoBloc> {
   @override
   PageType getPageType() {
     return PageType.search_repos;

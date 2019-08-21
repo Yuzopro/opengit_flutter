@@ -1,19 +1,21 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:open_git/bean/event_bean.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
+import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/common/config.dart';
-import 'package:open_git/manager/repos_manager.dart';
 
-class ReposEventBloc extends BaseListBloc<EventBean> {
-  final String reposOwner;
-  final String reposName;
+abstract class RepoBloc extends BaseListBloc<Repository> {
+  static final String TAG = "ReposBloc";
 
-  ReposEventBloc(this.reposOwner, this.reposName);
+  final String userName;
+
+  RepoBloc(this.userName);
+
+  fetchRepos(int page);
 
   bool _isInit = false;
 
-  void initData(BuildContext context) async {
+  void initData(BuildContext context) {
     if (_isInit) {
       return;
     }
@@ -25,7 +27,7 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
   @override
   void onReload() async {
     showLoading();
-    await _fetchEventList();
+    await _fetchReposList();
     hideLoading();
 
     refreshStatusEvent();
@@ -33,18 +35,13 @@ class ReposEventBloc extends BaseListBloc<EventBean> {
 
   @override
   Future getData() async {
-    await _fetchEventList();
+    await _fetchReposList();
   }
 
-  @override
-  PageType getPageType() {
-    return PageType.repos_event;
-  }
-
-  Future _fetchEventList() async {
+  Future _fetchReposList() async {
+    LogUtil.v('_fetchReposList', tag: TAG);
     try {
-      var result = await ReposManager.instance
-          .getReposEvents(reposOwner, reposName, page);
+      var result = await fetchRepos(page);
       if (bean.data == null) {
         bean.data = List();
       }

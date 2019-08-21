@@ -4,13 +4,13 @@ import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/source_file_bean.dart';
 import 'package:open_git/manager/repos_manager.dart';
 
-class ReposFileBloc extends BaseListBloc<SourceFileBean> {
+class RepoFileBloc extends BaseListBloc<SourceFileBean> {
   final String reposOwner, reposName, branch;
   List<String> fileStack;
 
   bool _isInit = false;
 
-  ReposFileBloc(this.reposOwner, this.reposName, this.branch) {
+  RepoFileBloc(this.reposOwner, this.reposName, this.branch) {
     fileStack = [];
   }
 
