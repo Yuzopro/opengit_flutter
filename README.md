@@ -182,7 +182,7 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 | **path_provider**          | **文件管理** |
 
 ## Android版安装包：
-[点击下载](https://github.com/Yuzopro/opengit_flutter/releases/download/1.2.0/opengit-release-1.2.0.apk)
+[点击下载](https://github.com/Yuzopro/opengit_flutter/releases/download/1.3.0/opengit-release-1.3.0)
 
 扫码下载
 
