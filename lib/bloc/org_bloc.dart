@@ -55,7 +55,5 @@ class OrgBloc extends BaseListBloc<OrgBean> {
     }
 
     sink.add(bean);
-
-    sink.add(bean);
   }
 }
