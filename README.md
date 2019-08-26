@@ -28,52 +28,92 @@ flutter install
 <table>
     <tr>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acaec0d91b?w=1600&h=2880&f=png&s=80120" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_splash.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acb00c0697?w=1080&h=1944&f=jpeg&s=130075" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_guide.png" width="210px"/>
+        </center></td>
+        <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_guide_1.png" width="210px"/>
         </center></td>
     </tr>
     <tr>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acc811e09a?w=1080&h=1944&f=jpeg&s=93369" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_guide_2.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acb0d675af?w=1600&h=2880&f=png&s=99981" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_guide_3.png" width="210px"/>
+        </center></td>
+        <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_guide_4.png" width="210px"/>
         </center></td>
     </tr>
     <tr>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acc7f96dc6?w=1080&h=1944&f=jpeg&s=89344" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_login.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ad44dc3ebf?w=1080&h=1944&f=jpeg&s=94746" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_home.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_repo.png" width="210px"/>
         </center></td>
     </tr>
     <tr>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506acc802891b?w=1080&h=1944&f=jpeg&s=106577" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_event.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ad97308e65?w=1600&h=2880&f=png&s=63654" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_issue.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_repo_detail.png" width="210px"/>
+        </center></td>
+    </tr>
+    <tr>
+    <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_issue_detail.png" width="210px"/>
+        </center></td>
+        <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_search_repo.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_search_user.png" width="210px"/>
         </center></td>
     </tr>
     <tr>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ad8bf8581a?w=1080&h=1944&f=jpeg&s=112009" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_search_issue.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ad5404025b?w=1080&h=1944&f=jpeg&s=88664" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_my_profile.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_user_profile_follow.png" width="210px"/>
         </center></td>
     </tr>
     <tr>
-        <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ae31c53235?w=1600&h=2880&f=png&s=83442" width="210px"/>
+    <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_user_profile_unfollow.png" width="210px"/>
         </center></td>
         <td ><center>
-            <img src="https://user-gold-cdn.xitu.io/2019/6/13/16b506ae361f22d2?w=1080&h=1944&f=jpeg&s=87580" width="210px"/>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_edit_profile.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_trending.png" width="210px"/>
         </center></td>
     </tr>
+    <tr>
+    <td ><center>
+           <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_trending_sort.png" width="210px"/>
+        </center></td>
+        <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_about.png" width="210px"/>
+        </center></td>
+         <td ><center>
+            <img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/introduce_opengit/opengit_setting.png" width="210px"/>
+        </center></td>
+    </tr>    
 </table>
 
 ## 1.0.0支持功能列表
