@@ -63,7 +63,6 @@ class EventItemWidget extends StatelessWidget {
     );
   }
 
-  //column1
   Widget _profileColumn(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
