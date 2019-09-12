@@ -29,8 +29,6 @@ abstract class RepoBloc extends BaseListBloc<Repository> {
     showLoading();
     await _fetchReposList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

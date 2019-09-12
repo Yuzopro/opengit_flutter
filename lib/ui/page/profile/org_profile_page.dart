@@ -24,8 +24,6 @@ const BOTTOM_BAR_HEIGHT = 200.0;
 
 class OrgProfilePage
     extends BaseStatelessWidget<LoadingBean<OrgBean>, OrgProfileBloc> {
-  @override
-  PageType getPageType() => PageType.org_profile;
 
   @override
   String getTitle(BuildContext context) {

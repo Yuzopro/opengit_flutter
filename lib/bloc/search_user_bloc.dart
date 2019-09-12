@@ -1,15 +1,9 @@
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
 
 class SearchUserBloc extends SearchBloc<UserBean> {
   SearchUserBloc() : super('users');
-
-  @override
-  PageType getPageType() {
-    return PageType.search_user;
-  }
 
   @override
   void dealResult(result) {

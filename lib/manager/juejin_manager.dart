@@ -1,6 +1,7 @@
 import 'package:open_git/bean/juejin_bean.dart';
 import 'package:open_git/http/api.dart';
 import 'package:open_git/http/http_request.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 
 class JueJinManager {
   factory JueJinManager() => _getInstance();

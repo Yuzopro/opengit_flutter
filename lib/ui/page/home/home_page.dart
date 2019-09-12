@@ -18,11 +18,6 @@ class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
   }
 
   @override
-  PageType getPageType() {
-    return PageType.home;
-  }
-
-  @override
   Widget buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {

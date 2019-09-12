@@ -27,18 +27,11 @@ class RepoEventBloc extends BaseListBloc<EventBean> {
     showLoading();
     await _fetchEventList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
   Future getData() async {
     await _fetchEventList();
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.repos_event;
   }
 
   Future _fetchEventList() async {

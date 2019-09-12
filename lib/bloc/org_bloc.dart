@@ -12,9 +12,6 @@ class OrgBloc extends BaseListBloc<OrgBean> {
   OrgBloc(this.name);
 
   @override
-  PageType getPageType() => PageType.profile_orgs;
-
-  @override
   void initData(BuildContext context) {
     if (_isInit) {
       return;

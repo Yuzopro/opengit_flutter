@@ -15,11 +15,6 @@ class RepoIssueBloc extends BaseListBloc<IssueBean> {
   RepoIssueBloc(this.owner, this.repo);
 
   @override
-  PageType getPageType() {
-    return PageType.repo_issue;
-  }
-
-  @override
   void initData(BuildContext context) {
     if (_isInit) {
       return;
@@ -34,8 +29,6 @@ class RepoIssueBloc extends BaseListBloc<IssueBean> {
     showLoading();
     await _fetchIssueList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

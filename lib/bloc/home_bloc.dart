@@ -17,13 +17,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
 
   bool _isInit = false;
 
-  HomeBloc() {}
-
-  @override
-  PageType getPageType() {
-    return PageType.home;
-  }
-
   void initData(BuildContext context) async {
     if (_isInit) {
       return;
@@ -40,8 +33,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     showLoading();
     await _fetchHomeList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -49,7 +40,7 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     await _fetchHomeList();
   }
 
-  Future _fetchHomeList() async {
+  _fetchHomeList() async {
     LogUtil.v('_fetchHomeList', tag: TAG);
     try {
       var result = await JueJinManager.instance.getJueJinList(page);

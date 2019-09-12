@@ -9,22 +9,19 @@ import 'package:open_git/ui/widget/event_item_widget.dart';
 class EventPage extends BaseListStatelessWidget<EventBean, EventBloc> {
   static final String TAG = "EventPage";
 
-  final PageType type;
+  final bool showBar;
 
-  EventPage(this.type);
+  EventPage(this.showBar);
 
   @override
   bool isShowAppBar() {
-    return type != PageType.received_event;
+    return showBar;
   }
 
   @override
   String getTitle(BuildContext context) {
     return AppLocalizations.of(context).currentlocal.event;
   }
-
-  @override
-  PageType getPageType() => type;
 
   @override
   Widget builderItem(BuildContext context, EventBean item) {

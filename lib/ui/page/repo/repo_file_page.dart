@@ -38,13 +38,8 @@ class RepoFilePage
   }
 
   @override
-  bool enablePullUp() {
+  bool enablePullUp(BuildContext context) {
     return false;
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.repos_source_file;
   }
 
   @override

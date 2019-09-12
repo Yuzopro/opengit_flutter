@@ -22,11 +22,6 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         ));
   }
 
-  @override
-  PageType getPageType() {
-    return PageType.repos_detail;
-  }
-
   void initData(BuildContext context) async {
     if (_isInit) {
       return;

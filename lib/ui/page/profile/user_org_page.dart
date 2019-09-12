@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
-import 'package:flutter_base_ui/bloc/page_type.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/org_bean.dart';
@@ -10,10 +9,6 @@ import 'package:open_git/common/image_path.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
-  @override
-  PageType getPageType() {
-    return PageType.profile_orgs;
-  }
 
   @override
   String getTitle(BuildContext context) {

@@ -12,7 +12,6 @@ import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/bloc/search_issue_bloc.dart';
 import 'package:open_git/bloc/search_repo_bloc.dart';
 import 'package:open_git/bloc/search_user_bloc.dart';
-import 'package:open_git/status/status.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 import 'package:open_git/ui/widget/user_item_widget.dart';
@@ -160,11 +159,6 @@ abstract class _SearchItem<T, B extends BaseListBloc<T>>
 
 class _SearchReposItem extends _SearchItem<Repository, SearchRepoBloc> {
   @override
-  PageType getPageType() {
-    return PageType.search_repos;
-  }
-
-  @override
   Widget builderItem(BuildContext context, Repository item) {
     return ReposItemWidget(item);
   }
@@ -172,22 +166,12 @@ class _SearchReposItem extends _SearchItem<Repository, SearchRepoBloc> {
 
 class _SearchUserItem extends _SearchItem<UserBean, SearchUserBloc> {
   @override
-  PageType getPageType() {
-    return PageType.search_user;
-  }
-
-  @override
   Widget builderItem(BuildContext context, UserBean item) {
     return UserItemWidget(item);
   }
 }
 
 class _SearchIssueItem extends _SearchItem<IssueBean, SearchIssueBloc> {
-  @override
-  PageType getPageType() {
-    return PageType.search_issue;
-  }
-
   @override
   Widget builderItem(BuildContext context, IssueBean item) {
     return IssueItemWidget(item);

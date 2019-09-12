@@ -11,9 +11,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
 
   Map<String, double> _letterOffsetMap = new Map();
 
-  @override
-  PageType getPageType() => PageType.trending_language;
-
   double getLetterHeight() => 48.0;
 
   double getItemHeight() => 56.0;
@@ -35,8 +32,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
     showLoading();
     await _fetchLanguageList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

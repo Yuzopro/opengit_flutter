@@ -5,10 +5,6 @@ import 'package:open_git/bloc/repo_issue_bloc.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 
 class RepoIssuePage extends BaseListStatelessWidget<IssueBean, RepoIssueBloc> {
-  @override
-  PageType getPageType() {
-    return PageType.repo_issue;
-  }
 
   @override
   String getTitle(BuildContext context) {

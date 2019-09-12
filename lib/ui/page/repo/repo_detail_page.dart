@@ -16,10 +16,6 @@ import 'package:open_git/util/repos_util.dart';
 
 class RepoDetailPage
     extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, RepoDetailBloc> {
-  @override
-  PageType getPageType() {
-    return PageType.repos_detail;
-  }
 
   @override
   String getTitle(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
-import 'package:flutter_base_ui/bloc/page_type.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -22,11 +21,6 @@ class LabelBloc extends BaseListBloc<Labels> {
   LabelBloc(this.repo, this.labels, this.issueNum) {
     UserBean userBean = LoginManager.instance.getUserBean();
     owner = userBean?.login;
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.issue_label;
   }
 
   void initData(BuildContext context) async {
@@ -119,8 +113,6 @@ class LabelBloc extends BaseListBloc<Labels> {
     showLoading();
     await _fetchLabelList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

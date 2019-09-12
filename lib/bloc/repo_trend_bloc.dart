@@ -26,18 +26,11 @@ class RepoTrendBloc extends BaseListBloc<Repository> {
     showLoading();
     await _fetchTrendList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
   Future getData() async {
     await _fetchTrendList();
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.repos_trend;
   }
 
   Future _fetchTrendList() async {

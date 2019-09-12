@@ -15,11 +15,6 @@ class RepoEventPage
   }
 
   @override
-  PageType getPageType() {
-    return PageType.repos_event;
-  }
-
-  @override
   Widget builderItem(BuildContext context, EventBean item) {
     return EventItemWidget(item);
   }

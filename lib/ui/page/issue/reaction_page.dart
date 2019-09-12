@@ -17,11 +17,6 @@ class ReactionPage
   }
 
   @override
-  PageType getPageType() {
-    return PageType.reaction;
-  }
-
-  @override
   Widget builderItem(BuildContext context, ReactionDetailBean item) {
     bool isYou = UserManager.instance.isYou(item.user.login);
 

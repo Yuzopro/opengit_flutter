@@ -29,8 +29,6 @@ abstract class UserBloc extends BaseListBloc<UserBean> {
     showLoading();
     await _fetchUserList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

@@ -1,21 +1,15 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/release_bean.dart';
 import 'package:open_git/common/config.dart';
 import 'package:open_git/manager/repos_manager.dart';
-import 'package:open_git/status/status.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 
 class TimelineBloc extends BaseListBloc<ReleaseBean> {
   static final String TAG = "TimelineBloc";
 
   bool _isInit = false;
-
-  @override
-  PageType getPageType() {
-    return PageType.timeline;
-  }
 
   @override
   void initData(BuildContext context) async {
@@ -32,8 +26,6 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
     showLoading();
     await _fetchTimeline();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

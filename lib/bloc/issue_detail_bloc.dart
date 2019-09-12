@@ -25,11 +25,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     bean = LoadingBean(isLoading: false, data: IssueDetailBean(comments: []));
   }
 
-  @override
-  PageType getPageType() {
-    return PageType.issue_detail;
-  }
-
   void onRefresh() async {
     page = 1;
     super.onRefresh();
@@ -56,8 +51,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     await _fetchIssueComment();
     await _fetchIssueComments();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override

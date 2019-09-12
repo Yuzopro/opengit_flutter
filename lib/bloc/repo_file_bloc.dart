@@ -20,11 +20,6 @@ class RepoFileBloc extends BaseListBloc<SourceFileBean> {
   }
 
   @override
-  PageType getPageType() {
-    return PageType.repos_source_file;
-  }
-
-  @override
   void initData(BuildContext context) async {
     if (_isInit) {
       return;
@@ -39,8 +34,6 @@ class RepoFileBloc extends BaseListBloc<SourceFileBean> {
     showLoading();
     await _fetchSourceFile();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   void fetchNextDir(String fileName) async {

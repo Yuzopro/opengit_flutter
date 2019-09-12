@@ -29,8 +29,6 @@ const BOTTOM_BAR_HEIGHT = 200.0;
 
 class UserProfilePage
     extends BaseStatelessWidget<LoadingBean<UserBean>, ProfileBloc> {
-  @override
-  PageType getPageType() => PageType.profile;
 
   @override
   String getTitle(BuildContext context) {

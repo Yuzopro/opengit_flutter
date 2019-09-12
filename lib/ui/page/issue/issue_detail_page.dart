@@ -35,9 +35,6 @@ class IssueDetailPage
   ];
 
   @override
-  PageType getPageType() => PageType.issue_detail;
-
-  @override
   String getTitle(BuildContext context) {
     IssueDetailBloc bloc = BlocProvider.of<IssueDetailBloc>(context);
     return bloc.getTitle();

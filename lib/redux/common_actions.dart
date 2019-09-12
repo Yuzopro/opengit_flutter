@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/status/status.dart';
 
@@ -17,12 +16,11 @@ class InitCompleteAction {
   final bool isGuide;
 }
 
-class RefreshAction {
-  final RefreshStatus refreshStatus;
-  final PageType type;
-
-  RefreshAction(this.refreshStatus, this.type);
-}
+//class RefreshAction {
+//  final RefreshStatus refreshStatus;
+//
+//  RefreshAction(this.refreshStatus, this.type);
+//}
 
 //刷新主题
 class RefreshThemeDataAction {

@@ -13,9 +13,6 @@ class OrgProfileBloc extends BaseBloc<LoadingBean<OrgBean>> {
   }
 
   @override
-  PageType getPageType() => PageType.org_profile;
-
-  @override
   void initData(BuildContext context) {
     if (_isInit) {
       return;

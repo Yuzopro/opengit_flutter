@@ -30,8 +30,6 @@ abstract class EventBloc extends BaseListBloc<EventBean> {
     showLoading();
     await _fetchEventList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
