@@ -19,8 +19,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   final String url, num;
 
-  bool _isInit = false;
-
   IssueDetailBloc(this.url, this.num) {
     bean = LoadingBean(isLoading: false, data: IssueDetailBean(comments: []));
   }
@@ -37,11 +35,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -71,7 +64,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       return;
     }
     bean.data.issueBean.labels = labels;
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   bool isEditAndDeleteEnable(IssueBean item) {
@@ -101,7 +94,8 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       return;
     }
     bean.data.issueBean = result;
-    sink.add(bean);
+
+    notifyDataChanged();
   }
 
   enterCommentEditor(BuildContext context, IssueBean item, bool isAdd) async {
@@ -131,7 +125,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
         await IssueManager.instance.deleteIssueComment(url, comment_id);
     if (response != null && response.result) {
       bean.data.comments.remove(item);
-      sink.add(bean);
     }
     hideLoading();
   }
@@ -184,7 +177,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
         await IssueManager.instance.editReactions(url, id, comment, isIssue);
     if (response != null && response.result) {
       _addIssueBean(item, comment);
-      sink.add(bean);
+      notifyDataChanged();
     }
     return response;
   }
@@ -193,7 +186,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       IssueBean issueBean, ReactionDetailBean item, content) async {
     final response = await IssueManager.instance.deleteReactions(item.id);
     _subtractionIssueBean(issueBean, content);
-    sink.add(bean);
+    notifyDataChanged();
     return response;
   }
 
@@ -215,8 +208,6 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;
@@ -288,7 +279,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
       return;
     }
     bean.data.comments.add(result);
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   void _editSuccess(IssueBean result) {
@@ -306,7 +297,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
     if (index != -1) {
       bean.data.comments.removeAt(index);
       bean.data.comments.insert(index, result);
-      sink.add(bean);
+      notifyDataChanged();
     }
   }
 }

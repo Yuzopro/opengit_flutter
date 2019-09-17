@@ -14,8 +14,6 @@ class LabelBloc extends BaseListBloc<Labels> {
   final int issueNum;
   List<Labels> labels;
 
-  bool _isInit = false;
-
   String owner;
 
   LabelBloc(this.repo, this.labels, this.issueNum) {
@@ -24,11 +22,6 @@ class LabelBloc extends BaseListBloc<Labels> {
   }
 
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -38,7 +31,7 @@ class LabelBloc extends BaseListBloc<Labels> {
     }
     if (bean.data != null) {
       bean.data.insert(0, label);
-      sink.add(bean);
+      notifyDataChanged();
     }
   }
 
@@ -64,7 +57,7 @@ class LabelBloc extends BaseListBloc<Labels> {
       if (deleteIndex != -1) {
         bean.data.removeAt(deleteIndex);
       }
-      sink.add(bean);
+      notifyDataChanged();
     }
   }
 
@@ -140,7 +133,6 @@ class LabelBloc extends BaseListBloc<Labels> {
         bean.isError = true;
       }
 
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

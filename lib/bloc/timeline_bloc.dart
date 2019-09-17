@@ -9,15 +9,8 @@ import 'package:open_git/manager/repos_manager.dart';
 class TimelineBloc extends BaseListBloc<ReleaseBean> {
   static final String TAG = "TimelineBloc";
 
-  bool _isInit = false;
-
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -53,8 +46,6 @@ class TimelineBloc extends BaseListBloc<ReleaseBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

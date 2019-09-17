@@ -15,14 +15,7 @@ import 'package:package_info/package_info.dart';
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";
 
-  bool _isInit = false;
-
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
 
     _checkUpgrade(context);
@@ -59,8 +52,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

@@ -26,7 +26,5 @@ class SearchUserBloc extends SearchBloc<UserBean> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 }

@@ -26,7 +26,5 @@ class SearchIssueBloc extends SearchBloc<IssueBean> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 }

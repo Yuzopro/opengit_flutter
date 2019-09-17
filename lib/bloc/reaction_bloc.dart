@@ -13,17 +13,10 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
   final String reposUrl, content, id;
   final bool isIssue;
 
-  bool _isInit = false;
-
   ReactionBloc(this.reposUrl, this.content, this.isIssue, this.id);
 
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -69,7 +62,6 @@ class ReactionBloc extends BaseListBloc<ReactionDetailBean> {
         bean.isError = true;
       }
 
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

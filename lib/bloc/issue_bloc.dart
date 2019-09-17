@@ -12,8 +12,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
 
   String filter, state, sort, direction;
 
-  bool _isInit = false;
-
   IssueBloc() {
     filter =
         SpUtil.instance.getString(SP_KEY_ISSUE_FILTER, defValue: 'assigned');
@@ -24,11 +22,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
   }
 
   initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -76,8 +69,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

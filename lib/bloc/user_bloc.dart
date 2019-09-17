@@ -9,18 +9,11 @@ abstract class UserBloc extends BaseListBloc<UserBean> {
 
   final String userName;
 
-  bool _isInit = false;
-
   UserBloc(this.userName);
 
   fetchList(int page);
 
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -55,8 +48,6 @@ abstract class UserBloc extends BaseListBloc<UserBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

@@ -10,8 +10,6 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   final String reposOwner;
   final String reposName;
 
-  bool _isInit = false;
-
   RepoDetailBloc(this.reposOwner, this.reposName) {
     bean = LoadingBean(
         isLoading: false,
@@ -23,11 +21,6 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
   }
 
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -54,8 +47,6 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
       bean.isError = false;
     }
 
-    sink.add(bean);
-
     _fetchStarStatus();
     _fetchWatchStatus();
   }
@@ -66,7 +57,7 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     bean.data.starStatus =
         response.result ? ReposStatus.active : ReposStatus.inactive;
 
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   Future _fetchWatchStatus() async {
@@ -75,14 +66,14 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     bean.data.watchStatus =
         response.result ? ReposStatus.active : ReposStatus.inactive;
 
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   void changeStarStatus() async {
     bool isEnable = bean.data.starStatus == ReposStatus.active;
 
     bean.data.starStatus = ReposStatus.loading;
-    sink.add(bean);
+    notifyDataChanged();
 
     final response = await ReposManager.instance
         .doReposStarAction(reposOwner, reposName, isEnable);
@@ -93,14 +84,14 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         bean.data.starStatus = ReposStatus.active;
       }
     }
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   void changeWatchStatus() async {
     bool isEnable = bean.data.watchStatus == ReposStatus.active;
 
     bean.data.watchStatus = ReposStatus.loading;
-    sink.add(bean);
+    notifyDataChanged();
 
     final response = await ReposManager.instance
         .doReposWatcherAction(reposOwner, reposName, isEnable);
@@ -111,20 +102,22 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         bean.data.watchStatus = ReposStatus.active;
       }
     }
-    sink.add(bean);
+    notifyDataChanged();
   }
 
   void fetchReadme() async {
     final response =
         await ReposManager.instance.getReadme("$reposOwner/$reposName", null);
     bean.data.readme = response.data;
-    sink.add(bean);
+
+    notifyDataChanged();
   }
 
   void fetchBranches() async {
     final response =
         await ReposManager.instance.getBranches(reposOwner, reposName);
     bean.data.branchs = response;
-    sink.add(bean);
+
+    notifyDataChanged();
   }
 }

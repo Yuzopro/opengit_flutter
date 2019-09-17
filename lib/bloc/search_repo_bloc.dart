@@ -29,7 +29,5 @@ class SearchRepoBloc extends SearchBloc<Repository> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 }

@@ -9,17 +9,10 @@ class TrendingRepoBloc extends BaseListBloc<TrendingReposBean> {
 
   String language, since;
 
-  bool _isInit = false;
-
   TrendingRepoBloc(this.language, this.since);
 
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -58,7 +51,6 @@ class TrendingRepoBloc extends BaseListBloc<TrendingReposBean> {
       } else {
         bean.isError = true;
       }
-      sink.add(bean);
     } catch (_) {}
   }
 }

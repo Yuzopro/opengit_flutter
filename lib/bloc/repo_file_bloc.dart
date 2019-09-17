@@ -8,8 +8,6 @@ class RepoFileBloc extends BaseListBloc<SourceFileBean> {
   final String reposOwner, reposName, branch;
   List<String> fileStack;
 
-  bool _isInit = false;
-
   RepoFileBloc(this.reposOwner, this.reposName, this.branch) {
     fileStack = [];
   }
@@ -21,11 +19,6 @@ class RepoFileBloc extends BaseListBloc<SourceFileBean> {
 
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -69,8 +62,6 @@ class RepoFileBloc extends BaseListBloc<SourceFileBean> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 
   String getHeaderPath() {

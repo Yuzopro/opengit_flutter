@@ -10,14 +10,7 @@ class RepoTrendBloc extends BaseListBloc<Repository> {
 
   RepoTrendBloc(this.language);
 
-  bool _isInit = false;
-
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -51,8 +44,6 @@ class RepoTrendBloc extends BaseListBloc<Repository> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

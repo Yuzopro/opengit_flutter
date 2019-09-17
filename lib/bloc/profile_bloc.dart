@@ -7,19 +7,12 @@ import 'package:open_git/manager/user_manager.dart';
 class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
   final String name;
 
-  bool _isInit = false;
-
   ProfileBloc(this.name) {
     bean = new LoadingBean(isLoading: false);
   }
 
   @override
   void initData(BuildContext context) {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -37,7 +30,6 @@ class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
   Future getData() async {
     await _fetchProfile();
     await _fetchFollow();
-    sink.add(bean);
   }
 
   @override
@@ -45,7 +37,6 @@ class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
     showLoading();
     await _fetchProfile();
     await _fetchFollow();
-    sink.add(bean);
     hideLoading();
   }
 
@@ -75,7 +66,6 @@ class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
     final response = await UserManager.instance.follow(name);
     if (response != null && response.result) {
       bean.data.isFollow = true;
-      sink.add(bean);
     } else {
       ToastUtil.showMessgae('操作失败请重试');
     }
@@ -85,7 +75,6 @@ class ProfileBloc extends BaseBloc<LoadingBean<UserBean>> {
     final response = await UserManager.instance.unFollow(name);
     if (response != null && response.result) {
       bean.data.isFollow = false;
-      sink.add(bean);
     } else {
       ToastUtil.showMessgae('操作失败请重试');
     }
