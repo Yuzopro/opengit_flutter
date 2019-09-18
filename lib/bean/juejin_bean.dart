@@ -40,7 +40,7 @@ class D extends Object {
 }
 
 @JsonSerializable()
-class Entrylist extends Object {
+class Entrylist {
   @JsonKey(name: 'collectionCount')
   int collectionCount;
 
@@ -183,6 +183,8 @@ class Entrylist extends Object {
   factory Entrylist.fromJson(Map<String, dynamic> srcJson) =>
       _$EntrylistFromJson(srcJson);
 
+  get toJson => _$EntrylistToJson(this);
+
   @override
   String toString() {
     return 'Entrylist{collectionCount: $collectionCount, userRankIndex: $userRankIndex, buildTime: $buildTime, commentsCount: $commentsCount, gfw: $gfw, objectId: $objectId, checkStatus: $checkStatus, isEvent: $isEvent, entryView: $entryView, subscribersCount: $subscribersCount, ngxCachedTime: $ngxCachedTime, verifyStatus: $verifyStatus, tags: $tags, updatedAt: $updatedAt, rankIndex: $rankIndex, hot: $hot, autoPass: $autoPass, originalUrl: $originalUrl, verifyCreatedAt: $verifyCreatedAt, createdAt: $createdAt, user: $user, author: $author, screenshot: $screenshot, original: $original, hotIndex: $hotIndex, content: $content, title: $title, lastCommentTime: $lastCommentTime, type: $type, english: $english, category: $category, viewsCount: $viewsCount, summaryInfo: $summaryInfo, isCollected: $isCollected}';
@@ -212,6 +214,8 @@ class Tags extends Object {
 
   factory Tags.fromJson(Map<String, dynamic> srcJson) =>
       _$TagsFromJson(srcJson);
+
+  get toJson => _$TagsToJson(this);
 }
 
 @JsonSerializable()
@@ -301,6 +305,8 @@ class User extends Object {
 
   factory User.fromJson(Map<String, dynamic> srcJson) =>
       _$UserFromJson(srcJson);
+
+  get toJson => _$UserToJson(this);
 }
 
 @JsonSerializable()
@@ -314,6 +320,8 @@ class Community extends Object {
 
   factory Community.fromJson(Map<String, dynamic> srcJson) =>
       _$CommunityFromJson(srcJson);
+
+  get toJson => _$CommunityToJson(this);
 }
 
 @JsonSerializable()
@@ -335,6 +343,8 @@ class Github extends Object {
 
   factory Github.fromJson(Map<String, dynamic> srcJson) =>
       _$GithubFromJson(srcJson);
+
+  get toJson => _$GithubToJson(this);
 }
 
 @JsonSerializable()
@@ -364,4 +374,6 @@ class Category extends Object {
 
   factory Category.fromJson(Map<String, dynamic> srcJson) =>
       _$CategoryFromJson(srcJson);
+
+  get toJson => _$CategoryToJson(this);
 }

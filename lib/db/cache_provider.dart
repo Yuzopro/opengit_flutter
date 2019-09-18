@@ -60,11 +60,9 @@ class CacheProvider extends BaseDbProvider {
   }
 
   Future insert(String url, String data, String date) async {
-//    LogUtil.v('insert $url', tag: TAG);
     Database db = await getDataBase();
     var provider = await _getProvider(db, url);
     if (provider != null) {
-//      LogUtil.v('insert provider is not null', tag: TAG);
       await db.delete(name, where: "$columnUrl = ?", whereArgs: [url]);
     }
 
@@ -72,7 +70,6 @@ class CacheProvider extends BaseDbProvider {
   }
 
   Future query(String url) async {
-//    LogUtil.v('query $url', tag: TAG);
     Database db = await getDataBase();
 
     var provider = await _getProvider(db, url);

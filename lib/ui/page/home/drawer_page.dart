@@ -86,6 +86,14 @@ class _DrawerPageState extends State<DrawerPage> {
             },
           ),
           ListTile(
+            title: Text(AppLocalizations.of(context).currentlocal.track,
+                style: YZStyle.middleText),
+            leading: Icon(Icons.directions_run, color: Colors.grey),
+            onTap: () {
+              NavigatorUtil.goTrack(context);
+            },
+          ),
+          ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.setting,
                 style: YZStyle.middleText),
             leading: Icon(Icons.settings, color: Colors.grey),

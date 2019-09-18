@@ -141,4 +141,7 @@ class EnString extends AppBaseString {
 
   @override
   String get profile => 'Profile';
+
+  @override
+  String get track => 'Track';
 }

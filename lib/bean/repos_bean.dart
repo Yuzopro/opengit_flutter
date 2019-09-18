@@ -143,6 +143,8 @@ class Repository {
   factory Repository.fromJson(Map<String, dynamic> json) =>
       _$RepositoryFromJson(json);
 
+  get toJson => _$RepositoryToJson(this);
+
   Repository.empty();
 
   @override

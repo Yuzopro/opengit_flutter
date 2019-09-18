@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
+import 'package:open_git/db/read_record_provider.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/status/status.dart';
 
@@ -41,6 +45,8 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         await ReposManager.instance.getReposDetail(reposOwner, reposName);
     bean.data.repos = repos;
 
+   await _saveDb(repos);
+
     if (repos == null) {
       bean.isError = true;
     } else {
@@ -49,6 +55,23 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
 
     _fetchStarStatus();
     _fetchWatchStatus();
+  }
+
+  Future _saveDb(Repository item) async {
+    if (item != null) {
+      String url = item.htmlUrl;
+      String owner = item.owner.login;
+      String name = item.name;
+
+      await ReadRecordProvider().insert(
+        url: url,
+        repoOwner: owner,
+        repoName: name,
+        date: DateTime.now().millisecondsSinceEpoch,
+        type: ReadRecordProvider.TYPE_REPO,
+        data: jsonEncode(item.toJson),
+      );
+    }
   }
 
   Future _fetchStarStatus() async {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base_ui/bloc/base_bloc.dart';
 import 'package:flutter_base_ui/bloc/loading_bean.dart';
@@ -9,6 +11,7 @@ import 'package:open_git/bean/reaction_bean.dart';
 import 'package:open_git/bean/reaction_detail_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/config.dart';
+import 'package:open_git/db/read_record_provider.dart';
 import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/user_manager.dart';
@@ -192,8 +195,7 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
 
   Future _fetchIssueComments() async {
     try {
-      var result = await IssueManager.instance
-          .getIssueComment(url, num, page);
+      var result = await IssueManager.instance.getIssueComment(url, num, page);
       if (bean.data == null) {
         bean.data.comments = List();
       }
@@ -216,9 +218,21 @@ class IssueDetailBloc extends BaseBloc<LoadingBean<IssueDetailBean>> {
   }
 
   void _fetchIssueComment() async {
-    IssueBean result =
-        await IssueManager.instance.getSingleIssue(url, num);
+    IssueBean result = await IssueManager.instance.getSingleIssue(url, num);
     bean.data.issueBean = result;
+    await _saveDb(result);
+  }
+
+  Future _saveDb(IssueBean item) async {
+    if (item != null) {
+      await ReadRecordProvider().insert(
+        url: item.repoUrl,
+        number: item.number.toString(),
+        date: DateTime.now().millisecondsSinceEpoch,
+        type: ReadRecordProvider.TYPE_ISSUE,
+        data: jsonEncode(item.toJson),
+      );
+    }
   }
 
   String getRepoAuthorName() {

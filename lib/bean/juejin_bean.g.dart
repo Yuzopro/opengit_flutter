@@ -95,7 +95,7 @@ Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
       'subscribersCount': instance.subscribersCount,
       'ngxCachedTime': instance.ngxCachedTime,
       'verifyStatus': instance.verifyStatus,
-      'tags': instance.tags,
+//      'tags': instance.tags,
       'updatedAt': instance.updatedAt,
       'rankIndex': instance.rankIndex,
       'hot': instance.hot,
@@ -103,7 +103,7 @@ Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
       'originalUrl': instance.originalUrl,
       'verifyCreatedAt': instance.verifyCreatedAt,
       'createdAt': instance.createdAt,
-      'user': instance.user,
+      'user': instance.user.toJson,
       'author': instance.author,
       'screenshot': instance.screenshot,
       'original': instance.original,
@@ -113,7 +113,7 @@ Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
       'lastCommentTime': instance.lastCommentTime,
       'type': instance.type,
       'english': instance.english,
-      'category': instance.category,
+      'category': instance.category.toJson,
       'viewsCount': instance.viewsCount,
       'summaryInfo': instance.summaryInfo,
       'isCollected': instance.isCollected,
@@ -163,7 +163,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'community': instance.community,
+      'community': instance.community.toJson,
       'collectedEntriesCount': instance.collectedEntriesCount,
       'company': instance.company,
       'followersCount': instance.followersCount,
@@ -194,7 +194,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
-      'github': instance.github,
+      'github': instance.github.toJson,
     };
 
 Github _$GithubFromJson(Map<String, dynamic> json) {

@@ -46,4 +46,5 @@ abstract class AppBaseString {
   String sign_up;
   String sign_text;
   String profile;
+  String track;
 }
