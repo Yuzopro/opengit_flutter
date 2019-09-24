@@ -103,7 +103,7 @@ Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
       'originalUrl': instance.originalUrl,
       'verifyCreatedAt': instance.verifyCreatedAt,
       'createdAt': instance.createdAt,
-      'user': instance.user.toJson,
+      'user': instance.user?.toJson,
       'author': instance.author,
       'screenshot': instance.screenshot,
       'original': instance.original,
@@ -113,7 +113,7 @@ Map<String, dynamic> _$EntrylistToJson(Entrylist instance) => <String, dynamic>{
       'lastCommentTime': instance.lastCommentTime,
       'type': instance.type,
       'english': instance.english,
-      'category': instance.category.toJson,
+      'category': instance.category?.toJson,
       'viewsCount': instance.viewsCount,
       'summaryInfo': instance.summaryInfo,
       'isCollected': instance.isCollected,
@@ -163,7 +163,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'community': instance.community.toJson,
+      'community': instance.community?.toJson,
       'collectedEntriesCount': instance.collectedEntriesCount,
       'company': instance.company,
       'followersCount': instance.followersCount,
@@ -194,7 +194,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
-      'github': instance.github.toJson,
+      'github': instance.github?.toJson,
     };
 
 Github _$GithubFromJson(Map<String, dynamic> json) {
