@@ -12,16 +12,9 @@ abstract class EventBloc extends BaseListBloc<EventBean> {
 
   EventBloc(this.userName);
 
-  bool _isInit = false;
-
   fetchEvent(int page);
 
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -30,8 +23,6 @@ abstract class EventBloc extends BaseListBloc<EventBean> {
     showLoading();
     await _fetchEventList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -58,8 +49,6 @@ abstract class EventBloc extends BaseListBloc<EventBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

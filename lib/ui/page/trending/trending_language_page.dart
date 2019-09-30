@@ -9,9 +9,6 @@ class TrendingLanguagePage extends BaseListStatelessWidget<TrendingLanguageBean,
   static final String TAG = "TrendingLanguagePage";
 
   @override
-  PageType getPageType() => PageType.trending_language;
-
-  @override
   String getTitle(BuildContext context) => 'Language';
 
   @override

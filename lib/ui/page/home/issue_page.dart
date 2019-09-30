@@ -29,11 +29,6 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
   }
 
   @override
-  PageType getPageType() {
-    return PageType.issue;
-  }
-
-  @override
   Widget getHeader(BuildContext context, LoadingBean<List<IssueBean>> data) {
     IssueBloc bloc = BlocProvider.of<IssueBloc>(context);
 

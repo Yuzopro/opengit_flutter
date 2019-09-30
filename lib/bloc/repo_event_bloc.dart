@@ -11,14 +11,7 @@ class RepoEventBloc extends BaseListBloc<EventBean> {
 
   RepoEventBloc(this.reposOwner, this.reposName);
 
-  bool _isInit = false;
-
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -27,18 +20,11 @@ class RepoEventBloc extends BaseListBloc<EventBean> {
     showLoading();
     await _fetchEventList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
   Future getData() async {
     await _fetchEventList();
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.repos_event;
   }
 
   Future _fetchEventList() async {
@@ -60,8 +46,6 @@ class RepoEventBloc extends BaseListBloc<EventBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

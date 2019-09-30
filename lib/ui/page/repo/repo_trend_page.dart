@@ -15,11 +15,6 @@ class RepoTrendPage
   }
 
   @override
-  PageType getPageType() {
-    return PageType.repos_trend;
-  }
-
-  @override
   Widget builderItem(BuildContext context, Repository item) {
     return ReposItemWidget(item);
   }

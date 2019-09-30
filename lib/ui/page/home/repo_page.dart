@@ -9,24 +9,25 @@ import 'package:open_git/ui/widget/repos_item_widget.dart';
 class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
   static final String TAG = "ReposPage";
 
-  final PageType type;
+  static final int PAGE_HOME = 0;
+  static final int PAGE_USER = 1;
+  static final int PAGE_USER_STAR = 2;
+  static final int PAGE_ORG = 3;
 
-  RepoPage(this.type);
 
-  @override
-  PageType getPageType() {
-    return type;
-  }
+  final int page;
+
+  RepoPage(this.page);
 
   @override
   bool isShowAppBar() {
-    return type != PageType.repos;
+    return page != PAGE_HOME;
   }
 
   @override
   String getTitle(BuildContext context) {
     String title;
-    if (type == PageType.repos_user_star) {
+    if (page == PAGE_USER_STAR) {
       title = 'star项目';
     } else {
       title = '项目';
@@ -36,14 +37,14 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
 
   @override
   bool isShowAppBarActions() {
-    return type != PageType.org_repos;
+    return page != PAGE_ORG;
   }
 
   @override
   void openWebView(BuildContext context) {
     RepoBloc bloc = BlocProvider.of<RepoBloc>(context);
     String url;
-    if (type == PageType.repos_user) {
+    if (page == PAGE_USER) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';
     } else {
       url = 'https://github.com/${bloc.userName}?tab=stars';
@@ -55,7 +56,7 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
   String getShareText(BuildContext context) {
     RepoBloc bloc = BlocProvider.of<RepoBloc>(context);
     String url;
-    if (type == PageType.repos_user) {
+    if (page == PAGE_USER) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';
     } else {
       url = 'https://github.com/${bloc.userName}?tab=stars';

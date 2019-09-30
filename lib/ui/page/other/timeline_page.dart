@@ -23,9 +23,4 @@ class TimelinePage extends BaseListStatelessWidget<ReleaseBean, TimelineBloc> {
       },
     );
   }
-
-  @override
-  PageType getPageType() {
-    return PageType.timeline;
-  }
 }

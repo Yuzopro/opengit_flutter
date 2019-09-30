@@ -15,21 +15,7 @@ import 'package:package_info/package_info.dart';
 class HomeBloc extends BaseListBloc<Entrylist> {
   static final String TAG = "HomeBloc";
 
-  bool _isInit = false;
-
-  HomeBloc() {}
-
-  @override
-  PageType getPageType() {
-    return PageType.home;
-  }
-
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
 
     _checkUpgrade(context);
@@ -40,8 +26,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     showLoading();
     await _fetchHomeList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -49,7 +33,7 @@ class HomeBloc extends BaseListBloc<Entrylist> {
     await _fetchHomeList();
   }
 
-  Future _fetchHomeList() async {
+  _fetchHomeList() async {
     LogUtil.v('_fetchHomeList', tag: TAG);
     try {
       var result = await JueJinManager.instance.getJueJinList(page);
@@ -68,8 +52,6 @@ class HomeBloc extends BaseListBloc<Entrylist> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

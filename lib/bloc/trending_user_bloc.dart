@@ -9,22 +9,10 @@ class TrendingUserBloc extends BaseListBloc<TrendingUserBean> {
 
   String language, since;
 
-  bool _isInit = false;
-
   TrendingUserBloc(this.language, this.since);
 
   @override
-  PageType getPageType() {
-    return PageType.trending_user;
-  }
-
-  @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -33,8 +21,6 @@ class TrendingUserBloc extends BaseListBloc<TrendingUserBean> {
     showLoading();
     await _fetchTrendList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   void refreshData({String language, String since}) async {
@@ -65,7 +51,6 @@ class TrendingUserBloc extends BaseListBloc<TrendingUserBean> {
       } else {
         bean.isError = true;
       }
-      sink.add(bean);
     } catch (_) {}
   }
 }

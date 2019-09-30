@@ -17,11 +17,6 @@ class TrendingReposPage
   TrendingReposPage(this.since);
 
   @override
-  PageType getPageType() {
-    return PageType.trending_repos;
-  }
-
-  @override
   bool isShowAppBar() {
     return false;
   }

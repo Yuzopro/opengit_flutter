@@ -1,14 +1,8 @@
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/manager/user_manager.dart';
 
 class FollowingBloc extends UserBloc {
   FollowingBloc(String userName) : super(userName);
-
-  @override
-  PageType getPageType() {
-    return PageType.following;
-  }
 
   @override
   fetchList(int page) async {

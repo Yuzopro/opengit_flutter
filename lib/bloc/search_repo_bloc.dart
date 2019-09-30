@@ -1,4 +1,3 @@
-import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bloc/search_bloc.dart';
 import 'package:open_git/common/config.dart';
@@ -6,11 +5,6 @@ import 'package:open_git/util/repos_util.dart';
 
 class SearchRepoBloc extends SearchBloc<Repository> {
   SearchRepoBloc() : super('repositories');
-
-  @override
-  PageType getPageType() {
-    return PageType.search_repos;
-  }
 
   @override
   void dealResult(result) {
@@ -35,7 +29,5 @@ class SearchRepoBloc extends SearchBloc<Repository> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 }

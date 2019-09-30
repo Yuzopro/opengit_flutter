@@ -10,22 +10,10 @@ class RepoIssueBloc extends BaseListBloc<IssueBean> {
 
   final String owner, repo;
 
-  bool _isInit = false;
-
   RepoIssueBloc(this.owner, this.repo);
 
   @override
-  PageType getPageType() {
-    return PageType.repo_issue;
-  }
-
-  @override
   void initData(BuildContext context) {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -34,8 +22,6 @@ class RepoIssueBloc extends BaseListBloc<IssueBean> {
     showLoading();
     await _fetchIssueList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -62,8 +48,6 @@ class RepoIssueBloc extends BaseListBloc<IssueBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

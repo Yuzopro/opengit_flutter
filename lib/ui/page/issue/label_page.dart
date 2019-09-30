@@ -8,10 +8,6 @@ import 'package:open_git/manager/issue_manager.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class LabelPage extends BaseListStatelessWidget<Labels, LabelBloc> {
-  @override
-  PageType getPageType() {
-    return PageType.issue_label;
-  }
 
   @override
   String getTitle(BuildContext context) {

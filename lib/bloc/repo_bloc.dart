@@ -13,14 +13,7 @@ abstract class RepoBloc extends BaseListBloc<Repository> {
 
   fetchRepos(int page);
 
-  bool _isInit = false;
-
   void initData(BuildContext context) {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -29,8 +22,6 @@ abstract class RepoBloc extends BaseListBloc<Repository> {
     showLoading();
     await _fetchReposList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -57,8 +48,6 @@ abstract class RepoBloc extends BaseListBloc<Repository> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

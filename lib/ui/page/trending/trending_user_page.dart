@@ -12,11 +12,6 @@ class TrendingUserPage
   static final String TAG = "TrendingUserPage";
 
   @override
-  PageType getPageType() {
-    return PageType.trending_user;
-  }
-
-  @override
   bool isShowAppBar() {
     return false;
   }

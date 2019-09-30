@@ -44,7 +44,7 @@ class ReposItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              item.description,
+              item.description ?? '',
               style: YZStyle.smallTextT65,
             ),
           ),

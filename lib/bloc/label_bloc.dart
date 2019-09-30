@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
-import 'package:flutter_base_ui/bloc/page_type.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -15,8 +14,6 @@ class LabelBloc extends BaseListBloc<Labels> {
   final int issueNum;
   List<Labels> labels;
 
-  bool _isInit = false;
-
   String owner;
 
   LabelBloc(this.repo, this.labels, this.issueNum) {
@@ -24,17 +21,7 @@ class LabelBloc extends BaseListBloc<Labels> {
     owner = userBean?.login;
   }
 
-  @override
-  PageType getPageType() {
-    return PageType.issue_label;
-  }
-
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -44,7 +31,7 @@ class LabelBloc extends BaseListBloc<Labels> {
     }
     if (bean.data != null) {
       bean.data.insert(0, label);
-      sink.add(bean);
+      notifyDataChanged();
     }
   }
 
@@ -70,7 +57,7 @@ class LabelBloc extends BaseListBloc<Labels> {
       if (deleteIndex != -1) {
         bean.data.removeAt(deleteIndex);
       }
-      sink.add(bean);
+      notifyDataChanged();
     }
   }
 
@@ -119,8 +106,6 @@ class LabelBloc extends BaseListBloc<Labels> {
     showLoading();
     await _fetchLabelList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -148,7 +133,6 @@ class LabelBloc extends BaseListBloc<Labels> {
         bean.isError = true;
       }
 
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

@@ -6,22 +6,12 @@ import 'package:open_git/manager/user_manager.dart';
 class OrgProfileBloc extends BaseBloc<LoadingBean<OrgBean>> {
   final String org;
 
-  bool _isInit = false;
-
   OrgProfileBloc(this.org) {
     bean = new LoadingBean(isLoading: false);
   }
 
   @override
-  PageType getPageType() => PageType.org_profile;
-
-  @override
   void initData(BuildContext context) {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -46,7 +36,5 @@ class OrgProfileBloc extends BaseBloc<LoadingBean<OrgBean>> {
     } else {
       bean.isError = false;
     }
-
-    sink.add(bean);
   }
 }

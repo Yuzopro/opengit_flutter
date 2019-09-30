@@ -141,4 +141,7 @@ class ZhString extends AppBaseString {
 
   @override
   String get profile => '用户资料';
+
+  @override
+  String get track => '足迹';
 }

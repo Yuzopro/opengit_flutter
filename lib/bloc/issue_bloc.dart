@@ -12,26 +12,16 @@ class IssueBloc extends BaseListBloc<IssueBean> {
 
   String filter, state, sort, direction;
 
-  bool _isInit = false;
-
   IssueBloc() {
-    filter = SpUtil.instance.getString(SP_KEY_ISSUE_FILTER, defValue: 'assigned');
+    filter =
+        SpUtil.instance.getString(SP_KEY_ISSUE_FILTER, defValue: 'assigned');
     state = SpUtil.instance.getString(SP_KEY_ISSUE_STATE, defValue: 'open');
     sort = SpUtil.instance.getString(SP_KEY_ISSUE_SORT, defValue: 'created');
-    direction = SpUtil.instance.getString(SP_KEY_ISSUE_DIRECTION, defValue: 'desc');
-  }
-
-  @override
-  PageType getPageType() {
-    return PageType.issue;
+    direction =
+        SpUtil.instance.getString(SP_KEY_ISSUE_DIRECTION, defValue: 'desc');
   }
 
   initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -52,8 +42,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
     showLoading();
     await _fetchIssueList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -81,8 +69,6 @@ class IssueBloc extends BaseListBloc<IssueBean> {
       } else {
         bean.isError = true;
       }
-
-      sink.add(bean);
     } catch (_) {
       if (page != 1) {
         page--;

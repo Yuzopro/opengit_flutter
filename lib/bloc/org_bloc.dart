@@ -7,20 +7,10 @@ import 'package:open_git/manager/user_manager.dart';
 class OrgBloc extends BaseListBloc<OrgBean> {
   final String name;
 
-  bool _isInit = false;
-
   OrgBloc(this.name);
 
   @override
-  PageType getPageType() => PageType.profile_orgs;
-
-  @override
   void initData(BuildContext context) {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -53,7 +43,5 @@ class OrgBloc extends BaseListBloc<OrgBean> {
     } else {
       bean.isError = true;
     }
-
-    sink.add(bean);
   }
 }

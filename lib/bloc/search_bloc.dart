@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/bloc/base_list_bloc.dart';
 import 'package:open_git/manager/search_manager.dart';
-import 'package:flutter_common_util/flutter_common_util.dart';
 
 abstract class SearchBloc<T> extends BaseListBloc<T> {
   static final String TAG = "SearchBloc";
@@ -23,8 +22,6 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
     showLoading();
     await _searchText();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -35,8 +32,6 @@ abstract class SearchBloc<T> extends BaseListBloc<T> {
     showLoading();
     await _searchText();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   Future _searchText() async {

@@ -13,12 +13,12 @@ import 'package:open_git/bloc/org_profile_bloc.dart';
 import 'package:open_git/bloc/org_repo_bloc.dart';
 import 'package:open_git/bloc/profile_bloc.dart';
 import 'package:open_git/bloc/reaction_bloc.dart';
-import 'package:open_git/bloc/repo_fork_bloc.dart';
-import 'package:open_git/bloc/repo_issue_bloc.dart';
 import 'package:open_git/bloc/repo_bloc.dart';
 import 'package:open_git/bloc/repo_detail_bloc.dart';
 import 'package:open_git/bloc/repo_event_bloc.dart';
 import 'package:open_git/bloc/repo_file_bloc.dart';
+import 'package:open_git/bloc/repo_fork_bloc.dart';
+import 'package:open_git/bloc/repo_issue_bloc.dart';
 import 'package:open_git/bloc/repo_trend_bloc.dart';
 import 'package:open_git/bloc/repo_user_bloc.dart';
 import 'package:open_git/bloc/repo_user_star_bloc.dart';
@@ -275,7 +275,7 @@ var profileReposHandler = Handler(
   String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<RepoBloc>(
-    child: RepoPage(PageType.repos_user),
+    child: RepoPage(RepoPage.PAGE_USER),
     bloc: RepoUserBloc(name),
   );
 });
@@ -285,7 +285,7 @@ var profileStarReposHandler = Handler(
   String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<RepoBloc>(
-    child: RepoPage(PageType.repos_user_star),
+    child: RepoPage(RepoPage.PAGE_USER_STAR),
     bloc: RepoUserStarBloc(name),
   );
 });
@@ -325,7 +325,7 @@ var profileEventHandler = Handler(
   String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<EventBloc>(
-    child: EventPage(PageType.user_event),
+    child: EventPage(true),
     bloc: UserEventBloc(name),
   );
 });
@@ -345,7 +345,7 @@ var orgEventHandler = Handler(
   String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<EventBloc>(
-    child: EventPage(PageType.org_event),
+    child: EventPage(true),
     bloc: OrgEventBloc(name),
   );
 });
@@ -355,7 +355,7 @@ var orgReposHandler = Handler(
   String name = FluroUtil.decode(params["name"]?.first);
 
   return BlocProvider<RepoBloc>(
-    child: RepoPage(PageType.org_repos),
+    child: RepoPage(RepoPage.PAGE_ORG),
     bloc: RepoOrgBloc(name),
   );
 });

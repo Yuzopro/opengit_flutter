@@ -157,11 +157,11 @@ class _MainPageState extends State<MainPage>
                   bloc: _homeBloc,
                 ),
                 BlocProvider<RepoBloc>(
-                  child: RepoPage(PageType.repos),
+                  child: RepoPage(RepoPage.PAGE_HOME),
                   bloc: _reposBloc,
                 ),
                 BlocProvider<EventBloc>(
-                  child: EventPage(PageType.received_event),
+                  child: EventPage(false),
                   bloc: _eventBloc,
                 ),
                 BlocProvider<IssueBloc>(

@@ -6,12 +6,14 @@ import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/label_bloc.dart';
+import 'package:open_git/bloc/track_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/routes.dart';
 import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
+import 'package:open_git/ui/page/other/track_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavigatorUtil {
@@ -110,8 +112,8 @@ class NavigatorUtil {
 //    Application.router
 //        .navigateTo(context, AppRoutes.issue_detail + "?issue=$issue");
 
-    IssueDetailBloc bloc = IssueDetailBloc(
-        issueBean.repoUrl, issueBean.number.toString());
+    IssueDetailBloc bloc =
+        IssueDetailBloc(issueBean.repoUrl, issueBean.number.toString());
     Navigator.push(
       context,
       CupertinoPageRoute(
@@ -362,5 +364,19 @@ class NavigatorUtil {
 
   static goEditProfile(BuildContext context) async {
     return Application.router.navigateTo(context, AppRoutes.edit_profile);
+  }
+
+  static goTrack(BuildContext context) async {
+    TrackBloc bloc = TrackBloc();
+
+    return Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<TrackBloc>(
+          child: TrackPage(),
+          bloc: bloc,
+        ),
+      ),
+    );
   }
 }

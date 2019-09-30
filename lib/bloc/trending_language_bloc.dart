@@ -7,12 +7,7 @@ import 'package:open_git/manager/trending_manager.dart';
 class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
   static final String TAG = "TrendingLanguageBloc";
 
-  bool _isInit = false;
-
   Map<String, double> _letterOffsetMap = new Map();
-
-  @override
-  PageType getPageType() => PageType.trending_language;
 
   double getLetterHeight() => 48.0;
 
@@ -22,11 +17,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
 
   @override
   void initData(BuildContext context) async {
-    if (_isInit) {
-      return;
-    }
-    _isInit = true;
-
     onReload();
   }
 
@@ -35,8 +25,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
     showLoading();
     await _fetchLanguageList();
     hideLoading();
-
-    refreshStatusEvent();
   }
 
   @override
@@ -64,7 +52,6 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
       bean.data.insert(0, item);
       _setShowLetter(bean.data);
       _initListOffset(bean.data);
-      sink.add(bean);
     } catch (_) {}
   }
 
