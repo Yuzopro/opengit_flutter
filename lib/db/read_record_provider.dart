@@ -172,8 +172,6 @@ class ReadRecordProvider extends BaseDbProvider {
       orderBy: '$columnDate desc',
     );
 
-    LogUtil.v('query maps is $maps');
-
     if (maps != null) {
       List<TrackBean> list = List();
       for (var value in maps) {
