@@ -28,6 +28,7 @@ import 'package:open_git/bloc/timeline_bloc.dart';
 import 'package:open_git/bloc/trending_language_bloc.dart';
 import 'package:open_git/bloc/user_bloc.dart';
 import 'package:open_git/bloc/user_event_bloc.dart';
+import 'package:open_git/common/image_path.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/navigator_util.dart';
@@ -227,7 +228,7 @@ var photoViewHandler = Handler(
   String title = FluroUtil.decode(params["title"]?.first);
   String url = FluroUtil.decode(params["url"]?.first);
 
-  return PhotoViewPage(title, url);
+  return PhotoViewPage(title, url, ImagePath.image_default_head);
 });
 
 var searchHandler = Handler(

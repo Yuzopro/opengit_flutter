@@ -90,24 +90,23 @@ class HttpRequest {
       return ResponseResultData(null, false, -1);
     }
 
-    Options options = Options(
+    BaseOptions options = BaseOptions(
       method: _getMethod(builder.getMethod()),
       headers: _getHeaders(builder.getHeader()),
-      contentType: builder.getContentType(),
+      responseType: builder.getResponseType(),
       connectTimeout: 15 * 1000,
     );
 
     String url = builder.getUrl();
     LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
 
-    Dio _dio = Dio();
+    Dio _dio = Dio(options);
     //开始请求
     Response response;
     try {
       response = await _dio.request(
         url,
         data: builder.getData(),
-        options: options,
       );
 
       if (response.statusCode >= HttpStatus.ok &&
@@ -174,7 +173,7 @@ class HttpRequest {
 class RequestBuilder {
   HttpMethod _method;
   Map<String, dynamic> _headers;
-  ContentType _contentType = ContentType.json;
+  ResponseType _contentType = ResponseType.json;
   dynamic _data;
   String _url;
   bool _isCache = true;
@@ -189,7 +188,7 @@ class RequestBuilder {
     return this;
   }
 
-  RequestBuilder contentType(ContentType contentType) {
+  RequestBuilder contentType(ResponseType contentType) {
     this._contentType = contentType;
     return this;
   }
@@ -217,7 +216,7 @@ class RequestBuilder {
     return _headers;
   }
 
-  ContentType getContentType() {
+  ResponseType getResponseType() {
     return _contentType;
   }
 
