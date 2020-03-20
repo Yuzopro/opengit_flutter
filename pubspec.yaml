@@ -9,7 +9,7 @@ homepage: https://github.com/Yuzopro
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.4.0+6
+version: 1.5.0+7
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
@@ -21,7 +21,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   #http
-  dio: ^2.1.7
+  dio: ^3.0.9
   #http
   connectivity: ^0.3.2
   #http

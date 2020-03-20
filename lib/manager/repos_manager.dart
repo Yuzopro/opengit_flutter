@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
@@ -233,7 +234,7 @@ class ReposManager {
         .method(HttpMethod.GET)
         .url(url)
         .header(header)
-        .contentType(ContentType.text);
+        .contentType(ResponseType.stream);
 
     return await HttpRequest().builder(builder);
   }

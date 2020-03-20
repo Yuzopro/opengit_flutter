@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
@@ -188,7 +189,7 @@ class _MainPageState extends State<MainPage>
     super.dispose();
   }
 
-  Future<bool> _exitApp() {
+  Future<bool> _exitApp() async {
     if (_scaffoldKey.currentState.isDrawerOpen) {
       Navigator.of(context).pop();
       return Future.value(false);
@@ -197,9 +198,13 @@ class _MainPageState extends State<MainPage>
       _exitTime = DateTime.now().millisecondsSinceEpoch;
       return Future.value(false);
     } else {
-      Navigator.of(context).pop(true);
+      await pop();
       return Future.value(true);
     }
+  }
+
+  Future<void> pop() async {
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 }
 
