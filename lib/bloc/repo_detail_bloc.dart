@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
+import 'package:open_git/bean/repo_topics_bean.dart';
 import 'package:open_git/bean/repos_bean.dart';
 import 'package:open_git/bean/repos_detail_bean.dart';
 import 'package:open_git/db/read_record_provider.dart';
@@ -45,7 +46,7 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         await ReposManager.instance.getReposDetail(reposOwner, reposName);
     bean.data.repos = repos;
 
-   await _saveDb(repos);
+    await _saveDb(repos);
 
     if (repos == null) {
       bean.isError = true;
@@ -53,6 +54,7 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
       bean.isError = false;
     }
 
+    _fetchTopics();
     _fetchStarStatus();
     _fetchWatchStatus();
   }
@@ -88,6 +90,17 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         await ReposManager.instance.getReposWatcher(reposOwner, reposName);
     bean.data.watchStatus =
         response.result ? ReposStatus.active : ReposStatus.inactive;
+
+    notifyDataChanged();
+  }
+
+  Future _fetchTopics() async {
+    final response =
+        await ReposManager.instance.getTopics(reposOwner, reposName);
+    if (response != null && response.data != null) {
+      final topics = RepoTopicsBean.fromJson(response.data);
+      bean.data.repos.topics = topics.names;
+    }
 
     notifyDataChanged();
   }

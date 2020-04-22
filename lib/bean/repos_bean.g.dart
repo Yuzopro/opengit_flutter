@@ -97,6 +97,6 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
 //      'license': instance.license,
 //      'parent': instance.parent,
 //      'permissions': instance.permissions,
-//      'topics': instance.topics,
+      'topics': instance.topics,
       'allIssueCount': instance.allIssueCount,
     };

@@ -279,4 +279,9 @@ class Api {
       return '';
     }
   }
+
+  //获取仓库主题
+  static getTopics(owner, repo) {
+    return '${_BASE_URL}repos/$owner/$repo/topics';
+  }
 }

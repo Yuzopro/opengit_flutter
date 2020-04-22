@@ -271,4 +271,16 @@ class ReposManager {
     }
     return null;
   }
+
+  getTopics(owner, repo) async {
+    String url = Api.getTopics(owner, repo);
+
+    RequestBuilder builder = new RequestBuilder();
+    builder
+        .method(HttpMethod.GET)
+        .url(url)
+        .header({"Accept": 'application/vnd.github.mercy-preview+json'});
+
+    return await HttpRequest().builder(builder);
+  }
 }

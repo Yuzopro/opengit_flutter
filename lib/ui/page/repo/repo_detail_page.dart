@@ -16,7 +16,6 @@ import 'package:open_git/util/repos_util.dart';
 
 class RepoDetailPage
     extends BaseStatelessWidget<LoadingBean<ReposDetailBean>, RepoDetailBloc> {
-
   @override
   String getTitle(BuildContext context) {
     RepoDetailBloc bloc = BlocProvider.of<RepoDetailBloc>(context);
@@ -56,6 +55,7 @@ class RepoDetailPage
     if (bean == null || bean.data.repos == null) {
       return Container();
     }
+
     return ListView(
       children: <Widget>[
         _buildHeader(bean.data.repos),
@@ -76,19 +76,27 @@ class RepoDetailPage
   }
 
   Widget _buildHeaderCard(Repository repo) {
+    List<Widget> _item = [];
+    _item.add(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: _buildNameRow(repo),
+    ));
+    _item.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: _buildDesc(repo),
+    ));
+    final _topicsWidget = _buildTopics(repo);
+    if (_topicsWidget != null) {
+      _item.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: _topicsWidget,
+      ));
+    }
     return Card(
       elevation: 2,
       child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _buildNameRow(repo),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _buildDesc(repo),
-          ),
-        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: _item,
       ),
     );
   }
@@ -141,6 +149,33 @@ class RepoDetailPage
         style: YZStyle.middleTextBold,
       );
     }
+  }
+
+  Widget _buildTopics(Repository repo) {
+    if (repo.topics != null && repo.topics.length > 0) {
+      final List<Chip> choiceChips = repo.topics.map<Chip>((String name) {
+        return Chip(
+          key: ValueKey<String>(name),
+          label: Text(name),
+        );
+      }).toList();
+
+      return Wrap(
+        children: choiceChips.map<Widget>((Chip chip) {
+          return InkWell(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: chip,
+            ),
+            onTap: () {
+              LogUtil.v((chip.label as Text).data);
+            },
+          );
+        }).toList(),
+      );
+    }
+
+    return null;
   }
 
   Widget _buildDesc(Repository repo) {
