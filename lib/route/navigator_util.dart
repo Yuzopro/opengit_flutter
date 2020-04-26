@@ -14,6 +14,8 @@ import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
 import 'package:open_git/ui/page/other/track_page.dart';
+import 'package:open_git/ui/page/profile/org_profile_new_page.dart';
+import 'package:open_git/ui/page/profile/user_profile_new_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavigatorUtil {
@@ -76,9 +78,10 @@ class NavigatorUtil {
   }
 
   //用户资料
-  static goUserProfile(BuildContext context, name) {
-    Application.router.navigateTo(
-        context, AppRoutes.profile + "?name=${FluroUtil.encode(name)}");
+  static goUserProfile(BuildContext context, name, avatar, heroTag) {
+//    Application.router.navigateTo(
+//        context, AppRoutes.profile + "?name=${FluroUtil.encode(name)}");
+    goProfile(context, name, avatar, heroTag);
   }
 
   //查看源码文件目录
@@ -281,9 +284,19 @@ class NavigatorUtil {
   }
 
   //组织资料
-  static goOrgProfile(BuildContext context, name) {
-    Application.router.navigateTo(
-        context, AppRoutes.org_profile + "?name=${FluroUtil.encode(name)}");
+  static goOrgProfile(BuildContext context, name, avatar) {
+//    Application.router.navigateTo(
+//        context, AppRoutes.org_profile + "?name=${FluroUtil.encode(name)}");
+
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => OrgProfilePage(
+          name: name,
+          avatar: avatar,
+        ),
+      ),
+    );
   }
 
   //组织动态
@@ -375,6 +388,26 @@ class NavigatorUtil {
         builder: (context) => BlocProvider<TrackBloc>(
           child: TrackPage(),
           bloc: bloc,
+        ),
+      ),
+    );
+  }
+
+  //项目topic
+  static goReposTopic(BuildContext context, name) {
+    Application.router.navigateTo(
+        context, AppRoutes.repo_topic + "?name=${FluroUtil.encode(name)}");
+  }
+
+  //资料页
+  static goProfile(BuildContext context, name, avatar, heroTag) async {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => UserProfilePage(
+          name: name,
+          avatar: avatar,
+          heroTag: heroTag,
         ),
       ),
     );

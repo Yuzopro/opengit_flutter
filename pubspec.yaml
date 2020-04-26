@@ -23,11 +23,9 @@ dependencies:
   #http
   dio: ^3.0.9
   #http
-  connectivity: ^0.3.2
+  connectivity: ^0.4.8+2
   #http
   json_annotation: ^2.4.0
-  #cache
-  shared_preferences: ^0.4.3
   #markdown
   markdown: ^2.0.3
   #markdown
@@ -45,7 +43,7 @@ dependencies:
   # 数据库
   sqflite: ^1.1.6
   # 文件管理
-  path_provider: ^0.5.0+1
+  path_provider: ^1.6.7
   # 颜色选择器
   flutter_colorpicker: ^0.2.6
   flutter_localizations:

@@ -58,7 +58,7 @@ class ReposItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           ImageUtil.getCircleNetworkImage(
-              item.owner.avatarUrl, 36.0, ImagePath.image_default_head),
+              item.owner.avatar_url, 36.0, ImagePath.image_default_head),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

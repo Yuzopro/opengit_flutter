@@ -13,7 +13,7 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
   static final int PAGE_USER = 1;
   static final int PAGE_USER_STAR = 2;
   static final int PAGE_ORG = 3;
-
+  static final int PAGE_TOPIC = 4;
 
   final int page;
 
@@ -21,14 +21,19 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
 
   @override
   bool isShowAppBar() {
-    return page != PAGE_HOME;
+    return page != PAGE_HOME &&
+        page != PAGE_USER &&
+        page != PAGE_USER_STAR &&
+        page != PAGE_ORG;
   }
 
   @override
   String getTitle(BuildContext context) {
     String title;
-    if (page == PAGE_USER_STAR) {
-      title = 'star项目';
+
+    if (page == PAGE_TOPIC) {
+      RepoBloc bloc = BlocProvider.of<RepoBloc>(context);
+      title = bloc.userName;
     } else {
       title = '项目';
     }
@@ -46,6 +51,8 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
     String url;
     if (page == PAGE_USER) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';
+    } else if (page == PAGE_TOPIC) {
+      url = 'https://github.com/topics/${bloc.userName}';
     } else {
       url = 'https://github.com/${bloc.userName}?tab=stars';
     }
@@ -58,6 +65,8 @@ class RepoPage extends BaseListStatelessWidget<Repository, RepoBloc> {
     String url;
     if (page == PAGE_USER) {
       url = 'https://github.com/${bloc.userName}?tab=repositories';
+    } else if (page == PAGE_TOPIC) {
+      url = 'https://github.com/topics/${bloc.userName}';
     } else {
       url = 'https://github.com/${bloc.userName}?tab=stars';
     }

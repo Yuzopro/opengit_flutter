@@ -49,20 +49,26 @@ class _DrawerPageState extends State<DrawerPage> {
           UserAccountsDrawerHeader(
             accountName: Text(_userBean.name ?? _userBean.login ?? '',
                 style: YZStyle.normalTextWhite),
-            accountEmail:
-                Text(_userBean.email, style: YZStyle.smallTextWhite),
+            accountEmail: Text(_userBean.email, style: YZStyle.smallTextWhite),
             currentAccountPicture: InkWell(
               //用户头像
               onTap: () {
-                UserBean userBean = LoginManager.instance.getUserBean();
-                NavigatorUtil.goUserProfile(context, userBean.login);
+                NavigatorUtil.goUserProfile(context, _userBean.login,
+                    _userBean.avatar_url ?? "", "hero_drawer_image_");
               },
-              child: ImageUtil.getCircleNetworkImage(_userBean.avatarUrl ?? "",
-                  YZSize.LARGE_IMAGE_SIZE, ImagePath.image_default_head),
+              child: Hero(
+                tag: "hero_drawer_image_${_userBean?.login??""}",
+                child: ImageUtil.getCircleNetworkImage(
+                  _userBean.avatar_url ?? "",
+                  YZSize.LARGE_IMAGE_SIZE,
+                  ImagePath.image_default_head,
+                ),
+                transitionOnUserGestures: true,
+              ),
             ),
             onDetailsPressed: () {
-              UserBean userBean = LoginManager.instance.getUserBean();
-              NavigatorUtil.goUserProfile(context, userBean.login);
+              NavigatorUtil.goUserProfile(context, _userBean.login,
+                  _userBean.avatar_url ?? "", "hero_drawer_image_");
             },
             otherAccountsPictures: <Widget>[
               InkWell(

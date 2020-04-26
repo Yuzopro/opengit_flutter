@@ -7,6 +7,11 @@ import 'package:open_git/ui/page/profile/user_page.dart';
 class FollowerPage extends UserPage {
 
   @override
+  bool isShowAppBar() {
+    return false;
+  }
+
+  @override
   String getTitle(BuildContext context) {
     return '关注我的';
   }

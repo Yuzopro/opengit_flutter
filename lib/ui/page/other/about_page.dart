@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:open_git/bean/user_bean.dart';
 import 'package:open_git/common/image_path.dart';
 import 'package:open_git/common/url_const.dart';
 import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/red_point_manager.dart';
 import 'package:open_git/redux/about/about_actions.dart';
 import 'package:open_git/redux/app_state.dart';
@@ -96,7 +98,8 @@ class _AboutPageState extends State<AboutPageContent> {
                       style: YZStyle.middleText),
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
-                    NavigatorUtil.goUserProfile(context, 'Yuzopro');
+                    UserBean userBean = LoginManager.instance.getUserBean();
+                    NavigatorUtil.goUserProfile(context, userBean.login, userBean.avatar_url ?? "", "");
                   },
                 ),
                 Divider(

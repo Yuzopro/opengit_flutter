@@ -9,6 +9,10 @@ import 'package:open_git/common/image_path.dart';
 import 'package:open_git/route/navigator_util.dart';
 
 class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
+  @override
+  bool isShowAppBar() {
+    return false;
+  }
 
   @override
   String getTitle(BuildContext context) {
@@ -23,7 +27,7 @@ class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
         child: _postCard(context, item),
       ),
       onTap: () {
-        NavigatorUtil.goOrgProfile(context, item.login);
+        NavigatorUtil.goOrgProfile(context, item.login, item.avatarUrl);
       },
     );
   }
@@ -53,8 +57,14 @@ class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
   Widget _profileColumn(BuildContext context, OrgBean item) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          ImageUtil.getCircleNetworkImage(
-              item.avatarUrl, 36.0, ImagePath.image_default_head),
+          Hero(
+            tag: "hero_org_image_${item.login}",
+            child: ImageUtil.getCircleNetworkImage(
+              item.avatarUrl,
+              36.0,
+              ImagePath.image_default_head,
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

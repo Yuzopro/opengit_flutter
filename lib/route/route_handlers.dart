@@ -19,6 +19,7 @@ import 'package:open_git/bloc/repo_event_bloc.dart';
 import 'package:open_git/bloc/repo_file_bloc.dart';
 import 'package:open_git/bloc/repo_fork_bloc.dart';
 import 'package:open_git/bloc/repo_issue_bloc.dart';
+import 'package:open_git/bloc/repo_topic_bloc.dart';
 import 'package:open_git/bloc/repo_trend_bloc.dart';
 import 'package:open_git/bloc/repo_user_bloc.dart';
 import 'package:open_git/bloc/repo_user_star_bloc.dart';
@@ -288,6 +289,16 @@ var profileStarReposHandler = Handler(
   return BlocProvider<RepoBloc>(
     child: RepoPage(RepoPage.PAGE_USER_STAR),
     bloc: RepoUserStarBloc(name),
+  );
+});
+
+var topicReposHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String name = FluroUtil.decode(params["name"]?.first);
+
+  return BlocProvider<RepoBloc>(
+    child: RepoPage(RepoPage.PAGE_TOPIC),
+    bloc: RepoTopicBloc(name),
   );
 });
 

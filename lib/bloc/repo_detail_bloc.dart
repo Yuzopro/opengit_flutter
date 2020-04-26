@@ -54,7 +54,7 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
       bean.isError = false;
     }
 
-    _fetchTopics();
+    _fetchTopic();
     _fetchStarStatus();
     _fetchWatchStatus();
   }
@@ -94,9 +94,9 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
     notifyDataChanged();
   }
 
-  Future _fetchTopics() async {
+  Future _fetchTopic() async {
     final response =
-        await ReposManager.instance.getTopics(reposOwner, reposName);
+        await ReposManager.instance.getTopic(reposOwner, reposName);
     if (response != null && response.data != null) {
       final topics = RepoTopicsBean.fromJson(response.data);
       bean.data.repos.topics = topics.names;

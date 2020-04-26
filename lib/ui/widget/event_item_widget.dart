@@ -67,10 +67,18 @@ class EventItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           InkWell(
-            child: ImageUtil.getCircleNetworkImage(
-                item.actor.avatarUrl, 36.0, ImagePath.image_default_head),
+            child: Hero(
+              tag: "hero_event_image_${item.id}_${item.actor.login}",
+              child: ImageUtil.getCircleNetworkImage(
+                item.actor.avatar_url,
+                36.0,
+                ImagePath.image_default_head,
+              ),
+              transitionOnUserGestures: true,
+            ),
             onTap: () {
-              NavigatorUtil.goUserProfile(context, item.actor.login);
+              NavigatorUtil.goUserProfile(
+                  context, item.actor.login, item.actor.avatar_url ?? "", "hero_event_image_${item.id}_");
             },
           ),
           Expanded(

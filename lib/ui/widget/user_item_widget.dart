@@ -7,8 +7,9 @@ import 'package:open_git/route/navigator_util.dart';
 
 class UserItemWidget extends StatelessWidget {
   final UserBean item;
+  final String heroTag;
 
-  UserItemWidget(this.item);
+  UserItemWidget(this.item, this.heroTag);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class UserItemWidget extends StatelessWidget {
         child: _postCard(context),
       ),
       onTap: () {
-        NavigatorUtil.goUserProfile(context, item.login);
+        NavigatorUtil.goUserProfile(context, item.login, item.avatar_url ?? "", heroTag);
       },
     );
   }
@@ -36,8 +37,15 @@ class UserItemWidget extends StatelessWidget {
   Widget _profileColumn(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          ImageUtil.getCircleNetworkImage(
-              item.avatarUrl, 36.0, ImagePath.image_default_head),
+          Hero(
+            tag: heroTag + item.login,
+            child: ImageUtil.getCircleNetworkImage(
+              item.avatar_url,
+              36.0,
+              ImagePath.image_default_head,
+            ),
+            transitionOnUserGestures: true,
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

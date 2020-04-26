@@ -65,7 +65,7 @@ class CommonUtil {
       if (pathnames.length == 2) {
         //解析人
         String userName = pathnames[1];
-        NavigatorUtil.goUserProfile(context, userName);
+        NavigatorUtil.goUserProfile(context, userName, "", "");
       } else if (pathnames.length >= 3) {
         String userName = pathnames[1];
         String repoName = pathnames[2];

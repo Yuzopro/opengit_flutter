@@ -58,7 +58,7 @@ class RepoDetailPage
 
     return ListView(
       children: <Widget>[
-        _buildHeader(bean.data.repos),
+        _buildHeader(context, bean.data.repos),
         _buildAction(context, bean.data.repos, bean.data.starStatus,
             bean.data.watchStatus),
         _buildOther(context, bean.data.repos),
@@ -68,14 +68,14 @@ class RepoDetailPage
     );
   }
 
-  Widget _buildHeader(Repository repo) {
+  Widget _buildHeader(BuildContext context, Repository repo) {
     return Padding(
       padding: EdgeInsets.all(8.0),
-      child: _buildHeaderCard(repo),
+      child: _buildHeaderCard(context, repo),
     );
   }
 
-  Widget _buildHeaderCard(Repository repo) {
+  Widget _buildHeaderCard(BuildContext context, Repository repo) {
     List<Widget> _item = [];
     _item.add(Padding(
       padding: const EdgeInsets.all(8.0),
@@ -85,7 +85,7 @@ class RepoDetailPage
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: _buildDesc(repo),
     ));
-    final _topicsWidget = _buildTopics(repo);
+    final _topicsWidget = _buildTopics(context, repo);
     if (_topicsWidget != null) {
       _item.add(Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -151,7 +151,7 @@ class RepoDetailPage
     }
   }
 
-  Widget _buildTopics(Repository repo) {
+  Widget _buildTopics(BuildContext context, Repository repo) {
     if (repo.topics != null && repo.topics.length > 0) {
       final List<Chip> choiceChips = repo.topics.map<Chip>((String name) {
         return Chip(
@@ -168,7 +168,7 @@ class RepoDetailPage
               child: chip,
             ),
             onTap: () {
-              LogUtil.v((chip.label as Text).data);
+              NavigatorUtil.goReposTopic(context, (chip.label as Text).data);
             },
           );
         }).toList(),

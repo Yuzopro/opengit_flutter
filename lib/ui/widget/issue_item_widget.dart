@@ -64,7 +64,7 @@ class IssueItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           ImageUtil.getCircleNetworkImage(
-              item.user.avatarUrl, 36.0, ImagePath.image_default_head),
+              item.user.avatar_url, 36.0, ImagePath.image_default_head),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),

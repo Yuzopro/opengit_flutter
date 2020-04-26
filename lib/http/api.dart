@@ -280,8 +280,13 @@ class Api {
     }
   }
 
-  //获取仓库主题
-  static getTopics(owner, repo) {
+  //获取仓库topic
+  static getRepoTopic(owner, repo) {
     return '${_BASE_URL}repos/$owner/$repo/topics';
+  }
+
+  ///搜索topic
+  static searchTopic(topic) {
+    return "${_BASE_URL}search/repositories?q=topic:$topic&sort=stars&order=desc";
   }
 }

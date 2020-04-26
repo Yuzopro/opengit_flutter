@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:flutter_common_util/src/sp_util.dart';
 import 'package:open_git/bean/login_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -54,9 +53,10 @@ class LoginManager {
   getMyUserInfo() async {
     final response =
         await HttpRequest().get(Api.getMyUserInfo(), isCache: false);
-    if (response != null && response.data != null) {
+
+    if (response != null) {
       setUserBean(response.data, true);
-      return UserBean.fromJson(response.data);
+      return getUserBean();
     }
     return null;
   }

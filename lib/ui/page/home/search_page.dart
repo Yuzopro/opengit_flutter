@@ -167,7 +167,7 @@ class _SearchReposItem extends _SearchItem<Repository, SearchRepoBloc> {
 class _SearchUserItem extends _SearchItem<UserBean, SearchUserBloc> {
   @override
   Widget builderItem(BuildContext context, UserBean item) {
-    return UserItemWidget(item);
+    return UserItemWidget(item, "hero_search_image_");
   }
 }
 

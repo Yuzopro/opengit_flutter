@@ -49,13 +49,13 @@ class UserProfilePage
   @override
   void openWebView(BuildContext context) {
     ProfileBloc bloc = BlocProvider.of<ProfileBloc>(context);
-    NavigatorUtil.goWebView(context, bloc.name, bloc.bean.data.htmlUrl);
+    NavigatorUtil.goWebView(context, bloc.name, bloc.bean.data.html_url);
   }
 
   @override
   String getShareText(BuildContext context) {
     ProfileBloc bloc = BlocProvider.of<ProfileBloc>(context);
-    return bloc.bean.data.htmlUrl;
+    return bloc.bean.data.html_url;
   }
 
   @override
@@ -141,7 +141,7 @@ class UserProfilePage
 
   List<Widget> _profileRow(BuildContext context, UserBean bean) {
     List<Widget> children = [];
-    children.add(ImageUtil.getCircleNetworkImage(bean.avatarUrl,
+    children.add(ImageUtil.getCircleNetworkImage(bean.avatar_url,
         SizeUtil.getAxisY(SQUARE_BUTTON_HEIGHT), ImagePath.image_default_head));
 
     if (bean.isFollow != null && !UserManager.instance.isYou(bean.login)) {
@@ -232,7 +232,7 @@ class UserProfilePage
           String num = '';
           GestureTapCallback callback;
           if (idx == 0) {
-            num = bean.publicRepos.toString();
+            num = bean.public_repos.toString();
             callback = () {
               NavigatorUtil.goProfileRepos(context, name);
             };

@@ -48,6 +48,7 @@ class AppRoutes {
   static final repo_subscriber = '/main/repo/subscriber';
   static final repo_issue = '/main/repo/issue';
   static final repo_fork = '/main/repo/fork';
+  static final repo_topic = '/main/repo/topic';
   static final edit_profile = '/main/edit/profile';
   static final edit_issue_comment = '/main/edit/comment';
   static final edit_issue_reaction = '/main/edit/reaction';
@@ -290,6 +291,11 @@ class AppRoutes {
     router.define(
       edit_issue_reaction,
       handler: editReactionHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      repo_topic,
+      handler: topicReposHandler,
       transitionType: TransitionType.cupertino,
     );
   }

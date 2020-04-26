@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage>
                       IconButton(
                         tooltip: 'Open Drawer',
                         icon: ImageUtil.getCircleNetworkImage(
-                            _userBean.avatarUrl ?? "",
+                            _userBean.avatar_url ?? "",
                             36.0,
                             ImagePath.image_default_head),
                         onPressed: () {

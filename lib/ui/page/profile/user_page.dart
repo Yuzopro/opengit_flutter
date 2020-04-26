@@ -8,6 +8,6 @@ import 'package:open_git/ui/widget/user_item_widget.dart';
 abstract class UserPage extends BaseListStatelessWidget<UserBean, UserBloc> {
   @override
   Widget builderItem(BuildContext context, UserBean item) {
-    return UserItemWidget(item);
+    return UserItemWidget(item, "hero_user_image_");
   }
 }

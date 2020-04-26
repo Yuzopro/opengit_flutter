@@ -272,8 +272,8 @@ class ReposManager {
     return null;
   }
 
-  getTopics(owner, repo) async {
-    String url = Api.getTopics(owner, repo);
+  getTopic(owner, repo) async {
+    String url = Api.getRepoTopic(owner, repo);
 
     RequestBuilder builder = new RequestBuilder();
     builder
@@ -282,5 +282,29 @@ class ReposManager {
         .header({"Accept": 'application/vnd.github.mercy-preview+json'});
 
     return await HttpRequest().builder(builder);
+  }
+
+  searchTopic(topic, page) async {
+    String url = Api.searchTopic(topic) + Api.getPageParams("&", page);
+
+    RequestBuilder builder = new RequestBuilder();
+    builder
+        .method(HttpMethod.GET)
+        .url(url)
+        .header({"Accept": 'application/vnd.github.mercy-preview+json'});
+
+    final response = await HttpRequest().builder(builder);
+    if (response != null && response.result) {
+      List<Repository> list = List();
+      if (response.data != null && response.data.length > 0) {
+        var items = response.data["items"];
+        for (int i = 0; i < items.length; i++) {
+          var dataItem = items[i];
+          list.add(Repository.fromJson(dataItem));
+        }
+      }
+      return list;
+    }
+    return null;
   }
 }
