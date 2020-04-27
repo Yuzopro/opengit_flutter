@@ -13,3 +13,10 @@ class CountdownAction {
 
   CountdownAction(this.countdown);
 }
+
+class FetchUserAction {
+  final String token;
+  final BuildContext context;
+
+  FetchUserAction(this.context, this.token);
+}

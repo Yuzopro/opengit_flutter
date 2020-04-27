@@ -10,6 +10,7 @@ import 'package:open_git/manager/login_manager.dart';
 import 'package:open_git/manager/repos_manager.dart';
 import 'package:open_git/redux/app_state.dart';
 import 'package:open_git/redux/common_actions.dart';
+import 'package:open_git/redux/login/login_action.dart';
 import 'package:open_git/redux/user/user_action.dart';
 import 'package:open_git/route/navigator_util.dart';
 import 'package:open_git/status/status.dart';
@@ -18,16 +19,17 @@ import 'package:open_git/util/theme_util.dart';
 import 'package:redux/redux.dart';
 
 class UserMiddleware extends MiddlewareClass<AppState> {
-  static final String TAG = "UserMiddleware";
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     if (action is InitAction) {
       _init(store, next);
     } else if (action is StartCountdownAction) {
-      startCountdown(store, next, action.context);
+      _startCountdown(store, next, action.context);
     } else if (action is StopCountdownAction) {
       TimerUtil.cancelCountdown();
+    } else if (action is FetchUserAction) {
+      _fetchUser(store, next, action.context, action.token);
     } else {
       next(action);
     }
@@ -53,7 +55,7 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     }
     //用户信息
     String token = SpUtil.instance.getString(SP_KEY_TOKEN);
-    UserBean userBean = null;
+    UserBean userBean;
     var user = SpUtil.instance.getObject(SP_KEY_USER_INFO);
     if (user != null) {
       LoginManager.instance.setUserBean(user, false);
@@ -61,15 +63,14 @@ class UserMiddleware extends MiddlewareClass<AppState> {
     }
     LoginManager.instance.setToken(token, false);
     //引导页
-    String version =
-        SpUtil.instance.getString(SP_KEY_SHOW_GUIDE_VERSION);
+    String version = SpUtil.instance.getString(SP_KEY_SHOW_GUIDE_VERSION);
     String currentVersion = Config.SHOW_GUIDE_VERSION;
     next(InitCompleteAction(token, userBean, currentVersion != version));
     //初始化本地数据
     ReposManager.instance.initLanguageColors();
   }
 
-  void startCountdown(
+  void _startCountdown(
       Store<AppState> store, NextDispatcher next, BuildContext context) {
     TimerUtil.startCountdown(5, (int count) {
       next(CountdownAction(count));
@@ -88,6 +89,19 @@ class UserMiddleware extends MiddlewareClass<AppState> {
       NavigatorUtil.goMain(context);
     } else if (status == LoginStatus.error) {
       NavigatorUtil.goLogin(context);
+    }
+  }
+
+  Future<Null> _fetchUser(Store<AppState> store, NextDispatcher next, BuildContext context, String token) async {
+    UserBean userBean = await LoginManager.instance.getMyUserInfo();
+    if (userBean != null) {
+      next(InitCompleteAction(token, userBean, false));
+      next(ReceivedLoginAction(token, userBean));
+      NavigatorUtil.goMain(context);
+    } else {
+      ToastUtil.showMessgae('登录失败请重新登录');
+      LoginManager.instance.setToken(null, true);
+      next(ErrorLoadingLoginAction());
     }
   }
 }
