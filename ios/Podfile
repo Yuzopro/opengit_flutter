@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -67,3 +67,8 @@ post_install do |installer|
     end
   end
 end
+
+# 不能这样设置否则一直下载不下来资源
+# 通过设置host可以解决
+# 199.232.4.133 raw.githubusercontent.com
+# source 'https://github.com/CocoaPods/Specs.git'
