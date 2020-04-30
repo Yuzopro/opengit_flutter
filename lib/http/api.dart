@@ -289,4 +289,7 @@ class Api {
   static searchTopic(topic) {
     return "${_BASE_URL}search/repositories?q=topic:$topic&sort=stars&order=desc";
   }
+
+  //wanandroid banner
+  static getBanner() => "http://www.wanandroid.com/banner/json";
 }

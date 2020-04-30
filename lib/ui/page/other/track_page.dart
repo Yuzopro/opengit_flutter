@@ -10,7 +10,7 @@ import 'package:open_git/bean/track_bean.dart';
 import 'package:open_git/bloc/track_bloc.dart';
 import 'package:open_git/db/read_record_provider.dart';
 import 'package:open_git/localizations/app_localizations.dart';
-import 'package:open_git/ui/widget/home_item_widget.dart';
+import 'package:open_git/ui/widget/flutter_hot_item_widget.dart';
 import 'package:open_git/ui/widget/issue_item_widget.dart';
 import 'package:open_git/ui/widget/repos_item_widget.dart';
 
@@ -24,7 +24,7 @@ class TrackPage extends BaseListStatelessWidget<TrackBean, TrackBloc> {
   Widget builderItem(BuildContext context, TrackBean item) {
     if (item.type == ReadRecordProvider.TYPE_H5) {
       var bean = Entrylist.fromJson(jsonDecode(item.data1));
-      return HomeItemWidget(bean);
+      return FlutterHotItemWidget(bean);
     } else  if (item.type == ReadRecordProvider.TYPE_REPO) {
       var bean = Repository.fromJson(jsonDecode(item.data1));
       return ReposItemWidget(bean);

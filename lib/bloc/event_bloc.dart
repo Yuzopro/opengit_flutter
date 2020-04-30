@@ -47,10 +47,18 @@ abstract class EventBloc extends BaseListBloc<EventBean> {
         noMore = result.length != Config.PAGE_SIZE;
         bean.data.addAll(result);
       } else {
-        bean.isError = true;
+        if (bean.data.length > 0) {
+          bean.isError = false;
+          noMore = false;
+        } else {
+          bean.isError = true;
+        }
+        if (page > 1) {
+          page--;
+        }
       }
     } catch (_) {
-      if (page != 1) {
+      if (page > 1) {
         page--;
       }
     }

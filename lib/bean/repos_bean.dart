@@ -86,16 +86,13 @@ class Repository {
   @JsonKey(name: "has_pages")
   bool hasPages;
 
-  UserBean owner;
+  Repository parent;
 
   License license;
 
-  Repository parent;
-
-  RepositoryPermissions permissions;
+  UserBean owner;
 
   List<String> topics;
-
   ///issue总数，不参加序列化
   int allIssueCount;
 
@@ -107,7 +104,6 @@ class Repository {
     this.htmlUrl,
     this.description,
     this.language,
-    this.license,
     this.defaultBranch,
     this.createdAt,
     this.updatedAt,
@@ -129,8 +125,6 @@ class Repository {
     this.hasWiki,
     this.hasPages,
     this.owner,
-    this.parent,
-    this.permissions,
     this.topics,
     this.stargazers_url,
     this.contributors_url,
@@ -149,6 +143,6 @@ class Repository {
 
   @override
   String toString() {
-    return 'Repository{id: $id, size: $size, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description, language: $language, defaultBranch: $defaultBranch, createdAt: $createdAt, updatedAt: $updatedAt, pushedAt: $pushedAt, gitUrl: $gitUrl, sshUrl: $sshUrl, cloneUrl: $cloneUrl, svnUrl: $svnUrl, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, private: $private, fork: $fork, hasIssues: $hasIssues, hasProjects: $hasProjects, hasDownloads: $hasDownloads, hasWiki: $hasWiki, hasPages: $hasPages, owner: $owner, license: $license, parent: $parent, permissions: $permissions, topics: $topics, allIssueCount: $allIssueCount}';
+    return 'Repository{id: $id, size: $size, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description, language: $language, defaultBranch: $defaultBranch, createdAt: $createdAt, updatedAt: $updatedAt, pushedAt: $pushedAt, gitUrl: $gitUrl, sshUrl: $sshUrl, cloneUrl: $cloneUrl, svnUrl: $svnUrl, stargazersCount: $stargazersCount, watchersCount: $watchersCount, forksCount: $forksCount, openIssuesCount: $openIssuesCount, subscribersCount: $subscribersCount, private: $private, fork: $fork, hasIssues: $hasIssues, hasProjects: $hasProjects, hasDownloads: $hasDownloads, hasWiki: $hasWiki, hasPages: $hasPages, owner: $owner, topics: $topics, allIssueCount: $allIssueCount}';
   }
 }

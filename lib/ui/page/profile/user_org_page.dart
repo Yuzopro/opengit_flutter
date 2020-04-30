@@ -10,7 +10,7 @@ import 'package:open_git/route/navigator_util.dart';
 
 class OrgPage extends BaseListStatelessWidget<OrgBean, OrgBloc> {
   @override
-  bool isShowAppBar() {
+  bool isNeedScaffold() {
     return false;
   }
 

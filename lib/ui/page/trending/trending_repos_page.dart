@@ -17,7 +17,7 @@ class TrendingReposPage
   TrendingReposPage(this.since);
 
   @override
-  bool isShowAppBar() {
+  bool isShowAppBar(BuildContext context) {
     return false;
   }
 

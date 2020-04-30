@@ -4,90 +4,184 @@ part 'user_bean.g.dart';
 
 @JsonSerializable()
 class UserBean {
-  UserBean(
-      this.login,
-      this.id,
-      this.node_id,
-      this.avatar_url,
-      this.gravatar_id,
-      this.url,
-      this.html_url,
-      this.followers_url,
-      this.following_url,
-      this.gists_url,
-      this.starred_url,
-      this.subscriptions_url,
-      this.organizations_url,
-      this.repos_url,
-      this.events_url,
-      this.received_events_url,
-      this.type,
-      this.site_admin,
-      this.name,
-      this.company,
-      this.blog,
-      this.location,
-      this.email,
-      this.starred,
-      this.bio,
-      this.public_repos,
-      this.public_gists,
-      this.followers,
-      this.following,
-      this.created_at,
-      this.updated_at,
-      this.private_gists,
-      this.total_private_repos,
-      this.owned_private_repos,
-      this.disk_usage,
-      this.collaborators,
-      this.two_factor_authentication);
-
+  @JsonKey(name: 'login')
   String login;
-  int id;
-  String node_id;
-  String avatar_url;
-  String gravatar_id;
-  String url;
-  String html_url;
-  String followers_url;
-  String following_url;
-  String gists_url;
-  String starred_url;
-  String subscriptions_url;
-  String organizations_url;
-  String repos_url;
-  String events_url;
-  String received_events_url;
-  String type;
-  bool site_admin;
+
+  @JsonKey(name: 'name')
   String name;
-  String company;
+
+  @JsonKey(name: 'id')
+  int id;
+
+  @JsonKey(name: 'node_id')
+  String nodeId;
+
+  @JsonKey(name: 'avatar_url')
+  String avatarUrl;
+
+  @JsonKey(name: 'gravatar_id')
+  String gravatarId;
+
+  @JsonKey(name: 'url')
+  String url;
+
+  @JsonKey(name: 'html_url')
+  String htmlUrl;
+
+  @JsonKey(name: 'followers_url')
+  String followersUrl;
+
+  @JsonKey(name: 'following_url')
+  String followingUrl;
+
+  @JsonKey(name: 'gists_url')
+  String gistsUrl;
+
+  @JsonKey(name: 'starred_url')
+  String starredUrl;
+
+  @JsonKey(name: 'subscriptions_url')
+  String subscriptionsUrl;
+
+  @JsonKey(name: 'organizations_url')
+  String organizationsUrl;
+
+  @JsonKey(name: 'repos_url')
+  String reposUrl;
+
+  @JsonKey(name: 'events_url')
+  String eventsUrl;
+
+  @JsonKey(name: 'received_events_url')
+  String receivedEventsUrl;
+
+  @JsonKey(name: 'type')
+  String type;
+
+  @JsonKey(name: 'site_admin')
+  bool siteAdmin;
+
+  @JsonKey(name: 'blog')
   String blog;
-  String location;
-  String email;
-  String starred;
-  String bio;
-  int public_repos;
-  int public_gists;
+
+  @JsonKey(name: 'public_repos')
+  int publicRepos;
+
+  @JsonKey(name: 'public_gists')
+  int publicGists;
+
+  @JsonKey(name: 'followers')
   int followers;
+
+  @JsonKey(name: 'following')
   int following;
-  DateTime created_at;
-  DateTime updated_at;
-  int private_gists;
-  int total_private_repos;
-  int owned_private_repos;
-  int disk_usage;
+
+  @JsonKey(name: 'created_at')
+  String createdAt;
+
+  @JsonKey(name: 'updated_at')
+  String updatedAt;
+
+  @JsonKey(name: 'private_gists')
+  int privateGists;
+
+  @JsonKey(name: 'total_private_repos')
+  int totalPrivateRepos;
+
+  @JsonKey(name: 'owned_private_repos')
+  int ownedPrivateRepos;
+
+  @JsonKey(name: 'disk_usage')
+  int diskUsage;
+
+  @JsonKey(name: 'collaborators')
   int collaborators;
-  bool two_factor_authentication;
+
+  @JsonKey(name: 'two_factor_authentication')
+  bool twoFactorAuthentication;
+
+//  @JsonKey(name: 'plan')
+//  Plan plan;
+  @JsonKey(name: 'company')
+  String company;
+  @JsonKey(name: 'location')
+  String location;
+  @JsonKey(name: 'email')
+  String email;
+  @JsonKey(name: 'bio')
+  String bio;
 
   bool isFollow;
 
-  factory UserBean.fromJson(Map<String, dynamic> json) => _$UserBeanFromJson(json);
+  UserBean(
+      this.login,
+      this.name,
+      this.id,
+      this.nodeId,
+      this.avatarUrl,
+      this.gravatarId,
+      this.url,
+      this.htmlUrl,
+      this.followersUrl,
+      this.followingUrl,
+      this.gistsUrl,
+      this.starredUrl,
+      this.subscriptionsUrl,
+      this.organizationsUrl,
+      this.reposUrl,
+      this.eventsUrl,
+      this.receivedEventsUrl,
+      this.type,
+      this.siteAdmin,
+      this.blog,
+      this.publicRepos,
+      this.publicGists,
+      this.followers,
+      this.following,
+      this.createdAt,
+      this.updatedAt,
+      this.privateGists,
+      this.totalPrivateRepos,
+      this.ownedPrivateRepos,
+      this.diskUsage,
+      this.collaborators,
+      this.twoFactorAuthentication,
+//    this.plan,
+      this.company,
+      this.location,
+      this.email,
+      this.bio,
+      );
 
-  Map<String, dynamic> toJson() => _$UserBeanToJson(this);
+  factory UserBean.fromJson(Map<String, dynamic> srcJson) =>
+      _$UserBeanFromJson(srcJson);
 
-  // 命名构造函数
-  UserBean.empty();
-
+  get toJson => _$UserBeanToJson(this);
 }
+
+//@JsonSerializable()
+//class Plan {
+//  @JsonKey(name: 'name')
+//  String name;
+//
+//  @JsonKey(name: 'space')
+//  int space;
+//
+//  @JsonKey(name: 'collaborators')
+//  int collaborators;
+//
+//  @JsonKey(name: 'private_repos')
+//  int privateRepos;
+//
+//  Plan(
+//    this.name,
+//    this.space,
+//    this.collaborators,
+//    this.privateRepos,
+//  );
+//
+//  factory Plan.fromJson(Map<String, dynamic> srcJson) =>
+//      _$PlanFromJson(srcJson);
+//
+//  get toJson => _$PlanToJson(this);
+//}

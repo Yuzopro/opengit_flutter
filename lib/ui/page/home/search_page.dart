@@ -147,7 +147,7 @@ class _SearchPageState extends State<SearchPage>
 abstract class _SearchItem<T, B extends BaseListBloc<T>>
     extends BaseListStatelessWidget<T, B> {
   @override
-  bool isShowAppBar() {
+  bool isShowAppBar(BuildContext context) {
     return false;
   }
 

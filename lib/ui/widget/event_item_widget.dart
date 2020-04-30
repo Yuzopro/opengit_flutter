@@ -70,7 +70,7 @@ class EventItemWidget extends StatelessWidget {
             child: Hero(
               tag: "hero_event_image_${item.id}_${item.actor.login}",
               child: ImageUtil.getCircleNetworkImage(
-                item.actor.avatar_url,
+                item.actor.avatarUrl,
                 36.0,
                 ImagePath.image_default_head,
               ),
@@ -78,7 +78,7 @@ class EventItemWidget extends StatelessWidget {
             ),
             onTap: () {
               NavigatorUtil.goUserProfile(
-                  context, item.actor.login, item.actor.avatar_url ?? "", "hero_event_image_${item.id}_");
+                  context, item.actor.login, item.actor.avatarUrl ?? "", "hero_event_image_${item.id}_");
             },
           ),
           Expanded(

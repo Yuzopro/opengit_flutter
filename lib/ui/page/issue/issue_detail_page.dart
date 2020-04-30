@@ -229,7 +229,7 @@ class IssueDetailPage
 
   Widget _buildAvatar(IssueBean item) {
     return ImageUtil.getCircleNetworkImage(
-        item.user.avatar_url, 36.0, ImagePath.image_default_head);
+        item.user.avatarUrl, 36.0, ImagePath.image_default_head);
   }
 
   Widget _buildNameAndDate(IssueBean item) {

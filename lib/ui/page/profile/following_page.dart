@@ -6,19 +6,14 @@ import 'package:open_git/ui/page/profile/user_page.dart';
 
 class FollowingPage extends UserPage {
 
-  @override
-  bool isShowAppBar() {
+ @override
+  bool isNeedScaffold() {
     return false;
   }
 
   @override
   String getTitle(BuildContext context) {
     return '我关注的';
-  }
-
-  @override
-  bool isShowAppBarActions() {
-    return true;
   }
 
   @override

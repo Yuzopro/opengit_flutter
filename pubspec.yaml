@@ -44,6 +44,8 @@ dependencies:
   sqflite: ^1.1.6
   # 文件管理
   path_provider: ^1.6.7
+  # 工具类
+  flukit: ^1.0.0
   # 颜色选择器
   flutter_colorpicker: ^0.2.6
   flutter_localizations:
@@ -106,6 +108,7 @@ flutter:
   # see https://flutter.io/custom-fonts/#from-packages
   assets:
     - assets/data/language_colors.json
+    - assets/data/home_data.json
 
     - assets/images/ic_launcher.png
     - assets/images/ic_branch.png

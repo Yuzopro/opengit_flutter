@@ -27,7 +27,17 @@ void main() {
   );
 
   runZoned(() {
-    runApp(OpenGitApp(store));
+    Widget app;
+    if (false) {
+      //代码全灰
+      app = ColorFiltered(
+        colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+        child: OpenGitApp(store),
+      );
+    } else {
+      app = OpenGitApp(store);
+    }
+    runApp(app);
   }, onError: (Object obj, StackTrace trace) {
     print(obj);
     print(trace);

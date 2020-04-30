@@ -12,7 +12,7 @@ class TrendingUserPage
   static final String TAG = "TrendingUserPage";
 
   @override
-  bool isShowAppBar() {
+  bool isShowAppBar(BuildContext context) {
     return false;
   }
 

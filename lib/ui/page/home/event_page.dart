@@ -14,7 +14,7 @@ class EventPage extends BaseListStatelessWidget<EventBean, EventBloc> {
   EventPage(this.showBar);
 
   @override
-  bool isShowAppBar() {
+  bool isNeedScaffold() {
     return showBar;
   }
 

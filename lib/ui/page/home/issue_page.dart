@@ -24,7 +24,7 @@ class IssuePage extends BaseListStatelessWidget<IssueBean, IssueBloc> {
   static List<String> _direction = ['asc', 'desc'];
 
   @override
-  bool isShowAppBar() {
+  bool isShowAppBar(BuildContext context) {
     return false;
   }
 

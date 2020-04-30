@@ -46,6 +46,18 @@ class OtherPage extends StatelessWidget {
           Divider(
             height: 0.3,
           ),
+          ListTile(
+            title:
+            new Text('WanAndroid API', style: YZStyle.middleText),
+            trailing: new Icon(Icons.navigate_next),
+            onTap: () {
+              NavigatorUtil.goWebView(context, 'WanAndroid API',
+                  'https://www.wanandroid.com/blog/show/2');
+            },
+          ),
+          Divider(
+            height: 0.3,
+          ),
         ],
       ),
     );

@@ -24,7 +24,15 @@ class SearchIssueBloc extends SearchBloc<IssueBean> {
         bean.data.add(issue);
       }
     } else {
-      bean.isError = true;
+      if (bean.data.length > 0) {
+        bean.isError = false;
+        noMore = false;
+      } else {
+        bean.isError = true;
+      }
+      if (page > 1) {
+        page--;
+      }
     }
   }
 }

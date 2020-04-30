@@ -119,7 +119,7 @@ class HttpRequest {
         LogUtil.v(
             'load data from network and success, url is ' + builder.getUrl(),
             tag: TAG);
-        LogUtil.v(response.data);
+//        LogUtil.v(response.data);
         return ResponseResultData(response.data, true, response.statusCode);
       } else {
         LogUtil.v(

@@ -54,12 +54,12 @@ class _DrawerPageState extends State<DrawerPage> {
               //用户头像
               onTap: () {
                 NavigatorUtil.goUserProfile(context, _userBean.login,
-                    _userBean.avatar_url ?? "", "hero_drawer_image_");
+                    _userBean.avatarUrl ?? "", "hero_drawer_image_");
               },
               child: Hero(
                 tag: "hero_drawer_image_${_userBean?.login??""}",
                 child: ImageUtil.getCircleNetworkImage(
-                  _userBean.avatar_url ?? "",
+                  _userBean.avatarUrl ?? "",
                   YZSize.LARGE_IMAGE_SIZE,
                   ImagePath.image_default_head,
                 ),
@@ -68,7 +68,7 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
             onDetailsPressed: () {
               NavigatorUtil.goUserProfile(context, _userBean.login,
-                  _userBean.avatar_url ?? "", "hero_drawer_image_");
+                  _userBean.avatarUrl ?? "", "hero_drawer_image_");
             },
             otherAccountsPictures: <Widget>[
               InkWell(

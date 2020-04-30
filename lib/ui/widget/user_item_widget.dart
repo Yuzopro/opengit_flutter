@@ -19,7 +19,7 @@ class UserItemWidget extends StatelessWidget {
         child: _postCard(context),
       ),
       onTap: () {
-        NavigatorUtil.goUserProfile(context, item.login, item.avatar_url ?? "", heroTag);
+        NavigatorUtil.goUserProfile(context, item.login, item.avatarUrl ?? "", heroTag);
       },
     );
   }
@@ -40,7 +40,7 @@ class UserItemWidget extends StatelessWidget {
           Hero(
             tag: heroTag + item.login,
             child: ImageUtil.getCircleNetworkImage(
-              item.avatar_url,
+              item.avatarUrl,
               36.0,
               ImagePath.image_default_head,
             ),

@@ -44,7 +44,15 @@ class TrendingLanguageBloc extends BaseListBloc<TrendingLanguageBean> {
         bean.isError = false;
         bean.data.addAll(result);
       } else {
-        bean.isError = true;
+        if (bean.data.length > 0) {
+          bean.isError = false;
+          noMore = false;
+        } else {
+          bean.isError = true;
+        }
+        if (page > 1) {
+          page--;
+        }
       }
       _sortListByLetter(bean.data);
       TrendingLanguageBean item =

@@ -99,7 +99,7 @@ class _AboutPageState extends State<AboutPageContent> {
                   trailing: Icon(Icons.navigate_next),
                   onTap: () {
                     UserBean userBean = LoginManager.instance.getUserBean();
-                    NavigatorUtil.goUserProfile(context, userBean.login, userBean.avatar_url ?? "", "");
+                    NavigatorUtil.goUserProfile(context, userBean.login, userBean.avatarUrl ?? "", "");
                   },
                 ),
                 Divider(

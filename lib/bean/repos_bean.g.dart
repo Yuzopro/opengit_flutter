@@ -15,9 +15,6 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
     json['html_url'] as String,
     json['description'] as String,
     json['language'] as String,
-    json['license'] == null
-        ? null
-        : License.fromJson(json['license'] as Map<String, dynamic>),
     json['default_branch'] as String,
     json['created_at'] == null
         ? null
@@ -47,18 +44,18 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
     json['owner'] == null
         ? null
         : UserBean.fromJson(json['owner'] as Map<String, dynamic>),
-    json['parent'] == null
-        ? null
-        : Repository.fromJson(json['parent'] as Map<String, dynamic>),
-    json['permissions'] == null
-        ? null
-        : RepositoryPermissions.fromJson(
-            json['permissions'] as Map<String, dynamic>),
     (json['topics'] as List)?.map((e) => e as String)?.toList(),
     json['stargazers_url'] as String,
     json['contributors_url'] as String,
     json['subscribers_url'] as String,
-  )..allIssueCount = json['allIssueCount'] as int;
+  )
+    ..parent = json['parent'] == null
+        ? null
+        : Repository.fromJson(json['parent'] as Map<String, dynamic>)
+    ..license = json['license'] == null
+        ? null
+        : License.fromJson(json['license'] as Map<String, dynamic>)
+    ..allIssueCount = json['allIssueCount'] as int;
 }
 
 Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
@@ -93,10 +90,9 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
       'has_downloads': instance.hasDownloads,
       'has_wiki': instance.hasWiki,
       'has_pages': instance.hasPages,
-      'owner': instance.owner?.toJson,
-//      'license': instance.license,
 //      'parent': instance.parent,
-//      'permissions': instance.permissions,
+//      'license': instance.license,
+      'owner': instance.owner?.toJson,
       'topics': instance.topics,
       'allIssueCount': instance.allIssueCount,
     };

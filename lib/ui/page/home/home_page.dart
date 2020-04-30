@@ -1,90 +1,97 @@
+import 'package:flukit/flukit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_ui/bloc/base_list_stateless_widget.dart';
-import 'package:flutter_base_ui/flutter_base_ui.dart';
-import 'package:open_git/bean/juejin_bean.dart';
+import 'package:flutter_base_ui/bloc/base_stateless_widget.dart';
+import 'package:flutter_base_ui/bloc/loading_bean.dart';
+import 'package:flutter_common_util/flutter_common_util.dart';
+import 'package:open_git/bean/home_banner_bean.dart';
+import 'package:open_git/bean/home_bean.dart';
+import 'package:open_git/bean/home_item_bean.dart';
 import 'package:open_git/bloc/home_bloc.dart';
-import 'package:open_git/common/config.dart';
-import 'package:open_git/localizations/app_localizations.dart';
+import 'package:open_git/common/image_path.dart';
+import 'package:open_git/route/navigator_util.dart';
+import 'package:open_git/ui/widget/header_item.dart';
 import 'package:open_git/ui/widget/home_item_widget.dart';
 
-class HomePage extends BaseListStatelessWidget<Entrylist, HomeBloc> {
-  static final String TAG = "HomePage";
+class HomePage extends BaseStatelessWidget<LoadingBean<HomeBean>, HomeBloc> {
+  @override
+  bool isShowAppBar(BuildContext context) => false;
 
   @override
-  bool isShowAppBar() {
-    return false;
+  int getItemCount(LoadingBean<HomeBean> data) => 1;
+
+  @override
+  bool isLoading(LoadingBean<HomeBean> data) {
+    return data != null ? data.isLoading : true;
   }
 
   @override
-  Widget buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        _showAlertDialog(context);
-      },
-      child: Text(
-        AppLocalizations.of(context).currentlocal.disclaimer_,
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
+  Widget getChild(BuildContext context, LoadingBean<HomeBean> bean) {
+    if (bean == null ||
+        bean.data == null ||
+        bean.data.banner == null ||
+        bean.data.itemBean == null) {
+      return Container();
+    }
+
+    return ListView(
+      children: <Widget>[
+        _buildBanner(context, bean.data.banner),
+        _buildItem(context, bean.data.itemBean.recommend, Icons.book, "推荐项目"),
+        _buildItem(context, bean.data.itemBean.other, Icons.language, "其他资源"),
+      ],
     );
   }
 
-  @override
-  Widget builderItem(BuildContext context, Entrylist item) {
-    return HomeItemWidget(item);
+  Widget _buildBanner(BuildContext context, List<Data> list) {
+    return new AspectRatio(
+      aspectRatio: 16.0 / 9.0,
+      child: Swiper(
+        indicatorAlignment: AlignmentDirectional.topEnd,
+        circular: true,
+        interval: const Duration(seconds: 5),
+        indicator: NumberSwiperIndicator(),
+        children: list.map((model) {
+          return new InkWell(
+            onTap: () {
+              NavigatorUtil.goWebView(context, model.title, model.url);
+            },
+            child: ImageUtil.getNetworkImage(model.imagePath),
+          );
+        }).toList(),
+      ),
+    );
   }
 
-  void _showAlertDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).currentlocal.disclaimer,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              )),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(Config.disclaimerText1),
-                Text(Config.disclaimerText2),
-              ],
-            ),
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)), // 圆角
+  Widget _buildItem(BuildContext context, List<HomeItem> list,
+      IconData leftIcon, String title) {
+    List<Widget> _children = list.map((model) {
+      return HomeItemWidget(model);
+    }).toList();
+    List<Widget> children = new List();
+    children.add(HeaderItem(
+      leftIcon: leftIcon,
+      title: title,
+    ));
+    children.addAll(_children);
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: children,
+    );
+  }
+}
 
-          actions: <Widget>[
-            Container(
-              width: 250,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      AppLocalizations.of(context).currentlocal.got_it,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-      },
+class NumberSwiperIndicator extends SwiperIndicator {
+  @override
+  Widget build(BuildContext context, int index, int itemCount) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.black45, borderRadius: BorderRadius.circular(20.0)),
+      margin: EdgeInsets.only(top: 10.0, right: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+      child: Text("${++index}/$itemCount",
+          style: TextStyle(color: Colors.white70, fontSize: 11.0)),
     );
   }
 }

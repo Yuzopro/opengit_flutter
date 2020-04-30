@@ -4,12 +4,15 @@ import 'package:flutter_base_ui/bloc/bloc_provider.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:open_git/bean/issue_bean.dart';
 import 'package:open_git/bean/label_bean.dart';
+import 'package:open_git/bloc/flutter_hot_bloc.dart';
 import 'package:open_git/bloc/issue_detail_bloc.dart';
 import 'package:open_git/bloc/label_bloc.dart';
+import 'package:open_git/bloc/profile_bloc.dart';
 import 'package:open_git/bloc/track_bloc.dart';
 import 'package:open_git/route/application.dart';
 import 'package:open_git/route/fluro_util.dart';
 import 'package:open_git/route/routes.dart';
+import 'package:open_git/ui/page/home/flutter_hot_page.dart';
 import 'package:open_git/ui/page/issue/edit_label_page.dart';
 import 'package:open_git/ui/page/issue/issue_detail_page.dart';
 import 'package:open_git/ui/page/issue/label_page.dart';
@@ -404,10 +407,21 @@ class NavigatorUtil {
     Navigator.push(
       context,
       CupertinoPageRoute(
-        builder: (context) => UserProfilePage(
-          name: name,
-          avatar: avatar,
-          heroTag: heroTag,
+        builder: (context) => BlocProvider<ProfileBloc>(
+          child: UserProfilePage(heroTag),
+          bloc: ProfileBloc(name),
+        ),
+      ),
+    );
+  }
+
+  static goFlutterHot(BuildContext context) async {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => BlocProvider<FlutterHotBloc>(
+          child: FlutterHotPage(),
+          bloc: FlutterHotBloc(),
         ),
       ),
     );

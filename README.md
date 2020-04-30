@@ -119,6 +119,13 @@ flutter install
 
     1. 优化bloc架构；
     2. 增加足迹页面；
+    
+## 1.5.0版本
+
+    1. 首页改版；
+    2. 个人、组织资料详情页改版；
+    3. 项目详情页增加topic；
+    4. 个人、组织资料详情页增加Hero动画；
 
 ## 学习历程
 
@@ -191,7 +198,7 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 
 扫码下载
 
-![](https://raw.githubusercontent.com/Yuzopro/image/master/flutter/flutter_opengit_3.png)
+![](https://user-gold-cdn.xitu.io/2020/4/29/171c395d5cb15f02?imageView2/2/w/480/h/480/q/85/interlace/1)
 
 ## IOS需要自行下载代码运行。（效果是一致的）
 
@@ -227,6 +234,8 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 
 - [Github-trending-api](https://github.com/huchenme/github-trending-api)
 
+- [WanAndroid-api](https://www.wanandroid.com/blog/show/2)
+
 ## 关于作者
 
 - [个人博客](https://yuzopro.github.io/)
@@ -242,7 +251,7 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 
 如果觉得好？请打赏下作者😀
 
-<img src="https://raw.githubusercontent.com/Yuzopro/image/master/flutter/weixin_pay.jpeg" width="260px"/>
+<img src="https://user-gold-cdn.xitu.io/2020/4/29/171c3931f90b0905?w=1080&h=1080&f=jpeg&s=50798" width="260px"/>
 
 ## 默认条款
 

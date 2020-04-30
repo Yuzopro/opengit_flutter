@@ -27,7 +27,15 @@ class SearchRepoBloc extends SearchBloc<Repository> {
         bean.data.add(repository);
       }
     } else {
-      bean.isError = true;
+      if (bean.data.length > 0) {
+        bean.isError = false;
+        noMore = false;
+      } else {
+        bean.isError = true;
+      }
+      if (page > 1) {
+        page--;
+      }
     }
   }
 }

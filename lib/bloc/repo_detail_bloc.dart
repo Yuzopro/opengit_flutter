@@ -46,17 +46,17 @@ class RepoDetailBloc extends BaseBloc<LoadingBean<ReposDetailBean>> {
         await ReposManager.instance.getReposDetail(reposOwner, reposName);
     bean.data.repos = repos;
 
-    await _saveDb(repos);
-
     if (repos == null) {
       bean.isError = true;
     } else {
       bean.isError = false;
-    }
 
-    _fetchTopic();
-    _fetchStarStatus();
-    _fetchWatchStatus();
+      await _saveDb(repos);
+
+      _fetchTopic();
+      _fetchStarStatus();
+      _fetchWatchStatus();
+    }
   }
 
   Future _saveDb(Repository item) async {

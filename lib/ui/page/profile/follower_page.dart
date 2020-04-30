@@ -7,7 +7,7 @@ import 'package:open_git/ui/page/profile/user_page.dart';
 class FollowerPage extends UserPage {
 
   @override
-  bool isShowAppBar() {
+  bool isNeedScaffold() {
     return false;
   }
 

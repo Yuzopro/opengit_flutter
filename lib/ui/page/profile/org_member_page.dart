@@ -4,7 +4,7 @@ import 'package:open_git/ui/page/profile/user_page.dart';
 class OrgMemberPage extends UserPage {
 
   @override
-  bool isShowAppBar() {
+  bool isShowAppBar(BuildContext context) {
     return false;
   }
 
