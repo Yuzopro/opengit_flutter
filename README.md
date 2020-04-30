@@ -126,6 +126,7 @@ flutter install
     2. 个人、组织资料详情页改版；
     3. 项目详情页增加topic；
     4. 个人、组织资料详情页增加Hero动画；
+    5. 修改bug；
 
 ## 学习历程
 
@@ -194,11 +195,11 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 | **path_provider**          | **文件管理** |
 
 ## Android版安装包：
-[点击下载](https://github.com/Yuzopro/opengit_flutter/releases/download/1.3.0/opengit-release-1.3.0)
+[点击下载](https://github.com/Yuzopro/opengit_flutter/releases/download/1.5.0/opengit-release-1.5.0)
 
 扫码下载
 
-![](https://user-gold-cdn.xitu.io/2020/4/29/171c395d5cb15f02?imageView2/2/w/480/h/480/q/85/interlace/1)
+![](https://user-gold-cdn.xitu.io/2020/4/30/171c8ab2086d31f9?w=300&h=300&f=png&s=5393)
 
 ## IOS需要自行下载代码运行。（效果是一致的）
 
