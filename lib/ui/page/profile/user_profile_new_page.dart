@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/bloc/bloc_provider.dart';
@@ -200,16 +201,13 @@ class _UserProfileState extends State<_UserProfilePage>
             SizedBox(
               width: 3.0,
             ),
-            ClipOval(
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.white,
-                width: 14.0,
-                height: 14.0,
-                child: Text(
-                  count.toString(),
-                  style: YZStyle.minText,
-                ),
+            Badge(
+              elevation: 0,
+              shape: BadgeShape.circle,
+              badgeColor: Colors.white,
+              badgeContent: Text(
+                count.toString(),
+                style: YZStyle.minText,
               ),
             ),
           ],

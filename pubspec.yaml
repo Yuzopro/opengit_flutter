@@ -48,6 +48,8 @@ dependencies:
   flukit: ^1.0.0
   # 颜色选择器
   flutter_colorpicker: ^0.2.6
+  # 红点
+  badges: ^1.1.1
   flutter_localizations:
     sdk: flutter
 

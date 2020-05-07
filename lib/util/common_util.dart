@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_ui/flutter_base_ui.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
@@ -8,12 +9,8 @@ import 'package:open_git/route/navigator_util.dart';
 
 class CommonUtil {
   static Widget getRedPoint() {
-    return ClipOval(
-      child: Container(
-        color: Color(YZColors.redPointColor),
-        width: 6.0,
-        height: 6.0,
-      ),
+    return Badge(
+      elevation: 0,
     );
   }
 
