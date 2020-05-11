@@ -6,7 +6,6 @@ class RepoMainBloc extends RepoBloc {
 
   @override
   fetchRepos(int page) async {
-    return await ReposManager.instance
-        .getUserRepos(userName, page, null, false);
+    return await ReposManager.instance.getRepos(page, null);
   }
 }

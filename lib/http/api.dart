@@ -23,6 +23,11 @@ class Api {
     return '${_BASE_URL}users/$userName/repos?sort=$sort';
   }
 
+  static repos(sort) {
+    sort ??= 'pushed';
+    return '${_BASE_URL}user/repos?sort=$sort';
+  }
+
   //仓库详情 get
   static getReposDetail(reposOwner, reposName) {
     return '${_BASE_URL}repos/$reposOwner/$reposName';
