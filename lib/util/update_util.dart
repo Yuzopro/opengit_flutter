@@ -125,13 +125,9 @@ class UpdateUtil {
   }
 
   static _getLocalPath() async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission != PermissionStatus.granted) {
-      Map<PermissionGroup, PermissionStatus> permissions =
-          await PermissionHandler()
-              .requestPermissions([PermissionGroup.storage]);
-      if (permissions[PermissionGroup.storage] != PermissionStatus.granted) {
+    var status = await Permission.storage.status;
+    if (status != PermissionStatus.granted) {
+      if (await Permission.contacts.request().isGranted) {
         return null;
       }
     }

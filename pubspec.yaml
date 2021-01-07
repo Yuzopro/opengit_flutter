@@ -19,45 +19,45 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: any
   #http
-  dio: ^3.0.9
+  dio: any
   #http
-  connectivity: ^0.4.8+2
+  connectivity: any
   #http
-  json_annotation: ^2.4.0
+  json_annotation: any
   #markdown
-  markdown: ^2.0.3
+  markdown: any
   #markdown
-  flutter_markdown: ^0.2.0
+  flutter_markdown: any
   #redux
-  flutter_redux: ^0.6.0
+  flutter_redux: any
   #router
-  fluro: ^1.5.1
+  fluro: any
   #app package info
-  package_info: ^0.4.0+4
+  package_info: any
   #qr code
-  qr_flutter: ^2.1.0+55
+  qr_flutter: any
   #apply permission
-  permission_handler: ^3.1.0
+  permission_handler: any
   # 数据库
-  sqflite: ^1.1.6
+  sqflite: any
   # 文件管理
-  path_provider: ^1.6.7
+  path_provider: any
   # 工具类
-  flukit: ^1.0.0
+  flukit: any
   # 颜色选择器
-  flutter_colorpicker: ^0.2.6
+  flutter_colorpicker: any
   # 红点
-  badges: ^1.1.1
+  badges: any
   flutter_localizations:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.5.1
-  json_serializable: ^3.0.0
+  build_runner: any
+  json_serializable: any
   #####本地库
   install_apk_plugin:
     path: ./flutter_common_lib/install_apk_plugin

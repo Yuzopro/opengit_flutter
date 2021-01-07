@@ -248,12 +248,3 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 - [简书](https://www.jianshu.com/u/ef3cb65219d4)
 
 - [CSDN](https://blog.csdn.net/Yuzopro)
-
-
-如果觉得好？请打赏下作者😀
-
-<img src="https://user-gold-cdn.xitu.io/2020/4/29/171c3931f90b0905?w=1080&h=1080&f=jpeg&s=50798" width="260px"/>
-
-## 默认条款
-
-此项目仅供大家交流沟通使用，不得用于任何商业以及利益活动。

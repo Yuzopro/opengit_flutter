@@ -161,8 +161,8 @@ class MarkdownWidget extends StatelessWidget {
           styleSheet: _getStyle(context),
           syntaxHighlighter: YZHighlighter(),
           data: _getMarkDownData(markdownData),
-          onTapLink: (String source) {
-            CommonUtil.launchUrl(context, source);
+          onTapLink: (String text, String href, String title) {
+            CommonUtil.launchUrl(context, text);
           },
         ),
       ),

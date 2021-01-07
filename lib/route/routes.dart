@@ -53,7 +53,7 @@ class AppRoutes {
   static final edit_issue_comment = '/main/edit/comment';
   static final edit_issue_reaction = '/main/edit/reaction';
 
-  static void configureRoutes(Router router) {
+  static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print('ROUTE WAS NOT FOUND !!!');

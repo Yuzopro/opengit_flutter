@@ -48,7 +48,7 @@ class OpenGitApp extends StatefulWidget {
   final Store<AppState> store;
 
   OpenGitApp(this.store) {
-    final router = Router();
+    final router = FluroRouter();
 
     AppRoutes.configureRoutes(router);
 

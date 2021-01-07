@@ -3,7 +3,7 @@
     <item android:drawable="@android:color/white" />
 
     <!-- You can insert your own image assets here -->
-    <item android:bottom="30dp">
+    <item android:bottom="50dp">
         <bitmap
             android:gravity="bottom |center_horizontal"
             android:src="@mipmap/ic_launcher" />

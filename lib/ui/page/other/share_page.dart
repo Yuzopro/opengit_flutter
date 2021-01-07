@@ -71,11 +71,9 @@ class _SharePageState extends State<SharePage> {
                 ),
               ),
               QrImage(
-                  data: OPEN_GIT_HOME,
-                  size: qrSize,
-                  onError: (ex) {
-                    print('[QR] ERROR - $ex');
-                  }),
+                data: OPEN_GIT_HOME,
+                size: qrSize,
+              ),
               Text(AppLocalizations.of(context).currentlocal.download_app_tips,
                   style: TextStyle(color: Colors.grey, fontSize: 12.0)),
             ],
