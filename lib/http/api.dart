@@ -296,5 +296,12 @@ class Api {
   }
 
   //wanandroid banner
-  static getBanner() => "http://www.wanandroid.com/banner/json";
+  static getBanner() => "https://www.wanandroid.com/banner/json";
+
+  static getAuth(code) {
+    return "https://github.com/login/oauth/access_token?"
+        "client_id=${Config.CLIENT_ID}"
+        "&client_secret=${Config.CLIENT_SECRET}"
+        "&code=${code}";
+  }
 }

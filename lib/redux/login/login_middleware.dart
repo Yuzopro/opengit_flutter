@@ -15,6 +15,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is FetchLoginAction) {
       _doLogin(next, action.context, action.userName, action.password);
+    } else if (action is AuthLoginAction) {
+      _auth(next, action.context, action.code);
     }
   }
 
@@ -27,6 +29,25 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
           await LoginManager.instance.login(userName, password);
       if (loginBean != null) {
         String token = loginBean.token;
+        LoginManager.instance.setToken(token, true);
+        next(FetchUserAction(context, token));
+      } else {
+        ToastUtil.showMessgae('登录失败请重新登录');
+        next(ErrorLoadingLoginAction());
+      }
+    } catch (e) {
+      LogUtil.v(e, tag: TAG);
+      ToastUtil.showMessgae('登录失败请重新登录');
+      next(ErrorLoadingLoginAction());
+    }
+  }
+
+  Future<void> _auth(NextDispatcher next, BuildContext context, String code) async {
+    next(RequestingLoginAction());
+
+    try {
+      String token = await LoginManager.instance.auth(code);
+      if (token != null) {
         LoginManager.instance.setToken(token, true);
         next(FetchUserAction(context, token));
       } else {

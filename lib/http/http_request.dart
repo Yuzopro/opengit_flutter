@@ -98,7 +98,7 @@ class HttpRequest {
     );
 
     String url = builder.getUrl();
-    LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
+    // LogUtil.v(url /*+ '-->' + builder.getData().toString()*/);
 
     Dio _dio = Dio(options);
     //开始请求
@@ -116,22 +116,22 @@ class HttpRequest {
           provider.insert(
               url, jsonEncode(response.data), DateTime.now().toIso8601String());
         }
-        LogUtil.v(
-            'load data from network and success, url is ' + builder.getUrl(),
-            tag: TAG);
-//        LogUtil.v(response.data);
+       //  LogUtil.v(
+       //      'load data from network and success, url is ' + builder.getUrl(),
+       //      tag: TAG);
+       // LogUtil.v(response.data);
         return ResponseResultData(response.data, true, response.statusCode);
       } else {
-        LogUtil.v(
-            'load data from network and error code, url is ' + builder.getUrl(),
-            tag: TAG);
+        // LogUtil.v(
+        //     'load data from network and error code, url is ' + builder.getUrl(),
+        //     tag: TAG);
         return ResponseResultData(
             response.data["message"], false, response.statusCode);
       }
     } on DioError catch (e) {
 //      ToastUtil.showMessgae(e.toString());
-      LogUtil.v('load data from network and exception, e is ' + e.toString(),
-          tag: TAG);
+//       LogUtil.v('load data from network and exception, e is ' + e.toString(),
+//           tag: TAG);
       return ResponseResultData(null, false, -2);
     }
   }

@@ -128,6 +128,12 @@ flutter install
     4. 个人、组织资料详情页增加Hero动画；
     5. 修改bug；
 
+## 1.6.0版本
+
+    1. 修改不能登录的问题；
+    2. 修改首页不能加载的问题；
+
+
 ## 学习历程
 
 ### 初识Flutter
@@ -138,7 +144,7 @@ flutter install
 学习flutter基本上都是空闲时间学习，最初每天花2-3个小时，学习flutter的最常用的基础组件;当基础组件掌握的差不多后，开始深入学flutter中的Widget，主要是参考flutter官方gallery demo, 并且跟着这个项目敲代码。在敲了几天之后，发现这个学习过程非常枯燥，并且经常性学了下个widget，就忘了上个widget，没坚持多久，就考虑拿一个项目练手。学习这整个过程大概就花了一个月，总体感觉只要静下心来学习还是很容易上手的。
 
 ## OpenGit项目的诞生
-OpenGit主要是一个Github客户端。选择以Github客户端作为练手项目的主要原因有，第一因为最开始接触的flutter开发的第一个app就是[gitme](https://github.com/flutterchina/gitme)，而这个项目也是一个Github客户端，有现成的ui可以作为参考；第二可以参考[恋猫de小郭](https://juejin.im/user/582aca2ba22b9d006b59ae68)开源了一个更强大的Github客户端[GSYGithubAppFlutte](https://github.com/CarGuo/GSYGithubAppFlutter)
+OpenGit主要是一个Github客户端。选择以Github客户端作为练手项目的主要原因有，第一因为最开始接触的flutter开发的第一个app就是[gitme](https://github.com/flutterchina/gitme)，而这个项目也是一个Github客户端，有现成的ui可以作为参考；第二可以参考[恋猫de小郭](https://juejin.im/user/582aca2ba22b9d006b59ae68)开源了一个更强大的Github客户端[GSYGithubAppFlutter](https://github.com/CarGuo/GSYGithubAppFlutter)
 
 ## 实战
 
@@ -148,9 +154,9 @@ OpenGit主要是一个Github客户端。选择以Github客户端作为练手项�
 
 ### 数据源
 
-请求数据的相关API，主要是参[GSYGithubAppFlutte](https://github.com/CarGuo/GSYGithubAppFlutter)和[Github Developer](https://developer.github.com/v3/)。
+请求数据的相关API，主要是参[GSYGithubAppFlutter](https://github.com/CarGuo/GSYGithubAppFlutter)和[Github Developer](https://developer.github.com/v3/)。
 
-这里非常感觉下[恋猫de小郭](https://juejin.im/user/582aca2ba22b9d006b59ae68)，[GSYGithubAppFlutte](https://github.com/CarGuo/GSYGithubAppFlutter) 确实在我实践过程中提供了很大的帮助，在查阅相关api封装时，节省了不少的时间。
+这里非常感觉下[恋猫de小郭](https://juejin.im/user/582aca2ba22b9d006b59ae68)，[GSYGithubAppFlutter](https://github.com/CarGuo/GSYGithubAppFlutter) 确实在我实践过程中提供了很大的帮助，在查阅相关api封装时，节省了不少的时间。
 
 ### 架构
 

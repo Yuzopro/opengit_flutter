@@ -9,7 +9,7 @@ homepage: https://github.com/Yuzopro
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.5.0+7
+version: 1.6.0+8
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
@@ -50,6 +50,7 @@ dependencies:
   flutter_colorpicker: any
   # 红点
   badges: any
+  flutter_webview_plugin: any
   flutter_localizations:
     sdk: flutter
 

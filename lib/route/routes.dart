@@ -7,6 +7,7 @@ class AppRoutes {
   static final guide = '/guide';
   static final main = '/main';
   static final login = '/login';
+  static final loginWebview = '/loginWebview';
   static final setting = '/main/setting';
   static final theme = '/main/setting/theme';
   static final language = '/main/setting/language';
@@ -296,6 +297,11 @@ class AppRoutes {
     router.define(
       repo_topic,
       handler: topicReposHandler,
+      transitionType: TransitionType.cupertino,
+    );
+    router.define(
+      loginWebview,
+      handler: loginWebviewHandler,
       transitionType: TransitionType.cupertino,
     );
   }

@@ -168,6 +168,16 @@ class _SignPageState extends State<SignPage> {
                     ),
                   ],
                 ),
+                GestureDetector(
+                  onTap: () {
+                    widget.viewModel.onAuth();
+                  },
+                  child: Text(
+                    "授权登录",
+                    style: YZStyle.middleText
+                        .copyWith(decoration: TextDecoration.underline),
+                  ),
+                ),
                 SizedBox(
                   height: 50,
                 )

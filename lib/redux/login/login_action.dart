@@ -9,6 +9,13 @@ class FetchLoginAction {
   FetchLoginAction(this.context, this.userName, this.password);
 }
 
+class AuthLoginAction {
+  final BuildContext context;
+  final String code;
+
+  AuthLoginAction(this.context, this.code);
+}
+
 class ReceivedLoginAction {
   ReceivedLoginAction(
     this.token,

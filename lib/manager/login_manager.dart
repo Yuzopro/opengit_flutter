@@ -50,6 +50,16 @@ class LoginManager {
     return null;
   }
 
+  auth(String code) async {
+    final response = await HttpRequest().get(Api.getAuth(code), isCache: false);
+    if (response != null && response.data != null) {
+      var result = Uri.parse("opengit://oauth?" + response.data);
+      var token = result.queryParameters["access_token"];
+      return token;
+    }
+    return null;
+  }
+
   getMyUserInfo() async {
     final response =
         await HttpRequest().get(Api.getMyUserInfo(), isCache: false);

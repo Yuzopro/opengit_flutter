@@ -44,6 +44,7 @@ import 'package:open_git/ui/page/issue/edit_comment_page.dart';
 import 'package:open_git/ui/page/issue/edit_issue_page.dart';
 import 'package:open_git/ui/page/issue/reaction_page.dart';
 import 'package:open_git/ui/page/login/login_page.dart';
+import 'package:open_git/ui/page/login/login_webview.dart';
 import 'package:open_git/ui/page/other/about_page.dart';
 import 'package:open_git/ui/page/other/author_page.dart';
 import 'package:open_git/ui/page/other/cache_page.dart';
@@ -499,4 +500,10 @@ var editReactionHandler = Handler(
     child: ReactionPage(),
     bloc: bloc,
   );
+});
+
+var loginWebviewHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  String url = FluroUtil.decode(params["url"]?.first);
+  return LoginWebView(url);
 });

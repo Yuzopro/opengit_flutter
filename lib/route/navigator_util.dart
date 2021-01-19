@@ -32,6 +32,11 @@ class NavigatorUtil {
     Application.router.navigateTo(context, AppRoutes.login, replace: true);
   }
 
+  static goLoginWebview(BuildContext context, loginUrl) async {
+    String url = FluroUtil.encode(loginUrl);
+    return Application.router.navigateTo(context, AppRoutes.loginWebview + "?url=$url");
+  }
+
   //引导页
   static goGuide(BuildContext context) {
     Application.router.navigateTo(context, AppRoutes.guide, replace: true);
