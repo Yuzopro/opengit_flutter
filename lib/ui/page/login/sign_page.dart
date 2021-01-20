@@ -183,17 +183,17 @@ class _SignPageState extends State<SignPage> {
                 )
               ],
             ),
-            Positioned(
-              bottom: _media.height / 6.3,
-              right: 15,
-              child: SignUpArrowButton(
-                icon: IconData(0xe901, fontFamily: 'Icons'),
-                iconSize: 9,
-                onTap: () {
-                  _login();
-                },
-              ),
-            ),
+            // Positioned(
+            //   bottom: _media.height / 6.3,
+            //   right: 15,
+            //   child: SignUpArrowButton(
+            //     icon: IconData(0xe901, fontFamily: 'Icons'),
+            //     iconSize: 9,
+            //     onTap: () {
+            //       _login();
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -224,10 +224,10 @@ class _SignPageState extends State<SignPage> {
   _login() {
     String name = _username.text;
     String password = _password.text;
-    if (TextUtil.isEmpty(name) || TextUtil.isEmpty(password)) {
-      ToastUtil.showMessgae('账号和密码不能为空');
-      return;
-    }
+    // if (TextUtil.isEmpty(name) || TextUtil.isEmpty(password)) {
+    //   ToastUtil.showMessgae('账号和密码不能为空');
+    //   return;
+    // }
     widget.viewModel.onLogin(name, password);
   }
 }
