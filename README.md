@@ -211,13 +211,17 @@ UI层我们主要使用的是material组件库，对Scaffold 、 AppBar 进行�
 
 ## 项目环境
 
-    1. Flutter version v1.15.21-pre.11
+    1. Flutter 2.1.0-13.0.pre.232 • channel master • https://github.com/flutter/flutter.git
 
-    2. Dart version 2.8.0 (build 2.8.0-dev.13.0 684c53a6f1)
+    2. Framework • revision 9f49181f40 (3 weeks ago) • 2021-03-24 15:46:09 +0800
 
-    3. Android SDK version 29.0.2
+    3. Engine • revision d59a01d2d3
 
-    4. Android Studio version 3.6
+    4. Tools • Dart 2.13.0 (build 2.13.0-150.0.dev)
+
+    5. Android SDK version 30.0.1
+
+    6. Android Studio version 4.0
 
 ## TODO
 
