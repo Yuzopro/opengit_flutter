@@ -34,18 +34,18 @@ class OtherPage extends StatelessWidget {
           Divider(
             height: 0.3,
           ),
-          ListTile(
-            title:
-                new Text('Github Trending API', style: YZStyle.middleText),
-            trailing: new Icon(Icons.navigate_next),
-            onTap: () {
-              NavigatorUtil.goWebView(context, 'Github Trending API',
-                  'https://github.com/huchenme/github-trending-api');
-            },
-          ),
-          Divider(
-            height: 0.3,
-          ),
+          // ListTile(
+          //   title:
+          //       new Text('Github Trending API', style: YZStyle.middleText),
+          //   trailing: new Icon(Icons.navigate_next),
+          //   onTap: () {
+          //     NavigatorUtil.goWebView(context, 'Github Trending API',
+          //         'https://github.com/huchenme/github-trending-api');
+          //   },
+          // ),
+          // Divider(
+          //   height: 0.3,
+          // ),
           ListTile(
             title:
             new Text('WanAndroid API', style: YZStyle.middleText),

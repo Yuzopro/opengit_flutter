@@ -83,14 +83,14 @@ class _DrawerPageState extends State<DrawerPage> {
               ),
             ],
           ),
-          ListTile(
-            title: Text(AppLocalizations.of(context).currentlocal.trend,
-                style: YZStyle.middleText),
-            leading: Icon(Icons.trending_up, color: Colors.grey),
-            onTap: () {
-              NavigatorUtil.goTrend(context);
-            },
-          ),
+          // ListTile(
+          //   title: Text(AppLocalizations.of(context).currentlocal.trend,
+          //       style: YZStyle.middleText),
+          //   leading: Icon(Icons.trending_up, color: Colors.grey),
+          //   onTap: () {
+          //     NavigatorUtil.goTrend(context);
+          //   },
+          // ),
           ListTile(
             title: Text(AppLocalizations.of(context).currentlocal.track,
                 style: YZStyle.middleText),

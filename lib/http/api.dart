@@ -82,6 +82,7 @@ class Api {
 
   //趋势项目
   static getTrendingRepos(String language, String since) {
+    // "https://trendings.herokuapp.com/repo?lang=$language&since=$since"
     return 'https://github-trending-api.now.sh/repositories?language=$language&since=$since';
   }
 
