@@ -47,7 +47,7 @@ dependencies:
   # 工具类
   flukit: any
   # 颜色选择器
-  flutter_colorpicker: any
+#  flutter_colorpicker: any
   # 红点
   badges: any
   flutter_webview_plugin: any

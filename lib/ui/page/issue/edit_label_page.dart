@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_common_util/flutter_common_util.dart';
 import 'package:open_git/bean/label_bean.dart';
 import 'package:open_git/bean/user_bean.dart';
@@ -115,20 +115,20 @@ class _EditLabelState extends State<EditLabelPage> {
             color: _currentColor,
           ),
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Select a color'),
-                  content: SingleChildScrollView(
-                    child: BlockPicker(
-                      pickerColor: Colors.amber,
-                      onColorChanged: changeColor,
-                    ),
-                  ),
-                );
-              },
-            );
+            // showDialog(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return AlertDialog(
+            //       title: Text('Select a color'),
+            //       content: SingleChildScrollView(
+            //         child: ColorPicker(
+            //           pickerColor: Colors.amber,
+            //           onColorChanged: changeColor,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // );
           },
         ),
       ],
